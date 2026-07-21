@@ -1,0 +1,21 @@
+# Database & Configurations
+smtp_config.json
+inquiries.json
+projects.json
+receipts.json
+approved_users.json
+chatbot_messages.json
+.env
+config.json
+leads.json
+users.json
+
+# Dependencies
+node_modules/
+
+# Logs & Temporaries
+*.log
+.system_generated/
+.tempmediaStorage/
+scratch/
+test_*.js

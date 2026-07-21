@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal - NextGen Web Studio</title>
+  <meta name="description" content="Secure Client Billing Roadmap and Payment Scoping Center">
+  
+  <!-- Premium Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Unified Studio Stylesheet & Favicon -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Razorpay Standard Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <style>
+    /* Premium overrides to match homepage exactly */
+    .portal-main-wrap {
+      margin-top: 50px;
+      margin-bottom: 60px;
+      min-height: calc(100vh - 220px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+    }
+
+    /* Screen lock during client login */
+    body.login-mode {
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    body.login-mode .portal-main-wrap {
+      flex: 1;
+      margin: 0 auto;
+      min-height: 0;
+      justify-content: center;
+      align-items: center;
+    }
+    body.login-mode .login-container {
+      margin: 0 auto;
+    }
+
+    .term-card {
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: border-color var(--transition-normal);
+    }
+    
+    .term-card:hover {
+      border-color: rgba(var(--accent-rgb), 0.3);
+    }
+
+    .term-header-bar {
+      display: flex;
+      align-items: center;
+      background-color: var(--bg-alt);
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .term-header-bar .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      margin-right: 7px;
+    }
+    .term-header-bar .dot.red { background-color: #EF4444; }
+    .term-header-bar .dot.yellow { background-color: #F59E0B; }
+    .term-header-bar .dot.green { background-color: #10B981; }
+
+    .term-header-bar .title-text {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dashboard-panel-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 32px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 992px) {
+      .dashboard-panel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .active-user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-right: 12px;
+    }
+
+    .login-container {
+      max-width: 480px;
+      width: 100%;
+      margin: 40px auto 60px auto;
+      padding: 0;
+    }
+
+    #signInForm, #registerForm {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      width: 100% !important;
+    }
+
+    /* Custom Input Styles to Match Home Page Inputs */
+    .portal-input-group {
+      position: relative;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .portal-input-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .portal-input {
+      width: 100%;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 14.5px;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .portal-input:focus {
+      border-color: var(--accent);
+      background-color: var(--bg-card);
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.08);
+    }
+
+    .portal-submit-btn {
+      width: 100%;
+      background-color: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .portal-submit-btn:hover {
+      box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.35);
+      transform: translateY(-1px);
+    }
+
+    .toggle-view-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: opacity var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .toggle-view-link:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="dark-theme">
+  <script>
+    // Apply saved theme preference dynamically before rendering layout
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      document.body.classList.remove('dark-theme');
+      document.body.classList.add('light-theme');
+    }
+  </script>
+
+  <!-- Loading Screen Loader -->
+  <div id="loader-screen">
+    <div class="loader-content">
+      <svg class="loader-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="72" class="logo-text">nextgen</text>
+        <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Theme Toggle Button -->
+  <div class="theme-toggle-container">
+    <button id="themeToggleBtn" aria-label="Toggle color theme" title="Switch Theme">
+      <i class="fa-solid fa-sun"></i>
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+
+  <!-- Header ( Verbatim Homepage layout ) -->
+  <header>
+    <div class="wrap nav-container">
+      <a href="/" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="72" class="logo-text">nextgen</text>
+          <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
+      </a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="/#services"><span class="nav-num">01.</span>services</a>
+          <a href="/#work"><span class="nav-num">02.</span>work</a>
+          <a href="/#process"><span class="nav-num">03.</span>process</a>
+          <a href="/#contact"><span class="nav-num">04.</span>contact</a>
+          <a href="/client.html" class="active"><span class="nav-num">05.</span>client portal</a>
+        </div>
+        
+        <!-- User email state & sign out -->
+        <span class="active-user-badge" id="headerUserBadge" style="display: none;">
+          <i class="fa-solid fa-circle-user" style="color: var(--accent);"></i>
+          <span id="headerUserEmail">client@domain.com</span>
+        </span>
+        
+        
+        
+        <a href="/api/auth/logout" class="nav-cta" id="logoutCtaBtn" style="display: none;">Sign Out</a>
+      </nav>
+
+      <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu ( Verbatim Homepage layout ) -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="0" y="72" class="logo-text">nextgen</text>
+        <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="/#services"><span class="nav-num">01.</span>services</a>
+      <a href="/#work"><span class="nav-num">02.</span>work</a>
+      <a href="/#process"><span class="nav-num">03.</span>process</a>
+      <a href="/#contact"><span class="nav-num">04.</span>contact</a>
+      <a href="/client.html" class="active"><span class="nav-num">05.</span>client portal</a>
+      
+      <a href="/api/auth/logout" class="drawer-cta btn-primary" id="mobileLogoutBtn" style="display: none; margin-top:20px; text-align:center;">Sign Out</a>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- Main Portal Layout -->
+  <main class="wrap portal-main-wrap">
+    
+    <!-- 1. LOGIN / OAUTH MOCK TERMINAL -->
+    <div class="login-container term-card" id="loginView" style="display: none;">
+      <div class="term-header-bar">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <span class="title-text" id="terminalTitle"><i class="fa-solid fa-terminal"></i> auth — client portal sign in</span>
+      </div>
+      
+      <!-- SIGN IN OPTIONS -->
+      <div style="padding: 30px 30px 24px 30px;" id="loginFormTab">
+        <div style="font-size: 36px; color: var(--accent); margin-bottom: 16px;"><i class="fa-solid fa-user-shield"></i></div>
+        <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">NextGen Client Portal</h2>
+        <p style="font-size: 14px; color: var(--ink-soft); margin-bottom: 24px; line-height: 1.5;">Access active milestone roadmaps, view project staging previews, and track invoice statuses. Log in using your approved email address.</p>
+        
+        <!-- Passwordless Email Login Form -->
+        <form id="portalLoginForm" style="display:flex; flex-direction:column; gap:14px; width:100%; margin-bottom:24px;">
+          <div class="input-group" style="text-align: left;">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px;">Registered Client Email</label>
+            <input type="email" id="portalEmailInput" required placeholder="e.g. client@domain.com" style="width:100%; height:44px; padding:0 12px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:4px; font-family:inherit; font-size:14px; outline:none; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <button type="submit" class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); margin:0; height:44px; display:flex; align-items:center; justify-content:center; gap:8px; font-weight:600; cursor:pointer; width:100%; border-radius:4px; font-size:14px;"><i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal</button>
+        </form>
+
+        <div style="display:flex; align-items:center; margin: 20px 0; color:var(--ink-faint); font-size:11px; text-transform:uppercase; font-family:var(--font-mono); width:100%;">
+          <div style="flex:1; height:1px; background:var(--border); margin-right:10px;"></div>
+          <span>Or login using OAuth</span>
+          <div style="flex:1; height:1px; background:var(--border); margin-left:10px;"></div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px; width:100%;">
+          <a href="/api/auth/google" class="portal-submit-btn" onclick="showLoadingScreen()" style="background-color:#fff; color:#131312; border:1px solid #ddd; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px; height:40px; font-size:13.5px; border-radius:4px; font-weight:500;">
+            <i class="fa-brands fa-google" style="color:#EA4335;"></i> Sign In with Google
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. DASHBOARD VIEW -->
+    <div class="dashboard-panel-grid" id="dashboardView" style="display: none;">
+      
+      <!-- Invoices Term-Card -->
+      <div class="term-card">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-folder-open"></i> ~/scoping-bills &bull; <span id="invoicesCount">0 items</span> <span id="billsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+        </div>
+        
+        <div style="padding: 24px;">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Milestone Details</th>
+                  <th>Total Due</th>
+                  <th>Status</th>
+                  <th>Billing Link</th>
+                </tr>
+              </thead>
+              <tbody id="invoicesTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="empty-state" id="invoicesEmpty" style="display: none;">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <p>No scoping receipts or billing items linked to your user email.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roadmaps Term-Card -->
+      <div class="term-card">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-map-location-dot"></i> ~/project-roadmaps &bull; <span id="projectsCount">0 paths</span> <span id="roadmapsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+        </div>
+        
+        <div style="padding: 24px;">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Roadmap Goal</th>
+                  <th>Live Preview</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="empty-state" id="projectsEmpty" style="display: none;">
+            <i class="fa-solid fa-route"></i>
+            <p>No active project roadmaps registered for this email.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms & Conditions Term-Card -->
+      <div class="term-card" style="grid-column: 1 / -1; margin-top: 8px;">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-scale-balanced"></i> ~/terms-and-conditions</span>
+        </div>
+        <div style="padding: 24px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;">
+          <h4 style="color:var(--accent); font-family:var(--font-display); font-size:15px; margin-bottom:12px;">Standard Client Agreement & Terms of Service</h4>
+          <p style="margin-bottom:12px;">By accessing this scoping portal, you agree to NextGen Web Studio's delivery milestones, payment clearance schedules, and terms of service. All milestones are cleared on an advance retainer basis.</p>
+          <ul style="padding-left:20px; list-style-type:square; margin-bottom:12px;">
+            <li>Each invoice milestone must be cleared before subsequent coding iterations commence.</li>
+            <li>Source code IP ownership transfers fully to the client upon final payment clearance.</li>
+            <li>Project timelines commence upon receipt of the initial clearance deposit.</li>
+          </ul>
+          <p>For detailed service agreement contracts, contact your assigned studio representative.</p>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="portalFooter" style="display: none; margin-top: 60px; border-top: 1px solid var(--border); padding: 60px 0 30px 0;">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="72" class="logo-text" fill="var(--ink)">nextgen</text>
+            <rect x="290" y="26" width="16" height="48" class="logo-cursor" fill="var(--accent)"/>
+          </svg>
+          <p class="footer-desc">High-performance full-stack web applications and custom digital tools built from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="index.html#services">Web Design</a></li>
+            <li><a href="index.html#services">Full-stack builds</a></li>
+            <li><a href="index.html#services">E-Commerce</a></li>
+            <li><a href="index.html#services">Product scoping</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:shridharsan134@gmail.com">shridharsan134@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="tel:6379140067">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <button id="scrollToTopBtn" aria-label="Scroll to top" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="background:none; border:none; color:var(--ink-soft); cursor:pointer; font-family:var(--font-mono); font-size:12px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div id="aiChatbotWidget" class="chatbot-closed">
+    <!-- Chat Button -->
+    <button id="chatbotToggleBtn" aria-label="Open AI Assistant" title="Chat with AI">
+      <i class="fa-solid fa-comments"></i>
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    
+    <!-- Chat Panel -->
+    <div class="chatbot-panel">
+      <div class="chat-header">
+        <div class="bot-info">
+          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div class="bot-text-meta">
+            <h4>nextgen_assistant</h4>
+            <span>online • instant response</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+          Hi! I'm your NextGen AI Assistant. 🤖
+          <br><br>
+          Ask me anything about our services, pricing, timeline, contact details, or location in Coimbatore!
+        </div>
+      </div>
+      <form class="chat-input-area" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off" required>
+        <button type="submit" id="chatSubmitBtn"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // ---------- GLOBAL STATE ----------
+    let currentUser = null;
+    let receipts = [];
+    let projects = [];
+
+    // ---------- TOAST SYSTEM ----------
+    function showToast(title, message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast-card';
+      
+      let icon = '<i class="fa-solid fa-circle-info"></i>';
+      if (type === 'success') icon = '<i class="fa-solid fa-circle-check"></i>';
+      else if (type === 'error') icon = '<i class="fa-solid fa-circle-xmark"></i>';
+      
+      toast.innerHTML = `
+        <div class="toast-icon ${type}">${icon}</div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-desc">${message}</div>
+        </div>
+        <div class="toast-close" onclick="this.closest('.toast-card').remove()">&times;</div>
+      `;
+      
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 50);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 5000);
+    }
+
+
+
+    // ---------- MOBILE MENU DRAWER ----------
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerClose = document.getElementById('drawerClose');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    if (menuToggle && mobileDrawer) {
+      menuToggle.addEventListener('click', () => {
+        mobileDrawer.classList.add('open');
+        if (drawerOverlay) drawerOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    if (drawerClose) {
+      drawerClose.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        if (drawerOverlay) drawerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+    if (drawerOverlay) {
+      drawerOverlay.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        drawerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+
+    const drawerLinks = document.querySelectorAll('.drawer-links a');
+    drawerLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        if (drawerOverlay) drawerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ---------- AUTH STATUS CHECK ----------
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/auth/me?_t=' + Date.now());
+        const data = await res.json();
+        const chatbotWidget = document.getElementById('aiChatbotWidget');
+        
+        if (res.ok && data.authenticated) {
+          currentUser = data.email;
+          
+          document.getElementById('headerUserEmail').innerText = currentUser;
+          document.getElementById('headerUserBadge').style.display = 'inline-flex';
+          document.getElementById('logoutCtaBtn').style.display = 'inline-block';
+          document.getElementById('mobileLogoutBtn').style.display = 'block';
+          
+          document.getElementById('loginView').style.display = 'none';
+          document.getElementById('dashboardView').style.display = 'grid';
+          
+          const footerEl = document.getElementById('portalFooter');
+          if (footerEl) footerEl.style.display = 'block';
+          
+          document.body.classList.remove('login-mode');
+          if (chatbotWidget) chatbotWidget.style.display = 'block';
+          
+          loadDashboardData();
+        } else {
+          document.getElementById('headerUserBadge').style.display = 'none';
+          document.getElementById('logoutCtaBtn').style.display = 'none';
+          document.getElementById('mobileLogoutBtn').style.display = 'none';
+          
+          document.getElementById('dashboardView').style.display = 'none';
+          document.getElementById('loginView').style.display = 'block';
+          
+          const footerEl = document.getElementById('portalFooter');
+          if (footerEl) footerEl.style.display = 'none';
+          
+          document.body.classList.add('login-mode');
+          if (chatbotWidget) chatbotWidget.style.display = 'none';
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Connection Error', 'Failed to communicate with auth system.', 'error');
+        document.getElementById('dashboardView').style.display = 'none';
+        document.getElementById('loginView').style.display = 'block';
+        const footerEl = document.getElementById('portalFooter');
+        if (footerEl) footerEl.style.display = 'none';
+        document.body.classList.add('login-mode');
+        const chatbotWidget = document.getElementById('aiChatbotWidget');
+        if (chatbotWidget) chatbotWidget.style.display = 'none';
+      }
+    }
+
+    // ---------- LOAD DASHBOARD DATA ----------
+    async function loadDashboardData() {
+      const bL = document.getElementById('billsLoader');
+      const rL = document.getElementById('roadmapsLoader');
+      if (bL) bL.style.display = 'inline-block';
+      if (rL) rL.style.display = 'inline-block';
+      try {
+        const rRes = await fetch('/api/client/receipts?_t=' + Date.now());
+        if (rRes.ok) {
+          receipts = await rRes.json();
+          renderReceipts();
+        }
+
+        const pRes = await fetch('/api/client/projects?_t=' + Date.now());
+        if (pRes.ok) {
+          projects = await pRes.json();
+          renderProjects();
+        }
+      } catch (err) {
+        showToast('Load Error', 'Failed to refresh client roadmap data.', 'error');
+      } finally {
+        if (bL) bL.style.display = 'none';
+        if (rL) rL.style.display = 'none';
+      }
+    }
+
+    // ---------- RENDER FUNCTIONS ----------
+    function renderReceipts() {
+      const tbody = document.getElementById('invoicesTableBody');
+      const countSpan = document.getElementById('invoicesCount');
+      const emptyState = document.getElementById('invoicesEmpty');
+      
+      tbody.innerHTML = '';
+      countSpan.innerText = `${receipts.length} items`;
+      
+      if (receipts.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+      emptyState.style.display = 'none';
+
+      receipts.forEach(item => {
+        const tr = document.createElement('tr');
+        const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const isPaid = item.status === 'Paid';
+        
+        tr.innerHTML = `
+          <td>
+            <span class="client-title">${item.projectTitle}</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint);">${item.id.toUpperCase()} &bull; ${new Date(item.date).toLocaleDateString('en-IN')}</span>
+          </td>
+          <td style="font-family:var(--font-mono); font-weight:600; color:var(--accent);">${formattedTotal}</td>
+          <td>
+            <span class="badge ${isPaid ? 'paid' : 'pending'}">${isPaid ? 'Paid' : 'Pending'}</span>
+          </td>
+          <td>
+            ${isPaid ? `
+              <span style="font-size:12.5px; color:#4ADE80; font-weight:600;"><i class="fa-solid fa-circle-check"></i> Cleared</span>
+            ` : `
+              <button class="pay-trigger-btn" onclick="initiatePayment('${item.id}', ${item.total})">
+                <i class="fa-solid fa-credit-card"></i> Pay Now
+              </button>
+            `}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderProjects() {
+      const tbody = document.getElementById('projectsTableBody');
+      const countSpan = document.getElementById('projectsCount');
+      const emptyState = document.getElementById('projectsEmpty');
+      
+      tbody.innerHTML = '';
+      countSpan.innerText = `${projects.length} paths`;
+      
+      if (projects.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+      emptyState.style.display = 'none';
+
+      projects.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        let badgeColor = '#9CA3AF';
+        let badgeTextColor = '#9CA3AF';
+        let badgeBorderColor = 'rgba(156, 163, 175, 0.2)';
+        let badgeBgColor = 'rgba(156, 163, 175, 0.1)';
+
+        const status = item.status || 'New Project';
+        if (status === 'Completed') {
+          badgeColor = '#10B981';
+          badgeTextColor = '#10B981';
+          badgeBgColor = 'rgba(16, 185, 129, 0.1)';
+          badgeBorderColor = 'rgba(16, 185, 129, 0.2)';
+        } else if (status === 'Homepage Created') {
+          badgeColor = '#6366F1';
+          badgeTextColor = '#6366F1';
+          badgeBgColor = 'rgba(99, 102, 241, 0.1)';
+          badgeBorderColor = 'rgba(99, 102, 241, 0.2)';
+        } else if (status === 'Starting Project') {
+          badgeColor = '#D946EF';
+          badgeTextColor = '#D946EF';
+          badgeBgColor = 'rgba(217, 70, 239, 0.1)';
+          badgeBorderColor = 'rgba(217, 70, 239, 0.2)';
+        } else if (status === 'Not Yet Started') {
+          badgeColor = '#F59E0B';
+          badgeTextColor = '#F59E0B';
+          badgeBgColor = 'rgba(245, 158, 11, 0.1)';
+          badgeBorderColor = 'rgba(245, 158, 11, 0.2)';
+        } else if (status === 'New Project') {
+          badgeColor = '#06B6D4';
+          badgeTextColor = '#06B6D4';
+          badgeBgColor = 'rgba(6, 182, 212, 0.1)';
+          badgeBorderColor = 'rgba(6, 182, 212, 0.2)';
+        }
+
+        const startText = item.startDate 
+          ? `Started: ${new Date(item.startDate).toLocaleDateString('en-IN')}`
+          : `Requested: ${new Date(item.date).toLocaleDateString('en-IN')}`;
+        
+        const previewMarkup = item.previewUrl 
+          ? `<td><a href="${item.previewUrl}" target="_blank" class="preview-btn" style="background-color:rgba(var(--accent-rgb), 0.1); border: 1px solid var(--accent); color:var(--accent); display:inline-flex; width:auto; text-decoration:none; padding: 6px 12px; font-size:12px; font-weight:600; border-radius:4px; align-items:center; gap:6px; transition:all var(--transition-fast);"><i class="fa-solid fa-square-up-right"></i> Live Preview</a></td>`
+          : `<td><span style="font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint); display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-hourglass-half"></i> Available Soon</span></td>`;
+        
+        tr.innerHTML = `
+          <td>
+            <span class="client-title">${item.projectType || 'Web Development'}</span>
+            <span style="font-size:12.5px; color:var(--ink-soft); display:block; margin-top:2px;">Milestone Budget: ${item.budget}</span>
+            <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:4px; display:block;"><i class="fa-solid fa-calendar-check" style="color:var(--accent);"></i> ${startText}</span>
+          </td>
+          ${previewMarkup}
+          <td>
+            <span class="badge" style="background-color:${badgeBgColor}; color:${badgeTextColor}; border:1px solid ${badgeBorderColor}; font-size:11.5px; padding:4px 8px; border-radius:4px; font-weight:600; display:inline-block;">${status}</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ---------- RAZORPAY HANDSHAKE ----------
+    async function initiatePayment(receiptId, amount) {
+      try {
+        showToast('Initiating Payment', 'Generating secure order with Razorpay...', 'info');
+        
+        const res = await fetch('/api/razorpay/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ receiptId })
+        });
+        
+        if (!res.ok) throw new Error('Order endpoint returned error');
+        const order = await res.json();
+        
+        const options = {
+          key: order.key,
+          amount: order.amount,
+          currency: order.currency,
+          name: 'NextGen Web Studio',
+          description: 'Invoice Settlement for Milestones',
+          order_id: order.id,
+          handler: async function (response) {
+            showToast('Verifying', 'Verifying signature with gateway...', 'info');
+            const verifyRes = await fetch('/api/razorpay/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                receiptId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+            
+            const verifyData = await verifyRes.json();
+            if (verifyRes.ok && verifyData.success) {
+              showToast('Success', 'Payment processed and invoice updated successfully!', 'success');
+              loadDashboardData();
+            } else {
+              showToast('Failed Verification', verifyData.error || 'Signature mismatch.', 'error');
+            }
+          },
+          prefill: {
+            email: currentUser
+          },
+          theme: {
+            color: '#131312'
+          }
+        };
+
+        if (order.isMock) {
+          showToast('Mock Transaction', 'Simulating payment success overlay...', 'success');
+          setTimeout(async () => {
+            options.handler({
+              razorpay_payment_id: 'pay_mock_' + Date.now(),
+              razorpay_order_id: order.id,
+              razorpay_signature: 'sig_mock_verified'
+            });
+          }, 1000);
+          return;
+        }
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+      } catch (err) {
+        showToast('Payment Interrupted', err.message, 'error');
+      }
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    const loginForm = document.getElementById('portalLoginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('portalEmailInput').value.trim();
+        showLoadingScreen();
+        try {
+          const res = await fetch('/api/auth/login-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+          });
+          if (res.ok) {
+            showToast('Sign In Success', 'Welcome back to the portal!', 'success');
+            setTimeout(() => {
+              checkAuth();
+              hideLoadingScreen();
+            }, 800);
+          } else {
+            hideLoadingScreen();
+            const data = await res.json();
+            let errMsg = 'Access Denied: Your email address is not enrolled in the registry. Please contact admin.';
+            if (data.error === 'unauthorized_email') {
+              errMsg = 'Access Denied: Your email address is not enrolled in the NextGen registry. Please contact admin.';
+            }
+            showToast('Authentication Failed', errMsg, 'error');
+          }
+        } catch (err) {
+          hideLoadingScreen();
+          console.error(err);
+          showToast('Connection Error', 'Could not communicate with authentication server.', 'error');
+        }
+      });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('error')) {
+      const err = params.get('error');
+      let msg = `Operation callback failed: ${err}`;
+      if (err === 'unauthorized_email') {
+        msg = 'Access Denied: Your email address is not enrolled in the NextGen registry. Please contact admin.';
+      }
+      showToast('Auth Error', msg, 'error');
+    }
+
+    // ---------- FADE OUT LOADING SCREEN ----------
+    const loader = document.getElementById('loader-screen');
+    if (loader) {
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }, 1000);
+    }
+
+    checkAuth();
+
+    // ---------- THEME TOGGLER ----------
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const body = document.body;
+    const activeSavedTheme = localStorage.getItem('theme') || 'dark';
+    
+    if (activeSavedTheme === 'light') {
+      body.classList.remove('dark-theme');
+      body.classList.add('light-theme');
+    } else {
+      body.classList.remove('light-theme');
+      body.classList.add('dark-theme');
+    }
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        if (body.classList.contains('dark-theme')) {
+          body.classList.replace('dark-theme', 'light-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          body.classList.replace('light-theme', 'dark-theme');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    }
+
+    // ---------- FLOATING AI CHATBOT WIDGET ----------
+    const widget = document.getElementById('aiChatbotWidget');
+    const toggleBtn = document.getElementById('chatbotToggleBtn');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatBody = document.getElementById('chatBody');
+
+    if (widget && toggleBtn && chatForm) {
+      let lastChatHistoryLength = 0;
+
+      async function fetchChatHistory() {
+        if (!currentUser) return;
+        try {
+          const res = await fetch(`/api/chatbot/messages?email=${encodeURIComponent(currentUser)}&_t=${Date.now()}`);
+          if (!res.ok) return;
+          const messages = await res.json();
+          
+          // Sort chronologically
+          const sorted = messages.sort((a, b) => new Date(a.date) - new Date(b.date));
+          
+          if (sorted.length !== lastChatHistoryLength) {
+            lastChatHistoryLength = sorted.length;
+            
+            chatBody.innerHTML = `
+              <div class="chat-message bot">
+                Hi! I'm your NextGen AI Assistant. ⚡
+              </div>
+            `;
+            
+            sorted.forEach(msg => {
+              if (msg.sender) {
+                let senderClass = 'bot';
+                if (msg.sender === 'client') senderClass = 'user';
+                else if (msg.sender === 'bot' || msg.sender === 'admin') senderClass = 'bot';
+                
+                appendMessage(msg.text, senderClass);
+              } else {
+                appendMessage(msg.text, 'user');
+                if (msg.botResponse) {
+                  appendMessage(msg.botResponse, 'bot');
+                }
+              }
+            });
+          }
+        } catch (err) {
+          console.error('Error fetching chat history:', err);
+        }
+      }
+
+      // Start chat history sync loop
+      setInterval(() => {
+        if (currentUser && widget.classList.contains('chatbot-open')) {
+          fetchChatHistory();
+        }
+      }, 3000);
+
+      // Toggle open/close
+      toggleBtn.addEventListener('click', () => {
+        widget.classList.toggle('chatbot-open');
+        widget.classList.toggle('chatbot-closed');
+
+        if (widget.classList.contains('chatbot-open')) {
+          fetchChatHistory();
+          setTimeout(() => {
+            chatBody.scrollTop = chatBody.scrollHeight;
+          }, 300);
+        }
+      });
+
+      // Handle message submit
+      chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const query = chatInput.value.trim();
+        if (!query) return;
+
+        // 1. Add user message bubble
+        appendMessage(query, 'user');
+        chatInput.value = '';
+
+        // Check for profanity
+        const badWords = ['fuck', 'shit', 'asshole', 'bitch', 'bastard', 'dick', 'cunt', 'piss'];
+        const hasBadWords = badWords.some(word => query.toLowerCase().includes(word));
+        if (hasBadWords) {
+          appendMessage("⚠️ Warning: Please refrain from using inappropriate language in the chat.", 'bot');
+          chatInput.value = '';
+          return;
+        }
+
+        const botResponse = generateBotResponse(query);
+
+        // Send to server
+        try {
+          const res = await fetch('/api/chatbot/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: currentUser || 'Guest',
+              text: query,
+              sender: 'client',
+              botResponse: botResponse
+            })
+          });
+
+          if (res.ok) {
+            fetchChatHistory();
+          }
+        } catch (err) {
+          console.error('Error sending message:', err);
+        }
+      });
+
+      function appendMessage(text, sender) {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-message ${sender}`;
+        bubble.innerHTML = text;
+        chatBody.appendChild(bubble);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      function generateBotResponse(message) {
+        const text = message.toLowerCase();
+
+        // Contact Admin Keywords
+        if (text.includes('admin') || text.includes('manager') || text.includes('support') || text.includes('human') || text.includes('message admin') || text.includes('tell admin') || text.includes('login') || text.includes('receipt') || text.includes('dashboard')) {
+          return "Got it! Your message has been sent directly to the Admin console. The admin has been notified with an alert dot and will get back to you here shortly! 🔔";
+        }
+
+        // CoimbatoreTN Keywords
+        if (text.includes('coimbatore') || text.includes('where') || text.includes('location') || text.includes('place')) {
+          return "NextGen Web Studio is headquartered in Coimbatore, Tamil Nadu, India! 📍 We serve clients locally and globally.";
+        }
+
+        // Phone / Contact Keywords
+        if (text.includes('phone') || text.includes('number') || text.includes('contact') || text.includes('call') || text.includes('whatsapp') || text.includes('mobile')) {
+          return "Call/WhatsApp our developer directly at <a href='tel:6379140067' style='color:var(--accent); text-decoration:underline; font-weight:600;'>+91 63791 40067</a>. 📞";
+        }
+
+        // Email Keywords
+        if (text.includes('email') || text.includes('mail') || text.includes('write')) {
+          return "Email your project requirements to shridharsan134@gmail.com. ✉️";
+        }
+
+        // Budget / Pricing / Cost Keywords
+        if (text.includes('price') || text.includes('cost') || text.includes('budget') || text.includes('how much') || text.includes('rate')) {
+          return "Web designs start from ₹40k, full-stack builds from ₹1.5L. Scopes are custom estimated! 💸";
+        }
+
+        // Services / What we build
+        if (text.includes('services') || text.includes('build') || text.includes('offer') || text.includes('tech') || text.includes('react') || text.includes('node')) {
+          return "We build custom web apps, React/Node full-stack platforms, Razorpay calendars, and Shopify storefronts. 💻";
+        }
+
+        // Help / Commands
+        if (text.includes('help') || text.includes('hi') || text.includes('hello') || text.includes('hey')) {
+          return "Hello! I can help you with:\n- Coimbatore office location\n- Direct phone & email contacts\n- Pricing & services\n- Viewing portfolio works\n- Messaging the Admin directly";
+        }
+
+        // Fallback
+        return "Message logged to Admin console! 🚀 For immediate quotes, you can also email us at shridharsan134@gmail.com.";
+      }
+    }
+
+    // ---------- WEBSITE COMMUNICATIONS INTERCEPT MODAL ----------
+    function setupWebsiteContactModal(type = 'email') {
+      const existing = document.getElementById('websiteContactModal');
+      if (existing) existing.remove();
+
+      const modal = document.createElement('div');
+      modal.id = 'websiteContactModal';
+      modal.className = 'receipt-modal';
+      modal.style.zIndex = '3000';
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.backgroundColor = 'rgba(0,0,0,0.85)';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.opacity = '0';
+      modal.style.pointerEvents = 'none';
+      modal.style.transition = 'opacity 0.3s ease';
+      
+      const isEmailMode = type === 'email';
+      const isPhoneMode = type === 'phone';
+
+      const chatbotHtml = `
+        <!-- Chatbot Live Inbox option (Highly Recommended) -->
+        <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: rgba(224,255,79,0.04); border: 1px dashed rgba(224,255,79,0.3); border-radius: 6px; text-align: left;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size: 9.5px; font-weight: 700; color: var(--accent); font-family: var(--font-mono); text-transform:uppercase; letter-spacing:1px;"><i class="fa-solid fa-bolt"></i> Recommended</span>
+            <span style="font-size: 11px; color: var(--ink-soft); font-weight:600;"><i class="fa-solid fa-comments"></i> Real-time Chat</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin: 4px 0;">
+            Need direct assistance? Chat with us instantly through the floating AI widget at the bottom right. It alerts our admin desk in real-time!
+          </p>
+          <button type="button" class="login-btn" id="openChatbotFromModalBtn" style="margin: 6px 0 0 0; padding: 6px 12px; font-size: 12.5px; width: 100%; justify-content:center; height:36px; background-color:var(--accent); color:var(--bg); border:none; font-weight:600; cursor:pointer;"><i class="fa-solid fa-paper-plane"></i> Launch Live Chatbot</button>
+        </div>
+      `;
+
+      const phoneHtml = `
+        <!-- Phone / Call Option -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+          <div style="text-align: left;">
+            <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Direct Call</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--ink);">+91 63791 40067</div>
+          </div>
+          <button type="button" class="refresh-btn" id="copyPhoneBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        
+        <!-- WhatsApp Option -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+          <div style="text-align: left;">
+            <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">WhatsApp Chat</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--ink);">Instant Chat Link</div>
+          </div>
+          <a href="https://wa.me/916379140067" target="_blank" class="login-btn" style="margin: 0; padding: 6px 16px; font-size: 12px; width: auto; background-color: #25D366; border-color: #25D366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content:center; gap: 4px; border-radius:4px; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> Message</a>
+        </div>
+      `;
+
+      const emailHtml = `
+        <!-- Email Option -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+          <div style="text-align: left;">
+            <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Email Inquiry</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--ink);">shridharsan134@gmail.com</div>
+          </div>
+          <button type="button" class="refresh-btn" id="copyEmailBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+      `;
+
+      let bodyContentHtml = chatbotHtml;
+      if (isEmailMode) {
+        bodyContentHtml += emailHtml;
+      } else if (isPhoneMode) {
+        bodyContentHtml += phoneHtml;
+      } else {
+        bodyContentHtml += phoneHtml + emailHtml;
+      }
+
+      modal.innerHTML = `
+        <div class="receipt-card" style="width: 90%; max-width: 420px; box-sizing: border-box; text-align: center; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:24px 20px; position:relative; box-shadow:0 20px 60px var(--shadow); margin: 0 auto;">
+          <span class="receipt-close" id="closeContactModalBtn" style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--ink-soft);">&times;</span>
+          <div class="receipt-header" style="border-bottom: 1px dashed var(--border); padding-bottom: 15px; margin-bottom: 20px; text-align:center;">
+            <h3 style="font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom:4px; font-family:var(--font-display);"><i class="fa-solid fa-comments" style="color:var(--accent);"></i> Contact Studio</h3>
+            <span style="font-size: 11px; color: var(--ink-faint);">NextGen Communication Portal</span>
+          </div>
+          
+          <div class="receipt-body" style="padding: 10px 0 20px 0; display:flex; flex-direction:column; gap:14px;">
+            <div style="font-size: 32px; color: var(--accent); margin-bottom: 5px;"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <p style="font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 10px;">
+              How would you like to connect with NextGen Web Studio?
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; width:100%;">
+              ${bodyContentHtml}
+            </div>
+          </div>
+          
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+
+      // Wire close events
+      const closeBtn = modal.querySelector('#closeContactModalBtn');
+      const copyBtn = modal.querySelector('#copyPhoneBtn');
+      const copyEmailBtn = modal.querySelector('#copyEmailBtn');
+
+      const closeModal = () => {
+        modal.classList.remove('show');
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+      };
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText('+916379140067');
+          showToast('Copied', 'Phone number copied to clipboard!', 'success');
+        });
+      }
+      if (copyEmailBtn) {
+        copyEmailBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText('shridharsan134@gmail.com');
+          showToast('Copied', 'Email address copied to clipboard!', 'success');
+        });
+      }
+
+      const openChatBtn = modal.querySelector('#openChatbotFromModalBtn');
+      if (openChatBtn) {
+        openChatBtn.addEventListener('click', () => {
+          closeModal();
+          const chatbotWidget = document.getElementById('aiChatbotWidget');
+          if (chatbotWidget) {
+            chatbotWidget.classList.remove('chatbot-closed');
+            chatbotWidget.classList.add('chatbot-open');
+            const chatBody = document.getElementById('chatBody');
+            if (chatBody) {
+              chatBody.scrollTop = chatBody.scrollHeight;
+            }
+          }
+        });
+      }
+    }
+    
+    function triggerWebsiteContactModal(event, type = 'email') {
+      if (event) event.preventDefault();
+      setupWebsiteContactModal(type);
+      const modal = document.getElementById('websiteContactModal');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+      }
+    }
+
+    function showLoadingScreen() {
+      const loader = document.getElementById('loader-screen');
+      if (loader) {
+        loader.classList.remove('fade-out');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    // Export to global scope for inline button clicks (e.g. Google Login redirection)
+    window.showLoadingScreen = showLoadingScreen;
+
+    function hideLoadingScreen() {
+      const loader = document.getElementById('loader-screen');
+      if (loader) {
+        loader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Intercept tel, mailto, and whatsapp links dynamically
+    document.addEventListener('click', (e) => {
+      const anchor = e.target.closest('a');
+      if (anchor) {
+        const href = anchor.getAttribute('href') || '';
+        if (href.startsWith('tel:') || href.startsWith('mailto:') || href.includes('wa.me') || href.includes('whatsapp.com')) {
+          e.preventDefault();
+          triggerWebsiteContactModal(e);
+        }
+      }
+    });
+
+    // Auto-load polling: Refresh portal statistics & roadmaps every 5 seconds
+    setInterval(() => {
+      if (currentUser) {
+        loadDashboardData();
+      }
+    }, 5000);
+  </script>
+</body>
+</html>

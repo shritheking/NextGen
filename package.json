@@ -1,0 +1,13 @@
+{
+  "name": "nextgen-portfolio-enhanced",
+  "version": "1.0.0",
+  "description": "NextGen Web Studio Premium Portfolio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

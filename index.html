@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NextGen Web Studio — Premium Web Design &amp; Full-Stack Development</title>
+  <meta name="description" content="NextGen Web Studio designs and builds high-performance full-stack websites, booking platforms, and custom digital tools from Coimbatore, Tamil Nadu.">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets & Favicon -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body class="dark-theme">
+  <!-- Loading Screen Loader -->
+  <div id="loader-screen">
+    <div class="loader-content">
+      <svg class="loader-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="72" class="logo-text">nextgen</text>
+        <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Theme Toggle Button -->
+  <div class="theme-toggle-container">
+    <button id="themeToggleBtn" aria-label="Toggle light/dark theme" title="Switch Theme">
+      <i class="fa-solid fa-sun"></i>
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="wrap nav-container">
+      <a href="#" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="72" class="logo-text">nextgen</text>
+          <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
+      </a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="#services"><span class="nav-num">01.</span>services</a>
+          <a href="#work"><span class="nav-num">02.</span>work</a>
+          <a href="#process"><span class="nav-num">03.</span>process</a>
+          <a href="#contact"><span class="nav-num">04.</span>contact</a>
+          <a href="/client.html"><span class="nav-num">05.</span>client portal</a>
+        </div>
+        <a href="#contact" class="nav-cta">start a project</a>
+      </nav>
+
+      <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="0" y="72" class="logo-text">nextgen</text>
+        <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="#services"><span class="nav-num">01.</span>services</a>
+      <a href="#work"><span class="nav-num">02.</span>work</a>
+      <a href="#process"><span class="nav-num">03.</span>process</a>
+      <a href="#contact"><span class="nav-num">04.</span>contact</a>
+      <a href="/client.html"><span class="nav-num">05.</span>client portal</a>
+      <a href="#contact" class="drawer-cta btn-primary">start a project</a>
+    </div>
+    <div class="drawer-footer">
+      <p><i class="fa-solid fa-envelope"></i> shridharsan134@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> +91 63791 40067</p>
+      <p><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</p>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <main class="wrap">
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="eyebrow-cli">
+        <span class="eb-path"><i class="fa-solid fa-folder-open"></i> ~/coimbatore-tn</span>
+        <span class="eb-branch"><i class="fa-solid fa-code-branch"></i> git:(main)</span>
+        <span class="eb-status"><i class="fa-solid fa-circle-check"></i> status: active</span>
+      </div>
+      
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <h1>We build websites<br>that <span class="gradient-text">ship fast</span><br>and work hard.</h1>
+          <p class="hero-sub">NextGen Web Studio designs and builds high-performance full-stack web applications, custom booking engines, and D2C storefronts — tailored specifically for modern businesses and founders.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn-primary">start a project <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#work" class="btn-ghost">see the work</a>
+          </div>
+        </div>
+
+        <div class="terminal-container">
+          <div class="terminal" aria-hidden="true">
+            <div class="term-bar">
+              <div class="term-dot close"></div>
+              <div class="term-dot minimize"></div>
+              <div class="term-dot expand"></div>
+              <span class="term-title">bash — nextgen-studio</span>
+            </div>
+            <div class="term-body" id="termBody">
+              <div class="term-history">
+                <div class="term-line"><span class="term-prompt">$</span> whoami</div>
+                <div class="term-line output">NextGen Web Studio (Coimbatore, IN)</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line"><span class="term-prompt">$</span> ls services/</div>
+                <div class="term-line output">web-design/  full-stack/  booking-systems/  e-commerce/  seo-performance/</div>
+                <div class="term-line">&nbsp;</div>
+              </div>
+              <div class="term-input-line">
+                <span class="term-prompt">$</span> 
+                <span id="termTyped"></span><span class="term-cursor"></span>
+              </div>
+            </div>
+            <div class="term-shortcuts">
+              <span class="shortcut-label">Quick Commands:</span>
+              <button class="term-btn" data-cmd="about">./about</button>
+              <button class="term-btn" data-cmd="skills">./skills</button>
+              <button class="term-btn" data-cmd="contact">./contact-info</button>
+              <button class="term-btn" data-cmd="clear">clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scroll Down Indicator -->
+      <div class="scroll-down-container">
+        <a href="#services" class="scroll-down-arrow" aria-label="Scroll down to services">
+          <span class="scroll-text">Scroll Down</span>
+          <div class="scroll-icon-wrap">
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="block" id="services">
+      <div class="path-label">~/services</div>
+      <div class="section-head">
+        <h2>What we build</h2>
+        <p class="section-note">Scoped digital systems, not recycled templates. Every line of code is structured to fit your clients and business workflow.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+          <div class="service-index">01 / design</div>
+          <h3>Web design</h3>
+          <p>Bespoke visual landing pages and corporate sites built for unique brand identities, complete with interactive features.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+          <div class="service-index">02 / build</div>
+          <h3>Full-stack development</h3>
+          <p>React/Vite frontends backed by Node/Express and MongoDB. Secure user authentication, dashboards, and API microservices.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-credit-card"></i></div>
+          <div class="service-index">03 / commerce</div>
+          <h3>Bookings &amp; e-commerce</h3>
+          <p>Seamless integrations for payments (Razorpay/Stripe), customized reservation calendars, and user dashboards that run smoothly.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <div class="service-index">04 / grow</div>
+          <h3>SEO &amp; performance</h3>
+          <p>Sub-second response times, semantic structures, and meta optimization optimized for high visibility on local and search queries.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+          <div class="service-index">05 / support</div>
+          <h3>Maintenance</h3>
+          <p>Prompt visual updates, security monitoring, infrastructure updates, and routine checks under a reliable support retainer.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-lightbulb"></i></div>
+          <div class="service-index">06 / advise</div>
+          <h3>Product consulting</h3>
+          <p>Tailored scoping for early MVPs, feature prioritization roadmaps, and tech stack consultation to optimize product-market launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Portfolio Section -->
+    <section class="block" id="work">
+      <div class="path-label">~/work</div>
+      <div class="section-head">
+        <h2>Selected projects</h2>
+        <p class="section-note">A curated preview of platforms engineered from initial concept to live production.</p>
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-border-all"></i> all</button>
+        <button class="filter-btn" data-filter="fullstack"><i class="fa-solid fa-server"></i> full-stack</button>
+        <button class="filter-btn" data-filter="commerce"><i class="fa-solid fa-bag-shopping"></i> e-commerce</button>
+        <button class="filter-btn" data-filter="design"><i class="fa-solid fa-bezier-curve"></i> web design</button>
+      </div>
+      
+      <div class="work-grid" id="workGrid">
+        <div class="work-card" data-cat="fullstack">
+          <div class="browser-frame">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="work-image-container">
+              <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=800&auto=format&fit=crop" alt="Turf Booking platform">
+            </div>
+          </div>
+          <div class="work-info">
+            <div class="work-tag">Booking platform</div>
+            <h3>Turf &amp; sports ground booking</h3>
+            <p>Real-time slot reservation system with Razorpay integration, secure JWT session management, and dashboard reporting.</p>
+            <div class="work-stack"><span>React</span><span>Node/Express</span><span>MongoDB</span><span>Razorpay</span></div>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="commerce design">
+          <div class="browser-frame">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="work-image-container">
+              <img src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=800&auto=format&fit=crop" alt="Personal care storefront">
+            </div>
+          </div>
+          <div class="work-info">
+            <div class="work-tag">D2C storefront</div>
+            <h3>Personal care brand site</h3>
+            <p>High-conversion storefront showcasing products with responsive grids, interactive filters, and an optimized checkout layout.</p>
+            <div class="work-stack"><span>React</span><span>CSS Grid</span><span>UX Design</span><span>SEO</span></div>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="design">
+          <div class="browser-frame">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="work-image-container">
+              <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=800&auto=format&fit=crop" alt="Parallax landing page">
+            </div>
+          </div>
+          <div class="work-info">
+            <div class="work-tag">Agency site</div>
+            <h3>Parallax studio landing page</h3>
+            <p>Interactive branding site loaded with scroll animations, particle-based hero graphics, and sleek pricing tabs.</p>
+            <div class="work-stack"><span>HTML5/CSS3</span><span>Canvas</span><span>GSAP</span></div>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="fullstack">
+          <div class="browser-frame">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="work-image-container">
+              <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=800&auto=format&fit=crop" alt="AI Dashboard platform">
+            </div>
+          </div>
+          <div class="work-info">
+            <div class="work-tag">AI platform</div>
+            <h3>Smart interview assistant</h3>
+            <p>Integrated portal parsing resume files, running web-audio recordings, and feeding speech-to-text API evaluation engines.</p>
+            <div class="work-stack"><span>React</span><span>Flask</span><span>SQLite</span><span>OpenAI API</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="block" id="process">
+      <div class="path-label">~/process</div>
+      <div class="section-head">
+        <h2>How a project runs</h2>
+        <p class="section-note">Clear progression from ideation to production. No black box development.</p>
+      </div>
+      <div class="process-list">
+        <div class="process-item">
+          <div class="process-cmd"><span class="prompt">$</span> discover</div>
+          <div class="process-content">
+            <h3>01 / Scope &amp; Goals</h3>
+            <p>A technical brainstorming call to define the feature set, budget alignment, and detail precisely what is required to go live.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-cmd"><span class="prompt">$</span> design</div>
+          <div class="process-content">
+            <h3>02 / Visual Direction</h3>
+            <p>Interactive wireframes and high-fidelity mockups are reviewed for approval prior to writing production backend code.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-cmd"><span class="prompt">$</span> build</div>
+          <div class="process-content">
+            <h3>03 / Agile Development</h3>
+            <p>Incremental code releases pushed to staging URL environments. Watch your website update in real-time as milestones land.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-cmd"><span class="prompt">$</span> deploy</div>
+          <div class="process-content">
+            <h3>04 / Launch &amp; Retainer</h3>
+            <p>Custom server configuration, SSL activation, domain linking, and database optimization, followed by a dedicated post-launch support window.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="block" id="contact" style="border-top:none; padding-top:0;">
+      <div class="contact-section-grid">
+        <div class="contact-info-panel">
+          <h2>Have a site<br>to build?</h2>
+          <p>Let's map out your project together. Drop us details about your product roadmap, and we will get back to you within one business day.</p>
+          
+          <div class="direct-contact-details">
+            <a href="mailto:shridharsan134@gmail.com" class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-envelope"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Email Us</span>
+                <span class="detail-value">shridharsan134@gmail.com</span>
+              </div>
+            </a>
+            <a href="tel:6379140067" class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-phone"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Call / WhatsApp</span>
+                <span class="detail-value">+91 63791 40067</span>
+              </div>
+            </a>
+            <div class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-location-dot"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">Coimbatore, Tamil Nadu</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <div class="form-header">
+            <h3>Project Scoping Form</h3>
+            <span>Fill out the fields to launch custom estimation</span>
+          </div>
+          
+          <form id="projectContactForm" novalidate>
+            <!-- Project Type Selection -->
+            <div class="form-group full-width">
+              <label class="section-label">I'm looking for:</label>
+              <div class="project-tags-selector">
+                <button type="button" class="tag-chip" data-value="Web Design">Web Design</button>
+                <button type="button" class="tag-chip" data-value="Full Stack">Full Stack App</button>
+                <button type="button" class="tag-chip" data-value="E-Commerce">E-Commerce</button>
+                <button type="button" class="tag-chip" data-value="Consulting">Consulting / MVP</button>
+                <input type="hidden" name="projectType" id="projectTypeInput" value="">
+              </div>
+            </div>
+
+            <!-- Name Input -->
+            <div class="form-group">
+              <div class="input-wrapper">
+                <input type="text" id="contactName" name="name" required placeholder=" ">
+                <label for="contactName">Your Name</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please enter your name</span>
+            </div>
+
+            <!-- Email Input -->
+            <div class="form-group">
+              <div class="input-wrapper">
+                <input type="email" id="contactEmail" name="email" required placeholder=" ">
+                <label for="contactEmail">Email Address</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please enter a valid email</span>
+            </div>
+
+            <!-- Phone Input -->
+            <div class="form-group">
+              <div class="input-wrapper">
+                <input type="tel" id="contactPhone" name="phone" placeholder=" ">
+                <label for="contactPhone">Phone Number (Optional)</label>
+                <span class="focus-border"></span>
+              </div>
+            </div>
+
+            <!-- Budget Picker -->
+            <div class="form-group">
+              <div class="input-wrapper select-wrapper">
+                <select id="contactBudget" name="budget" required>
+                  <option value="" disabled selected hidden></option>
+                  <option value="Under ₹50k">Under ₹50k</option>
+                  <option value="₹50k - ₹1.5L">₹50k - ₹1.5L</option>
+                  <option value="₹1.5L - ₹3L">₹1.5L - ₹3L</option>
+                  <option value="₹3L+">₹3L+ (Enterprise)</option>
+                </select>
+                <label for="contactBudget" class="select-label">Estimated Budget</label>
+                <i class="fa-solid fa-chevron-down select-icon"></i>
+              </div>
+              <span class="error-msg">Please select a budget range</span>
+            </div>
+
+            <!-- Message Input -->
+            <div class="form-group full-width">
+              <div class="input-wrapper">
+                <textarea id="contactMessage" name="message" required placeholder=" " rows="4"></textarea>
+                <label for="contactMessage">Tell us about your project requirements...</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please tell us about your project</span>
+            </div>
+
+            <!-- Submit Button / Loader -->
+            <div class="form-actions full-width">
+              <button type="submit" class="submit-btn" id="submitFormBtn">
+                <span class="btn-text">Submit Request</span>
+                <span class="btn-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Success State Terminal Overlay -->
+          <div class="form-success-overlay" id="formSuccessOverlay">
+            <div class="success-terminal">
+              <div class="success-terminal-bar">
+                <div class="term-dot close"></div>
+                <div class="term-dot minimize"></div>
+                <div class="term-dot expand"></div>
+                <span>deployment-success.log</span>
+              </div>
+              <div class="success-terminal-body">
+                <div class="s-line"><span class="s-prompt">$</span> ./send_inquiry.sh --to "NextGen"</div>
+                <div class="s-line info">Establishing secure handshake... [OK]</div>
+                <div class="s-line info">Encrypting payload data... [OK]</div>
+                <div class="s-line info">Uploading to Coimbatore DB... [OK]</div>
+                <div class="s-line success"><span class="s-prompt">$</span> status code: 200 OK</div>
+                <div class="s-line text-center highlight">
+                  <div class="success-icon-badge"><i class="fa-solid fa-circle-check"></i></div>
+                  <h4>Message Sent Successfully!</h4>
+                  <p>Thanks for reaching out! We'll review your project details and contact you via email shortly.</p>
+                </div>
+                <div class="s-line text-center">
+                  <button type="button" class="btn-ghost btn-sm" id="closeSuccessBtn">Send Another Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="72" class="logo-text">nextgen</text>
+            <rect x="290" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">High-performance full-stack web applications and custom digital tools built from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Web Design</a></li>
+            <li><a href="#services">Full-stack builds</a></li>
+            <li><a href="#services">E-Commerce</a></li>
+            <li><a href="#services">Product scoping</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:shridharsan134@gmail.com">shridharsan134@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="tel:6379140067">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div id="aiChatbotWidget" class="chatbot-closed">
+    <!-- Chat Button -->
+    <button id="chatbotToggleBtn" aria-label="Open AI Assistant" title="Chat with AI">
+      <i class="fa-solid fa-comments"></i>
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    
+    <!-- Chat Panel -->
+    <div class="chatbot-panel">
+      <div class="chat-header">
+        <div class="bot-info">
+          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div class="bot-text-meta">
+            <h4>nextgen_assistant</h4>
+            <span>online • instant response</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+          Hi! I'm your NextGen AI Assistant. 🤖
+          <br><br>
+          Ask me anything about our services, pricing, timeline, contact details, or location in Coimbatore!
+        </div>
+      </div>
+      <form class="chat-input-area" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off" required>
+        <button type="submit" id="chatSubmitBtn"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
