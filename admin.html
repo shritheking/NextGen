@@ -2768,7 +2768,7 @@
       attachInputListeners();
     });
 
-    function removeRow(btn) {
+    window.removeRow = function(btn) {
       const rowsCount = itemLinesList.querySelectorAll('.item-row').length;
       if (rowsCount <= 1) {
         showToast('Validation Error', 'Your receipt must contain at least one line item Task Cost.', 'error');
