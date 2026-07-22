@@ -276,6 +276,16 @@
       </svg>
     </div>
   </div>
+  <script>
+    // Failsafe: Hide loader after 1500ms even if document scripts hang
+    setTimeout(() => {
+      const failsafeLoader = document.getElementById('loader-screen');
+      if (failsafeLoader && !failsafeLoader.classList.contains('fade-out')) {
+        failsafeLoader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }
+    }, 1500);
+  </script>
 
   <!-- Theme Toggle Button -->
   <div class="theme-toggle-container">
@@ -1359,6 +1369,17 @@
         loadDashboardData();
       }
     }, 5000);
+
+    // Failsafe: Ensure loader screen dismisses on back/forward cache navigation or reloads
+    window.addEventListener('pageshow', (event) => {
+      const loader = document.getElementById('loader-screen');
+      if (loader) {
+        setTimeout(() => {
+          loader.classList.add('fade-out');
+          document.body.style.overflow = '';
+        }, 500);
+      }
+    });
   </script>
 </body>
 </html>
