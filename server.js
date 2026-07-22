@@ -1711,149 +1711,271 @@ function generateReceiptPdfBuffer(item) {
 
   const hasSignature = false;
 
-  // Title Header
-  linesContent.push('BT');
-  linesContent.push('/F1 20 Tf');
-  linesContent.push('50 780 Td');
-  linesContent.push('(NEXTGEN WEB STUDIO) Tj');
-  linesContent.push('ET');
-
-  linesContent.push('BT');
-  linesContent.push('/F2 12 Tf');
-  linesContent.push('50 760 Td');
-  linesContent.push(`(${isPaid ? 'OFFICIAL PAYMENT RECEIPT' : 'INVOICE STATEMENT (PENDING)'}) Tj`);
-  linesContent.push('ET');
-
-  // Horizontal separator line
+  // Let's set line width and stroke color to default black
   linesContent.push('0.5 w');
-  linesContent.push('0.2 0.2 0.2 RG');
-  linesContent.push('50 745 m');
-  linesContent.push('545 745 l');
+  linesContent.push('0 0 0 RG');
+  linesContent.push('0 0 0 rg');
+
+  // ==================== LEFT HEADER: LOGO ====================
+  // Company logo text: nextgen
+  linesContent.push('BT');
+  linesContent.push('/F2 20 Tf'); // Helvetica-Bold 20
+  linesContent.push('50 780 Td');
+  linesContent.push('(nextgen) Tj');
+  linesContent.push('ET');
+
+  // Draw thick vertical black cursor bar: x=128, y=780, w=6, h=18
+  linesContent.push('128 780 6 18 re f');
+
+  // Sub-header 1: Premium Web Design & Full-Stack Engineering
+  linesContent.push('BT');
+  linesContent.push('/F1 9 Tf'); // Helvetica 9
+  linesContent.push('50 762 Td');
+  linesContent.push('(Premium Web Design & Full-Stack Engineering) Tj');
+  linesContent.push('ET');
+
+  // Sub-header 2: Coimbatore, Tamil Nadu, India | shridharsan134@gmail.com
+  linesContent.push('BT');
+  linesContent.push('/F1 8 Tf'); // Helvetica 8
+  linesContent.push('50 750 Td');
+  linesContent.push('(Coimbatore, Tamil Nadu, India | shridharsan134@gmail.com) Tj');
+  linesContent.push('ET');
+
+  // ==================== RIGHT HEADER: METADATA ====================
+  // Document Title: INVOICE STATEMENT / PAYMENT RECEIPT
+  linesContent.push('BT');
+  linesContent.push('/F2 13 Tf'); // Helvetica-Bold 13
+  linesContent.push('380 780 Td');
+  linesContent.push(`(${isPaid ? 'PAYMENT RECEIPT' : 'INVOICE STATEMENT'}) Tj`);
+  linesContent.push('ET');
+
+  // ID & Date
+  linesContent.push('BT');
+  linesContent.push('/F1 9 Tf'); // Helvetica 9
+  linesContent.push('430 762 Td');
+  linesContent.push(`(ID: ${escapePdf(item.id.toUpperCase())}) Tj`);
+  linesContent.push('ET');
+
+  linesContent.push('BT');
+  linesContent.push('/F1 9 Tf'); // Helvetica 9
+  linesContent.push('430 748 Td');
+  linesContent.push(`(Date: ${escapePdf(new Date(item.date).toLocaleDateString('en-IN'))}) Tj`);
+  linesContent.push('ET');
+
+  // ==================== SEPARATOR LINE ====================
+  linesContent.push('0.5 w');
+  linesContent.push('0.4 0.4 0.4 RG');
+  linesContent.push('50 735 m');
+  linesContent.push('545 735 l');
   linesContent.push('S');
 
-  // Metadata block
+  // ==================== BILL TO & PROJECT SECTIONS ====================
+  // BILL TO:
   linesContent.push('BT');
-  linesContent.push('/F1 10 Tf');
-  linesContent.push('50 720 Td');
-  linesContent.push('14 TL');
-  linesContent.push(`(Invoice Code: ${escapePdf(item.id.toUpperCase())}) Tj T*`);
-  linesContent.push(`(Date: ${escapePdf(new Date(item.date).toLocaleDateString('en-IN'))}) Tj T*`);
-  linesContent.push(`(Payment Status: ${isPaid ? 'PAID & CLEARED' : 'PAYMENT PENDING'}) Tj T*`);
+  linesContent.push('/F1 8 Tf'); // Helvetica 8
+  linesContent.push('50 710 Td');
+  linesContent.push('(BILL TO:) Tj');
   linesContent.push('ET');
 
-  // Client info block
   linesContent.push('BT');
-  linesContent.push('/F1 10 Tf');
-  linesContent.push('300 720 Td');
-  linesContent.push('14 TL');
-  linesContent.push(`(Client Name: ${escapePdf(item.clientName)}) Tj T*`);
-  linesContent.push(`(Client Email: ${escapePdf(item.clientEmail)}) Tj T*`);
-  linesContent.push(`(Client Phone: ${escapePdf(item.clientPhone)}) Tj T*`);
+  linesContent.push('/F2 11 Tf'); // Helvetica-Bold 11
+  linesContent.push('50 694 Td');
+  linesContent.push(`(${escapePdf(item.clientName)}) Tj`);
   linesContent.push('ET');
 
-  // Project Info
   linesContent.push('BT');
-  linesContent.push('/F1 11 Tf');
-  linesContent.push('50 655 Td');
-  linesContent.push(`(Project Scope: ${escapePdf(item.projectTitle)}) Tj`);
+  linesContent.push('/F1 9 Tf'); // Helvetica 9
+  linesContent.push('50 680 Td');
+  linesContent.push(`(${escapePdf(item.clientEmail)}) Tj`);
   linesContent.push('ET');
 
-  // Draw Table header boundary
-  linesContent.push('50 640 m');
-  linesContent.push('545 640 l');
+  linesContent.push('BT');
+  linesContent.push('/F1 9 Tf'); // Helvetica 9
+  linesContent.push('50 666 Td');
+  linesContent.push(`(${escapePdf(item.clientPhone || 'N/A')}) Tj`);
+  linesContent.push('ET');
+
+  // PROJECT:
+  linesContent.push('BT');
+  linesContent.push('/F1 8 Tf'); // Helvetica 8
+  linesContent.push('280 710 Td');
+  linesContent.push('(PROJECT:) Tj');
+  linesContent.push('ET');
+
+  linesContent.push('BT');
+  linesContent.push('/F2 11 Tf'); // Helvetica-Bold 11
+  linesContent.push('280 694 Td');
+  linesContent.push(`(${escapePdf(item.projectTitle)}) Tj`);
+  linesContent.push('ET');
+
+  // ==================== TABLE OF LINE ITEMS ====================
+  // Table Top thick border line
+  linesContent.push('1.5 w');
+  linesContent.push('0 0 0 RG');
+  linesContent.push('50 645 m');
+  linesContent.push('545 645 l');
   linesContent.push('S');
 
-  // Table Columns
+  // Table Headers
   linesContent.push('BT');
-  linesContent.push('/F1 10 Tf');
-  linesContent.push('55 625 Td');
-  linesContent.push('(Task Item / Scope Milestone) Tj');
-  linesContent.push('390 0 Td');
-  linesContent.push('(Cost) Tj');
+  linesContent.push('/F1 8 Tf'); // Helvetica 8
+  linesContent.push('50 632 Td');
+  linesContent.push('(LINE ITEM DESCRIPTION) Tj');
   linesContent.push('ET');
 
-  // Line below header
-  linesContent.push('50 615 m');
-  linesContent.push('545 615 l');
+  linesContent.push('BT');
+  linesContent.push('/F1 8 Tf'); // Helvetica 8
+  linesContent.push('480 632 Td');
+  linesContent.push('(AMOUNT \\(INR\\)) Tj');
+  linesContent.push('ET');
+
+  // Table header thin separator line
+  linesContent.push('1 w');
+  linesContent.push('50 622 m');
+  linesContent.push('545 622 l');
   linesContent.push('S');
 
-  // Draw items
-  let y = 595;
+  // Table Rows (Dynamic list)
+  let y = 605;
   if (item.lineItems && item.lineItems.length > 0) {
     item.lineItems.forEach(line => {
       linesContent.push('BT');
-      linesContent.push('/F1 10 Tf');
+      linesContent.push('/F1 9.5 Tf');
       linesContent.push(`55 ${y} Td`);
       linesContent.push(`(${escapePdf(line.taskName)}) Tj`);
       linesContent.push('ET');
 
       linesContent.push('BT');
-      linesContent.push('/F1 10 Tf');
-      linesContent.push(`445 ${y} Td`); 
+      linesContent.push('/F2 9.5 Tf');
+      linesContent.push(`480 ${y} Td`); 
       linesContent.push(`(INR ${escapePdf(Number(line.taskCost).toLocaleString('en-IN'))}) Tj`);
       linesContent.push('ET');
 
       y -= 20;
     });
-  }
-
-  // Draw total line
-  linesContent.push(`50 ${y+10} m`);
-  linesContent.push(`545 ${y+10} l`);
-  linesContent.push('S');
-
-  // Total amount
-  linesContent.push('BT');
-  linesContent.push('/F1 11 Tf');
-  linesContent.push(`55 ${y-10} Td`);
-  linesContent.push(`(${isPaid ? 'Total Paid (Received):' : 'Total Amount Due:'}) Tj`);
-  linesContent.push('ET');
-
-  linesContent.push('BT');
-  linesContent.push('/F2 11 Tf'); 
-  linesContent.push(`445 ${y-10} Td`);
-  linesContent.push(`(INR ${escapePdf(Number(item.total).toLocaleString('en-IN'))}) Tj`);
-  linesContent.push('ET');
-
-  // Draw double bottom separator
-  linesContent.push(`50 ${y-20} m`);
-  linesContent.push(`545 ${y-20} l`);
-  linesContent.push('S');
-
-  // Terms and conditions box
-  y -= 70;
-  linesContent.push('0.3 w');
-  linesContent.push(`50 ${y} m`);
-  linesContent.push(`545 ${y} l`);
-  linesContent.push(`545 ${y-80} l`);
-  linesContent.push(`50 ${y-80} l`);
-  linesContent.push('s'); 
-
-  linesContent.push('BT');
-  linesContent.push('/F2 9 Tf'); 
-  linesContent.push(`60 ${y-20} Td`);
-  linesContent.push('12 TL');
-  linesContent.push(`(${isPaid ? 'SERVICE STATUS CONFIRMATION' : 'SERVICE STATEMENT AGREEMENT'}): Tj T*`);
-  linesContent.push('/F1 9 Tf'); 
-  if (isPaid) {
-    linesContent.push('(This document serves as formal confirmation of payment received. NextGen Web Studio) Tj T*');
-    linesContent.push('(has successfully logged this transaction to your client ledger. Service roadmaps) Tj T*');
-    linesContent.push('(will execute as scheduled.) Tj T*');
   } else {
-    linesContent.push('(NextGen Web Studio is committed to full transparency. All items are custom compiled) Tj T*');
-    linesContent.push('(to project roadmap bounds. Service execution begins on confirmation of 50% project) Tj T*');
-    linesContent.push('(kickstart retainer.) Tj T*');
+    linesContent.push('BT');
+    linesContent.push('/F1 9.5 Tf');
+    linesContent.push(`55 ${y} Td`);
+    linesContent.push(`(${escapePdf(item.projectTitle)}) Tj`);
+    linesContent.push('ET');
+
+    linesContent.push('BT');
+    linesContent.push('/F2 9.5 Tf');
+    linesContent.push(`480 ${y} Td`); 
+    linesContent.push(`(INR ${escapePdf(Number(item.total).toLocaleString('en-IN'))}) Tj`);
+    linesContent.push('ET');
+
+    y -= 20;
   }
+
+  // Draw end of table line
+  linesContent.push('1 w');
+  linesContent.push(`50 ${y + 10} m`);
+  linesContent.push(`545 ${y + 10} l`);
+  linesContent.push('S');
+
+  // ==================== TOTALS SECTION ====================
+  const advancePaid = item.advancePaid || 0;
+  const balanceDue = item.total - advancePaid;
+  const formattedTotal = Number(item.total).toLocaleString('en-IN');
+  const formattedAdvance = Number(advancePaid).toLocaleString('en-IN');
+  const formattedBalance = Number(balanceDue).toLocaleString('en-IN');
+
+  if (advancePaid > 0) {
+    // Grand Total Row
+    linesContent.push('BT');
+    linesContent.push('/F1 9 Tf');
+    linesContent.push(`330 ${y - 10} Td`);
+    linesContent.push('(GRAND TOTAL:) Tj');
+    linesContent.push('ET');
+
+    linesContent.push('BT');
+    linesContent.push('/F1 9.5 Tf');
+    linesContent.push(`480 ${y - 10} Td`);
+    linesContent.push(`(INR ${escapePdf(formattedTotal)}) Tj`);
+    linesContent.push('ET');
+
+    // Advance Paid Row
+    linesContent.push('BT');
+    linesContent.push('/F1 9 Tf');
+    linesContent.push(`330 ${y - 25} Td`);
+    linesContent.push('(ADVANCE PAID:) Tj');
+    linesContent.push('ET');
+
+    linesContent.push('BT');
+    linesContent.push('/F1 9.5 Tf');
+    linesContent.push(`480 ${y - 25} Td`);
+    linesContent.push(`(INR ${escapePdf(formattedAdvance)}) Tj`);
+    linesContent.push('ET');
+
+    // Thin separator
+    linesContent.push(`330 ${y - 35} m`);
+    linesContent.push(`545 ${y - 35} l`);
+    linesContent.push('S');
+
+    // Balance Due Row
+    linesContent.push('BT');
+    linesContent.push('/F2 10.5 Tf');
+    linesContent.push(`330 ${y - 50} Td`);
+    linesContent.push(`(${isPaid ? 'TOTAL AMOUNT PAID:' : 'BALANCE DUE:'}) Tj`);
+    linesContent.push('ET');
+
+    linesContent.push('BT');
+    linesContent.push('/F2 13 Tf');
+    linesContent.push(`480 ${y - 52} Td`);
+    linesContent.push(`(INR ${escapePdf(isPaid ? formattedTotal : formattedBalance)}) Tj`);
+    linesContent.push('ET');
+
+    y -= 55;
+  } else {
+    // Standard Total row
+    linesContent.push('BT');
+    linesContent.push('/F1 10.5 Tf');
+    linesContent.push(`330 ${y - 15} Td`);
+    linesContent.push(`(${isPaid ? 'TOTAL AMOUNT PAID:' : 'TOTAL AMOUNT DUE:'}) Tj`);
+    linesContent.push('ET');
+
+    linesContent.push('BT');
+    linesContent.push('/F2 13 Tf');
+    linesContent.push(`480 ${y - 17} Td`);
+    linesContent.push(`(INR ${escapePdf(formattedTotal)}) Tj`);
+    linesContent.push('ET');
+
+    y -= 20;
+  }
+
+  // ==================== PAYMENT STATUS BLOCK ====================
+  const statusColor = isPaid ? '0 0.5 0' : '0.9 0.4 0'; // green or orange
+  linesContent.push('BT');
+  linesContent.push('/F1 9.5 Tf');
+  linesContent.push(`50 ${y - 35} Td`);
+  linesContent.push('(Payment Status: ) Tj');
   linesContent.push('ET');
 
-  // Signature block removed per request
+  linesContent.push('BT');
+  linesContent.push('/F2 9.5 Tf');
+  linesContent.push(`${statusColor} rg`); // Set fill color for status
+  linesContent.push(`130 ${y - 35} Td`);
+  linesContent.push(`(${isPaid ? 'PAID & CLEARED' : 'PENDING'}) Tj`);
+  linesContent.push('ET');
+  linesContent.push('0 0 0 rg'); // Restore fill color black
 
-  // Footer note
+  // ==================== FOOTER ====================
+  // Separation line
+  linesContent.push('0.5 w');
+  linesContent.push('0.8 0.8 0.8 RG');
+  linesContent.push('50 60 m');
+  linesContent.push('545 60 l');
+  linesContent.push('S');
+
   linesContent.push('BT');
   linesContent.push('/F1 8 Tf');
-  linesContent.push(`180 50 Td`);
-  linesContent.push('(NextGen Web Studio  Coimbatore, Tamil Nadu, India) Tj');
+  linesContent.push('0.4 0.4 0.4 rg'); // Light gray text
+  linesContent.push('140 42 Td');
+  linesContent.push('(NextGen Web Studio • Coimbatore, Tamil Nadu, India • Support: shridharsan134@gmail.com) Tj');
   linesContent.push('ET');
+  linesContent.push('0 0 0 rg'); // Restore fill color black
 
   const streamContent = linesContent.join('\n');
   const streamLength = Buffer.byteLength(streamContent, 'utf8');
@@ -1910,33 +2032,67 @@ function generateReceiptEmailHtml(item) {
   const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
   const formattedBalance = Number(balanceDue).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
   const formattedAdvance = Number(advancePaid).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
-  
+
   let rowsMarkup = '';
   if (item.lineItems && item.lineItems.length > 0) {
     item.lineItems.forEach(line => {
       const costText = Number(line.taskCost).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
       rowsMarkup += `
-        <tr style="border-bottom: 1px solid #e0dfdb;">
-          <td style="padding: 12px 0; font-size: 13.5px; color: #403f3d; text-align: left;">${line.taskName}</td>
-          <td style="padding: 12px 0; text-align: right; font-weight: 700; font-size: 13.5px; color: #0f0f0e;">${costText}</td>
+        <tr style="border-bottom: 1px solid #22211f;">
+          <td style="padding: 12px; font-size: 13px; color: #a2a098;">${line.taskName}</td>
+          <td style="padding: 12px; text-align: right; font-weight: 600; font-size: 13px; color: #fafaf9;">${costText}</td>
         </tr>
       `;
     });
   } else {
     rowsMarkup += `
-      <tr style="border-bottom: 1px solid #e0dfdb;">
-        <td style="padding: 12px 0; font-size: 13.5px; color: #403f3d; text-align: left;">${item.projectTitle}</td>
-        <td style="padding: 12px 0; text-align: right; font-weight: 700; font-size: 13.5px; color: #0f0f0e;">${formattedTotal}</td>
+      <tr style="border-bottom: 1px solid #22211f;">
+        <td style="padding: 12px; font-size: 13px; color: #a2a098;">${item.projectTitle}</td>
+        <td style="padding: 12px; text-align: right; font-weight: 600; font-size: 13px; color: #fafaf9;">${formattedTotal}</td>
       </tr>
     `;
   }
 
   const isPaid = item.status === 'Paid';
   const headerText = isPaid ? 'PAYMENT RECEIPT' : 'INVOICE STATEMENT';
-  const totalLabel = isPaid ? 'TOTAL AMOUNT PAID:' : 'TOTAL AMOUNT DUE:';
-  const paymentStatusText = isPaid ? 'PAID & CLEARED' : 'PENDING';
-  const paymentStatusColor = isPaid ? '#10B981' : '#F59E0B';
-  const receiptDateStr = new Date(item.date).toLocaleDateString('en-IN');
+  const badgeHtml = isPaid 
+    ? `<span style="display: inline-block; background-color: rgba(74, 222, 128, 0.08); font-family: monospace; font-size: 11.5px; color: #4ADE80; padding: 6px 14px; border-radius: 4px; margin-top: 12px; border: 1px solid rgba(74, 222, 128, 0.2); font-weight: 700; letter-spacing: 0.5px;">✓ PAID &amp; CLEARED</span>` 
+    : `<span style="display: inline-block; background-color: rgba(245, 158, 11, 0.08); font-family: monospace; font-size: 11.5px; color: #F59E0B; padding: 6px 14px; border-radius: 4px; margin-top: 12px; border: 1px solid rgba(245, 158, 11, 0.2); font-weight: 700; letter-spacing: 0.5px;">⏳ PAYMENT PENDING</span>`;
+  
+  const introText = isPaid 
+    ? `Thank you for your payment! We have successfully received and processed your payment for the project listed below. Your formal confirmation receipt details are attached.` 
+    : `Thank you for choosing NextGen Web Studio! Please review the project billing statement and contract agreement details listed below. Payment is currently outstanding.`;
+
+  const totalLabel = isPaid ? 'Total Amount Paid (Received)' : 'Total Amount Due';
+  const agreementTitle = isPaid ? 'Service Status Confirmation:' : 'Service Statement Agreement:';
+  const agreementText = isPaid 
+    ? `This document serves as formal confirmation of payment received. NextGen Web Studio has successfully logged this transaction to your client ledger. Service roadmaps will execute as scheduled.` 
+    : `NextGen Web Studio is committed to full transparency. All items are custom compiled to project roadmap bounds. Service execution begins on confirmation of 50% project kickstart retainer.`;
+
+  let footerRows = '';
+  if (advancePaid > 0) {
+    footerRows = `
+      <tr style="background-color: #1b1b19; border-top: 2px solid #22211f;">
+        <td class="table-cell" style="padding: 10px 12px; font-size: 12px; color: #a2a098;">GRAND TOTAL</td>
+        <td class="table-cell" style="padding: 10px 12px; text-align: right; font-weight: 600; font-size: 13px; color: #fafaf9;">${formattedTotal}</td>
+      </tr>
+      <tr style="background-color: #1b1b19; border-top: 1px dashed #22211f;">
+        <td class="table-cell" style="padding: 10px 12px; font-size: 12px; color: #a2a098;">ADVANCE PAID</td>
+        <td class="table-cell" style="padding: 10px 12px; text-align: right; font-weight: 600; font-size: 13px; color: #4ADE80;">${formattedAdvance}</td>
+      </tr>
+      <tr style="background-color: #1b1b19; border-top: 2px solid #22211f;">
+        <td class="table-cell" style="padding: 14px 12px; font-weight: 700; font-size: 13.5px; color: #fafaf9;">${totalLabel}</td>
+        <td class="table-cell" style="padding: 14px 12px; text-align: right; font-weight: 700; font-size: 16px; color: #e0ff4f;">${formattedBalance}</td>
+      </tr>
+    `;
+  } else {
+    footerRows = `
+      <tr style="background-color: #1b1b19; border-top: 2px solid #22211f;">
+        <td class="table-cell" style="padding: 14px 12px; font-weight: 700; font-size: 13.5px; color: #fafaf9;">${totalLabel}</td>
+        <td class="table-cell" style="padding: 14px 12px; text-align: right; font-weight: 700; font-size: 16px; color: #e0ff4f;">${formattedTotal}</td>
+      </tr>
+    `;
+  }
 
   return `
     <!DOCTYPE html>
@@ -1946,101 +2102,70 @@ function generateReceiptEmailHtml(item) {
       <style>
         @media screen and (max-width: 600px) {
           .email-container {
-            padding: 10px !important;
+            padding: 16px 8px !important;
           }
           .email-card {
             padding: 20px 16px !important;
           }
-          .meta-table {
-            width: 100% !important;
+          .email-header h2 {
+            font-size: 19px !important;
           }
-          .meta-cell {
-            display: block !important;
-            width: 100% !important;
-            text-align: left !important;
-            padding-bottom: 12px !important;
+          .info-block {
+            padding: 12px !important;
+          }
+          .table-header, .table-cell {
+            padding: 8px !important;
+            font-size: 12px !important;
           }
         }
       </style>
     </head>
-    <body style="margin: 0; padding: 0; background-color: #f6f5f2; -webkit-text-size-adjust: 100%;">
-      <div class="email-container" style="background-color: #f6f5f2; padding: 40px 10px; font-family: 'Inter', -apple-system, sans-serif; color: #0f0f0e; margin: 0 auto; max-width: 600px; box-sizing: border-box;">
-        <div class="email-card" style="background-color: #ffffff; border: 1px solid #d5d4d0; border-radius: 4px; padding: 40px 32px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-          
-          <!-- Header (Verbatim Logo & Meta block) -->
-          <table class="meta-table" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-            <tr>
-              <td class="meta-cell" style="vertical-align: top; text-align: left;">
-                <div style="font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: #000; font-family: sans-serif; margin-bottom: 6px;">
-                  nextgen <span style="display: inline-block; width: 6px; height: 20px; background: #000; vertical-align: middle; margin-left: 2px;"></span>
-                </div>
-                <div style="font-size: 12px; color: #706f6b; margin-bottom: 3px; font-weight: 500;">Premium Web Design & Full-Stack Engineering</div>
-                <div style="font-size: 11px; color: #9c9a94;">Coimbatore, Tamil Nadu, India | shridharsan134@gmail.com</div>
-              </td>
-              <td class="meta-cell" style="vertical-align: top; text-align: right; font-family: monospace;">
-                <div style="font-size: 14px; font-weight: 700; letter-spacing: 0.5px; color: #000; margin-bottom: 6px; font-family: sans-serif;">${headerText}</div>
-                <div style="font-size: 11.5px; color: #706f6b; margin-bottom: 3px;">ID: ${item.id.toUpperCase()}</div>
-                <div style="font-size: 11.5px; color: #706f6b;">Date: ${receiptDateStr}</div>
-              </td>
-            </tr>
-          </table>
+    <body style="margin: 0; padding: 0; background-color: #0b0b0a;">
+      <div class="email-container" style="background-color: #0b0b0a; padding: 40px 20px; font-family: 'Outfit', 'Inter', -apple-system, sans-serif; color: #f5f4f0; margin: 0 auto; max-width: 600px; box-sizing: border-box;">
+        <div class="email-card" style="background-color: #131312; border: 1px solid #22211f; border-radius: 12px; padding: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); box-sizing: border-box;">
+          <!-- Header -->
+          <div class="email-header" style="border-bottom: 1px dashed #22211f; padding-bottom: 24px; margin-bottom: 28px; text-align: center;">
+            <span style="font-family: monospace; font-size: 11px; text-transform: uppercase; color: #e0ff4f; letter-spacing: 2px; display: block; margin-bottom: 8px;">nextgen_ studio</span>
+            <h2 style="margin: 0; font-size: 22px; font-weight: 700; color: #f5f4f0; text-transform: uppercase; letter-spacing: 0.5px;">${headerText}</h2>
+            <div style="margin-top: 4px;">
+              <span style="display: inline-block; background-color: #1b1b19; font-family: monospace; font-size: 11px; color: #a2a098; padding: 4px 12px; border-radius: 4px; border: 1px solid #22211f;">ID: ${item.id.toUpperCase()}</span>
+            </div>
+            <div>
+              ${badgeHtml}
+            </div>
+          </div>
 
-          <!-- Line Divider -->
-          <div style="width: 100%; height: 1px; background-color: #706f6b; margin-bottom: 28px;"></div>
+          <p style="font-size: 14.5px; margin-bottom: 16px; color: #fafaf9;">Dear <strong>${item.clientName}</strong>,</p>
+          <p style="font-size: 14px; line-height: 1.6; color: #a2a098; margin-bottom: 28px;">${introText}</p>
 
-          <!-- Billing Info & Project -->
+          <!-- Project info -->
+          <div class="info-block" style="background-color: #1b1b19; border: 1px solid #22211f; border-radius: 6px; padding: 16px; margin-bottom: 24px; box-sizing: border-box;">
+            <span style="font-size: 11px; font-family: monospace; text-transform: uppercase; color: #e0ff4f; display: block; margin-bottom: 4px;">PROJECT DESCRIPTION</span>
+            <span style="font-size: 14px; font-weight: 600; color: #f5f4f0;">${item.projectTitle}</span>
+          </div>
+
+          <!-- Table -->
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
-            <tr>
-              <td style="width: 50%; vertical-align: top; text-align: left; padding-right: 15px;">
-                <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase;">BILL TO:</div>
-                <div style="font-size: 14px; font-weight: 700; color: #000; margin-bottom: 4px;">${item.clientName}</div>
-                <div style="font-size: 13px; color: #706f6b; margin-bottom: 2px;">${item.clientEmail}</div>
-                <div style="font-size: 13px; color: #9c9a94;">${item.clientPhone || 'N/A'}</div>
-              </td>
-              <td style="width: 50%; vertical-align: top; text-align: left;">
-                <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase;">PROJECT:</div>
-                <div style="font-size: 14px; font-weight: 600; color: #000;">${item.projectTitle}</div>
-              </td>
-            </tr>
-          </table>
-
-          <!-- Items Table -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
             <thead>
-              <tr style="border-bottom: 2px solid #000;">
-                <th style="padding: 10px 0; text-align: left; font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; text-transform: uppercase;">LINE ITEM DESCRIPTION</th>
-                <th style="padding: 10px 0; text-align: right; font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; text-transform: uppercase;">AMOUNT (INR)</th>
+              <tr style="background-color: #1b1b19;">
+                <th class="table-header" style="padding: 12px; text-align: left; font-size: 11px; font-family: monospace; text-transform: uppercase; color: #a2a098; border-bottom: 2px solid #22211f;">Task Item Description</th>
+                <th class="table-header" style="padding: 12px; text-align: right; font-size: 11px; font-family: monospace; text-transform: uppercase; color: #a2a098; border-bottom: 2px solid #22211f;">Cost</th>
               </tr>
             </thead>
             <tbody>
               ${rowsMarkup}
-              <tr style="border-top: 1px solid #706f6b;">
-                <td style="padding: 16px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #706f6b; text-align: right; text-transform: uppercase;">GRAND TOTAL</td>
-                <td style="padding: 16px 0; text-align: right; font-weight: 700; font-size: 18px; color: #000; font-family: sans-serif;">${formattedTotal}</td>
-              </tr>
-              ${advancePaid > 0 ? `
-              <tr style="border-top: 1px dashed #e0dfdb;">
-                <td style="padding: 10px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #706f6b; text-align: right; text-transform: uppercase;">ADVANCE PAID</td>
-                <td style="padding: 10px 0; text-align: right; font-weight: 700; font-size: 14px; color: #10B981; font-family: sans-serif;">${formattedAdvance}</td>
-              </tr>
-              <tr style="border-top: 1px solid #706f6b;">
-                <td style="padding: 14px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #000; text-align: right; text-transform: uppercase;">${totalLabel}</td>
-                <td style="padding: 14px 0; text-align: right; font-weight: 700; font-size: 20px; color: #000; font-family: sans-serif;">${formattedBalance}</td>
-              </tr>
-              ` : ''}
+              ${footerRows}
             </tbody>
           </table>
 
-          <!-- Payment Status -->
-          <div style="font-size: 13px; color: #706f6b; margin-top: 10px; margin-bottom: 30px;">
-            Payment Status: <span style="font-weight: 700; color: ${paymentStatusColor};">${paymentStatusText}</span>
+          <div style="background-color: #1b1b19; padding: 18px; border-radius: 6px; border: 1px solid #22211f; font-size: 13px; line-height: 1.6; color: #a2a098; margin-bottom: 28px;">
+            <span style="font-weight: 700; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; color: #e0ff4f; letter-spacing: 0.5px;">${agreementTitle}</span>
+            ${agreementText}
           </div>
 
-          <!-- Footer -->
-          <div style="border-top: 1px solid #e0dfdb; padding-top: 20px; font-size: 11px; text-align: center; color: #9c9a94; font-family: monospace;">
-            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan134@gmail.com" style="color: #706f6b; text-decoration: underline;">Support Email</a>
+          <div style="border-top: 1px solid #22211f; padding-top: 20px; font-size: 11px; text-align: center; color: #5c5b56;">
+            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan134@gmail.com" style="color: #a2a098; text-decoration: underline;">Support Email</a>
           </div>
-
         </div>
       </div>
     </body>
