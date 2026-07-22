@@ -59,6 +59,13 @@ function sendMail(config, email) {
       });
     }
 
+    socket.setTimeout(10000); // 10 seconds timeout
+    socket.on('timeout', () => {
+      log.push('SMTP connection timed out');
+      socket.destroy();
+      reject(new Error(`SMTP connection timed out (10 seconds limit reached).\nLog:\n${log.join('\n')}`));
+    });
+
     socket.setEncoding('utf8');
 
     // Protocol state machine handler
