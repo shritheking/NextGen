@@ -90,18 +90,18 @@ function readConfig() {
         oauth: { ...base.oauth, ...data.oauth }
       };
 
-      if (process.env.RAZORPAY_KEY_ID) {
+      if (process.env.RAZORPAY_KEY_ID && !config.razorpay.keyId) {
         config.razorpay.keyId = process.env.RAZORPAY_KEY_ID;
       }
-      if (process.env.RAZORPAY_KEY_SECRET) {
+      if (process.env.RAZORPAY_KEY_SECRET && !config.razorpay.keySecret) {
         config.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
       }
-      if (process.env.SMTP_HOST) config.smtp.host = process.env.SMTP_HOST;
-      if (process.env.SMTP_PORT) config.smtp.port = parseInt(process.env.SMTP_PORT, 10);
-      if (process.env.SMTP_USER) config.smtp.user = process.env.SMTP_USER;
-      if (process.env.SMTP_PASS) config.smtp.pass = process.env.SMTP_PASS;
-      if (process.env.SMTP_FROM) config.smtp.from = process.env.SMTP_FROM;
-      if (process.env.SMTP_TO) config.smtp.to = process.env.SMTP_TO;
+      if (process.env.SMTP_HOST && !config.smtp.host) config.smtp.host = process.env.SMTP_HOST;
+      if (process.env.SMTP_PORT && !config.smtp.port) config.smtp.port = parseInt(process.env.SMTP_PORT, 10);
+      if (process.env.SMTP_USER && !config.smtp.user) config.smtp.user = process.env.SMTP_USER;
+      if (process.env.SMTP_PASS && !config.smtp.pass) config.smtp.pass = process.env.SMTP_PASS;
+      if (process.env.SMTP_FROM && !config.smtp.from) config.smtp.from = process.env.SMTP_FROM;
+      if (process.env.SMTP_TO && !config.smtp.to) config.smtp.to = process.env.SMTP_TO;
       return config;
     }
   } catch (err) {
