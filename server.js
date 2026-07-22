@@ -1011,7 +1011,7 @@ function parseBudgetToNumber(budgetString) {
     const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
     const protocol = isLocal ? 'http' : 'https';
     const redirectUri = encodeURIComponent(`${protocol}://${host}/api/auth/google/callback`);
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile&prompt=select_account`;
     res.writeHead(302, { 'Location': authUrl });
     res.end();
     return;
