@@ -725,9 +725,10 @@ function parseBudgetToNumber(budgetString) {
           smtpConfig.pass = smtpConfig.pass.replace(/\s+/g, ''); // Strip spaces
         }
 
-        const isResendMode = !!(resendConfig && resendConfig.apiKey);
+        const hasSmtp = !!(smtpConfig.user && smtpConfig.pass);
+        const hasResend = !!(resendConfig && resendConfig.apiKey);
         
-        if (!isResendMode && (!smtpConfig.user || !smtpConfig.pass)) {
+        if (!hasSmtp && !hasResend) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'SMTP credentials or Resend API key is required for connection tests.' }));
           return;
@@ -747,7 +748,7 @@ function parseBudgetToNumber(budgetString) {
           `
         };
 
-        const configToSend = isResendMode ? { resend: resendConfig } : { smtp: smtpConfig };
+        const configToSend = { smtp: smtpConfig, resend: resendConfig };
         
         smtpClient.sendMail(configToSend, testEmail)
           .then(result => {
