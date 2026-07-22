@@ -159,8 +159,10 @@ function registerUserAndSendCredentials(email, name) {
     }
 
     const config = readConfig();
-    const smtpConf = config.smtp;
-    if (smtpConf && smtpConf.user && smtpConf.pass) {
+    const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
+    const hasResend = !!(config.resend && config.resend.apiKey);
+
+    if (hasSmtp || hasResend) {
       const subject = `Welcome to NextGen Client Hub — Portal Access Active`;
       const emailText = `
 Hello ${name || 'Client'},
@@ -178,9 +180,9 @@ Best regards,
 NextGen Web Studio
 Coimbatore, Tamil Nadu, India
       `;
-      smtpClient.sendMail(smtpConf, { subject, text: emailText, to: email.trim().toLowerCase() })
-        .then(() => console.log(`[SMTP] Onboarding email dispatched to ${email.trim().toLowerCase()}`))
-        .catch(err => console.error(`[SMTP] Onboarding email failed:`, err.message));
+      smtpClient.sendMail(config, { subject, text: emailText, to: email.trim().toLowerCase() })
+        .then(() => console.log(`[Email Dispatch] Onboarding email dispatched to ${email.trim().toLowerCase()}`))
+        .catch(err => console.error(`[Email Dispatch] Onboarding email failed:`, err.message));
     }
   } catch (err) {
     console.error('[Auth] Failed to register and send credentials:', err);
@@ -603,8 +605,11 @@ function parseBudgetToNumber(budgetString) {
 
         // OPTIONAL CLIENT NOTIFICATION DISPATCH BASED ON FORM CHECKBOX
         if (receipt.sendEmail) {
-          const config = readConfig().smtp;
-          if (config && config.user && config.pass) {
+          const config = readConfig();
+          const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
+          const hasResend = !!(config.resend && config.resend.apiKey);
+
+          if (hasSmtp || hasResend) {
             const subject = `${receipt.status === 'Paid' ? 'Payment Confirmation Receipt' : 'Invoice Billing Statement'}: ${receipt.projectTitle} (${receipt.id.toUpperCase()})`;
             const htmlBody = generateReceiptEmailHtml(receipt);
             const pdfBuffer = generateReceiptPdfBuffer(receipt);
@@ -616,10 +621,10 @@ function parseBudgetToNumber(budgetString) {
               }
             ];
             smtpClient.sendMail(config, { subject, text: htmlBody, to: receipt.clientEmail.trim().toLowerCase(), attachments })
-              .then(() => console.log(`[SMTP] Dispatched statement with PDF attachment for receipt ${receipt.id} to ${receipt.clientEmail.trim().toLowerCase()}`))
-              .catch(err => console.error(`[SMTP] Failed to dispatch statement: ${err.message}`));
+              .then(() => console.log(`[Email Dispatch] Dispatched statement with PDF attachment for receipt ${receipt.id} to ${receipt.clientEmail.trim().toLowerCase()}`))
+              .catch(err => console.error(`[Email Dispatch] Failed to dispatch statement: ${err.message}`));
           } else {
-            console.log(`[SMTP] Skipping dispatch for receipt ${receipt.id} since credentials are not configured.`);
+            console.log(`[Email Dispatch] Skipping dispatch for receipt ${receipt.id} since credentials are not configured.`);
           }
         }
 
@@ -769,11 +774,13 @@ function parseBudgetToNumber(budgetString) {
     req.on('end', () => {
       try {
         const { id, type } = JSON.parse(body);
-        const config = readConfig().smtp;
+        const config = readConfig();
+        const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
+        const hasResend = !!(config.resend && config.resend.apiKey);
 
-        if (!config.user || !config.pass) {
+        if (!hasSmtp && !hasResend) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'SMTP configuration is incomplete. Add credentials in Settings tab first.' }));
+          res.end(JSON.stringify({ error: 'Email configuration is incomplete. Add credentials in Settings tab first.' }));
           return;
         }
 
@@ -871,7 +878,7 @@ function parseBudgetToNumber(budgetString) {
         smtpClient.sendMail(config, { subject, text: htmlBody, to: recipient, attachments })
           .then(result => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: true, message: 'Email dispatched successfully via SMTP direct transport!' }));
+            res.end(JSON.stringify({ success: true, message: 'Email statement dispatched successfully!' }));
           })
           .catch(err => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -1567,8 +1574,10 @@ function parseBudgetToNumber(budgetString) {
             receipts[index].razorpayOrderId = razorpay_order_id || 'N/A';
             fs.writeFileSync(RECEIPTS_FILE, JSON.stringify(receipts, null, 2));
 
-            const smtpConf = config.smtp;
-            if (smtpConf && smtpConf.user && smtpConf.pass) {
+            const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
+            const hasResend = !!(config.resend && config.resend.apiKey);
+
+            if (hasSmtp || hasResend) {
               const updatedReceipt = receipts[index];
               const subject = `Payment Confirmation Receipt: ${updatedReceipt.projectTitle} (${updatedReceipt.id.toUpperCase()})`;
               const htmlBody = generateReceiptEmailHtml(updatedReceipt);
@@ -1580,9 +1589,9 @@ function parseBudgetToNumber(budgetString) {
                   content: pdfBuffer.toString('base64')
                 }
               ];
-              smtpClient.sendMail(smtpConf, { subject, text: htmlBody, to: updatedReceipt.clientEmail.trim().toLowerCase(), attachments })
-                .then(() => console.log(`[SMTP] Dispatched paid confirmation for receipt ${updatedReceipt.id} to ${updatedReceipt.clientEmail.trim().toLowerCase()}`))
-                .catch(err => console.error(`[SMTP] Failed to send paid confirmation:`, err.message));
+              smtpClient.sendMail(config, { subject, text: htmlBody, to: updatedReceipt.clientEmail.trim().toLowerCase(), attachments })
+                .then(() => console.log(`[Email Dispatch] Dispatched paid confirmation for receipt ${updatedReceipt.id} to ${updatedReceipt.clientEmail.trim().toLowerCase()}`))
+                .catch(err => console.error(`[Email Dispatch] Failed to send paid confirmation:`, err.message));
             }
 
             res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -2075,9 +2084,12 @@ function generateLeadEmailHtml(lead, isProject, leadType, phone, budget, categor
 }
 
 function dispatchNotificationEmail(lead, isProject) {
-  const config = readConfig().smtp;
-  if (!config.user || !config.pass) {
-    console.log('[SMTP] Credentials not configured in config.json. Skipping email dispatch.');
+  const config = readConfig();
+  const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
+  const hasResend = !!(config.resend && config.resend.apiKey);
+
+  if (!hasSmtp && !hasResend) {
+    console.log('[Email Dispatch] Credentials not configured. Skipping email dispatch.');
     return;
   }
 
@@ -2090,6 +2102,6 @@ function dispatchNotificationEmail(lead, isProject) {
   const htmlBody = generateLeadEmailHtml(lead, isProject, leadType, phone, budget, categories);
 
   smtpClient.sendMail(config, { subject, text: htmlBody })
-    .then(res => console.log(`[SMTP] Success dispatching email alert for lead ${lead.id}`))
-    .catch(err => console.error(`[SMTP] Fail to send lead email: ${err.message}`));
+    .then(res => console.log(`[Email Dispatch] Success dispatching email alert for lead ${lead.id}`))
+    .catch(err => console.error(`[Email Dispatch] Fail to send lead email: ${err.message}`));
 }
