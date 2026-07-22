@@ -11,11 +11,30 @@ const https = require('https');
  * @returns {Promise<Object>} Status and connection logs
  */
 function sendMail(config, email) {
-  if (config.resend && config.resend.apiKey) {
-    return sendMailViaResend(config.resend, email);
-  }
-  
   const smtpConfig = config.smtp || config;
+  const resendConfig = config.resend;
+
+  function tryResend(primaryError) {
+    if (resendConfig && resendConfig.apiKey) {
+      console.log('[Email Dispatch] SMTP failed, attempting automatic fallback to Resend API...');
+      return sendMailViaResend(resendConfig, email).then(result => {
+        result.log = [
+          `SMTP ERROR: ${primaryError.message}`,
+          '--- FALLBACK INITIATED ---',
+          ...result.log
+        ];
+        return result;
+      });
+    }
+    return Promise.reject(primaryError);
+  }
+
+  const hasSmtp = !!(smtpConfig.user && smtpConfig.pass);
+  const hasResend = !!(resendConfig && resendConfig.apiKey);
+
+  if (hasResend && !hasSmtp) {
+    return sendMailViaResend(resendConfig, email);
+  }
 
   return new Promise((resolve, reject) => {
     const host = smtpConfig.host || 'smtp.gmail.com';
@@ -214,6 +233,9 @@ function sendMail(config, email) {
         reject(new Error(`SMTP socket closed prematurely at step ${step}\nLog:\n${log.join('\n')}`));
       }
     });
+  })
+  .catch(err => {
+    return tryResend(err);
   });
 }
 
