@@ -96,6 +96,12 @@ function readConfig() {
       if (process.env.RAZORPAY_KEY_SECRET) {
         config.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
       }
+      if (process.env.SMTP_HOST) config.smtp.host = process.env.SMTP_HOST;
+      if (process.env.SMTP_PORT) config.smtp.port = parseInt(process.env.SMTP_PORT, 10);
+      if (process.env.SMTP_USER) config.smtp.user = process.env.SMTP_USER;
+      if (process.env.SMTP_PASS) config.smtp.pass = process.env.SMTP_PASS;
+      if (process.env.SMTP_FROM) config.smtp.from = process.env.SMTP_FROM;
+      if (process.env.SMTP_TO) config.smtp.to = process.env.SMTP_TO;
       return config;
     }
   } catch (err) {
@@ -108,6 +114,12 @@ function readConfig() {
   if (process.env.RAZORPAY_KEY_SECRET) {
     base.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
   }
+  if (process.env.SMTP_HOST) base.smtp.host = process.env.SMTP_HOST;
+  if (process.env.SMTP_PORT) base.smtp.port = parseInt(process.env.SMTP_PORT, 10);
+  if (process.env.SMTP_USER) base.smtp.user = process.env.SMTP_USER;
+  if (process.env.SMTP_PASS) base.smtp.pass = process.env.SMTP_PASS;
+  if (process.env.SMTP_FROM) base.smtp.from = process.env.SMTP_FROM;
+  if (process.env.SMTP_TO) base.smtp.to = process.env.SMTP_TO;
   return base;
 }
 
