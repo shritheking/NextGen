@@ -792,7 +792,11 @@
           body: JSON.stringify({ receiptId })
         });
         
-        if (!res.ok) throw new Error('Order endpoint returned error');
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          const errMsg = errData.error || (errData.error && errData.error.description) || errData.description || 'Order endpoint returned error';
+          throw new Error(errMsg);
+        }
         const order = await res.json();
         
         const options = {

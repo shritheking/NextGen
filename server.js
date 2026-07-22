@@ -1480,8 +1480,9 @@ function parseBudgetToNumber(budgetString) {
         rReq.write(reqData);
         rReq.end();
       } catch (err) {
+        console.error('[Razorpay Order Error]', err);
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Server error processing Razorpay order' }));
+        res.end(JSON.stringify({ error: 'Server error processing Razorpay order: ' + err.message }));
       }
     });
     return;
