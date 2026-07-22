@@ -695,13 +695,13 @@ function setupWebsiteContactModal(type = 'email') {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText('+916379140067');
-      alert('Phone number copied to clipboard!');
+      showToast('Copied', 'Phone number copied to clipboard!', 'success');
     });
   }
   if (copyEmailBtn) {
     copyEmailBtn.addEventListener('click', () => {
       navigator.clipboard.writeText('shridharsan@nextgenwebstudio.in');
-      alert('Email address copied to clipboard!');
+      showToast('Copied', 'Email address copied to clipboard!', 'success');
     });
   }
   if (openChatbotBtn) {
@@ -745,3 +745,39 @@ document.addEventListener('click', (e) => {
     }
   }
 });
+
+function showToast(title, message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  
+  const toast = document.createElement('div');
+  toast.className = 'toast-card';
+  
+  let icon = '<i class="fa-solid fa-circle-info"></i>';
+  if (type === 'success') icon = '<i class="fa-solid fa-circle-check"></i>';
+  else if (type === 'error') icon = '<i class="fa-solid fa-circle-xmark"></i>';
+  
+  toast.innerHTML = `
+    <div class="toast-icon ${type}">${icon}</div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div class="toast-desc">${message}</div>
+    </div>
+    <div class="toast-close" onclick="this.closest('.toast-card').remove()">&times;</div>
+  `;
+  
+  container.appendChild(toast);
+  
+  // Trigger entry animation
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 10);
+  
+  // Auto remove after 4 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      toast.remove();
+    }, 350);
+  }, 4000);
+}
