@@ -28,6 +28,14 @@ function initLoader() {
     loader.classList.add('fade-out');
     document.body.style.overflow = '';
   }, 1600);
+
+  // Failsafe cache listener
+  window.addEventListener('pageshow', (event) => {
+    setTimeout(() => {
+      loader.classList.add('fade-out');
+      document.body.style.overflow = '';
+    }, 500);
+  });
 }
 
 /* ---------- Theme Manager (Light / Dark) ---------- */

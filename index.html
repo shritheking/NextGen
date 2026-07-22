@@ -28,6 +28,16 @@
       </svg>
     </div>
   </div>
+  <script>
+    // Failsafe: Hide loader after 1500ms even if document scripts hang
+    setTimeout(() => {
+      const failsafeLoader = document.getElementById('loader-screen');
+      if (failsafeLoader && !failsafeLoader.classList.contains('fade-out')) {
+        failsafeLoader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }
+    }, 1500);
+  </script>
 
   <!-- Theme Toggle Button -->
   <div class="theme-toggle-container">

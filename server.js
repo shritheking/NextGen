@@ -1008,7 +1008,9 @@ function parseBudgetToNumber(budgetString) {
       return;
     }
     const host = req.headers.host || 'localhost:3000';
-    const redirectUri = encodeURIComponent(`http://${host}/api/auth/google/callback`);
+    const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
+    const protocol = isLocal ? 'http' : 'https';
+    const redirectUri = encodeURIComponent(`${protocol}://${host}/api/auth/google/callback`);
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
     res.writeHead(302, { 'Location': authUrl });
     res.end();
@@ -1032,7 +1034,9 @@ function parseBudgetToNumber(budgetString) {
       return;
     }
     const host = req.headers.host || 'localhost:3000';
-    const redirectUriStr = `http://${host}/api/auth/google/callback`;
+    const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
+    const protocol = isLocal ? 'http' : 'https';
+    const redirectUriStr = `${protocol}://${host}/api/auth/google/callback`;
     const tokenData = `code=${code}&client_id=${googleClientId}&client_secret=${googleClientSecret}&redirect_uri=${encodeURIComponent(redirectUriStr)}&grant_type=authorization_code`;
     
     const tokenOptions = {
