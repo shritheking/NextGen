@@ -1,22 +1,29 @@
 const tls = require('tls');
 const net = require('net');
+const https = require('https');
 
 /**
  * Sends an email using pure Node.js sockets (no npm dependencies).
  * Supports direct SSL (port 465) and STARTTLS (port 587).
  * 
- * @param {Object} config - SMTP Config (host, port, user, pass, to, from)
+ * @param {Object} config - Config object containing smtp or resend settings
  * @param {Object} email - Email Content (subject, text)
  * @returns {Promise<Object>} Status and connection logs
  */
 function sendMail(config, email) {
+  if (config.resend && config.resend.apiKey) {
+    return sendMailViaResend(config.resend, email);
+  }
+  
+  const smtpConfig = config.smtp || config;
+
   return new Promise((resolve, reject) => {
-    const host = config.host || 'smtp.gmail.com';
-    const port = parseInt(config.port) || 465;
-    const user = config.user || '';
-    const pass = config.pass || '';
-    const from = config.from || user || 'no-reply@nextgen.com';
-    const to = email.to || config.to || user;
+    const host = smtpConfig.host || 'smtp.gmail.com';
+    const port = parseInt(smtpConfig.port) || 465;
+    const user = smtpConfig.user || '';
+    const pass = smtpConfig.pass || '';
+    const from = smtpConfig.from || user || 'no-reply@nextgen.com';
+    const to = email.to || smtpConfig.to || user;
     
     // Parse From Display Name and Sender Email
     let fromEmail = user;
@@ -207,6 +214,71 @@ function sendMail(config, email) {
         reject(new Error(`SMTP socket closed prematurely at step ${step}\nLog:\n${log.join('\n')}`));
       }
     });
+  });
+}
+
+/**
+ * Sends an email using Resend HTTPS API (bypassing outbound SMTP port blocks).
+ */
+function sendMailViaResend(resendConfig, email) {
+  return new Promise((resolve, reject) => {
+    const apiKey = resendConfig.apiKey;
+    const from = email.from || resendConfig.from || 'onboarding@resend.dev';
+    const to = email.to || resendConfig.to;
+    const subject = email.subject || 'Notification';
+    const body = email.text || '';
+
+    const postData = JSON.stringify({
+      from: from,
+      to: [to],
+      subject: subject,
+      html: body,
+      attachments: (email.attachments || []).map(att => ({
+        filename: att.filename,
+        content: att.content
+      }))
+    });
+
+    const options = {
+      hostname: 'api.resend.com',
+      port: 443,
+      path: '/emails',
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+
+    const log = ['Initializing email dispatch via Resend HTTPS API...'];
+
+    const req = https.request(options, (res) => {
+      let resBody = '';
+      res.on('data', chunk => resBody += chunk);
+      res.on('end', () => {
+        try {
+          const resJson = JSON.parse(resBody);
+          log.push(`SERVER: Resend API responded with status ${res.statusCode}`);
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            log.push('Email dispatched successfully via Resend HTTPS API.');
+            resolve({ success: true, log });
+          } else {
+            const errDescription = resJson.message || (resJson.error && resJson.error.message) || resBody;
+            reject(new Error(`Resend API returned status ${res.statusCode}: ${errDescription}\nLog:\n${log.join('\n')}`));
+          }
+        } catch (e) {
+          reject(new Error(`Failed to parse Resend response: ${resBody}\nLog:\n${log.join('\n')}`));
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      reject(new Error(`Failed to contact Resend API: ${e.message}\nLog:\n${log.join('\n')}`));
+    });
+
+    req.write(postData);
+    req.end();
   });
 }
 

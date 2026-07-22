@@ -71,6 +71,7 @@ function readConfig() {
   const base = {
     smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan134@gmail.com' },
     razorpay: { keyId: '', keySecret: '' },
+    resend: { apiKey: '', from: 'onboarding@resend.dev', to: 'shridharsan134@gmail.com' },
     oauth: {
       googleClientId: '',
       googleClientSecret: '',
@@ -87,6 +88,7 @@ function readConfig() {
       const config = {
         smtp: { ...base.smtp, ...data.smtp },
         razorpay: { ...base.razorpay, ...data.razorpay },
+        resend: { ...base.resend, ...data.resend },
         oauth: { ...base.oauth, ...data.oauth }
       };
 
@@ -102,6 +104,9 @@ function readConfig() {
       if (process.env.SMTP_PASS && !config.smtp.pass) config.smtp.pass = process.env.SMTP_PASS;
       if (process.env.SMTP_FROM && !config.smtp.from) config.smtp.from = process.env.SMTP_FROM;
       if (process.env.SMTP_TO && !config.smtp.to) config.smtp.to = process.env.SMTP_TO;
+      if (process.env.RESEND_API_KEY && !config.resend.apiKey) config.resend.apiKey = process.env.RESEND_API_KEY;
+      if (process.env.RESEND_FROM && !config.resend.from) config.resend.from = process.env.RESEND_FROM;
+      if (process.env.RESEND_TO && !config.resend.to) config.resend.to = process.env.RESEND_TO;
       return config;
     }
   } catch (err) {
@@ -120,6 +125,9 @@ function readConfig() {
   if (process.env.SMTP_PASS) base.smtp.pass = process.env.SMTP_PASS;
   if (process.env.SMTP_FROM) base.smtp.from = process.env.SMTP_FROM;
   if (process.env.SMTP_TO) base.smtp.to = process.env.SMTP_TO;
+  if (process.env.RESEND_API_KEY) base.resend.apiKey = process.env.RESEND_API_KEY;
+  if (process.env.RESEND_FROM) base.resend.from = process.env.RESEND_FROM;
+  if (process.env.RESEND_TO) base.resend.to = process.env.RESEND_TO;
   return base;
 }
 
@@ -658,21 +666,30 @@ function parseBudgetToNumber(budgetString) {
     req.on('end', () => {
       try {
         const payload = JSON.parse(body);
-        if (!payload.smtp) {
+        if (!payload.smtp && !payload.resend) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'SMTP configurations are required' }));
+          res.end(JSON.stringify({ error: 'Email configuration parameters are required' }));
           return;
         }
 
         const config = readConfig();
-        config.smtp = {
-          host: payload.smtp.host || 'smtp.gmail.com',
-          port: parseInt(payload.smtp.port) || 465,
-          user: payload.smtp.user || '',
-          pass: (payload.smtp.pass || '').replace(/\s+/g, ''), // Strip spaces
-          from: payload.smtp.from || payload.smtp.user || '',
-          to: payload.smtp.to || 'shridharsan134@gmail.com'
-        };
+        if (payload.smtp) {
+          config.smtp = {
+            host: payload.smtp.host || '',
+            port: parseInt(payload.smtp.port) || 0,
+            user: payload.smtp.user || '',
+            pass: (payload.smtp.pass || '').replace(/\s+/g, ''), // Strip spaces
+            from: payload.smtp.from || payload.smtp.user || '',
+            to: payload.smtp.to || 'shridharsan134@gmail.com'
+          };
+        }
+        if (payload.resend) {
+          config.resend = {
+            apiKey: payload.resend.apiKey || '',
+            from: payload.resend.from || 'onboarding@resend.dev',
+            to: payload.resend.to || 'shridharsan134@gmail.com'
+          };
+        }
 
         if (writeConfig(config)) {
           res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -689,32 +706,35 @@ function parseBudgetToNumber(budgetString) {
     return;
   }
 
-  // --- SMTP TESTING & RECEIPT EMAILING ---
+  // --- EMAIL TESTING & RECEIPT EMAILING ---
   if (pathname === '/api/smtp/test' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
       try {
         const payload = JSON.parse(body);
-        const config = payload.smtp || readConfig().smtp;
+        const smtpConfig = payload.smtp || readConfig().smtp;
+        const resendConfig = payload.resend || readConfig().resend;
         
-        if (config.pass) {
-          config.pass = config.pass.replace(/\s+/g, ''); // Strip spaces
+        if (smtpConfig.pass) {
+          smtpConfig.pass = smtpConfig.pass.replace(/\s+/g, ''); // Strip spaces
         }
 
-        if (!config.user || !config.pass) {
+        const isResendMode = !!(resendConfig && resendConfig.apiKey);
+        
+        if (!isResendMode && (!smtpConfig.user || !smtpConfig.pass)) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'SMTP username and password credentials are required for tests.' }));
+          res.end(JSON.stringify({ error: 'SMTP credentials or Resend API key is required for connection tests.' }));
           return;
         }
 
         const testEmail = {
-          subject: 'Test Connection — NextGen Web Studio SMTP',
+          subject: 'Test Connection — NextGen Web Studio Email Dispatcher',
           text: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">
               <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>
-              <p style="font-size: 14.5px; line-height: 1.5; color: #0a0a0a; font-weight: 600;">SMTP Connection Verified!</p>
-              <p style="font-size: 13.5px; line-height: 1.5; color: #59564f;">This is a test notification confirming your Node SMTP direct socket transport works successfully over secure port ${config.port || 465}.</p>
+              <p style="font-size: 14.5px; line-height: 1.5; color: #0a0a0a; font-weight: 600;">Connection Verified successfully!</p>
+              <p style="font-size: 13.5px; line-height: 1.5; color: #59564f;">This is a test notification confirming your email dispatcher works successfully over secure HTTPS/SMTP transport.</p>
               <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">
                 Coimbatore, Tamil Nadu • Indian Standard Time
               </div>
@@ -722,18 +742,22 @@ function parseBudgetToNumber(budgetString) {
           `
         };
 
-        smtpClient.sendMail(config, testEmail)
+        const configToSend = isResendMode ? { resend: resendConfig } : { smtp: smtpConfig };
+        
+        smtpClient.sendMail(configToSend, testEmail)
           .then(result => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true, log: result.log }));
           })
           .catch(err => {
+            console.error('[Email Test Error]', err);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: err.message }));
           });
       } catch (err) {
+        console.error('[SMTP Test Catch]', err);
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Server error during test' }));
+        res.end(JSON.stringify({ error: 'Server error during connection test: ' + err.message }));
       }
     });
     return;
