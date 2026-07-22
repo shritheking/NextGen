@@ -555,12 +555,12 @@ function initChatbot() {
 
     // Contact Admin Keywords
     if (text.includes('admin') || text.includes('manager') || text.includes('support') || text.includes('human') || text.includes('message admin') || text.includes('tell admin') || text.includes('login') || text.includes('receipt') || text.includes('dashboard')) {
-      return "Got it! Your message has been sent directly to the Admin console. The admin has been notified and will reply to you here shortly! 🔔";
+      return "To get support or discuss project bookings, you can email us directly at shridharsan134@gmail.com or call us at +91 63791 40067! 🚀";
     }
 
     // Help / Commands
     if (text.includes('help') || text.includes('hi') || text.includes('hello') || text.includes('hey')) {
-      return "Hello! I can help you with:\n- Coimbatore office location\n- Direct phone & email contacts\n- Pricing & services\n- Viewing portfolio works\n- Messaging the Admin directly";
+      return "Hello! I can help you with:\n- Coimbatore office location\n- Direct phone & email contacts\n- Pricing & services\n- Viewing portfolio works";
     }
 
     // Fallback
@@ -594,16 +594,16 @@ function setupWebsiteContactModal(type = 'email') {
   const isPhoneMode = type === 'phone';
 
   const chatbotHtml = `
-    <!-- Chatbot Live Inbox option (Highly Recommended) -->
+    <!-- Chatbot Live option (Highly Recommended) -->
     <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: rgba(224,255,79,0.04); border: 1px dashed rgba(224,255,79,0.3); border-radius: 6px; text-align: left;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <span style="font-size: 9.5px; font-weight: 700; color: var(--accent); font-family: var(--font-mono); text-transform:uppercase; letter-spacing:1px;"><i class="fa-solid fa-bolt"></i> Recommended</span>
-        <span style="font-size: 11px; color: var(--ink-soft); font-weight:600;"><i class="fa-solid fa-comments"></i> Real-time Chat</span>
+        <span style="font-size: 11px; color: var(--ink-soft); font-weight:600;"><i class="fa-solid fa-comments"></i> Live Chatbot</span>
       </div>
       <p style="font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin: 4px 0;">
-        Need direct assistance? Chat with us instantly through the floating AI widget at the bottom right. It alerts our admin desk in real-time!
+        Need quick assistance? Get automated support instantly through the floating AI helper at the bottom right.
       </p>
-      <button type="button" class="login-btn" id="openChatbotFromModalBtn" style="margin: 6px 0 0 0; padding: 6px 12px; font-size: 12.5px; width: 100%; justify-content:center; height:36px; background-color:var(--accent); color:var(--bg); border:none; font-weight:600; cursor:pointer;"><i class="fa-solid fa-paper-plane"></i> Launch Live Chatbot</button>
+      <button type="button" class="login-btn" id="openChatbotFromModalBtn" style="margin: 6px 0 0 0; padding: 6px 12px; font-size: 12.5px; width: 100%; justify-content:center; height:36px; background-color:var(--accent); color:var(--bg); border:none; font-weight:600; cursor:pointer;"><i class="fa-solid fa-paper-plane"></i> Launch Chatbot</button>
     </div>
   `;
 

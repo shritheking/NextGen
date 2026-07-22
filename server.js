@@ -1579,6 +1579,9 @@ function parseBudgetToNumber(budgetString) {
 
   // Block direct access to database JSON logs, configs, env variables, or server script source code
   const forbiddenFiles = [
+    'config.json',
+    'users.json',
+    'leads.json',
     'smtp_config.json',
     'inquiries.json',
     'projects.json',
