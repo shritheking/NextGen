@@ -2579,3 +2579,54 @@ html, body {
     line-height: 1.2;
   }
 }
+
+/* ---------- Have a Site to Build Card Mobile Responsiveness ---------- */
+@media (max-width: 576px) {
+  .contact-section-grid {
+    padding: 32px 16px;
+    gap: 36px;
+    border-radius: var(--radius-md);
+  }
+  
+  .contact-info-panel h2 {
+    font-size: 26px;
+    text-align: center;
+  }
+  
+  .contact-info-panel p {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 14px;
+    max-width: 100%;
+  }
+  
+  .detail-link {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .detail-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  
+  .detail-value {
+    font-size: 11.5px;
+    word-break: break-all; /* Prevents overflow stretching on narrow viewports */
+  }
+  
+  .contact-form-card .form-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form-card .form-header h3 {
+    font-size: 18px;
+  }
+  
+  .contact-form-card .form-header span {
+    font-size: 12px;
+  }
+}

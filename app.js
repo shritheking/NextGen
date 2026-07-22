@@ -124,7 +124,7 @@ function initInteractiveTerminal() {
     contact: {
       cmd: './contact-info',
       output: [
-        'Email ID: shridharsan134@gmail.com',
+        'Email ID: shridharsan@nextgenwebstudio.in',
         'Mobile No: +91 63791 40067',
         'Address: Coimbatore, Tamil Nadu, India',
         'Status: Accepting projects for Q3/Q4 2026'
@@ -543,7 +543,7 @@ function initChatbot() {
 
     // Email Keywords
     if (text.includes('email') || text.includes('mail') || text.includes('write')) {
-      return "You can email your project requirements to shridharsan134@gmail.com. ✉️ We respond in under 24 hours!";
+      return "You can email your project requirements to shridharsan@nextgenwebstudio.in. ✉️ We respond in under 24 hours!";
     }
 
     // Budget / Pricing / Cost Keywords
@@ -563,7 +563,7 @@ function initChatbot() {
 
     // Contact Admin Keywords
     if (text.includes('admin') || text.includes('manager') || text.includes('support') || text.includes('human') || text.includes('message admin') || text.includes('tell admin') || text.includes('login') || text.includes('receipt') || text.includes('dashboard')) {
-      return "To get support or discuss project bookings, you can email us directly at shridharsan134@gmail.com or call us at +91 63791 40067! 🚀";
+      return "To get support or discuss project bookings, you can email us directly at shridharsan@nextgenwebstudio.in or call us at +91 63791 40067! 🚀";
     }
 
     // Help / Commands
@@ -572,7 +572,7 @@ function initChatbot() {
     }
 
     // Fallback
-    return "Thanks for asking! I'm a simulated AI helper. To map out your roadmap or get a formal quote, fill out our Project Scoping Form on this page or email us directly at shridharsan134@gmail.com! 🚀";
+    return "Thanks for asking! I'm a simulated AI helper. To map out your roadmap or get a formal quote, fill out our Project Scoping Form on this page or email us directly at shridharsan@nextgenwebstudio.in! 🚀";
   }
 }
 
@@ -640,7 +640,7 @@ function setupWebsiteContactModal(type = 'email') {
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
       <div style="text-align: left;">
         <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Email Inquiry</div>
-        <div style="font-size: 14px; font-weight: 600; color: var(--ink);">shridharsan134@gmail.com</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--ink);">shridharsan@nextgenwebstudio.in</div>
       </div>
       <button type="button" class="refresh-btn" id="copyEmailBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
     </div>
@@ -700,7 +700,7 @@ function setupWebsiteContactModal(type = 'email') {
   }
   if (copyEmailBtn) {
     copyEmailBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('shridharsan134@gmail.com');
+      navigator.clipboard.writeText('shridharsan@nextgenwebstudio.in');
       alert('Email address copied to clipboard!');
     });
   }

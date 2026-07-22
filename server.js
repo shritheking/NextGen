@@ -48,13 +48,13 @@ if (!fs.existsSync(CHAT_MESSAGES_FILE)) fs.writeFileSync(CHAT_MESSAGES_FILE, JSO
 if (!fs.existsSync(USERS_FILE)) {
   fs.writeFileSync(USERS_FILE, JSON.stringify([
     { email: 'shridharsanshridharsan@gmail.com', passcode: '123456' },
-    { email: 'shridharsan134@gmail.com', passcode: '123456' },
+    { email: 'shridharsan@nextgenwebstudio.in', passcode: '123456' },
     { email: 'manual@test.com', passcode: '123456' }
   ], null, 2));
 }
 if (!fs.existsSync(CONFIG_FILE)) {
   fs.writeFileSync(CONFIG_FILE, JSON.stringify({
-    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan134@gmail.com' },
+    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan@nextgenwebstudio.in' },
     razorpay: { keyId: '', keySecret: '' },
     oauth: {
       googleClientId: '',
@@ -69,9 +69,9 @@ if (!fs.existsSync(CONFIG_FILE)) {
 
 function readConfig() {
   const base = {
-    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan134@gmail.com' },
+    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan@nextgenwebstudio.in' },
     razorpay: { keyId: '', keySecret: '' },
-    resend: { apiKey: '', from: 'onboarding@resend.dev', to: 'shridharsan134@gmail.com' },
+    resend: { apiKey: '', from: 'onboarding@resend.dev', to: 'shridharsan@nextgenwebstudio.in' },
     oauth: {
       googleClientId: '',
       googleClientSecret: '',
@@ -685,14 +685,14 @@ function parseBudgetToNumber(budgetString) {
             user: payload.smtp.user || '',
             pass: (payload.smtp.pass || '').replace(/\s+/g, ''), // Strip spaces
             from: payload.smtp.from || payload.smtp.user || '',
-            to: payload.smtp.to || 'shridharsan134@gmail.com'
+            to: payload.smtp.to || 'shridharsan@nextgenwebstudio.in'
           };
         }
         if (payload.resend) {
           config.resend = {
             apiKey: payload.resend.apiKey || '',
             from: payload.resend.from || 'onboarding@resend.dev',
-            to: payload.resend.to || 'shridharsan134@gmail.com'
+            to: payload.resend.to || 'shridharsan@nextgenwebstudio.in'
           };
         }
 
@@ -823,7 +823,7 @@ function parseBudgetToNumber(budgetString) {
             return;
           }
 
-          recipient = config.to || 'shridharsan134@gmail.com';
+          recipient = config.to || 'shridharsan@nextgenwebstudio.in';
           subject = `Fwd Lead Brief: ${item.name} (${type.toUpperCase()})`;
           htmlBody = `
             <div style="background-color: #0b0b0a; padding: 40px 20px; font-family: 'Outfit', 'Inter', -apple-system, sans-serif; color: #f5f4f0; margin: 0 auto; max-width: 600px; border-radius: 12px;">
@@ -1734,11 +1734,11 @@ function generateReceiptPdfBuffer(item) {
   linesContent.push('(Premium Web Design & Full-Stack Engineering) Tj');
   linesContent.push('ET');
 
-  // Sub-header 2: Coimbatore, Tamil Nadu, India | shridharsan134@gmail.com
+  // Sub-header 2: Coimbatore, Tamil Nadu, India | shridharsan@nextgenwebstudio.in
   linesContent.push('BT');
   linesContent.push('/F1 8 Tf'); // Helvetica 8
   linesContent.push('50 750 Td');
-  linesContent.push('(Coimbatore, Tamil Nadu, India | shridharsan134@gmail.com) Tj');
+  linesContent.push('(Coimbatore, Tamil Nadu, India | shridharsan@nextgenwebstudio.in) Tj');
   linesContent.push('ET');
 
   // ==================== RIGHT HEADER: METADATA ====================
@@ -1973,7 +1973,7 @@ function generateReceiptPdfBuffer(item) {
   linesContent.push('/F1 8 Tf');
   linesContent.push('0.4 0.4 0.4 rg'); // Light gray text
   linesContent.push('140 42 Td');
-  linesContent.push('(NextGen Web Studio • Coimbatore, Tamil Nadu, India • Support: shridharsan134@gmail.com) Tj');
+  linesContent.push('(NextGen Web Studio • Coimbatore, Tamil Nadu, India • Support: shridharsan@nextgenwebstudio.in) Tj');
   linesContent.push('ET');
   linesContent.push('0 0 0 rg'); // Restore fill color black
 
@@ -2164,7 +2164,7 @@ function generateReceiptEmailHtml(item) {
           </div>
 
           <div style="border-top: 1px solid #22211f; padding-top: 20px; font-size: 11px; text-align: center; color: #5c5b56;">
-            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan134@gmail.com" style="color: #a2a098; text-decoration: underline;">Support Email</a>
+            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan@nextgenwebstudio.in" style="color: #a2a098; text-decoration: underline;">Support Email</a>
           </div>
         </div>
       </div>
