@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="24" fill="#0b0b0a" stroke="#22211f" stroke-width="4"/>
-  <path d="M 25,30 L 50,50 L 25,70" stroke="#e0ff4f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <rect x="58" y="58" width="20" height="12" fill="#f5f4f0"/>
+  <rect width="100" height="100" rx="24" fill="#0b0b0a"/>
+  <!-- Outer Border -->
+  <rect x="2" y="2" width="96" height="96" rx="22" fill="none" stroke="#22211f" stroke-width="4"/>
+  <!-- Double Chevron (Next Gen) representing speed & future -->
+  <path d="M 28,26 L 52,50 L 28,74" stroke="#f5f4f0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M 50,26 L 74,50 L 50,74" stroke="#e0ff4f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
