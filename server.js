@@ -1897,34 +1897,33 @@ function generateReceiptPdfBuffer(item) {
 
 function generateReceiptEmailHtml(item) {
   const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+  
   let rowsMarkup = '';
   if (item.lineItems && item.lineItems.length > 0) {
     item.lineItems.forEach(line => {
       const costText = Number(line.taskCost).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
       rowsMarkup += `
-        <tr style="border-bottom: 1px solid #22211f;">
-          <td style="padding: 12px; font-size: 13px; color: #a2a098;">${line.taskName}</td>
-          <td style="padding: 12px; text-align: right; font-weight: 600; font-size: 13px; color: #fafaf9;">${costText}</td>
+        <tr style="border-bottom: 1px solid #e0dfdb;">
+          <td style="padding: 12px 0; font-size: 13.5px; color: #403f3d; text-align: left;">${line.taskName}</td>
+          <td style="padding: 12px 0; text-align: right; font-weight: 700; font-size: 13.5px; color: #0f0f0e;">${costText}</td>
         </tr>
       `;
     });
+  } else {
+    rowsMarkup += `
+      <tr style="border-bottom: 1px solid #e0dfdb;">
+        <td style="padding: 12px 0; font-size: 13.5px; color: #403f3d; text-align: left;">${item.projectTitle}</td>
+        <td style="padding: 12px 0; text-align: right; font-weight: 700; font-size: 13.5px; color: #0f0f0e;">${formattedTotal}</td>
+      </tr>
+    `;
   }
 
   const isPaid = item.status === 'Paid';
   const headerText = isPaid ? 'PAYMENT RECEIPT' : 'INVOICE STATEMENT';
-  const badgeHtml = isPaid 
-    ? `<span style="display: inline-block; background-color: rgba(74, 222, 128, 0.08); font-family: monospace; font-size: 11.5px; color: #4ADE80; padding: 6px 14px; border-radius: 4px; margin-top: 12px; border: 1px solid rgba(74, 222, 128, 0.2); font-weight: 700; letter-spacing: 0.5px;">✓ PAID &amp; CLEARED</span>` 
-    : `<span style="display: inline-block; background-color: rgba(245, 158, 11, 0.08); font-family: monospace; font-size: 11.5px; color: #F59E0B; padding: 6px 14px; border-radius: 4px; margin-top: 12px; border: 1px solid rgba(245, 158, 11, 0.2); font-weight: 700; letter-spacing: 0.5px;">⏳ PAYMENT PENDING</span>`;
-  
-  const introText = isPaid 
-    ? `Thank you for your payment! We have successfully received and processed your payment for the project listed below. Your formal confirmation receipt details are attached.` 
-    : `Thank you for choosing NextGen Web Studio! Please review the project billing statement and contract agreement details listed below. Payment is currently outstanding.`;
-
-  const totalLabel = isPaid ? 'Total Amount Paid (Received)' : 'Total Amount Due';
-  const agreementTitle = isPaid ? 'Service Status Confirmation:' : 'Service Statement Agreement:';
-  const agreementText = isPaid 
-    ? `This document serves as formal confirmation of payment received. NextGen Web Studio has successfully logged this transaction to your client ledger. Service roadmaps will execute as scheduled.` 
-    : `NextGen Web Studio is committed to full transparency. All items are custom compiled to project roadmap bounds. Service execution begins on confirmation of 50% project kickstart retainer.`;
+  const totalLabel = isPaid ? 'TOTAL AMOUNT PAID:' : 'TOTAL AMOUNT DUE:';
+  const paymentStatusText = isPaid ? 'PAID & CLEARED' : 'PENDING';
+  const paymentStatusColor = isPaid ? '#10B981' : '#F59E0B';
+  const receiptDateStr = new Date(item.date).toLocaleDateString('en-IN');
 
   return `
     <!DOCTYPE html>
@@ -1934,73 +1933,91 @@ function generateReceiptEmailHtml(item) {
       <style>
         @media screen and (max-width: 600px) {
           .email-container {
-            padding: 16px 8px !important;
+            padding: 10px !important;
           }
           .email-card {
             padding: 20px 16px !important;
           }
-          .email-header h2 {
-            font-size: 19px !important;
+          .meta-table {
+            width: 100% !important;
           }
-          .info-block {
-            padding: 12px !important;
-          }
-          .table-header, .table-cell {
-            padding: 8px !important;
-            font-size: 12px !important;
+          .meta-cell {
+            display: block !important;
+            width: 100% !important;
+            text-align: left !important;
+            padding-bottom: 12px !important;
           }
         }
       </style>
     </head>
-    <body style="margin: 0; padding: 0; background-color: #0b0b0a;">
-      <div class="email-container" style="background-color: #0b0b0a; padding: 40px 20px; font-family: 'Outfit', 'Inter', -apple-system, sans-serif; color: #f5f4f0; margin: 0 auto; max-width: 600px; box-sizing: border-box;">
-        <div class="email-card" style="background-color: #131312; border: 1px solid #22211f; border-radius: 12px; padding: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); box-sizing: border-box;">
-          <!-- Header -->
-          <div class="email-header" style="border-bottom: 1px dashed #22211f; padding-bottom: 24px; margin-bottom: 28px; text-align: center;">
-            <span style="font-family: monospace; font-size: 11px; text-transform: uppercase; color: #e0ff4f; letter-spacing: 2px; display: block; margin-bottom: 8px;">nextgen_ studio</span>
-            <h2 style="margin: 0; font-size: 22px; font-weight: 700; color: #f5f4f0; text-transform: uppercase; letter-spacing: 0.5px;">${headerText}</h2>
-            <div style="margin-top: 4px;">
-              <span style="display: inline-block; background-color: #1b1b19; font-family: monospace; font-size: 11px; color: #a2a098; padding: 4px 12px; border-radius: 4px; border: 1px solid #22211f;">ID: ${item.id.toUpperCase()}</span>
-            </div>
-            <div>
-              ${badgeHtml}
-            </div>
-          </div>
+    <body style="margin: 0; padding: 0; background-color: #f6f5f2; -webkit-text-size-adjust: 100%;">
+      <div class="email-container" style="background-color: #f6f5f2; padding: 40px 10px; font-family: 'Inter', -apple-system, sans-serif; color: #0f0f0e; margin: 0 auto; max-width: 600px; box-sizing: border-box;">
+        <div class="email-card" style="background-color: #ffffff; border: 1px solid #d5d4d0; border-radius: 4px; padding: 40px 32px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+          
+          <!-- Header (Verbatim Logo & Meta block) -->
+          <table class="meta-table" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+            <tr>
+              <td class="meta-cell" style="vertical-align: top; text-align: left;">
+                <div style="font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: #000; font-family: sans-serif; margin-bottom: 6px;">
+                  nextgen <span style="display: inline-block; width: 6px; height: 20px; background: #000; vertical-align: middle; margin-left: 2px;"></span>
+                </div>
+                <div style="font-size: 12px; color: #706f6b; margin-bottom: 3px; font-weight: 500;">Premium Web Design & Full-Stack Engineering</div>
+                <div style="font-size: 11px; color: #9c9a94;">Coimbatore, Tamil Nadu, India | shridharsan134@gmail.com</div>
+              </td>
+              <td class="meta-cell" style="vertical-align: top; text-align: right; font-family: monospace;">
+                <div style="font-size: 14px; font-weight: 700; letter-spacing: 0.5px; color: #000; margin-bottom: 6px; font-family: sans-serif;">${headerText}</div>
+                <div style="font-size: 11.5px; color: #706f6b; margin-bottom: 3px;">ID: ${item.id.toUpperCase()}</div>
+                <div style="font-size: 11.5px; color: #706f6b;">Date: ${receiptDateStr}</div>
+              </td>
+            </tr>
+          </table>
 
-          <p style="font-size: 14.5px; margin-bottom: 16px; color: #fafaf9;">Dear <strong>${item.clientName}</strong>,</p>
-          <p style="font-size: 14px; line-height: 1.6; color: #a2a098; margin-bottom: 28px;">${introText}</p>
+          <!-- Line Divider -->
+          <div style="width: 100%; height: 1px; background-color: #706f6b; margin-bottom: 28px;"></div>
 
-          <!-- Project info -->
-          <div class="info-block" style="background-color: #1b1b19; border: 1px solid #22211f; border-radius: 6px; padding: 16px; margin-bottom: 24px; box-sizing: border-box;">
-            <span style="font-size: 11px; font-family: monospace; text-transform: uppercase; color: #e0ff4f; display: block; margin-bottom: 4px;">PROJECT DESCRIPTION</span>
-            <span style="font-size: 14px; font-weight: 600; color: #f5f4f0;">${item.projectTitle}</span>
-          </div>
-
-          <!-- Table -->
+          <!-- Billing Info & Project -->
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
+            <tr>
+              <td style="width: 50%; vertical-align: top; text-align: left; padding-right: 15px;">
+                <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase;">BILL TO:</div>
+                <div style="font-size: 14px; font-weight: 700; color: #000; margin-bottom: 4px;">${item.clientName}</div>
+                <div style="font-size: 13px; color: #706f6b; margin-bottom: 2px;">${item.clientEmail}</div>
+                <div style="font-size: 13px; color: #9c9a94;">${item.clientPhone || 'N/A'}</div>
+              </td>
+              <td style="width: 50%; vertical-align: top; text-align: left;">
+                <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase;">PROJECT:</div>
+                <div style="font-size: 14px; font-weight: 600; color: #000;">${item.projectTitle}</div>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Items Table -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
             <thead>
-              <tr style="background-color: #1b1b19;">
-                <th class="table-header" style="padding: 12px; text-align: left; font-size: 11px; font-family: monospace; text-transform: uppercase; color: #a2a098; border-bottom: 2px solid #22211f;">Task Item Description</th>
-                <th class="table-header" style="padding: 12px; text-align: right; font-size: 11px; font-family: monospace; text-transform: uppercase; color: #a2a098; border-bottom: 2px solid #22211f;">Cost</th>
+              <tr style="border-bottom: 2px solid #000;">
+                <th style="padding: 10px 0; text-align: left; font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; text-transform: uppercase;">LINE ITEM DESCRIPTION</th>
+                <th style="padding: 10px 0; text-align: right; font-family: monospace; font-size: 11px; font-weight: 700; color: #706f6b; text-transform: uppercase;">AMOUNT (INR)</th>
               </tr>
             </thead>
             <tbody>
               ${rowsMarkup}
-              <tr style="background-color: #1b1b19; border-top: 2px solid #22211f;">
-                <td class="table-cell" style="padding: 14px 12px; font-weight: 700; font-size: 13.5px; color: #fafaf9;">${totalLabel}</td>
-                <td class="table-cell" style="padding: 14px 12px; text-align: right; font-weight: 700; font-size: 16px; color: #e0ff4f;">${formattedTotal}</td>
+              <tr style="border-top: 1px solid #706f6b;">
+                <td style="padding: 16px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #706f6b; text-align: right; text-transform: uppercase;">${totalLabel}</td>
+                <td style="padding: 16px 0; text-align: right; font-weight: 700; font-size: 18px; color: #000; font-family: sans-serif;">${formattedTotal}</td>
               </tr>
             </tbody>
           </table>
 
-          <div style="background-color: #1b1b19; padding: 18px; border-radius: 6px; border: 1px solid #22211f; font-size: 13px; line-height: 1.6; color: #a2a098; margin-bottom: 28px;">
-            <span style="font-weight: 700; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: 11px; color: #e0ff4f; letter-spacing: 0.5px;">${agreementTitle}</span>
-            ${agreementText}
+          <!-- Payment Status -->
+          <div style="font-size: 13px; color: #706f6b; margin-top: 10px; margin-bottom: 30px;">
+            Payment Status: <span style="font-weight: 700; color: ${paymentStatusColor};">${paymentStatusText}</span>
           </div>
 
-          <div style="border-top: 1px solid #22211f; padding-top: 20px; font-size: 11px; text-align: center; color: #5c5b56;">
-            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan134@gmail.com" style="color: #a2a098; text-decoration: underline;">Support Email</a>
+          <!-- Footer -->
+          <div style="border-top: 1px solid #e0dfdb; padding-top: 20px; font-size: 11px; text-align: center; color: #9c9a94; font-family: monospace;">
+            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan134@gmail.com" style="color: #706f6b; text-decoration: underline;">Support Email</a>
           </div>
+
         </div>
       </div>
     </body>

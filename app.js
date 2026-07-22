@@ -646,7 +646,7 @@ function setupWebsiteContactModal(type = 'email') {
     </div>
   `;
 
-  let bodyContentHtml = chatbotHtml;
+  let bodyContentHtml = '';
   if (isEmailMode) {
     bodyContentHtml += emailHtml;
   } else if (isPhoneMode) {
