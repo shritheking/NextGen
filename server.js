@@ -1468,11 +1468,15 @@ function parseBudgetToNumber(budgetString) {
         const rp = config.razorpay || {};
         
         if (!rp.keyId || !rp.keySecret) {
+          const advancePaid = receipt.advancePaid || 0;
+          const balanceDue = receipt.total - advancePaid;
+          const orderAmount = Math.max(0, balanceDue);
+
           console.log('[Razorpay Mock] Simulating order creation for receipt:', receiptId);
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({
             id: 'order_mock_' + Date.now(),
-            amount: receipt.total * 100,
+            amount: orderAmount * 100,
             currency: 'INR',
             receipt: receipt.id,
             isMock: true,
@@ -1481,9 +1485,13 @@ function parseBudgetToNumber(budgetString) {
           return;
         }
 
+        const advancePaid = receipt.advancePaid || 0;
+        const balanceDue = receipt.total - advancePaid;
+        const orderAmount = Math.max(0, balanceDue);
+
         const auth = Buffer.from(`${rp.keyId}:${rp.keySecret}`).toString('base64');
         const reqData = JSON.stringify({
-          amount: Math.round(receipt.total * 100),
+          amount: Math.round(orderAmount * 100),
           currency: 'INR',
           receipt: receipt.id
         });
@@ -1896,7 +1904,12 @@ function generateReceiptPdfBuffer(item) {
 }
 
 function generateReceiptEmailHtml(item) {
+  const advancePaid = item.advancePaid || 0;
+  const balanceDue = item.total - advancePaid;
+  
   const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+  const formattedBalance = Number(balanceDue).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+  const formattedAdvance = Number(advancePaid).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
   
   let rowsMarkup = '';
   if (item.lineItems && item.lineItems.length > 0) {
@@ -2002,9 +2015,19 @@ function generateReceiptEmailHtml(item) {
             <tbody>
               ${rowsMarkup}
               <tr style="border-top: 1px solid #706f6b;">
-                <td style="padding: 16px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #706f6b; text-align: right; text-transform: uppercase;">${totalLabel}</td>
+                <td style="padding: 16px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #706f6b; text-align: right; text-transform: uppercase;">GRAND TOTAL</td>
                 <td style="padding: 16px 0; text-align: right; font-weight: 700; font-size: 18px; color: #000; font-family: sans-serif;">${formattedTotal}</td>
               </tr>
+              ${advancePaid > 0 ? `
+              <tr style="border-top: 1px dashed #e0dfdb;">
+                <td style="padding: 10px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #706f6b; text-align: right; text-transform: uppercase;">ADVANCE PAID</td>
+                <td style="padding: 10px 0; text-align: right; font-weight: 700; font-size: 14px; color: #10B981; font-family: sans-serif;">${formattedAdvance}</td>
+              </tr>
+              <tr style="border-top: 1px solid #706f6b;">
+                <td style="padding: 14px 0; font-family: monospace; font-size: 12px; font-weight: 700; color: #000; text-align: right; text-transform: uppercase;">${totalLabel}</td>
+                <td style="padding: 14px 0; text-align: right; font-weight: 700; font-size: 20px; color: #000; font-family: sans-serif;">${formattedBalance}</td>
+              </tr>
+              ` : ''}
             </tbody>
           </table>
 

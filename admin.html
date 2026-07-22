@@ -1376,6 +1376,10 @@
                   <option value="Paid">Paid Receipt</option>
                 </select>
               </div>
+              <div class="input-group">
+                <label for="rcptAdvance">Advance Amount Paid (Optional, ₹)</label>
+                <input type="number" id="rcptAdvance" placeholder="e.g. 15000" min="0" class="line-name-input" style="width:100%;">
+              </div>
               
               <div class="input-group">
                 <label for="rcptDate" style="display:flex; justify-content:space-between; align-items:center;">
@@ -2475,6 +2479,10 @@
             </select>
           </div>
           <div class="input-group">
+            <span class="r-label">Advance Amount Paid (Optional, ₹)</span>
+            <input type="number" id="mRcptAdvance" class="line-name-input" style="width:100%; margin-top:4px;" value="${item.advancePaid || ''}" placeholder="e.g. 15000" min="0">
+          </div>
+          <div class="input-group">
             <span class="r-label" style="display:flex; justify-content:space-between; align-items:center;">
               <span>Invoice Date & Time (Optional)</span>
               <button type="button" onclick="setModalLiveTime()" style="font-size:10px; padding:3px 6px; background:var(--accent); color:var(--bg); border:none; border-radius:3px; cursor:pointer;"><i class="fa-solid fa-clock"></i> Set Live Time</button>
@@ -2581,6 +2589,7 @@
         clientPhone: phone,
         projectTitle: project,
         status: status,
+        advancePaid: Number(document.getElementById('mRcptAdvance').value) || 0,
         date: receiptDate,
         lineItems: lineItems,
         total: total
@@ -2816,6 +2825,7 @@
       document.getElementById('rcptPhone').value = item.clientPhone === 'N/A' ? '' : item.clientPhone;
       document.getElementById('rcptProject').value = item.projectTitle;
       document.getElementById('rcptStatus').value = item.status;
+      document.getElementById('rcptAdvance').value = item.advancePaid || '';
 
       // Fill in line items
       itemLinesList.innerHTML = '';
@@ -2876,6 +2886,7 @@
         clientPhone: document.getElementById('rcptPhone').value.trim() || 'N/A',
         projectTitle: document.getElementById('rcptProject').value.trim(),
         status: document.getElementById('rcptStatus').value,
+        advancePaid: Number(document.getElementById('rcptAdvance').value) || 0,
         date: receiptDate,
         total: totalAmount,
         lineItems: lines,
@@ -3057,7 +3068,36 @@
         if (!item) return;
 
         title = "Client Billing Receipt";
+        const advancePaid = item.advancePaid || 0;
+        const balanceDue = item.total - advancePaid;
         const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const formattedAdvance = Number(advancePaid).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const formattedBalance = Number(balanceDue).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+
+        let advanceMarkup = '';
+        if (advancePaid > 0) {
+          advanceMarkup = `
+            <div class="receipt-row">
+              <span class="r-label">Advance Paid</span>
+              <span class="r-val" style="font-weight:600; color:#4ADE80;">${formattedAdvance}</span>
+            </div>
+            <div class="receipt-row" style="border-top:1px dashed var(--border); padding-top:10px; margin-top:10px;">
+              <span class="r-label" style="font-size:12px; font-weight:600;">BALANCE DUE</span>
+              <span class="r-val" style="font-size:16px; font-weight:700; color:var(--accent);">${formattedBalance}</span>
+            </div>
+          `;
+        }
+
+        let printAdvanceMarkup = '';
+        if (advancePaid > 0) {
+          printAdvanceMarkup = `
+            <div style="text-align: right; margin-top: 15px; font-family: monospace; font-size: 13px; color: #403f3d;">
+              <div style="margin-bottom: 4px;">GRAND TOTAL: ${formattedTotal}</div>
+              <div style="margin-bottom: 4px; color: #2E7D32;">ADVANCE PAID: ${formattedAdvance}</div>
+              <div style="font-size: 16px; font-weight: 700; color: #000; border-top: 1px solid #706f6b; padding-top: 4px; margin-top: 4px;">BALANCE DUE: ${formattedBalance}</div>
+            </div>
+          `;
+        }
 
         // Line Items markup
         let rowsMarkup = '';
@@ -3124,8 +3164,9 @@
             </div>
             <div class="receipt-row" style="border-top:1px dashed var(--border); padding-top:10px; margin-top:10px;">
               <span class="r-label" style="font-size:12px; font-weight:600;">GRAND TOTAL</span>
-              <span class="r-val" style="font-size:16px; font-weight:700; color:var(--accent);">${formattedTotal}</span>
+              <span class="r-val" style="font-size:16px; font-weight:700; color:var(--ink-soft);">${formattedTotal}</span>
             </div>
+            ${advanceMarkup}
           </div>
 
           <!-- PRINT-ONLY DETAILED 2-PAGE INVOICE (Hidden on screen) -->
@@ -3172,10 +3213,11 @@
                   </tbody>
                 </table>
 
-                <div class="print-grand-total">
+                <div class="print-grand-total" style="${advancePaid > 0 ? 'display:none;' : ''}">
                   <span>Total Amount Due:</span>
                   <h3>${formattedTotal}</h3>
                 </div>
+                ${printAdvanceMarkup}
                 
                 <div class="payment-status-block">
                   <p><span>Payment Status:</span> <strong style="color: ${item.status === 'Paid' ? '#2E7D32' : '#E65100'}">${item.status.toUpperCase()}</strong></p>

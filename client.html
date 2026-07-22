@@ -752,15 +752,32 @@
 
       receipts.forEach(item => {
         const tr = document.createElement('tr');
-        const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
         const isPaid = item.status === 'Paid';
+        const advancePaid = item.advancePaid || 0;
+        const balanceDue = item.total - advancePaid;
+        
+        const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const formattedBalance = Number(balanceDue).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        const formattedAdvance = Number(advancePaid).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+
+        let totalDueMarkup = '';
+        if (isPaid) {
+          totalDueMarkup = `<span style="font-weight:600; color:var(--ink);">${formattedTotal}</span>`;
+        } else if (advancePaid > 0) {
+          totalDueMarkup = `
+            <span style="font-weight:700; color:var(--accent);">${formattedBalance}</span>
+            <span style="display:block; font-size:10.5px; color:var(--ink-faint); margin-top:2px;">Total: ${formattedTotal} &bull; Adv: ${formattedAdvance}</span>
+          `;
+        } else {
+          totalDueMarkup = `<span style="font-weight:600; color:var(--accent);">${formattedTotal}</span>`;
+        }
         
         tr.innerHTML = `
           <td data-label="Milestone Details">
             <span class="client-title">${item.projectTitle}</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint);">${item.id.toUpperCase()} &bull; ${new Date(item.date).toLocaleDateString('en-IN')}</span>
           </td>
-          <td data-label="Total Due" style="font-family:var(--font-mono); font-weight:600; color:var(--accent);">${formattedTotal}</td>
+          <td data-label="Total Due" style="font-family:var(--font-mono);">${totalDueMarkup}</td>
           <td data-label="Status">
             <span class="badge ${isPaid ? 'paid' : 'pending'}">${isPaid ? 'Paid' : 'Pending'}</span>
           </td>
@@ -768,7 +785,7 @@
             ${isPaid ? `
               <span style="font-size:12.5px; color:#4ADE80; font-weight:600;"><i class="fa-solid fa-circle-check"></i> Cleared</span>
             ` : `
-              <button class="pay-trigger-btn" onclick="initiatePayment('${item.id}', ${item.total})">
+              <button class="pay-trigger-btn" onclick="initiatePayment('${item.id}', ${balanceDue})">
                 <i class="fa-solid fa-credit-card"></i> Pay Now
               </button>
             `}
