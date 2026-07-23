@@ -357,6 +357,16 @@ function getLogoutCookie(req) {
   return `session_id=; Path=/; HttpOnly; ${sameSiteAttr}; Max-Age=0`;
 }
 
+function getFrontendRedirectUrl(req, redirectPath = '/client.html') {
+  const host = req.headers.host || '';
+  const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1');
+  if (isLocalhost) {
+    return redirectPath;
+  }
+  const frontendUrl = process.env.FRONTEND_URL || 'https://nextgenwebstudio.in';
+  return `${frontendUrl}${redirectPath}`;
+}
+
 const server = http.createServer(async (req, res) => {
   // CORS Headers
   const origin = req.headers.origin || '';
@@ -1131,7 +1141,7 @@ function parseBudgetToNumber(budgetString) {
     const isApproved = users.some(u => u.email.toLowerCase() === queryEmail);
     
     if (!isApproved) {
-      res.writeHead(302, { 'Location': '/client.html?error=unauthorized_email' });
+      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=unauthorized_email') });
       res.end();
       return;
     }
@@ -1140,8 +1150,8 @@ function parseBudgetToNumber(budgetString) {
     SESSIONS.set(sessionId, { email: queryEmail, loginTime: Date.now() });
     
     res.writeHead(302, { 
-      'Set-Cookie': `session_id=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`, 
-      'Location': '/client.html' 
+      'Set-Cookie': getSessionCookie(sessionId, req), 
+      'Location': getFrontendRedirectUrl(req, '/client.html') 
     });
     res.end();
     return;
@@ -1157,7 +1167,7 @@ function parseBudgetToNumber(budgetString) {
     });
     res.writeHead(302, {
       'Set-Cookie': getLogoutCookie(req),
-      'Location': '/client.html'
+      'Location': getFrontendRedirectUrl(req, '/client.html')
     });
     res.end();
     return;
@@ -1245,12 +1255,12 @@ function parseBudgetToNumber(budgetString) {
                       const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
                       SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                       res.writeHead(302, { 
-                        'Set-Cookie': `session_id=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`, 
-                        'Location': '/client.html' 
+                        'Set-Cookie': getSessionCookie(sessionId, req), 
+                        'Location': getFrontendRedirectUrl(req, '/client.html') 
                       });
                       res.end();
                     } else {
-                      res.writeHead(302, { 'Location': '/client.html?error=unauthorized_email' });
+                      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=unauthorized_email') });
                       res.end();
                     }
                   } else {
@@ -1332,13 +1342,13 @@ function parseBudgetToNumber(budgetString) {
                 const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
                 SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                 res.writeHead(302, { 
-                  'Set-Cookie': `session_id=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`, 
-                  'Location': '/client.html' 
+                  'Set-Cookie': getSessionCookie(sessionId, req), 
+                  'Location': getFrontendRedirectUrl(req, '/client.html') 
                 });
                 res.end();
                 return;
               } else {
-                res.writeHead(302, { 'Location': '/client.html?error=unauthorized_email' });
+                res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=unauthorized_email') });
                 res.end();
                 return;
               }

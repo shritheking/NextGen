@@ -1014,6 +1014,16 @@
       }, 1000);
     }
 
+    // Setup dynamic OAuth and Sign Out hrefs based on API_URL
+    const googleBtn = document.querySelector('a[href="/api/auth/google"]');
+    if (googleBtn) {
+      googleBtn.setAttribute('href', API_URL + '/api/auth/google');
+    }
+    const logoutBtns = document.querySelectorAll('a[href="/api/auth/logout"]');
+    logoutBtns.forEach(btn => {
+      btn.setAttribute('href', API_URL + '/api/auth/logout');
+    });
+
     checkAuth();
 
     // ---------- THEME TOGGLER ----------
