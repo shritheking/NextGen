@@ -317,10 +317,69 @@ function readConfigFallback() {
 
 global.CONFIG = null;
 function readConfig() {
-  if (!global.CONFIG) {
-    return readConfigFallback();
+  let config = global.CONFIG;
+  if (!config) {
+    config = readConfigFallback();
   }
-  return global.CONFIG;
+  
+  // Environment variables override config settings
+  if (process.env.RAZORPAY_KEY_ID) {
+    config.razorpay = config.razorpay || {};
+    config.razorpay.keyId = process.env.RAZORPAY_KEY_ID;
+  }
+  if (process.env.RAZORPAY_KEY_SECRET) {
+    config.razorpay = config.razorpay || {};
+    config.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
+  }
+  
+  if (process.env.SMTP_HOST) {
+    config.smtp = config.smtp || {};
+    config.smtp.host = process.env.SMTP_HOST;
+  }
+  if (process.env.SMTP_PORT) {
+    config.smtp = config.smtp || {};
+    config.smtp.port = parseInt(process.env.SMTP_PORT, 10);
+  }
+  if (process.env.SMTP_USER) {
+    config.smtp = config.smtp || {};
+    config.smtp.user = process.env.SMTP_USER;
+  }
+  if (process.env.SMTP_PASS) {
+    config.smtp = config.smtp || {};
+    config.smtp.pass = process.env.SMTP_PASS;
+  }
+  if (process.env.SMTP_FROM) {
+    config.smtp = config.smtp || {};
+    config.smtp.from = process.env.SMTP_FROM;
+  }
+  if (process.env.SMTP_TO) {
+    config.smtp = config.smtp || {};
+    config.smtp.to = process.env.SMTP_TO;
+  }
+  
+  if (process.env.RESEND_API_KEY) {
+    config.resend = config.resend || {};
+    config.resend.apiKey = process.env.RESEND_API_KEY;
+  }
+  if (process.env.RESEND_FROM) {
+    config.resend = config.resend || {};
+    config.resend.from = process.env.RESEND_FROM;
+  }
+  if (process.env.RESEND_TO) {
+    config.resend = config.resend || {};
+    config.resend.to = process.env.RESEND_TO;
+  }
+  
+  if (process.env.GOOGLE_CLIENT_ID) {
+    config.oauth = config.oauth || {};
+    config.oauth.googleClientId = process.env.GOOGLE_CLIENT_ID;
+  }
+  if (process.env.GOOGLE_CLIENT_SECRET) {
+    config.oauth = config.oauth || {};
+    config.oauth.googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  }
+  
+  return config;
 }
 
 async function writeConfig(config) {
