@@ -67,7 +67,112 @@ if (!fs.existsSync(CONFIG_FILE)) {
   }, null, 2));
 }
 
-function readConfig() {
+// ---------- SUPABASE DATABASE & DUAL FALLBACK SYSTEM ----------
+let supabase = null;
+try {
+  const { createClient } = require('@supabase/supabase-js');
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_KEY;
+  if (supabaseUrl && supabaseKey) {
+    supabase = createClient(supabaseUrl, supabaseKey);
+    console.log('[Database] Connected to Supabase cloud hosting successfully.');
+  } else {
+    console.warn('[Database] Missing SUPABASE_URL or SUPABASE_KEY. Running on local JSON file fallbacks.');
+  }
+} catch (err) {
+  console.warn('[Database] @supabase/supabase-js is not installed locally. Running on local JSON file fallbacks.');
+}
+
+function getTableName(collection) {
+  switch (collection) {
+    case 'inquiries': return 'inquiries';
+    case 'projects': return 'projects';
+    case 'receipts': return 'receipts';
+    case 'users': return 'users';
+    case 'chatbot_messages': return 'chatbot_messages';
+    default: return collection;
+  }
+}
+
+function getLocalFile(collection) {
+  switch (collection) {
+    case 'inquiries': return INQUIRIES_FILE;
+    case 'projects': return PROJECTS_FILE;
+    case 'receipts': return RECEIPTS_FILE;
+    case 'users': return USERS_FILE;
+    case 'chatbot_messages': return CHAT_MESSAGES_FILE;
+    default: return path.join(__dirname, `${collection}.json`);
+  }
+}
+
+function readLocalFallback(collection) {
+  const file = getLocalFile(collection);
+  try {
+    if (!fs.existsSync(file)) return [];
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    return [];
+  }
+}
+
+async function dbList(collection) {
+  if (supabase) {
+    const table = getTableName(collection);
+    const { data, error } = await supabase.from(table).select('*');
+    if (error) {
+      console.error(`[Supabase dbList Error (${table})]:`, error);
+      return readLocalFallback(collection);
+    }
+    return data || [];
+  }
+  return readLocalFallback(collection);
+}
+
+async function dbWrite(collection, list) {
+  if (supabase) {
+    const table = getTableName(collection);
+    const { error } = await supabase.from(table).upsert(list);
+    if (error) {
+      console.error(`[Supabase dbWrite Error (${table})]:`, error);
+    }
+  }
+  const file = getLocalFile(collection);
+  try {
+    fs.writeFileSync(file, JSON.stringify(list, null, 2));
+  } catch (e) {}
+}
+
+async function dbDelete(collection, id) {
+  if (supabase) {
+    const table = getTableName(collection);
+    const { error } = await supabase.from(table).delete().eq('id', id);
+    if (error) {
+      console.error(`[Supabase dbDelete Error (${table})]:`, error);
+    }
+  }
+  const file = getLocalFile(collection);
+  try {
+    let list = readLocalFallback(collection);
+    list = list.filter(item => item.id !== id);
+    fs.writeFileSync(file, JSON.stringify(list, null, 2));
+  } catch (e) {}
+}
+
+async function dbDeleteUserByEmail(email) {
+  if (supabase) {
+    const { error } = await supabase.from('users').delete().eq('email', email);
+    if (error) {
+      console.error('[Supabase dbDeleteUserByEmail Error]:', error);
+    }
+  }
+  try {
+    let list = readLocalFallback('users');
+    list = list.filter(item => item.email.toLowerCase() !== email.toLowerCase());
+    fs.writeFileSync(USERS_FILE, JSON.stringify(list, null, 2));
+  } catch (e) {}
+}
+
+function readConfigFallback() {
   const base = {
     smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan@nextgenwebstudio.in' },
     razorpay: { keyId: '', keySecret: '' },
@@ -131,8 +236,23 @@ function readConfig() {
   return base;
 }
 
-function writeConfig(config) {
+global.CONFIG = null;
+function readConfig() {
+  if (!global.CONFIG) {
+    return readConfigFallback();
+  }
+  return global.CONFIG;
+}
+
+async function writeConfig(config) {
   try {
+    global.CONFIG = config;
+    if (supabase) {
+      const { error } = await supabase.from('settings').upsert([{ key: 'app_config', value: config }]);
+      if (error) {
+        console.error('[Supabase writeConfig Error]:', error);
+      }
+    }
     fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
     return true;
   } catch (err) {
@@ -141,18 +261,50 @@ function writeConfig(config) {
   }
 }
 
-function registerUserAndSendCredentials(email, name) {
+async function initConfig() {
   try {
-    const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+    if (supabase) {
+      const { data, error } = await supabase.from('settings').select('value').eq('key', 'app_config').maybeSingle();
+      if (!error && data && data.value) {
+        global.CONFIG = data.value;
+        console.log('[Config] Loaded config configuration from Supabase.');
+        return;
+      }
+    }
+  } catch (err) {
+    console.error('[Config Init Error]:', err);
+  }
+  global.CONFIG = readConfigFallback();
+}
+
+async function dbMarkAllChatbotMessagesRead() {
+  if (supabase) {
+    const { error } = await supabase.from('chatbot_messages').update({ read: true }).eq('read', false);
+    if (error) {
+      console.error('[Supabase dbMarkAllChatbotMessagesRead Error]:', error);
+    }
+  }
+  try {
+    const list = readLocalFallback('chatbot_messages');
+    list.forEach(msg => msg.read = true);
+    fs.writeFileSync(CHAT_MESSAGES_FILE, JSON.stringify(list, null, 2));
+  } catch (e) {}
+}
+
+async function registerUserAndSendCredentials(email, name) {
+  try {
+    const users = await dbList('users');
     let user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
     
     if (!user) {
-      users.push({
+      const newUser = {
+        id: 'usr_' + Date.now(),
         email: email.toLowerCase(),
         name: name || 'Client',
-        created: new Date().toISOString()
-      });
-      fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+        role: 'client',
+        dateApproved: new Date().toISOString()
+      };
+      await dbWrite('users', [...users, newUser]);
       console.log(`[Auth] Approved client email: ${email}`);
     } else {
       console.log(`[Auth] Client ${email} is already approved`);
@@ -189,7 +341,7 @@ Coimbatore, Tamil Nadu, India
   }
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -226,7 +378,7 @@ const server = http.createServer((req, res) => {
     req.on('data', chunk => {
       body += chunk.toString();
     });
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const lead = JSON.parse(body);
         if (!lead.name || !lead.email || !lead.message) {
@@ -247,7 +399,7 @@ const server = http.createServer((req, res) => {
         // Read and update file
         const records = JSON.parse(fs.readFileSync(targetFile, 'utf8'));
         records.push(lead);
-        fs.writeFileSync(targetFile, JSON.stringify(records, null, 2));
+        await dbWrite(targetFile === INQUIRIES_FILE ? 'inquiries' : 'projects', records);
 
         // Dispatch email notification to admin asynchronously (non-blocking)
         try {
@@ -269,8 +421,8 @@ const server = http.createServer((req, res) => {
   // GET All Leads (Union of both for backward compatibility)
   if (pathname === '/api/leads' && req.method === 'GET') {
     try {
-      const projects = JSON.parse(fs.readFileSync(PROJECTS_FILE, 'utf8'));
-      const inquiries = JSON.parse(fs.readFileSync(INQUIRIES_FILE, 'utf8'));
+      const projects = await dbList('projects');
+      const inquiries = await dbList('inquiries');
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify([...projects, ...inquiries]));
     } catch (err) {
@@ -299,10 +451,10 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/inquiries/update' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id, status } = JSON.parse(body);
-        const inquiries = JSON.parse(fs.readFileSync(INQUIRIES_FILE, 'utf8'));
+        const inquiries = await dbList('inquiries');
         const index = inquiries.findIndex(l => l.id === id);
         if (index === -1) {
           res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -310,7 +462,7 @@ const server = http.createServer((req, res) => {
           return;
         }
         inquiries[index].status = status;
-        fs.writeFileSync(INQUIRIES_FILE, JSON.stringify(inquiries, null, 2));
+        await dbWrite('inquiries', inquiries);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, inquiry: inquiries[index] }));
       } catch (err) {
@@ -324,12 +476,10 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/inquiries/delete' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id } = JSON.parse(body);
-        let inquiries = JSON.parse(fs.readFileSync(INQUIRIES_FILE, 'utf8'));
-        inquiries = inquiries.filter(l => l.id !== id);
-        fs.writeFileSync(INQUIRIES_FILE, JSON.stringify(inquiries, null, 2));
+        await dbDelete('inquiries', id);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: 'Inquiry deleted' }));
       } catch (err) {
@@ -361,10 +511,10 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/inquiries/move-to-project' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id } = JSON.parse(body);
-        const inquiries = JSON.parse(fs.readFileSync(INQUIRIES_FILE, 'utf8'));
+        const inquiries = await dbList('inquiries');
         const inquiryIndex = inquiries.findIndex(i => i.id === id);
         
         if (inquiryIndex === -1) {
@@ -377,10 +527,10 @@ function parseBudgetToNumber(budgetString) {
         
         // 1. Update status in inquiries.json
         inquiries[inquiryIndex].status = 'Moved';
-        fs.writeFileSync(INQUIRIES_FILE, JSON.stringify(inquiries, null, 2));
+        await dbWrite('inquiries', inquiries);
 
         // 2. Add new project lead entry in projects.json
-        const projects = JSON.parse(fs.readFileSync(PROJECTS_FILE, 'utf8'));
+        const projects = await dbList('projects');
         
         // Avoid duplicate project mappings
         let existingProj = projects.find(p => p.email.toLowerCase() === inquiry.email.toLowerCase() && p.projectType === (inquiry.projectType || 'Web Scoping'));
@@ -399,11 +549,11 @@ function parseBudgetToNumber(budgetString) {
             startDate: new Date().toISOString() 
           };
           projects.push(newProject);
-          fs.writeFileSync(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+          await dbWrite('projects', projects);
         }
 
         // 2b. Auto-create a pending Retainer Invoice in receipts.json
-        const receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+        const receipts = await dbList('receipts');
         const existingReceipt = receipts.find(r => r.clientEmail.toLowerCase() === inquiry.email.toLowerCase() && r.projectTitle.toLowerCase().includes('milestone'));
         
         if (!existingReceipt) {
@@ -425,12 +575,12 @@ function parseBudgetToNumber(budgetString) {
             date: new Date().toISOString()
           };
           receipts.push(newReceipt);
-          fs.writeFileSync(RECEIPTS_FILE, JSON.stringify(receipts, null, 2));
+          await dbWrite('receipts', receipts);
           console.log(`[Billing] Auto-generated milestone retainer invoice ${newReceipt.id} for ${inquiry.email} with amount ₹${parsedTotal}`);
         }
 
         // 3. Register user and send access passcode details email to their Gmail
-        registerUserAndSendCredentials(inquiry.email, inquiry.name);
+        await registerUserAndSendCredentials(inquiry.email, inquiry.name);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: 'Lead successfully moved to project and client welcome credentials dispatched!' }));
@@ -461,10 +611,10 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/projects/update-details' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id, name, email, phone, projectType, budget, status, previewUrl, message } = JSON.parse(body);
-        const projects = JSON.parse(fs.readFileSync(PROJECTS_FILE, 'utf8'));
+        const projects = await dbList('projects');
         const index = projects.findIndex(l => l.id === id);
         if (index === -1) {
           res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -481,7 +631,7 @@ function parseBudgetToNumber(budgetString) {
         if (previewUrl !== undefined) projects[index].previewUrl = previewUrl.trim();
         if (message !== undefined) projects[index].message = message.trim();
         
-        fs.writeFileSync(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+        await dbWrite('projects', projects);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, project: projects[index] }));
       } catch (err) {
@@ -495,7 +645,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/projects/create-manual' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { name, email, phone, projectType, budget, status, previewUrl, message, adminNotes } = JSON.parse(body);
         if (!name || !email || !projectType || !budget) {
@@ -504,7 +654,7 @@ function parseBudgetToNumber(budgetString) {
           return;
         }
 
-        const projects = JSON.parse(fs.readFileSync(PROJECTS_FILE, 'utf8'));
+        const projects = await dbList('projects');
         const newProject = {
           id: 'proj_' + Date.now(),
           name,
@@ -520,10 +670,10 @@ function parseBudgetToNumber(budgetString) {
           startDate: new Date().toISOString()
         };
         projects.push(newProject);
-        fs.writeFileSync(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+        await dbWrite('projects', projects);
 
         // Auto-approve user email for portal access if they are manual projects!
-        registerUserAndSendCredentials(email, name);
+        await registerUserAndSendCredentials(email, name);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, project: newProject }));
@@ -538,12 +688,10 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/projects/delete' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id } = JSON.parse(body);
-        let projects = JSON.parse(fs.readFileSync(PROJECTS_FILE, 'utf8'));
-        projects = projects.filter(l => l.id !== id);
-        fs.writeFileSync(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+        await dbDelete('projects', id);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: 'Project deleted' }));
       } catch (err) {
@@ -573,7 +721,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/receipts/create' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const receipt = JSON.parse(body);
         if (!receipt.clientName || !receipt.clientEmail || !receipt.projectTitle || !receipt.total) {
@@ -582,7 +730,7 @@ function parseBudgetToNumber(budgetString) {
           return;
         }
 
-        const receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+        const receipts = await dbList('receipts');
 
         if (receipt.id) {
           // Update existing receipt
@@ -601,7 +749,7 @@ function parseBudgetToNumber(budgetString) {
           receipts.push(receipt);
         }
 
-        fs.writeFileSync(RECEIPTS_FILE, JSON.stringify(receipts, null, 2));
+        await dbWrite('receipts', receipts);
 
         // OPTIONAL CLIENT NOTIFICATION DISPATCH BASED ON FORM CHECKBOX
         if (receipt.sendEmail) {
@@ -641,12 +789,12 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/receipts/delete' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id } = JSON.parse(body);
-        let receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+        let receipts = await dbList('receipts');
         receipts = receipts.filter(r => r.id !== id);
-        fs.writeFileSync(RECEIPTS_FILE, JSON.stringify(receipts, null, 2));
+        await dbWrite('receipts', receipts);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: 'Receipt deleted' }));
       } catch (err) {
@@ -668,7 +816,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/config/save' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const payload = JSON.parse(body);
         if (!payload.smtp && !payload.resend) {
@@ -696,7 +844,7 @@ function parseBudgetToNumber(budgetString) {
           };
         }
 
-        if (writeConfig(config)) {
+        if (await writeConfig(config)) {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, config }));
         } else {
@@ -715,7 +863,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/smtp/test' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const payload = JSON.parse(body);
         const smtpConfig = payload.smtp || readConfig().smtp;
@@ -772,7 +920,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/smtp/dispatch-receipt' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { id, type } = JSON.parse(body);
         const config = readConfig();
@@ -791,7 +939,7 @@ function parseBudgetToNumber(budgetString) {
         let attachments = [];
 
         if (type === 'receipt') {
-          const receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+          const receipts = await dbList('receipts');
           const item = receipts.find(r => r.id === id);
           if (!item) {
             res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -926,7 +1074,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/auth/login-email' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { email } = JSON.parse(body);
         if (!email) {
@@ -936,7 +1084,7 @@ function parseBudgetToNumber(budgetString) {
         }
 
         const clientEmail = email.trim().toLowerCase();
-        const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+        const users = await dbList('users');
         const isApproved = users.some(u => u.email.toLowerCase() === clientEmail);
 
         if (isApproved) {
@@ -961,7 +1109,7 @@ function parseBudgetToNumber(budgetString) {
 
   if (pathname === '/api/auth/mock' && req.method === 'GET') {
     const queryEmail = parsedUrl.searchParams.get('email') ? parsedUrl.searchParams.get('email').trim().toLowerCase() : 'shridharsanshridharsan@gmail.com';
-    const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+    const users = await dbList('users');
     const isApproved = users.some(u => u.email.toLowerCase() === queryEmail);
     
     if (!isApproved) {
@@ -1067,12 +1215,12 @@ function parseBudgetToNumber(budgetString) {
             const reqUser = https.request(userOptions, (resUser) => {
               let userBody = '';
               resUser.on('data', chunk => userBody += chunk);
-              resUser.on('end', () => {
+              resUser.on('end', async () => {
                 try {
                   const userJson = JSON.parse(userBody);
                   if (userJson.email) {
                     const clientEmail = userJson.email.toLowerCase();
-                    const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+                    const users = await dbList('users');
                     const isApproved = users.some(u => u.email.toLowerCase() === clientEmail);
                     
                     if (isApproved) {
@@ -1141,7 +1289,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/auth/apple/callback' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const parts = body.split('&');
         const params = {};
@@ -1159,7 +1307,7 @@ function parseBudgetToNumber(budgetString) {
             const payload = JSON.parse(Buffer.from(tokenParts[1], 'base64').toString('utf8'));
             if (payload.email) {
               const clientEmail = payload.email.toLowerCase();
-              const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+              const users = await dbList('users');
               const isApproved = users.some(u => u.email.toLowerCase() === clientEmail);
               
               if (isApproved) {
@@ -1192,9 +1340,9 @@ function parseBudgetToNumber(budgetString) {
   // --- APPROVED USERS REGISTRY API FOR ADMIN ---
   if (pathname === '/api/approved-users' && req.method === 'GET') {
     try {
-      const data = fs.readFileSync(USERS_FILE, 'utf8');
+      const users = await dbList('users');
       res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-      res.end(data);
+      res.end(JSON.stringify(users));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Failed to read approved users registry' }));
@@ -1205,7 +1353,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/approved-users/add' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { email, name } = JSON.parse(body);
         if (!email) {
@@ -1214,7 +1362,7 @@ function parseBudgetToNumber(budgetString) {
           return;
         }
 
-        const users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+        const users = await dbList('users');
         const exists = users.some(u => u.email.toLowerCase() === email.trim().toLowerCase());
         
         if (!exists) {
@@ -1223,7 +1371,7 @@ function parseBudgetToNumber(budgetString) {
             name: name ? name.trim() : 'Approved Client',
             created: new Date().toISOString()
           });
-          fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+          await dbWrite('users', users);
         }
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -1239,7 +1387,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/approved-users/delete' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { email } = JSON.parse(body);
         if (!email) {
@@ -1248,9 +1396,7 @@ function parseBudgetToNumber(budgetString) {
           return;
         }
 
-        let users = JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
-        users = users.filter(u => u.email.toLowerCase() !== email.trim().toLowerCase());
-        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+        await dbDeleteUserByEmail(email.trim());
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: 'Client email removed from approved OAuth registry.' }));
@@ -1271,7 +1417,7 @@ function parseBudgetToNumber(budgetString) {
       return;
     }
     try {
-      const receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+      const receipts = await dbList('receipts');
       const filtered = receipts.filter(r => r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
       res.writeHead(200, { 
         'Content-Type': 'application/json',
@@ -1293,7 +1439,7 @@ function parseBudgetToNumber(budgetString) {
       return;
     }
     try {
-      const projects = JSON.parse(fs.readFileSync(PROJECTS_FILE, 'utf8'));
+      const projects = await dbList('projects');
       const filtered = projects.filter(p => p.email && p.email.trim().toLowerCase() === user.email.trim().toLowerCase());
       res.writeHead(200, { 
         'Content-Type': 'application/json',
@@ -1315,7 +1461,7 @@ function parseBudgetToNumber(budgetString) {
       return;
     }
     try {
-      const inquiries = JSON.parse(fs.readFileSync(INQUIRIES_FILE, 'utf8'));
+      const inquiries = await dbList('inquiries');
       const filtered = inquiries.filter(i => i.email && i.email.trim().toLowerCase() === user.email.trim().toLowerCase());
       res.writeHead(200, { 
         'Content-Type': 'application/json',
@@ -1333,7 +1479,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/chatbot/send' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { email, text, sender, botResponse } = JSON.parse(body);
         if (!text) {
@@ -1342,7 +1488,7 @@ function parseBudgetToNumber(budgetString) {
           return;
         }
 
-        const messages = JSON.parse(fs.readFileSync(CHAT_MESSAGES_FILE, 'utf8'));
+        const messages = await dbList('chatbot_messages');
         const queryText = (text || '').toLowerCase();
         const connectKeywords = ['admin', 'manager', 'support', 'human', 'connect', 'talk', 'message admin', 'representative', 'receipt', 'invoice', 'billing', 'login', 'dashboard', 'passcode'];
         const isRequestingAdmin = connectKeywords.some(keyword => queryText.includes(keyword)) || sender === 'admin';
@@ -1376,7 +1522,7 @@ function parseBudgetToNumber(budgetString) {
         }
 
         // Write to database
-        fs.writeFileSync(CHAT_MESSAGES_FILE, JSON.stringify(messages, null, 2));
+        await dbWrite('chatbot_messages', messages);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: newMsg }));
@@ -1390,7 +1536,7 @@ function parseBudgetToNumber(budgetString) {
 
   if (pathname === '/api/chatbot/messages' && req.method === 'GET') {
     try {
-      const messages = JSON.parse(fs.readFileSync(CHAT_MESSAGES_FILE, 'utf8'));
+      const messages = await dbList('chatbot_messages');
       const qEmail = parsedUrl.searchParams.get('email');
       if (qEmail) {
         const filtered = messages.filter(m => m.email.toLowerCase() === qEmail.toLowerCase());
@@ -1410,10 +1556,10 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/chatbot/mark-read' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { messageId, email } = JSON.parse(body);
-        const messages = JSON.parse(fs.readFileSync(CHAT_MESSAGES_FILE, 'utf8'));
+        const messages = await dbList('chatbot_messages');
         let updated = false;
         messages.forEach(m => {
           if (email) {
@@ -1429,7 +1575,7 @@ function parseBudgetToNumber(budgetString) {
           }
         });
         if (updated) {
-          fs.writeFileSync(CHAT_MESSAGES_FILE, JSON.stringify(messages, null, 2));
+          await dbWrite('chatbot_messages', messages);
         }
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true }));
@@ -1455,7 +1601,7 @@ function parseBudgetToNumber(budgetString) {
     req.on('end', async () => {
       try {
         const { receiptId } = JSON.parse(body);
-        const receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+        const receipts = await dbList('receipts');
         const receipt = receipts.find(r => r.id === receiptId && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
         
         if (!receipt) {
@@ -1554,7 +1700,7 @@ function parseBudgetToNumber(budgetString) {
     
     let body = '';
     req.on('data', chunk => body += chunk);
-    req.on('end', () => {
+    req.on('end', async () => {
       try {
         const { receiptId, razorpay_payment_id, razorpay_order_id, razorpay_signature } = JSON.parse(body);
         const config = readConfig();
@@ -1578,14 +1724,14 @@ function parseBudgetToNumber(budgetString) {
         }
 
         if (verified) {
-          const receipts = JSON.parse(fs.readFileSync(RECEIPTS_FILE, 'utf8'));
+          const receipts = await dbList('receipts');
           const index = receipts.findIndex(r => r.id === receiptId && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
           
           if (index !== -1) {
             receipts[index].status = 'Paid';
             receipts[index].razorpayPaymentId = razorpay_payment_id || 'N/A';
             receipts[index].razorpayOrderId = razorpay_order_id || 'N/A';
-            fs.writeFileSync(RECEIPTS_FILE, JSON.stringify(receipts, null, 2));
+            await dbWrite('receipts', receipts);
 
             const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
             const hasResend = !!(config.resend && config.resend.apiKey);
@@ -1696,8 +1842,10 @@ function parseBudgetToNumber(budgetString) {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+initConfig().then(() => {
+  server.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+  });
 });
 
 function generateReceiptPdfBuffer(item) {
