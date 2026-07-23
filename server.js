@@ -1149,15 +1149,32 @@ function parseBudgetToNumber(budgetString) {
 
   // Helper to parse cookies and verify active session user
   function getSessionUser(req) {
-    const cookieHeader = req.headers.cookie || '';
-    const cookies = {};
-    cookieHeader.split(';').forEach(c => {
-      const parts = c.split('=');
-      if (parts.length === 2) {
-        cookies[parts[0].trim()] = parts[1].trim();
-      }
-    });
-    const sessionId = cookies['session_id'];
+    let sessionId = null;
+    
+    // 1. Try custom Header
+    const authHeader = req.headers.authorization || '';
+    if (authHeader.startsWith('Bearer ')) {
+      sessionId = authHeader.substring(7).trim();
+    }
+    
+    // 2. Try custom Session ID Header
+    if (!sessionId && req.headers['x-session-id']) {
+      sessionId = req.headers['x-session-id'];
+    }
+    
+    // 3. Fallback to Cookie
+    if (!sessionId) {
+      const cookieHeader = req.headers.cookie || '';
+      const cookies = {};
+      cookieHeader.split(';').forEach(c => {
+        const parts = c.split('=');
+        if (parts.length === 2) {
+          cookies[parts[0].trim()] = parts[1].trim();
+        }
+      });
+      sessionId = cookies['session_id'];
+    }
+    
     if (!sessionId) return null;
     const session = SESSIONS.get(sessionId);
     if (!session) return null;
@@ -1196,10 +1213,10 @@ function parseBudgetToNumber(budgetString) {
           const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
           SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
           res.writeHead(200, { 
-            'Set-Cookie': `session_id=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`, 
+            'Set-Cookie': getSessionCookie(sessionId, req), 
             'Content-Type': 'application/json' 
           });
-          res.end(JSON.stringify({ success: true, message: 'Logged in successfully' }));
+          res.end(JSON.stringify({ success: true, message: 'Logged in successfully', sessionId }));
         } else {
           res.writeHead(403, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'unauthorized_email' }));
@@ -1228,7 +1245,7 @@ function parseBudgetToNumber(budgetString) {
     
     res.writeHead(302, { 
       'Set-Cookie': getSessionCookie(sessionId, req), 
-      'Location': getFrontendRedirectUrl(req, '/client.html') 
+      'Location': getFrontendRedirectUrl(req, `/client.html?session_id=${sessionId}`) 
     });
     res.end();
     return;
@@ -1333,7 +1350,7 @@ function parseBudgetToNumber(budgetString) {
                       SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                       res.writeHead(302, { 
                         'Set-Cookie': getSessionCookie(sessionId, req), 
-                        'Location': getFrontendRedirectUrl(req, '/client.html') 
+                        'Location': getFrontendRedirectUrl(req, `/client.html?session_id=${sessionId}`) 
                       });
                       res.end();
                     } else {
@@ -1420,7 +1437,7 @@ function parseBudgetToNumber(budgetString) {
                 SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                 res.writeHead(302, { 
                   'Set-Cookie': getSessionCookie(sessionId, req), 
-                  'Location': getFrontendRedirectUrl(req, '/client.html') 
+                  'Location': getFrontendRedirectUrl(req, `/client.html?session_id=${sessionId}`) 
                 });
                 res.end();
                 return;
