@@ -219,6 +219,7 @@ header {
 .logo-mark {
   height: 28px;
   width: auto;
+  overflow: visible;
 }
 
 .logo-text {
@@ -1858,6 +1859,7 @@ form {
 .loader-logo {
   width: 200px;
   height: auto;
+  overflow: visible;
   animation: logo-pulse 1.8s ease-in-out infinite;
 }
 
