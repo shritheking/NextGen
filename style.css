@@ -738,6 +738,9 @@ section.block {
   section.block {
     padding: 64px 0;
   }
+  .scroll-down-container {
+    display: none;
+  }
 }
 
 .path-label {
@@ -2583,6 +2586,10 @@ html, body {
   h1 {
     font-size: 32px;
     line-height: 1.2;
+  }
+  
+  section.block {
+    padding: 40px 0;
   }
 }
 
