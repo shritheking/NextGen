@@ -1224,6 +1224,74 @@
       .creator-card, .panel {
         padding: 20px !important;
       }
+
+      /* Convert table to card view on mobile screens */
+      .table-container table, 
+      .table-container thead, 
+      .table-container tbody, 
+      .table-container th, 
+      .table-container td, 
+      .table-container tr {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box;
+      }
+      
+      .table-container thead {
+        display: none !important;
+      }
+      
+      .table-container tr {
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-md) !important;
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+        background-color: var(--bg-card) !important;
+      }
+      
+      .table-container td {
+        border: none !important;
+        padding: 8px 0 !important;
+        text-align: left !important;
+        border-bottom: 1px dashed var(--border) !important;
+      }
+      
+      .table-container td:last-child {
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+      }
+
+      /* Add column labels before values */
+      .table-container td::before {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--ink-faint);
+        display: block;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        letter-spacing: 0.05em;
+      }
+
+      #inquiriesTable td:nth-child(1)::before { content: "Client Contact"; }
+      #inquiriesTable td:nth-child(2)::before { content: "Inquiry Message"; }
+      #inquiriesTable td:nth-child(3)::before { content: "Date Logged"; }
+      #inquiriesTable td:nth-child(4)::before { content: "Status"; }
+      #inquiriesTable td:nth-child(5)::before { content: "Actions"; }
+
+      #projectsTable td:nth-child(1)::before { content: "Client Contact"; }
+      #projectsTable td:nth-child(2)::before { content: "Project Stack"; }
+      #projectsTable td:nth-child(3)::before { content: "Scoping Budget"; }
+      #projectsTable td:nth-child(4)::before { content: "Detailed Message"; }
+      #projectsTable td:nth-child(5)::before { content: "Date Logged"; }
+      #projectsTable td:nth-child(6)::before { content: "Status"; }
+      #projectsTable td:nth-child(7)::before { content: "Actions"; }
+
+      #receiptsTable td:nth-child(1)::before { content: "Receipt Code"; }
+      #receiptsTable td:nth-child(2)::before { content: "Client Details"; }
+      #receiptsTable td:nth-child(3)::before { content: "Project Description"; }
+      #receiptsTable td:nth-child(4)::before { content: "Billing Total"; }
+      #receiptsTable td:nth-child(5)::before { content: "Payment Status"; }
+      #receiptsTable td:nth-child(6)::before { content: "Actions"; }
     }
   </style>
 </head>
