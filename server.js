@@ -137,6 +137,8 @@ async function dbList(collection) {
       } else if (collection === 'receipts') {
         data = data.map(item => ({
           ...item,
+          projectTitle: item.projectName,
+          total: item.totalAmount,
           lineItems: item.items
         }));
       } else if (collection === 'chatbot_messages') {
@@ -185,14 +187,14 @@ async function dbWrite(collection, list) {
         clientEmail: item.clientEmail || '',
         clientPhone: item.clientPhone || '',
         clientAddress: item.clientAddress || '',
-        projectName: item.projectName || '',
+        projectName: item.projectTitle || item.projectName || '',
         projectDescription: item.projectDescription || '',
         items: item.lineItems || item.items || [],
-        subtotal: Number(item.subtotal) || 0,
+        subtotal: Number(item.subtotal) || Number(item.total) || 0,
         advancePaid: Number(item.advancePaid) || 0,
         taxRate: Number(item.taxRate) || 0,
         taxAmount: Number(item.taxAmount) || 0,
-        totalAmount: Number(item.totalAmount) || 0,
+        totalAmount: Number(item.total) || Number(item.totalAmount) || 0,
         status: item.status || 'Pending',
         razorpayPaymentId: item.razorpayPaymentId || '',
         razorpaySignature: item.razorpaySignature || '',
