@@ -355,6 +355,13 @@
       </div>
       <a href="/api/auth/logout" class="drawer-cta btn-primary" id="mobileLogoutBtn" style="display: none; margin-top:12px; text-align:center;">Sign Out</a>
     </div>
+    <div class="drawer-theme-section" style="margin-top: auto; padding-top: 16px; margin-bottom: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.05em;">THEME</span>
+      <button id="drawerThemeToggleBtn" aria-label="Toggle light/dark theme" style="background: var(--bg-alt); border: 1px solid var(--border); width: 40px; height: 40px; border-radius: 50%; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast);">
+        <i class="fa-solid fa-sun" style="font-size: 14px;"></i>
+        <i class="fa-solid fa-moon" style="font-size: 14px;"></i>
+      </button>
+    </div>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -1007,6 +1014,7 @@
 
     // ---------- THEME TOGGLER ----------
     const themeBtn = document.getElementById('themeToggleBtn');
+    const drawerThemeBtn = document.getElementById('drawerThemeToggleBtn');
     const body = document.body;
     const activeSavedTheme = localStorage.getItem('theme') || 'dark';
     
@@ -1018,17 +1026,18 @@
       body.classList.add('dark-theme');
     }
 
-    if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        if (body.classList.contains('dark-theme')) {
-          body.classList.replace('dark-theme', 'light-theme');
-          localStorage.setItem('theme', 'light');
-        } else {
-          body.classList.replace('light-theme', 'dark-theme');
-          localStorage.setItem('theme', 'dark');
-        }
-      });
-    }
+    const toggleTheme = () => {
+      if (body.classList.contains('dark-theme')) {
+        body.classList.replace('dark-theme', 'light-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.replace('light-theme', 'dark-theme');
+        localStorage.setItem('theme', 'dark');
+      }
+    };
+
+    if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+    if (drawerThemeBtn) drawerThemeBtn.addEventListener('click', toggleTheme);
 
     // ---------- FLOATING AI CHATBOT WIDGET ----------
     const widget = document.getElementById('aiChatbotWidget');

@@ -42,6 +42,7 @@ function initLoader() {
 function initTheme() {
   const body = document.body;
   const themeBtn = document.getElementById('themeToggleBtn');
+  const drawerThemeBtn = document.getElementById('drawerThemeToggleBtn');
   
   // Retrieve saved theme or default to dark
   const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -54,7 +55,7 @@ function initTheme() {
     body.classList.add('dark-theme');
   }
 
-  themeBtn.addEventListener('click', () => {
+  const toggleTheme = () => {
     if (body.classList.contains('dark-theme')) {
       body.classList.replace('dark-theme', 'light-theme');
       localStorage.setItem('theme', 'light');
@@ -62,7 +63,10 @@ function initTheme() {
       body.classList.replace('light-theme', 'dark-theme');
       localStorage.setItem('theme', 'dark');
     }
-  });
+  };
+
+  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+  if (drawerThemeBtn) drawerThemeBtn.addEventListener('click', toggleTheme);
 }
 
 /* ---------- Mobile Menu Drawer Toggle ---------- */

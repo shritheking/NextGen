@@ -174,16 +174,20 @@ h1, h2, h3, h4 {
 }
 
 body.dark-theme #themeToggleBtn .fa-moon,
-body.light-theme #themeToggleBtn .fa-sun {
+body.light-theme #themeToggleBtn .fa-sun,
+body.dark-theme #drawerThemeToggleBtn .fa-moon,
+body.light-theme #drawerThemeToggleBtn .fa-sun {
   display: none;
 }
 
-body.dark-theme #themeToggleBtn .fa-sun {
+body.dark-theme #themeToggleBtn .fa-sun,
+body.dark-theme #drawerThemeToggleBtn .fa-sun {
   color: var(--accent);
   font-size: 18px;
 }
 
-body.light-theme #themeToggleBtn .fa-moon {
+body.light-theme #themeToggleBtn .fa-moon,
+body.light-theme #drawerThemeToggleBtn .fa-moon {
   color: var(--ink-soft);
   font-size: 18px;
 }
@@ -2634,17 +2638,7 @@ html, body {
 /* ---------- Mobile Error Toasts & Theme Toggle Repositioning ---------- */
 @media (max-width: 900px) {
   .theme-toggle-container {
-    position: fixed;
-    top: 14px;
-    right: 76px;
-    bottom: auto;
-    left: auto;
-    z-index: 110;
-  }
-  #themeToggleBtn {
-    width: 38px;
-    height: 38px;
-    font-size: 13px;
+    display: none !important; /* Hide floating theme toggles completely on mobile/tablet viewports! */
   }
 }
 
@@ -2661,5 +2655,17 @@ html, body {
   }
   .toast-card.show {
     transform: translateY(0);
+  }
+  
+  /* Chatbot panel responsive styling */
+  #aiChatbotWidget {
+    right: 16px;
+    bottom: 16px;
+  }
+  .chatbot-panel {
+    width: calc(100vw - 32px);
+    right: 0;
+    bottom: 60px;
+    height: 380px;
   }
 }
