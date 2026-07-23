@@ -28,7 +28,7 @@ if (fs.existsSync(dotenvPath)) {
 }
 
 // Bypass local SSL certificate check restrictions for outbound API connections (e.g. Razorpay)
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const SESSIONS = new Map();
 
