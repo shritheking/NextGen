@@ -347,7 +347,7 @@ function initContactForm() {
       const isLocalFile = window.location.protocol === 'file:';
       const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || isLocalFile
         ? 'http://localhost:3000'
-        : 'https://nextgen-backend.onrender.com';
+        : 'https://nextgen-studio.onrender.com';
       const apiUrl = API_URL + '/api/contact';
       
       const response = await fetch(apiUrl, {
