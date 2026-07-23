@@ -1356,21 +1356,21 @@
         <div class="stat-card">
           <div class="stat-text">
             <h3>Enquiries</h3>
-            <p id="statInquiriesCount">0</p>
+            <p id="statInquiriesCount">...</p>
           </div>
           <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
         </div>
         <div class="stat-card">
           <div class="stat-text">
             <h3>Projects</h3>
-            <p id="statProjectsCount">0</p>
+            <p id="statProjectsCount">...</p>
           </div>
           <div class="stat-icon"><i class="fa-solid fa-folder-open"></i></div>
         </div>
         <div class="stat-card">
           <div class="stat-text">
             <h3>Billing Value</h3>
-            <p id="statBillingValue">₹0</p>
+            <p id="statBillingValue">...</p>
           </div>
           <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
         </div>
@@ -1952,6 +1952,7 @@
     let projects = [];
     let receipts = [];
     let approvedUsers = [];
+    let initialFetchSuccess = false;
 
     const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:'
       ? 'http://localhost:3000'
@@ -2006,13 +2007,18 @@
     }
 
     async function syncAllDatabases() {
-      await Promise.all([
-        fetchInquiries(),
-        fetchProjects(),
-        fetchReceipts(),
-        fetchChatbotMessages()
-      ]);
-      updateDashboardStats();
+      try {
+        await Promise.all([
+          fetchInquiries(),
+          fetchProjects(),
+          fetchReceipts(),
+          fetchChatbotMessages()
+        ]);
+        initialFetchSuccess = true;
+        updateDashboardStats();
+      } catch (err) {
+        console.warn('Sync databases failed:', err);
+      }
     }
 
     let chatbotMessages = [];
@@ -2447,6 +2453,14 @@
       if (list.length === 0) {
         table.style.display = 'none';
         empty.style.display = 'block';
+        const emptyMsg = empty.querySelector('p');
+        if (emptyMsg) {
+          if (!initialFetchSuccess) {
+            emptyMsg.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Connecting to database (waking up server, please wait...)';
+          } else {
+            emptyMsg.innerText = 'No general enquiries found in inquiries.json.';
+          }
+        }
         return;
       }
       table.style.display = 'table';
@@ -2497,6 +2511,14 @@
       if (list.length === 0) {
         table.style.display = 'none';
         empty.style.display = 'block';
+        const emptyMsg = empty.querySelector('p');
+        if (emptyMsg) {
+          if (!initialFetchSuccess) {
+            emptyMsg.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Connecting to database (waking up server, please wait...)';
+          } else {
+            emptyMsg.innerText = 'No project scoping enquiries found in projects.json.';
+          }
+        }
         return;
       }
       table.style.display = 'table';
@@ -2546,6 +2568,14 @@
       if (list.length === 0) {
         table.style.display = 'none';
         empty.style.display = 'block';
+        const emptyMsg = empty.querySelector('p');
+        if (emptyMsg) {
+          if (!initialFetchSuccess) {
+            emptyMsg.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Connecting to database (waking up server, please wait...)';
+          } else {
+            emptyMsg.innerText = 'No generated client invoices found in receipts.json.';
+          }
+        }
         return;
       }
       table.style.display = 'table';

@@ -2654,16 +2654,17 @@ html, body {
 @media (max-width: 480px) {
   .toast-container {
     bottom: 16px;
-    right: 16px;
     left: 16px;
-    width: auto;
+    right: auto;
+    width: 280px;
+    max-width: calc(100vw - 32px);
   }
   .toast-card {
     width: 100%;
-    transform: translateY(150%);
+    transform: translateX(-150%);
   }
   .toast-card.show {
-    transform: translateY(0);
+    transform: translateX(0);
   }
   
   /* Chatbot panel responsive styling */

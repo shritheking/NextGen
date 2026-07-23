@@ -699,7 +699,7 @@
           document.body.classList.remove('login-mode');
           if (chatbotWidget) chatbotWidget.style.display = 'block';
           
-          loadDashboardData();
+          await loadDashboardData();
         } else {
           document.getElementById('headerUserBadge').style.display = 'none';
           document.getElementById('mobileUserBadge').style.display = 'none';
@@ -994,8 +994,8 @@
               localStorage.setItem('session_id', data.sessionId);
             }
             showToast('Sign In Success', 'Welcome back to the portal!', 'success');
-            setTimeout(() => {
-              checkAuth();
+            setTimeout(async () => {
+              await checkAuth();
               hideLoadingScreen();
             }, 800);
           } else {
@@ -1025,15 +1025,13 @@
       showToast('Auth Error', msg, 'error');
     }
 
-    // ---------- FADE OUT LOADING SCREEN ----------
-    const loader = document.getElementById('loader-screen');
-    if (loader) {
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => {
-        loader.classList.add('fade-out');
-        document.body.style.overflow = '';
-      }, 1000);
+    // ---------- INITIALIZE PORTAL AUTH CHECK & FADE OUT LOADER ----------
+    async function initPortal() {
+      showLoadingScreen();
+      await checkAuth();
+      hideLoadingScreen();
     }
+    initPortal();
 
     // Setup dynamic OAuth and Sign Out hrefs based on API_URL
     const googleBtn = document.querySelector('a[href="/api/auth/google"]');
