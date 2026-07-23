@@ -118,10 +118,33 @@ function readLocalFallback(collection) {
 async function dbList(collection) {
   if (supabase) {
     const table = getTableName(collection);
-    const { data, error } = await supabase.from(table).select('*');
+    let { data, error } = await supabase.from(table).select('*');
     if (error) {
       console.error(`[Supabase dbList Error (${table})]:`, error);
       return readLocalFallback(collection);
+    }
+    if (data) {
+      if (collection === 'users') {
+        data = data.map(item => ({
+          ...item,
+          created: item.dateApproved || item.created_at
+        }));
+      } else if (collection === 'projects') {
+        data = data.map(item => ({
+          ...item,
+          projectType: item.stack
+        }));
+      } else if (collection === 'receipts') {
+        data = data.map(item => ({
+          ...item,
+          lineItems: item.items
+        }));
+      } else if (collection === 'chatbot_messages') {
+        data = data.map(item => ({
+          ...item,
+          date: item.timestamp
+        }));
+      }
     }
     return data || [];
   }
@@ -131,7 +154,61 @@ async function dbList(collection) {
 async function dbWrite(collection, list) {
   if (supabase) {
     const table = getTableName(collection);
-    const { error } = await supabase.from(table).upsert(list);
+    let upsertList = list;
+    if (collection === 'users') {
+      upsertList = list.map(item => ({
+        id: item.id || item.email,
+        email: item.email,
+        name: item.name || '',
+        role: item.role || 'client',
+        dateApproved: item.created || item.dateApproved || new Date().toISOString()
+      }));
+    } else if (collection === 'projects') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        name: item.name || '',
+        email: item.email || '',
+        phone: item.phone || '',
+        budget: item.budget || '',
+        stack: item.projectType || item.stack || 'Web Development',
+        status: item.status || 'New Project',
+        previewUrl: item.previewUrl || '',
+        message: item.message || '',
+        adminNotes: item.adminNotes || '',
+        date: item.date || new Date().toLocaleDateString()
+      }));
+    } else if (collection === 'receipts') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        receiptCode: item.receiptCode || '',
+        clientName: item.clientName || '',
+        clientEmail: item.clientEmail || '',
+        clientPhone: item.clientPhone || '',
+        clientAddress: item.clientAddress || '',
+        projectName: item.projectName || '',
+        projectDescription: item.projectDescription || '',
+        items: item.lineItems || item.items || [],
+        subtotal: Number(item.subtotal) || 0,
+        advancePaid: Number(item.advancePaid) || 0,
+        taxRate: Number(item.taxRate) || 0,
+        taxAmount: Number(item.taxAmount) || 0,
+        totalAmount: Number(item.totalAmount) || 0,
+        status: item.status || 'Pending',
+        razorpayPaymentId: item.razorpayPaymentId || '',
+        razorpaySignature: item.razorpaySignature || '',
+        date: item.date || new Date().toLocaleDateString()
+      }));
+    } else if (collection === 'chatbot_messages') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        userEmail: item.userEmail || '',
+        userMessage: item.userMessage || '',
+        botResponse: item.botResponse || '',
+        read: !!item.read,
+        timestamp: item.date || item.timestamp || new Date().toISOString()
+      }));
+    }
+    const { error } = await supabase.from(table).upsert(upsertList);
     if (error) {
       console.error(`[Supabase dbWrite Error (${table})]:`, error);
     }
