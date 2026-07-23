@@ -1246,6 +1246,37 @@ function parseBudgetToNumber(budgetString) {
     return session;
   }
 
+  // --- remote database check debug route ---
+  if (pathname === '/api/debug-db' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+    const debugInfo = {
+      supabaseInitialized: !!supabase,
+      urlPrefix: process.env.SUPABASE_URL ? process.env.SUPABASE_URL.substring(0, 20) : null,
+      keyPrefix: process.env.SUPABASE_KEY ? process.env.SUPABASE_KEY.substring(0, 20) : null,
+      envVarsKeys: Object.keys(process.env).filter(k => k.includes('SUPABASE'))
+    };
+    
+    if (supabase) {
+      try {
+        const usersRes = await supabase.from('users').select('*');
+        const receiptsRes = await supabase.from('receipts').select('*');
+        const projectsRes = await supabase.from('projects').select('*');
+        
+        debugInfo.usersCount = usersRes.data ? usersRes.data.length : null;
+        debugInfo.usersError = usersRes.error;
+        debugInfo.receiptsCount = receiptsRes.data ? receiptsRes.data.length : null;
+        debugInfo.receiptsError = receiptsRes.error;
+        debugInfo.projectsCount = projectsRes.data ? projectsRes.data.length : null;
+        debugInfo.projectsError = projectsRes.error;
+      } catch (e) {
+        debugInfo.queryException = e.message;
+      }
+    }
+    
+    res.end(JSON.stringify(debugInfo, null, 2));
+    return;
+  }
+
   // --- CLIENT OAUTH AUTHENTICATION ROUTING ---
   if (pathname === '/api/auth/me' && req.method === 'GET') {
     const user = getSessionUser(req);
