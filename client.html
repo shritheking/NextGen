@@ -591,6 +591,7 @@
 
   <script>
     // ---------- GLOBAL STATE ----------
+    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? '' : 'https://nextgen-backend.onrender.com';
     let currentUser = null;
     let receipts = [];
     let projects = [];
@@ -664,7 +665,7 @@
     // ---------- AUTH STATUS CHECK ----------
     async function checkAuth() {
       try {
-        const res = await fetch('/api/auth/me?_t=' + Date.now());
+        const res = await fetch(API_URL + '/api/auth/me?_t=' + Date.now(), { credentials: 'include' });
         const data = await res.json();
         const chatbotWidget = document.getElementById('aiChatbotWidget');
         
@@ -723,13 +724,13 @@
       if (bL) bL.style.display = 'inline-block';
       if (rL) rL.style.display = 'inline-block';
       try {
-        const rRes = await fetch('/api/client/receipts?_t=' + Date.now());
+        const rRes = await fetch(API_URL + '/api/client/receipts?_t=' + Date.now(), { credentials: 'include' });
         if (rRes.ok) {
           receipts = await rRes.json();
           renderReceipts();
         }
 
-        const pRes = await fetch('/api/client/projects?_t=' + Date.now());
+        const pRes = await fetch(API_URL + '/api/client/projects?_t=' + Date.now(), { credentials: 'include' });
         if (pRes.ok) {
           projects = await pRes.json();
           renderProjects();
@@ -880,9 +881,10 @@
       try {
         showToast('Initiating Payment', 'Generating secure order with Razorpay...', 'info');
         
-        const res = await fetch('/api/razorpay/create-order', {
+        const res = await fetch(API_URL + '/api/razorpay/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ receiptId })
         });
         
@@ -908,9 +910,10 @@
           order_id: order.id,
           handler: async function (response) {
             showToast('Verifying', 'Verifying signature with gateway...', 'info');
-            const verifyRes = await fetch('/api/razorpay/verify-payment', {
+            const verifyRes = await fetch(API_URL + '/api/razorpay/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
               body: JSON.stringify({
                 receiptId,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -962,9 +965,10 @@
         const email = document.getElementById('portalEmailInput').value.trim();
         showLoadingScreen();
         try {
-          const res = await fetch('/api/auth/login-email', {
+          const res = await fetch(API_URL + '/api/auth/login-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({ email })
           });
           if (res.ok) {
@@ -1052,7 +1056,7 @@
       async function fetchChatHistory() {
         if (!currentUser) return;
         try {
-          const res = await fetch(`/api/chatbot/messages?email=${encodeURIComponent(currentUser)}&_t=${Date.now()}`);
+          const res = await fetch(API_URL + `/api/chatbot/messages?email=${encodeURIComponent(currentUser)}&_t=${Date.now()}`, { credentials: 'include' });
           if (!res.ok) return;
           const messages = await res.json();
           
@@ -1131,9 +1135,10 @@
 
         // Send to server
         try {
-          const res = await fetch('/api/chatbot/send', {
+          const res = await fetch(API_URL + '/api/chatbot/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({
               email: currentUser || 'Guest',
               text: query,

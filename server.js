@@ -341,11 +341,29 @@ Coimbatore, Tamil Nadu, India
   }
 }
 
+function getSessionCookie(sessionId, req) {
+  const origin = req.headers.origin || '';
+  const host = req.headers.host || '';
+  const isLocalhost = origin.includes('localhost') || origin.includes('127.0.0.1') || host.includes('localhost') || host.includes('127.0.0.1');
+  const sameSiteAttr = isLocalhost ? 'SameSite=Lax' : 'SameSite=None; Secure';
+  return `session_id=${sessionId}; Path=/; HttpOnly; ${sameSiteAttr}; Max-Age=2592000`;
+}
+
+function getLogoutCookie(req) {
+  const origin = req.headers.origin || '';
+  const host = req.headers.host || '';
+  const isLocalhost = origin.includes('localhost') || origin.includes('127.0.0.1') || host.includes('localhost') || host.includes('127.0.0.1');
+  const sameSiteAttr = isLocalhost ? 'SameSite=Lax' : 'SameSite=None; Secure';
+  return `session_id=; Path=/; HttpOnly; ${sameSiteAttr}; Max-Age=0`;
+}
+
 const server = http.createServer(async (req, res) => {
   // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  res.setHeader('Access-Control-Allow-Origin', origin || '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
@@ -1138,7 +1156,7 @@ function parseBudgetToNumber(budgetString) {
       }
     });
     res.writeHead(302, {
-      'Set-Cookie': 'session_id=; Path=/; HttpOnly; Max-Age=0',
+      'Set-Cookie': getLogoutCookie(req),
       'Location': '/client.html'
     });
     res.end();

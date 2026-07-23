@@ -1953,9 +1953,22 @@
     let receipts = [];
     let approvedUsers = [];
 
+    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:'
+      ? 'http://localhost:3000'
+      : 'https://nextgen-backend.onrender.com';
+
+    // Intercept global fetch to include credentials for CORS authentication
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+      options = options || {};
+      if (typeof url === 'string' && (url.includes('/api/') || url.includes('localhost') || url.includes('onrender.com'))) {
+        options.credentials = 'include';
+      }
+      return originalFetch(url, options);
+    };
+
     function getApiUrl(endpoint) {
-      const isLocalFile = window.location.protocol === 'file:';
-      return isLocalFile ? `http://localhost:3000${endpoint}` : endpoint;
+      return `${API_URL}${endpoint}`;
     }
 
     function startLiveClock() {
