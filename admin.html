@@ -1169,6 +1169,62 @@
     ::-webkit-scrollbar-thumb:hover {
       background: var(--accent);
     }
+
+    /* ---------- MOBILE RESPONSIVE DASHBOARD OVERRIDES ---------- */
+    .access-workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 1200px) {
+      .access-workspace {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      #adminMenuToggle, #adminSidebarClose {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      aside {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      
+      aside.open {
+        left: 0;
+      }
+      
+      .dashboard-container {
+        grid-template-columns: 1fr !important;
+      }
+      
+      main {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 20px !important;
+      }
+      
+      .access-workspace {
+        grid-template-columns: 1fr !important;
+        padding: 12px !important;
+        gap: 20px !important;
+      }
+
+      .creator-card, .panel {
+        padding: 20px !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1192,8 +1248,11 @@
   <!-- 2. MAIN DASHBOARD CONTAINER -->
   <div class="dashboard-container">
     <!-- Sidebar Navigation -->
-    <aside>
-      <div class="sidebar-logo">nextgen<span>_admin</span></div>
+    <aside id="adminSidebar">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;" class="sidebar-header-wrapper">
+        <div class="sidebar-logo" style="margin-bottom:0;">nextgen<span>_admin</span></div>
+        <button id="adminSidebarClose" aria-label="Close menu" style="display:none; background:none; border:none; color:var(--ink-soft); font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+      </div>
       <ul class="sidebar-menu">
         <li class="active" data-tab="inquiriesTab"><a href="#"><i class="fa-solid fa-envelope"></i> General Enquiries</a></li>
         <li data-tab="projectsTab"><a href="#"><i class="fa-solid fa-sheet-plastic"></i> Project Scoping</a></li>
@@ -1208,7 +1267,12 @@
     <!-- Main Workspace -->
     <main>
       <div class="main-header">
-        <h1 id="workspaceTitle">General Client Enquiries</h1>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button id="adminMenuToggle" aria-label="Toggle menu" style="display:none; background:none; border:none; color:var(--ink); font-size:20px; cursor:pointer;">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 id="workspaceTitle">General Client Enquiries</h1>
+        </div>
         <div class="header-actions">
           <div id="adminLiveClock" style="font-family:var(--font-mono); font-size:12px; color:var(--accent); background:rgba(224,255,79,0.04); border:1px solid rgba(224,255,79,0.15); padding:6px 12px; border-radius:4px; display:flex; align-items:center; gap:6px; font-weight:600; line-height:1;"><i class="fa-solid fa-clock"></i> <span id="clockValue">00:00:00 AM</span></div>
           <button class="theme-toggle" id="adminThemeToggle" aria-label="Toggle Theme">
@@ -1489,7 +1553,7 @@
 
       <!-- TAB SECTION 5: ACCESS REGISTRY -->
       <div class="tab-section" id="accessTab">
-        <div class="receipts-workspace" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 32px; padding: 24px;">
+        <div class="receipts-workspace access-workspace" style="padding: 24px;">
           <!-- Left: Add Approved User Form -->
           <div class="creator-card" style="margin-bottom: 0;">
             <h3>Approve Client Email</h3>
@@ -1703,6 +1767,32 @@
       } else {
         localStorage.setItem('adminTheme', 'dark');
       }
+    });
+
+    // ---------- MOBILE MENU DRAWER TRIGGERS ----------
+    const adminMenuToggle = document.getElementById('adminMenuToggle');
+    const adminSidebar = document.getElementById('adminSidebar');
+    const adminSidebarClose = document.getElementById('adminSidebarClose');
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu li');
+
+    if (adminMenuToggle && adminSidebar) {
+      adminMenuToggle.addEventListener('click', () => {
+        adminSidebar.classList.add('open');
+      });
+    }
+
+    if (adminSidebarClose && adminSidebar) {
+      adminSidebarClose.addEventListener('click', () => {
+        adminSidebar.classList.remove('open');
+      });
+    }
+
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
+          adminSidebar.classList.remove('open');
+        }
+      });
     });
 
     // ---------- CUSTOM IN-WEBSITE CONFIRM MODAL HELPERS ----------
