@@ -798,29 +798,32 @@ h2 {
 
 .service-card {
   background-color: var(--bg-card);
-  padding: 40px 32px;
-  transition: background-color var(--transition-normal), transform var(--transition-normal);
+  padding: 44px 36px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  transition: background-color var(--transition-normal), transform var(--transition-normal), border-color var(--transition-normal);
   display: flex;
   flex-direction: column;
 }
 
 .service-card:hover {
   background-color: var(--bg-alt);
+  border-color: var(--border-focus);
 }
 
 .service-icon {
-  font-size: 24px;
+  font-size: 28px;
   color: var(--accent);
   margin-bottom: 24px;
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   background-color: var(--bg-alt);
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
-  transition: background-color var(--transition-normal);
+  transition: background-color var(--transition-normal), transform var(--transition-normal);
 }
 
 .service-card:hover .service-icon {
@@ -1355,23 +1358,24 @@ form {
 .input-wrapper textarea,
 .input-wrapper select {
   width: 100%;
-  padding: 14px 16px;
+  padding: 18.5px 20px;
   border: 1px solid var(--border);
   background-color: var(--bg-alt);
-  border-radius: var(--radius-xs);
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 15px;
   transition: all var(--transition-fast);
 }
 
 .input-wrapper textarea {
   resize: vertical;
+  padding: 20px;
 }
 
 .input-wrapper label {
   position: absolute;
-  left: 16px;
-  top: 14px;
-  font-size: 14px;
+  left: 20px;
+  top: 18.5px;
+  font-size: 15px;
   color: var(--ink-soft);
   pointer-events: none;
   transition: transform var(--transition-fast), font-size var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
@@ -1390,13 +1394,13 @@ form {
 .input-wrapper input:not(:placeholder-shown) ~ label,
 .input-wrapper textarea:focus ~ label,
 .input-wrapper textarea:not(:placeholder-shown) ~ label {
-  transform: translateY(-24px) scale(0.85);
+  transform: translateY(-27px) scale(0.8);
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--accent);
   background-color: var(--bg-card);
-  padding: 0 4px;
-  left: 12px;
+  padding: 0 6px;
+  left: 14px;
 }
 
 /* Select option wrapping */
@@ -2679,3 +2683,406 @@ html, body {
     height: 380px;
   }
 }
+
+/* ---------- 1. MOBILE NAV ACTIONS ---------- */
+.mobile-nav-actions {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-cta-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: var(--accent);
+  color: var(--bg);
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  transition: all var(--transition-fast);
+}
+
+.mobile-cta-btn:hover {
+  opacity: 0.9;
+}
+
+/* ---------- 2. TRUST STATS BANNER ---------- */
+.trust-stats-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: -30px;
+  margin-bottom: 60px;
+  gap: 20px;
+}
+
+.trust-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.trust-stars {
+  color: #F59E0B;
+  font-size: 12px;
+  margin-bottom: 4px;
+  display: flex;
+  gap: 2px;
+}
+
+.trust-val {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+.trust-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trust-divider {
+  width: 1px;
+  height: 32px;
+  background-color: var(--border);
+}
+
+/* ---------- 3. TESTIMONIALS CAROUSEL ---------- */
+.testimonials-carousel-container {
+  max-width: 800px;
+  margin: 40px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials-track {
+  position: relative;
+  min-height: 200px;
+}
+
+.testimonial-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.testimonial-slide.active {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.testimonial-rating {
+  color: #F59E0B;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 4px;
+}
+
+.testimonial-text {
+  font-size: clamp(16px, 2vw, 20px);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 30px;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.author-name {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+
+.author-title {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.carousel-control-btn {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.carousel-control-btn:hover {
+  background: var(--bg-card);
+  color: var(--ink);
+  border-color: var(--border-focus);
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--border);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.carousel-dot.active {
+  background-color: var(--accent);
+}
+
+/* ---------- 4. FLOATING WHATSAPP BUTTON ---------- */
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background-color: #25D366;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  z-index: 999;
+  text-decoration: none;
+  font-size: 24px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.floating-whatsapp-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-tooltip {
+  position: absolute;
+  left: 60px;
+  background-color: var(--bg-card);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.floating-whatsapp-btn:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- 5. PORTFOLIO CARD LINKS ---------- */
+.work-view-link {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  transition: gap var(--transition-fast);
+  align-self: flex-start;
+}
+
+.work-view-link:hover {
+  gap: 12px;
+}
+
+/* ---------- 6. MOBILE RESPONSIVE OVERRIDES ---------- */
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-nav-actions {
+    display: flex;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  /* One screen hero optimizations */
+  .hero {
+    padding: 20px 0 24px !important;
+  }
+  .hero-grid {
+    gap: 20px !important;
+  }
+  .terminal-container {
+    display: none !important; /* Hide terminal on mobile to guarantee one-screen fit */
+  }
+  .hero h1 {
+    font-size: 34px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 12px !important;
+  }
+  .hero-sub {
+    font-size: 15px !important;
+    margin-bottom: 24px !important;
+  }
+  .hero-actions {
+    gap: 10px !important;
+  }
+  
+  /* Trust Stats Mobile Configuration */
+  .trust-stats-banner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px;
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+  .trust-divider {
+    display: none;
+  }
+  
+  /* Portfolio Card Mobile Optimizations */
+  .work-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .work-card {
+    padding: 24px 20px !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--border) !important;
+    background-color: var(--bg-card) !important;
+  }
+  .work-card .browser-frame {
+    display: none !important; /* Hide screenshots on mobile to make lists scan-friendly */
+  }
+  .work-view-link {
+    margin-top: 16px;
+  }
+  
+  /* Testimonial Mobile Padding */
+  .testimonials-carousel-container {
+    padding: 0 16px;
+  }
+  
+  /* Drawer adjustments */
+  .drawer-client-link {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--accent) !important;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Footer 2-column scanned view */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 32px 16px !important;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+    margin-bottom: 16px;
+  }
+  .footer-socials {
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Floating elements adjustments */
+  .floating-whatsapp-btn {
+    bottom: 16px;
+    left: 16px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+  .whatsapp-tooltip {
+    display: none !important; /* Hide tooltip on small mobile screens */
+  }
+}
+

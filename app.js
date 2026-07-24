@@ -725,6 +725,48 @@ function setupWebsiteContactModal(type = 'email') {
       }
     });
   }
+
+  // ---------- TESTIMONIALS CAROUSEL ----------
+  const track = document.getElementById('testimonialsTrack');
+  const slides = Array.from(track ? track.children : []);
+  const prevBtn = document.getElementById('carouselPrevBtn');
+  const nextBtn = document.getElementById('carouselNextBtn');
+  const dotsContainer = document.getElementById('carouselDots');
+  const dots = Array.from(dotsContainer ? dotsContainer.children : []);
+  
+  if (track && slides.length > 0) {
+    let currentIdx = 0;
+    
+    const updateCarousel = (index) => {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      currentIdx = index;
+    };
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        let nextIdx = (currentIdx + 1) % slides.length;
+        updateCarousel(nextIdx);
+      });
+    }
+    
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        let prevIdx = (currentIdx - 1 + slides.length) % slides.length;
+        updateCarousel(prevIdx);
+      });
+    }
+    
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        updateCarousel(index);
+      });
+    });
+  }
 }
 
 function triggerWebsiteContactModal(event, type = 'email') {

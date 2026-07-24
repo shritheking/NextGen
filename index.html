@@ -68,11 +68,14 @@
         <a href="#contact" class="nav-cta">start a project</a>
       </nav>
 
-      <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
+      <div class="mobile-nav-actions">
+        <a href="#contact" class="mobile-cta-btn">Get Quote</a>
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -86,12 +89,14 @@
       <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
     </div>
     <div class="drawer-links">
-      <a href="#services"><span class="nav-num">01.</span>services</a>
-      <a href="#work"><span class="nav-num">02.</span>work</a>
-      <a href="#process"><span class="nav-num">03.</span>process</a>
-      <a href="#contact"><span class="nav-num">04.</span>contact</a>
-      <a href="/client.html"><span class="nav-num">05.</span>client portal</a>
-      <a href="#contact" class="drawer-cta btn-primary">start a project</a>
+      <a href="#home"><span class="nav-num">01.</span>home</a>
+      <a href="#services"><span class="nav-num">02.</span>services</a>
+      <a href="#work"><span class="nav-num">03.</span>portfolio</a>
+      <a href="#work"><span class="nav-num">04.</span>pricing</a>
+      <a href="#process"><span class="nav-num">05.</span>about</a>
+      <a href="#contact"><span class="nav-num">06.</span>contact</a>
+      <a href="/client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> Client Portal</a>
+      <a href="#contact" class="drawer-cta btn-primary">Get Quote</a>
     </div>
     <div class="drawer-theme-section" style="margin-top: auto; padding-top: 16px; margin-bottom: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
       <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.05em;">THEME</span>
@@ -171,6 +176,35 @@
       </div>
     </section>
 
+    <!-- Trust Stats Banner -->
+    <div class="trust-stats-banner">
+      <div class="trust-stat-item">
+        <div class="trust-stars">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <span class="trust-label">Top Rated Agency</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat-item">
+        <span class="trust-val">50+</span>
+        <span class="trust-label">Projects Shipped</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat-item">
+        <span class="trust-val">99%</span>
+        <span class="trust-label">Happy Clients</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat-item">
+        <span class="trust-val"><i class="fa-solid fa-shield-halved"></i></span>
+        <span class="trust-label">Secure &amp; SEO Ready</span>
+      </div>
+    </div>
+
     <!-- Services Section -->
     <section class="block" id="services">
       <div class="path-label">~/services</div>
@@ -245,6 +279,7 @@
             <h3>Turf &amp; sports ground booking</h3>
             <p>Real-time slot reservation system with Razorpay integration, secure JWT session management, and dashboard reporting.</p>
             <div class="work-stack"><span>React</span><span>Node/Express</span><span>MongoDB</span><span>Razorpay</span></div>
+            <a href="#contact" class="work-view-link">View Project <i class="fa-solid fa-arrow-right-long"></i></a>
           </div>
         </div>
 
@@ -260,6 +295,7 @@
             <h3>Personal care brand site</h3>
             <p>High-conversion storefront showcasing products with responsive grids, interactive filters, and an optimized checkout layout.</p>
             <div class="work-stack"><span>React</span><span>CSS Grid</span><span>UX Design</span><span>SEO</span></div>
+            <a href="#contact" class="work-view-link">View Project <i class="fa-solid fa-arrow-right-long"></i></a>
           </div>
         </div>
 
@@ -275,6 +311,7 @@
             <h3>Parallax studio landing page</h3>
             <p>Interactive branding site loaded with scroll animations, particle-based hero graphics, and sleek pricing tabs.</p>
             <div class="work-stack"><span>HTML5/CSS3</span><span>Canvas</span><span>GSAP</span></div>
+            <a href="#contact" class="work-view-link">View Project <i class="fa-solid fa-arrow-right-long"></i></a>
           </div>
         </div>
 
@@ -290,7 +327,95 @@
             <h3>Smart interview assistant</h3>
             <p>Integrated portal parsing resume files, running web-audio recordings, and feeding speech-to-text API evaluation engines.</p>
             <div class="work-stack"><span>React</span><span>Flask</span><span>SQLite</span><span>OpenAI API</span></div>
+            <a href="#contact" class="work-view-link">View Project <i class="fa-solid fa-arrow-right-long"></i></a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="block" id="testimonials">
+      <div class="path-label">~/testimonials</div>
+      <div class="section-head">
+        <h2>Client reviews</h2>
+        <p class="section-note">What founders and product leaders say about working with NextGen Web Studio.</p>
+      </div>
+
+      <div class="testimonials-carousel-container">
+        <div class="testimonials-track" id="testimonialsTrack">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide active">
+            <div class="testimonial-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <blockquote class="testimonial-text">
+              "NextGen Web Studio built our turf booking portal in record time. The integration with Razorpay is flawless, and our admin dashboard runs beautifully. They are exceptionally professional and fast."
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">S</div>
+              <div class="author-info">
+                <span class="author-name">Sanjay Kumar</span>
+                <span class="author-title">Founder, Arena Coimbatore</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <blockquote class="testimonial-text">
+              "We migrated our complete D2C storefront to their custom platform. Our page load speed decreased by 60% on mobile and our organic SEO rankings improved dramatically in less than 3 weeks."
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">P</div>
+              <div class="author-info">
+                <span class="author-name">Priya Dharshini</span>
+                <span class="author-title">Brand Director, PureGlow</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 3 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <blockquote class="testimonial-text">
+              "Their AI interview assistant dashboard is an absolute masterpiece. They scoped the features accurately, integrated the speech APIs cleanly, and provided secure hosting support."
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-avatar">K</div>
+              <div class="author-info">
+                <span class="author-name">Karthik Raja</span>
+                <span class="author-title">Co-Founder, TalentRecruit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carousel Navigation Controls -->
+        <div class="carousel-nav">
+          <button class="carousel-control-btn prev" id="carouselPrevBtn" aria-label="Previous review"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="carousel-dots" id="carouselDots">
+            <span class="carousel-dot active" data-index="0"></span>
+            <span class="carousel-dot" data-index="1"></span>
+            <span class="carousel-dot" data-index="2"></span>
+          </div>
+          <button class="carousel-control-btn next" id="carouselNextBtn" aria-label="Next review"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
     </section>
@@ -535,6 +660,12 @@
       </div>
     </div>
   </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
 
   <!-- Floating AI Chatbot Widget -->
   <div id="aiChatbotWidget" class="chatbot-closed">
