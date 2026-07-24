@@ -135,6 +135,7 @@ async function dbList(collection) {
           projectType: item.stack
         }));
       } else if (collection === 'receipts') {
+        console.log('[dbList receipts query from Supabase] Raw records:', data.map(r => ({ id: r.id, totalAmount: r.totalAmount, projectName: r.projectName })));
         data = data.map(item => ({
           ...item,
           projectTitle: item.projectName,
@@ -915,6 +916,12 @@ function parseBudgetToNumber(budgetString) {
           receipts.push(receipt);
         }
 
+        console.log('[Receipt Save]', {
+          total: receipt.total,
+          subtotal: receipt.subtotal,
+          totalAmount: receipt.totalAmount,
+          items: receipt.lineItems
+        });
         await dbWrite('receipts', receipts);
 
         // OPTIONAL CLIENT NOTIFICATION DISPATCH BASED ON FORM CHECKBOX
