@@ -256,7 +256,7 @@ function readConfigFallback() {
   const base = {
     smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan@nextgenwebstudio.in' },
     razorpay: { keyId: '', keySecret: '' },
-    resend: { apiKey: '', from: 'onboarding@resend.dev', to: 'shridharsan@nextgenwebstudio.in' },
+    resend: { apiKey: '', from: 'NextGen Web Studio <shridharsan@nextgenwebstudio.in>', to: 'shridharsan@nextgenwebstudio.in' },
     oauth: {
       googleClientId: '',
       googleClientSecret: '',
@@ -1012,7 +1012,7 @@ function parseBudgetToNumber(budgetString) {
         if (payload.resend) {
           config.resend = {
             apiKey: payload.resend.apiKey || '',
-            from: payload.resend.from || 'onboarding@resend.dev',
+            from: payload.resend.from || 'NextGen Web Studio <shridharsan@nextgenwebstudio.in>',
             to: payload.resend.to || 'shridharsan@nextgenwebstudio.in'
           };
         }
