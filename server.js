@@ -601,12 +601,12 @@ const server = http.createServer(async (req, res) => {
   // --- INQUIRIES ROUTING (GET, UPDATE, DELETE) ---
   if (pathname === '/api/inquiries' && req.method === 'GET') {
     try {
-      const data = fs.readFileSync(INQUIRIES_FILE, 'utf8');
+      const inquiries = await dbList('inquiries');
       res.writeHead(200, {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
       });
-      res.end(data);
+      res.end(JSON.stringify(inquiries));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Failed to read database inquiries' }));
@@ -761,12 +761,12 @@ function parseBudgetToNumber(budgetString) {
   // --- PROJECTS ROUTING (GET, UPDATE, DELETE) ---
   if (pathname === '/api/projects' && req.method === 'GET') {
     try {
-      const data = fs.readFileSync(PROJECTS_FILE, 'utf8');
+      const projects = await dbList('projects');
       res.writeHead(200, {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
       });
-      res.end(data);
+      res.end(JSON.stringify(projects));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Failed to read database projects' }));
@@ -871,12 +871,12 @@ function parseBudgetToNumber(budgetString) {
   // --- MANUAL RECEIPTS ROUTING (GET, CREATE, DELETE) ---
   if (pathname === '/api/receipts' && req.method === 'GET') {
     try {
-      const data = fs.readFileSync(RECEIPTS_FILE, 'utf8');
+      const receipts = await dbList('receipts');
       res.writeHead(200, {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
       });
-      res.end(data);
+      res.end(JSON.stringify(receipts));
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Failed to read database receipts' }));
@@ -1937,10 +1937,11 @@ function parseBudgetToNumber(budgetString) {
           }
         }
 
+        console.log('[Razorpay Verify] Params received:', { receiptId, email: user.email, razorpay_payment_id, razorpay_order_id, razorpay_signature, verified });
         if (verified) {
           const receipts = await dbList('receipts');
           const index = receipts.findIndex(r => r.id === receiptId && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
-          
+          console.log('[Razorpay Verify] Match index:', index);
           if (index !== -1) {
             receipts[index].status = 'Paid';
             receipts[index].razorpayPaymentId = razorpay_payment_id || 'N/A';
