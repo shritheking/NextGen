@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refund Policy | NextGen Web Studio</title>
+  
+  <!-- FontAwesome & Outfit/JetBrains Mono Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Reuse existing style rules -->
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    .legal-content-wrap {
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 0 24px;
+    }
+    
+    .legal-header {
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 32px;
+    }
+    
+    .legal-header h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    
+    .legal-meta {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+    }
+    
+    .legal-body {
+      line-height: 1.7;
+      color: var(--ink-soft);
+      font-size: 15.5px;
+    }
+    
+    .legal-body h2 {
+      font-size: 22px;
+      color: var(--ink);
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    
+    .legal-body p {
+      margin-bottom: 24px;
+    }
+    
+    .legal-body ul {
+      margin-bottom: 24px;
+      padding-left: 20px;
+    }
+    
+    .legal-body li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="dark-theme">
+  <!-- Header -->
+  <header>
+    <div class="wrap nav-container">
+      <a href="/" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
+      </a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="/#services"><span class="nav-num">01.</span>services</a>
+          <a href="/#work"><span class="nav-num">02.</span>work</a>
+          <a href="/#process"><span class="nav-num">03.</span>process</a>
+          <a href="/#contact"><span class="nav-num">04.</span>contact</a>
+          <a href="/client.html"><span class="nav-num">05.</span>client portal</a>
+        </div>
+        <a href="/#contact" class="nav-cta">start a project</a>
+      </nav>
+
+      <div class="mobile-nav-actions">
+        <a href="/#contact" class="mobile-cta-btn">Get Quote</a>
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="/#home"><span class="nav-num">01.</span>home</a>
+      <a href="/#services"><span class="nav-num">02.</span>services</a>
+      <a href="/#work"><span class="nav-num">03.</span>portfolio</a>
+      <a href="/#work"><span class="nav-num">04.</span>pricing</a>
+      <a href="/#process"><span class="nav-num">05.</span>about</a>
+      <a href="/#contact"><span class="nav-num">06.</span>contact</a>
+      <a href="/client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> Client Portal</a>
+      <a href="/#contact" class="drawer-cta btn-primary">Get Quote</a>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- Main Legal Content -->
+  <main class="legal-content-wrap">
+    <div class="path-label">~/legal/refund-policy</div>
+    <div class="legal-header">
+      <h1>Refund Policy</h1>
+      <div class="legal-meta">Last updated: July 2026 • status: active</div>
+    </div>
+    
+    <div class="legal-body">
+      <h2>1. Custom Service Exclusions</h2>
+      <p>
+        NextGen Web Studio specializes in customized, bespoke design, full-stack engineering, and coding solutions. Because all project scopes are engineered to order based on agreed feature criteria, payments made for completed hours, code development, milestones, or finalized layouts are <strong>generally non-refundable</strong>.
+      </p>
+
+      <h2>2. Project Deposits &amp; Milestones</h2>
+      <p>
+        Initial design deposits and setup fees are non-refundable once visual layout scoping, server setups, or custom wireframing tasks have started. Subsequent milestone payments (e.g. 50% mockups approval, 75% staging build completion) are non-refundable once development on that corresponding milestone phase begins.
+      </p>
+
+      <h2>3. Project Cancellations</h2>
+      <p>
+        Clients may cancel a project contract at any time by sending a written notification via email:
+      </p>
+      <ul>
+        <li>Upon cancellation, work ceases immediately.</li>
+        <li>We will compile a balance sheet detailing completed task items up to the cancellation timestamp.</li>
+        <li>Any unbilled hours or unused portions of the deposit (if work has not started on the next milestone) will be evaluated for potential partial refunds on a case-by-case basis.</li>
+        <li>All completed codebase files will be handed over to the client for partial billing balance payments.</li>
+      </ul>
+
+      <h2>4. Dispute Resolutions</h2>
+      <p>
+        If you are unsatisfied with a delivery milestone or believe a scope deliverable has not been met:
+      </p>
+      <p>
+        You must raise a dispute ticket in the client portal or contact us directly within <strong>5 business days</strong> of milestone handover. We will collaborate with your team to review the requirements criteria and implement modifications to align with the agreed scope.
+      </p>
+
+      <h2>5. Transaction Failures &amp; Double Billing</h2>
+      <p>
+        In the event of network timeouts, double-billing glitches, or checkout errors on the Razorpay payment gateway:
+      </p>
+      <ul>
+        <li>If double billing occurs, we will coordinate with Razorpay support to trigger an immediate refund of the duplicate transaction amount.</li>
+        <li>Duplicate transaction refunds generally credit back to your original source payment method (bank account, credit card, or UPI VPA) within <strong>5 to 7 business days</strong>, subject to bank processing cycles.</li>
+      </ul>
+
+      <h2>6. Refund Method</h2>
+      <p>
+        All approved refund amounts are issued directly to the original bank account or source payment account used during checkout via our payment gateway. We do not issue cash refunds or check payments.
+      </p>
+
+      <h2>7. Contact Us</h2>
+      <p>
+        For questions or dispute reviews regarding payments and refunds:
+      </p>
+      <p>
+        <strong>NextGen Web Studio</strong><br>
+        Email: <a href="mailto:shridharsan@nextgenwebstudio.in">shridharsan@nextgenwebstudio.in</a><br>
+        Location: Coimbatore, Tamil Nadu, India
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">High-performance full-stack web applications and custom digital tools built from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="/#services">Services</a></li>
+            <li><a href="/#work">Work</a></li>
+            <li><a href="/#process">Process</a></li>
+            <li><a href="/#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/#services">Web Design</a></li>
+            <li><a href="/#services">Full-stack builds</a></li>
+            <li><a href="/#services">E-Commerce</a></li>
+            <li><a href="/#services">Product scoping</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:shridharsan@nextgenwebstudio.in">shridharsan@nextgenwebstudio.in</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="tel:6379140067">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms &amp; Conditions</a>
+          <a href="/refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="background:none; border:none; color:var(--ink-soft); cursor:pointer; font-family:var(--font-mono); font-size:12px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal mobile menu toggle script for policy pages
+    const toggle = document.getElementById('menuToggle');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    
+    if (toggle && drawer && overlay) {
+      const open = () => {
+        drawer.style.right = '0';
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.style.opacity = '1', 10);
+      };
+      const close = () => {
+        drawer.style.right = '-320px';
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 300);
+      };
+      toggle.addEventListener('click', open);
+      document.getElementById('drawerClose').addEventListener('click', close);
+      overlay.addEventListener('click', close);
+    }
+  </script>
+</body>
+</html>
