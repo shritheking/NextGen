@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollToTop();
   initParallax();
   initChatbot();
+  initTestimonialsCarousel();
 });
 
 /* ---------- Loading Screen Overlay ---------- */
@@ -725,8 +726,10 @@ function setupWebsiteContactModal(type = 'email') {
       }
     });
   }
+}
 
-  // ---------- TESTIMONIALS CAROUSEL ----------
+// ---------- TESTIMONIALS CAROUSEL ----------
+function initTestimonialsCarousel() {
   const track = document.getElementById('testimonialsTrack');
   const slides = Array.from(track ? track.children : []);
   const prevBtn = document.getElementById('carouselPrevBtn');
