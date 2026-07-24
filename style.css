@@ -3092,6 +3092,13 @@ html, body {
     grid-column: 1 / -1;
     margin-bottom: 16px;
   }
+  .footer-links-col:last-child {
+    grid-column: 1 / -1 !important; /* Direct Connect spans full width to prevent email overflow */
+    margin-top: 12px;
+  }
+  .footer-contact-list li {
+    word-break: break-all; /* Break long emails on very narrow screens */
+  }
   .footer-socials {
     margin-top: 12px !important;
   }
