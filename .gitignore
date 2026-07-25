@@ -19,3 +19,6 @@ node_modules/
 .tempmediaStorage/
 scratch/
 test_*.js
+email_logs.json
+email_templates.json
+
