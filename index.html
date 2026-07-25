@@ -652,12 +652,15 @@
     <!-- FAQ Section -->
     <section class="block" id="faq">
       <div class="path-label">~/faq</div>
-      <div class="section-head">
-        <h2>Frequently Asked Questions</h2>
-        <p>Get answers to common queries about our web design, custom development, and deployment services.</p>
-      </div>
+      <div class="faq-container-grid">
+        <div class="faq-head-sticky">
+          <div style="position: sticky; top: 120px; display: flex; flex-direction: column; gap: 16px;">
+            <h2 style="font-size: clamp(28px, 4vw, 42px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0;">Frequently Asked<br>Questions</h2>
+            <p class="section-note" style="margin: 0; max-width: 32ch;">Get answers to common queries about our web design, custom development, and deployment services.</p>
+          </div>
+        </div>
 
-      <div class="faq-accordion" style="max-width: 800px; margin: 40px auto 0 auto; display: flex; flex-direction: column; gap: 16px;">
+        <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
         
         <div class="faq-item" style="border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); overflow: hidden; transition: all 0.3s ease;">
           <div class="faq-trigger" style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
@@ -720,7 +723,8 @@
         </div>
 
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- Script to power the accordion interaction -->
     <script>

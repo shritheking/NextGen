@@ -3209,4 +3209,20 @@ html, body {
   margin-bottom: 16px;
 }
 
+/* ---------- 11. FAQ RESPONSIVE GRID ---------- */
+.faq-container-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+@media (min-width: 900px) {
+  .faq-container-grid {
+    grid-template-columns: 1fr 1.8fr;
+    gap: 64px;
+    align-items: start;
+  }
+}
+
 

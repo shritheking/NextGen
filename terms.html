@@ -47,10 +47,64 @@
   <link rel="stylesheet" href="style.css">
   
   <style>
+    .legal-main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin: 80px auto;
+    }
+    
+    .legal-sidebar {
+      display: none;
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .legal-sidebar h3 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 20px;
+      letter-spacing: 1.5px;
+    }
+
+    .legal-sidebar ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .legal-sidebar li a {
+      font-size: 14px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+      font-weight: 500;
+    }
+
+    .legal-sidebar li a:hover,
+    .legal-sidebar li a.active {
+      color: var(--accent);
+    }
+    
     .legal-content-wrap {
       max-width: 800px;
-      margin: 80px auto;
-      padding: 0 24px;
+      width: 100%;
+    }
+    
+    @media (min-width: 992px) {
+      .legal-main-grid {
+        grid-template-columns: 280px 1fr;
+        gap: 60px;
+      }
+      .legal-sidebar {
+        display: block;
+      }
     }
     
     .legal-header {
@@ -183,93 +237,114 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
   <!-- Main Legal Content -->
-  <main class="legal-content-wrap">
-    <div class="path-label">~/legal/terms-and-conditions</div>
-    <div class="legal-header">
-      <h1>Terms &amp; Conditions</h1>
-      <div class="legal-meta">Last updated: July 2026 • status: active</div>
-    </div>
-    
-    <div class="legal-body">
-      <h2>1. Acceptance of Terms</h2>
-      <p>
-        By accessing the NextGen Web Studio website, creating accounts inside our client portal, or booking project scopes, you agree to comply with and be bound by these Terms &amp; Conditions. If you do not accept these terms, you must discontinue using our services.
-      </p>
-
-      <h2>2. Studio Services</h2>
-      <p>
-        We provide professional, customized digital products and coding services, including:
-      </p>
+  <main class="wrap legal-main-grid">
+    <!-- Left: Sidebar navigation -->
+    <aside class="legal-sidebar">
+      <h3>On this page</h3>
       <ul>
-        <li>Bespoke Website Design &amp; Styling</li>
-        <li>Full-Stack Application Development (React, Node, etc.)</li>
-        <li>Custom E-Commerce Storefronts</li>
-        <li>Sports &amp; Appointment Booking Calendar Systems</li>
-        <li>Search Engine Optimization (SEO) &amp; Speed Audits</li>
-        <li>Product consulting and MVP prototyping</li>
+        <li><a href="#accept" class="active">1. Acceptance</a></li>
+        <li><a href="#services">2. Services</a></li>
+        <li><a href="#scoping">3. Scoping &amp; Estimates</a></li>
+        <li><a href="#payments">4. Payments &amp; Billing</a></li>
+        <li><a href="#delivery">5. Timeline &amp; Delivery</a></li>
+        <li><a href="#responsibilities">6. Client Rules</a></li>
+        <li><a href="#property">7. Intellectual Property</a></li>
+        <li><a href="#refund">8. Refund Policy</a></li>
+        <li><a href="#liability">9. Liability Limit</a></li>
+        <li><a href="#modifications">10. Modifications</a></li>
+        <li><a href="#contact">11. Contact Us</a></li>
       </ul>
+    </aside>
 
-      <h2>3. Scoping &amp; Estimates</h2>
-      <p>
-        Any proposals, cost sheets, or pricing estimates generated via our contact form or client portal are preliminary estimates. Final project pricing, project milestones, and deliverables are subject to change and depend entirely on the formally agreed Requirements document before project initiation.
-      </p>
+    <!-- Right: Content wrap -->
+    <div class="legal-content-wrap">
+      <div class="path-label">~/legal/terms-and-conditions</div>
+      <div class="legal-header">
+        <h1>Terms &amp; Conditions</h1>
+        <div class="legal-meta">Last updated: July 2026 • status: active</div>
+      </div>
+      
+      <div class="legal-body">
+        <h2 id="accept">1. Acceptance of Terms</h2>
+        <p>
+          By accessing the NextGen Web Studio website, creating accounts inside our client portal, or booking project scopes, you agree to comply with and be bound by these Terms &amp; Conditions. If you do not accept these terms, you must discontinue using our services.
+        </p>
 
-      <h2>4. Payments &amp; Billing</h2>
-      <p>
-        To schedule resources and initiate development work, an advance deposit payment is required. The remaining project balance is due prior to final source code delivery, deployment, or hosting handoff, unless explicitly agreed otherwise.
-      </p>
-      <p>
-        All payments are securely processed through the Razorpay gateway. Failure to settle outstanding balances on milestone dates may result in a temporary suspension of scoping or development services.
-      </p>
+        <h2 id="services">2. Studio Services</h2>
+        <p>
+          We provide professional, customized digital products and coding services, including:
+        </p>
+        <ul>
+          <li>Bespoke Website Design &amp; Styling</li>
+          <li>Full-Stack Application Development (React, Node, etc.)</li>
+          <li>Custom E-Commerce Storefronts</li>
+          <li>Sports &amp; Appointment Booking Calendar Systems</li>
+          <li>Search Engine Optimization (SEO) &amp; Speed Audits</li>
+          <li>Product consulting and MVP prototyping</li>
+        </ul>
 
-      <h2>5. Timeline &amp; Delivery</h2>
-      <p>
-        Project delivery schedules are calculated based on scope complexity. Estimated timelines are guidelines only. Delays in supplying assets (logos, content text, image files) or securing required client approvals will extend delivery schedules. We are not responsible for project delays caused by a lack of timely client feedback.
-      </p>
+        <h2 id="scoping">3. Scoping &amp; Estimates</h2>
+        <p>
+          Any proposals, cost sheets, or pricing estimates generated via our contact form or client portal are preliminary estimates. Final project pricing, project milestones, and deliverables are subject to change and depend entirely on the formally agreed Requirements document before project initiation.
+        </p>
 
-      <h2>6. Client Responsibilities</h2>
-      <p>
-        Clients are responsible for supplying all copy, imagery, brand assets, and third-party API credentials (such as Google, Razorpay, or domain registry tokens) necessary to implement the project. You warrant that you own or have permission to use all content supplied to us.
-      </p>
+        <h2 id="payments">4. Payments &amp; Billing</h2>
+        <p>
+          To schedule resources and initiate development work, an advance deposit payment is required. The remaining project balance is due prior to final source code delivery, deployment, or hosting handoff, unless explicitly agreed otherwise.
+        </p>
+        <p>
+          All payments are securely processed through the Razorpay gateway. Failure to settle outstanding balances on milestone dates may result in a temporary suspension of scoping or development services.
+        </p>
 
-      <h2>7. Intellectual Property</h2>
-      <p>
-        All visual assets and text content supplied by the client remain your intellectual property. 
-      </p>
-      <p>
-        Upon receipt of full and final payment, ownership of custom-written codebase files transfers to the client. NextGen Web Studio retains the right to display project screenshots and descriptions in our public portfolios and case study materials for promotional purposes.
-      </p>
+        <h2 id="delivery">5. Timeline &amp; Delivery</h2>
+        <p>
+          Project delivery schedules are calculated based on scope complexity. Estimated timelines are guidelines only. Delays in supplying assets (logos, content text, image files) or securing required client approvals will extend delivery schedules. We are not responsible for project delays caused by a lack of timely client feedback.
+        </p>
 
-      <h2>8. Refund Policy</h2>
-      <p>
-        Due to the customized nature of professional web development and coding services, payments made for completed design or coding tasks are non-refundable. For detailed conditions on cancellation refunds, please review our <a href="/refunds.html">Refund Policy</a>.
-      </p>
+        <h2 id="responsibilities">6. Client Responsibilities</h2>
+        <p>
+          Clients are responsible for supplying all copy, imagery, brand assets, and third-party API credentials (such as Google, Razorpay, or domain registry tokens) necessary to implement the project. You warrant that you own or have permission to use all content supplied to us.
+        </p>
 
-      <h2>9. Limitation of Liability</h2>
-      <p>
-        NextGen Web Studio is not liable for business interruptions, data losses, or financial damages arising from:
-      </p>
-      <ul>
-        <li>Third-party hosting server downtime or network failures.</li>
-        <li>Domain registrar expirations or DNS errors.</li>
-        <li>Third-party API deprecations or server outages.</li>
-        <li>Razorpay gateway transactions or checkout downtime.</li>
-      </ul>
+        <h2 id="property">7. Intellectual Property</h2>
+        <p>
+          All visual assets and text content supplied by the client remain your intellectual property. 
+        </p>
+        <p>
+          Upon receipt of full and final payment, ownership of custom-written codebase files transfers to the client. NextGen Web Studio retains the right to display project screenshots and descriptions in our public portfolios and case study materials for promotional purposes.
+        </p>
 
-      <h2>10. Modifications to Terms</h2>
-      <p>
-        We reserves the right to edit, modify, or replace these Terms &amp; Conditions at any time. Active clients will be notified of material updates directly via email or the client portal.
-      </p>
+        <h2 id="refund">8. Refund Policy</h2>
+        <p>
+          Due to the customized nature of professional web development and coding services, payments made for completed design or coding tasks are non-refundable. For detailed conditions on cancellation refunds, please review our <a href="/refunds.html">Refund Policy</a>.
+        </p>
 
-      <h2>11. Contact Us</h2>
-      <p>
-        For inquiries regarding our service terms:
-      </p>
-      <p>
-        <strong>NextGen Web Studio</strong><br>
-        Email: <a href="mailto:shridharsan@nextgenwebstudio.in">shridharsan@nextgenwebstudio.in</a><br>
-        Location: Coimbatore, Tamil Nadu, India
-      </p>
+        <h2 id="liability">9. Limitation of Liability</h2>
+        <p>
+          NextGen Web Studio is not liable for business interruptions, data losses, or financial damages arising from:
+        </p>
+        <ul>
+          <li>Third-party hosting server downtime or network failures.</li>
+          <li>Domain registrar expirations or DNS errors.</li>
+          <li>Third-party API deprecations or server outages.</li>
+          <li>Razorpay gateway transactions or checkout downtime.</li>
+        </ul>
+
+        <h2 id="modifications">10. Modifications to Terms</h2>
+        <p>
+          We reserves the right to edit, modify, or replace these Terms &amp; Conditions at any time. Active clients will be notified of material updates directly via email or the client portal.
+        </p>
+
+        <h2 id="contact">11. Contact Us</h2>
+        <p>
+          For inquiries regarding our service terms:
+        </p>
+        <p>
+          <strong>NextGen Web Studio</strong><br>
+          Email: <a href="mailto:shridharsan@nextgenwebstudio.in">shridharsan@nextgenwebstudio.in</a><br>
+          Location: Coimbatore, Tamil Nadu, India
+        </p>
+      </div>
     </div>
   </main>
 
@@ -371,6 +446,26 @@
     };
     if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
     if (drawerThemeBtn) drawerThemeBtn.addEventListener('click', toggleTheme);
+
+    // Scroll active link highlight logic
+    window.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            const link = document.querySelector(`.legal-sidebar a[href="#${id}"]`);
+            if (link) {
+              document.querySelectorAll('.legal-sidebar a').forEach(a => a.classList.remove('active'));
+              link.classList.add('active');
+            }
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px' });
+
+      document.querySelectorAll('.legal-body h2[id]').forEach(h2 => {
+        observer.observe(h2);
+      });
+    });
   </script>
 </body>
 </html>
