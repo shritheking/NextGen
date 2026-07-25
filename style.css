@@ -812,20 +812,15 @@ h2 {
 .service-icon {
   font-size: 28px;
   color: var(--accent);
-  margin-bottom: 24px;
-  width: 54px;
-  height: 54px;
-  background-color: var(--bg-alt);
-  border-radius: 12px;
-  display: flex;
+  margin-bottom: 20px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border);
-  transition: background-color var(--transition-normal), transform var(--transition-normal);
+  transition: transform var(--transition-normal);
 }
 
 .service-card:hover .service-icon {
-  background-color: var(--bg-card);
+  transform: translateY(-4px);
 }
 
 .service-index {
