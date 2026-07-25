@@ -1,0 +1,21 @@
+{
+  "name": "NextGen Web Studio",
+  "short_name": "NextGen",
+  "description": "Premium Web Design & Full-Stack Development Company in Coimbatore",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b0a",
+  "theme_color": "#e0ff4f",
+  "icons": [
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

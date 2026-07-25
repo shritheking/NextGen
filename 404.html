@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found | NextGen Web Studio</title>
+  <meta name="description" content="The requested page could not be located on NextGen Web Studio.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      overflow: hidden;
+      margin: 0;
+    }
+    .error-container {
+      text-align: center;
+      max-width: 500px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-alt);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .error-logo {
+      width: 140px;
+      margin: 0 auto 30px auto;
+      display: block;
+    }
+    h1 {
+      font-size: 72px;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      margin: 0 0 10px 0;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -2px;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 0 0 15px 0;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    p {
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0 0 30px 0;
+    }
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 12px 24px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 13.5px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      background: var(--ink);
+      color: var(--bg-alt);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 13.5px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="dark-theme">
+  <div class="error-container">
+    <svg class="error-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="24" fill="#0b0b0a"/>
+      <rect x="2" y="2" width="96" height="96" rx="22" fill="none" stroke="#22211f" stroke-width="4"/>
+      <path d="M 28,26 L 52,50 L 28,74" stroke="#f5f4f0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M 50,26 L 74,50 L 50,74" stroke="#e0ff4f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    
+    <h1>404</h1>
+    <h2>Route Unresolved</h2>
+    <p>The requested page or directory does not exist, or has been relocated to another path in our workspace.</p>
+    
+    <div class="btn-group">
+      <a href="/" class="btn-primary"><i class="fa-solid fa-house"></i> Go to Home</a>
+      <a href="/#contact" class="btn-secondary"><i class="fa-solid fa-paper-plane"></i> Contact Us</a>
+    </div>
+  </div>
+</body>
+</html>
