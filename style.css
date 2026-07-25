@@ -795,7 +795,7 @@ h2 {
 }
 
 .service-card {
-  background-color: var(--bg-card);
+  background-color: transparent;
   padding: 56px 36px 44px;
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -805,7 +805,7 @@ h2 {
 }
 
 .service-card:hover {
-  background-color: var(--bg-alt);
+  background-color: transparent;
   border-color: var(--border-focus);
 }
 
@@ -2760,7 +2760,7 @@ html, body {
   margin: 40px auto 0;
   position: relative;
   overflow: hidden;
-  background-color: var(--bg-alt);
+  background-color: transparent;
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 56px 48px;
