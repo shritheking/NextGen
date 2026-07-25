@@ -317,14 +317,6 @@
     }, 1500);
   </script>
 
-  <!-- Theme Toggle Button -->
-  <div class="theme-toggle-container">
-    <button id="themeToggleBtn" aria-label="Toggle color theme" title="Switch Theme">
-      <i class="fa-solid fa-sun"></i>
-      <i class="fa-solid fa-moon"></i>
-    </button>
-  </div>
-
   <!-- Header ( Verbatim Homepage layout ) -->
   <header>
     <div class="wrap nav-container">
@@ -343,6 +335,10 @@
           <a href="/#contact"><span class="nav-num">04.</span>contact</a>
           <a href="/client.html" class="active"><span class="nav-num">05.</span>client portal</a>
         </div>
+        <button id="themeToggleBtn" aria-label="Toggle light/dark theme" title="Switch Theme" style="background:none; border:none; color:var(--ink-soft); cursor:pointer; font-size:16px; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:50%; transition:all 0.2s ease;">
+          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+        </button>
         
         <!-- User email state & sign out -->
         <span class="active-user-badge" id="headerUserBadge" style="display: none;">
@@ -588,38 +584,7 @@
     </div>
   </footer>
 
-  <!-- Floating AI Chatbot Widget -->
-  <div id="aiChatbotWidget" class="chatbot-closed">
-    <!-- Chat Button -->
-    <button id="chatbotToggleBtn" aria-label="Open AI Assistant" title="Chat with AI">
-      <i class="fa-solid fa-comments"></i>
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    
-    <!-- Chat Panel -->
-    <div class="chatbot-panel">
-      <div class="chat-header">
-        <div class="bot-info">
-          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
-          <div class="bot-text-meta">
-            <h4>nextgen_assistant</h4>
-            <span>online • instant response</span>
-          </div>
-        </div>
-      </div>
-      <div class="chat-body" id="chatBody">
-        <div class="chat-message bot">
-          Hi! I'm your NextGen AI Assistant. 🤖
-          <br><br>
-          Ask me anything about our services, pricing, timeline, contact details, or location in Coimbatore!
-        </div>
-      </div>
-      <form class="chat-input-area" id="chatForm">
-        <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off" required>
-        <button type="submit" id="chatSubmitBtn"><i class="fa-solid fa-paper-plane"></i></button>
-      </form>
-    </div>
-  </div>
+
 
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>

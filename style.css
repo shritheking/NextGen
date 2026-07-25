@@ -148,29 +148,27 @@ h1, h2, h3, h4 {
 
 /* ---------- Theme Toggle Switch ---------- */
 .theme-toggle-container {
-  position: fixed;
-  bottom: 30px;
-  right: 96px; /* Shifted left to make space for the chatbot */
-  z-index: 100;
+  display: none !important;
 }
 
 #themeToggleBtn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--ink);
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-normal);
+  padding: 8px;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+  font-size: 16px;
 }
 
 #themeToggleBtn:hover {
-  transform: scale(1.08);
-  border-color: var(--accent);
+  color: var(--ink);
+  background-color: var(--bg-alt);
+  transform: scale(1.05);
 }
 
 body.dark-theme #themeToggleBtn .fa-moon,
@@ -183,13 +181,13 @@ body.light-theme #drawerThemeToggleBtn .fa-sun {
 body.dark-theme #themeToggleBtn .fa-sun,
 body.dark-theme #drawerThemeToggleBtn .fa-sun {
   color: var(--accent);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 body.light-theme #themeToggleBtn .fa-moon,
 body.light-theme #drawerThemeToggleBtn .fa-moon {
   color: var(--ink-soft);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* ---------- NAVIGATION HEADER ---------- */
@@ -1933,11 +1931,7 @@ form {
 
 /* ---------- FLOATING AI CHATBOT ---------- */
 #aiChatbotWidget {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 200;
-  font-family: var(--font-body);
+  display: none !important;
 }
 
 #chatbotToggleBtn {
@@ -2909,22 +2903,7 @@ html, body {
 
 /* ---------- 4. FLOATING WHATSAPP BUTTON ---------- */
 .floating-whatsapp-btn {
-  position: fixed;
-  bottom: 32px;
-  left: 20px;
-  background-color: #25D366;
-  color: #fff;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-  z-index: 999;
-  text-decoration: none;
-  font-size: 24px;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  display: none !important;
 }
 
 .floating-whatsapp-btn:hover {
