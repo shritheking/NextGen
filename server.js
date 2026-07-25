@@ -39,12 +39,44 @@ const RECEIPTS_FILE = path.join(__dirname, 'receipts.json');
 const CONFIG_FILE = path.join(__dirname, 'config.json');
 const USERS_FILE = path.join(__dirname, 'users.json');
 const CHAT_MESSAGES_FILE = path.join(__dirname, 'chatbot_messages.json');
+const EMAIL_TEMPLATES_FILE = path.join(__dirname, 'email_templates.json');
+const EMAIL_LOGS_FILE = path.join(__dirname, 'email_logs.json');
 
 // Ensure database files exist
 if (!fs.existsSync(PROJECTS_FILE)) fs.writeFileSync(PROJECTS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(INQUIRIES_FILE)) fs.writeFileSync(INQUIRIES_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(RECEIPTS_FILE)) fs.writeFileSync(RECEIPTS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(CHAT_MESSAGES_FILE)) fs.writeFileSync(CHAT_MESSAGES_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(EMAIL_LOGS_FILE)) fs.writeFileSync(EMAIL_LOGS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(EMAIL_TEMPLATES_FILE)) {
+  const defaultTemplates = [
+    {
+      id: 'inquiry_alert',
+      name: 'Contact Form Alert (Admin)',
+      subject: 'New Project Scoping Form Submitted - {{projectName}}',
+      body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p style="font-size: 14.5px; line-height: 1.6; color: #0a0a0a; font-weight: 600;">New Project Scoping Form Submitted</p>\n  <p><strong>Client Name:</strong> {{clientName}}</p>\n  <p><strong>Email:</strong> {{clientEmail}}</p>\n  <p><strong>Phone:</strong> {{clientPhone}}</p>\n  <p><strong>Budget:</strong> {{budget}}</p>\n  <p><strong>Message:</strong> {{message}}</p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+    },
+    {
+      id: 'client_receipt',
+      name: 'Payment Receipt (Client)',
+      subject: 'Payment Confirmation: Invoice #{{receiptNumber}}',
+      body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p>Dear {{clientName}},</p>\n  <p>Thank you for your payment! We have successfully processed your transaction for project <strong>{{projectName}}</strong>.</p>\n  <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Receipt ID:</td>\n      <td style="padding: 8px 0; text-align: right;">{{receiptNumber}}</td>\n    </tr>\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Amount Paid:</td>\n      <td style="padding: 8px 0; text-align: right; font-size: 16px; color: #00aa00; font-weight: 700;">{{amount}}</td>\n    </tr>\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Status:</td>\n      <td style="padding: 8px 0; text-align: right; text-transform: uppercase; font-weight: 700; color: #00aa00;">Paid</td>\n    </tr>\n  </table>\n  <p>If you have any billing inquiries, feel free to contact us or log in to your Client Portal.</p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+    },
+    {
+      id: 'client_invoice',
+      name: 'Invoice Notice (Client)',
+      subject: 'New Invoice Issued: {{projectName}}',
+      body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p>Dear {{clientName}},</p>\n  <p>A new invoice has been generated for your project <strong>{{projectName}}</strong>.</p>\n  <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Invoice ID:</td>\n      <td style="padding: 8px 0; text-align: right;">{{receiptNumber}}</td>\n    </tr>\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Amount Due:</td>\n      <td style="padding: 8px 0; text-align: right; font-size: 16px; font-weight: 700;">{{amount}}</td>\n    </tr>\n  </table>\n  <p style="margin: 25px 0; text-align: center;">\n    <a href="{{portalUrl}}" style="background-color: #0a0a0a; color: #fafaf9; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; display: inline-block;">Log In to Pay Invoice</a>\n  </p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+    },
+    {
+      id: 'welcome_email',
+      name: 'Welcome & Portal Access (Client)',
+      subject: 'Welcome to your NextGen Client Portal',
+      body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p>Dear {{clientName}},</p>\n  <p>Your client portal account has been approved and activated! You can now log in to view project statuses, access invoices, and settle milestones securely.</p>\n  <p><strong>Login Email:</strong> {{clientEmail}}</p>\n  <p style="margin: 25px 0; text-align: center;">\n    <a href="{{portalUrl}}" style="background-color: #0a0a0a; color: #fafaf9; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; display: inline-block;">Access Client Portal</a>\n  </p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+    }
+  ];
+  fs.writeFileSync(EMAIL_TEMPLATES_FILE, JSON.stringify(defaultTemplates, null, 2));
+}
 if (!fs.existsSync(USERS_FILE)) {
   fs.writeFileSync(USERS_FILE, JSON.stringify([
     { email: 'shridharsanshridharsan@gmail.com', passcode: '123456' },
@@ -101,6 +133,8 @@ function getLocalFile(collection) {
     case 'receipts': return RECEIPTS_FILE;
     case 'users': return USERS_FILE;
     case 'chatbot_messages': return CHAT_MESSAGES_FILE;
+    case 'email_templates': return EMAIL_TEMPLATES_FILE;
+    case 'email_logs': return EMAIL_LOGS_FILE;
     default: return path.join(__dirname, `${collection}.json`);
   }
 }
@@ -254,9 +288,23 @@ async function dbDeleteUserByEmail(email) {
 
 function readConfigFallback() {
   const base = {
-    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan@nextgenwebstudio.in' },
+    provider: 'resend',
+    smtp: { 
+      host: 'smtp.gmail.com', 
+      port: 465, 
+      user: '', 
+      pass: '', 
+      fromName: 'NextGen Web Studio', 
+      fromEmail: 'shridharsan@nextgenwebstudio.in', 
+      to: 'shridharsan@nextgenwebstudio.in' 
+    },
     razorpay: { keyId: '', keySecret: '' },
-    resend: { apiKey: '', from: 'NextGen Web Studio <shridharsan@nextgenwebstudio.in>', to: 'shridharsan@nextgenwebstudio.in' },
+    resend: { 
+      apiKey: '', 
+      fromName: 'NextGen Web Studio', 
+      fromEmail: 'shridharsan@nextgenwebstudio.in', 
+      to: 'shridharsan@nextgenwebstudio.in' 
+    },
     oauth: {
       googleClientId: '',
       googleClientSecret: '',
@@ -271,6 +319,7 @@ function readConfigFallback() {
       const data = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
       // Deep merge fallback fields
       const config = {
+        provider: data.provider || base.provider,
         smtp: { ...base.smtp, ...data.smtp },
         razorpay: { ...base.razorpay, ...data.razorpay },
         resend: { ...base.resend, ...data.resend },
@@ -283,36 +332,42 @@ function readConfigFallback() {
       if (process.env.RAZORPAY_KEY_SECRET && !config.razorpay.keySecret) {
         config.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
       }
+      if (process.env.EMAIL_PROVIDER) config.provider = process.env.EMAIL_PROVIDER;
       if (process.env.SMTP_HOST && !config.smtp.host) config.smtp.host = process.env.SMTP_HOST;
       if (process.env.SMTP_PORT && !config.smtp.port) config.smtp.port = parseInt(process.env.SMTP_PORT, 10);
       if (process.env.SMTP_USER && !config.smtp.user) config.smtp.user = process.env.SMTP_USER;
       if (process.env.SMTP_PASS && !config.smtp.pass) config.smtp.pass = process.env.SMTP_PASS;
-      if (process.env.SMTP_FROM && !config.smtp.from) config.smtp.from = process.env.SMTP_FROM;
-      if (process.env.SMTP_TO && !config.smtp.to) config.smtp.to = process.env.SMTP_TO;
+      if (process.env.SMTP_FROM_NAME && !config.smtp.fromName) config.smtp.fromName = process.env.SMTP_FROM_NAME;
+      if (process.env.SMTP_FROM_EMAIL && !config.smtp.fromEmail) config.smtp.fromEmail = process.env.SMTP_FROM_EMAIL;
+      if (process.env.ADMIN_EMAIL) {
+        config.smtp.to = process.env.ADMIN_EMAIL;
+        config.resend.to = process.env.ADMIN_EMAIL;
+      }
       if (process.env.RESEND_API_KEY && !config.resend.apiKey) config.resend.apiKey = process.env.RESEND_API_KEY;
-      if (process.env.RESEND_FROM && !config.resend.from) config.resend.from = process.env.RESEND_FROM;
-      if (process.env.RESEND_TO && !config.resend.to) config.resend.to = process.env.RESEND_TO;
+      if (process.env.RESEND_FROM_NAME && !config.resend.fromName) config.resend.fromName = process.env.RESEND_FROM_NAME;
+      if (process.env.RESEND_FROM_EMAIL && !config.resend.fromEmail) config.resend.fromEmail = process.env.RESEND_FROM_EMAIL;
       return config;
     }
   } catch (err) {
     console.error('Error reading config: ', err);
   }
 
-  if (process.env.RAZORPAY_KEY_ID) {
-    base.razorpay.keyId = process.env.RAZORPAY_KEY_ID;
-  }
-  if (process.env.RAZORPAY_KEY_SECRET) {
-    base.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
-  }
+  if (process.env.RAZORPAY_KEY_ID) base.razorpay.keyId = process.env.RAZORPAY_KEY_ID;
+  if (process.env.RAZORPAY_KEY_SECRET) base.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
+  if (process.env.EMAIL_PROVIDER) base.provider = process.env.EMAIL_PROVIDER;
   if (process.env.SMTP_HOST) base.smtp.host = process.env.SMTP_HOST;
   if (process.env.SMTP_PORT) base.smtp.port = parseInt(process.env.SMTP_PORT, 10);
   if (process.env.SMTP_USER) base.smtp.user = process.env.SMTP_USER;
   if (process.env.SMTP_PASS) base.smtp.pass = process.env.SMTP_PASS;
-  if (process.env.SMTP_FROM) base.smtp.from = process.env.SMTP_FROM;
-  if (process.env.SMTP_TO) base.smtp.to = process.env.SMTP_TO;
+  if (process.env.SMTP_FROM_NAME) base.smtp.fromName = process.env.SMTP_FROM_NAME;
+  if (process.env.SMTP_FROM_EMAIL) base.smtp.fromEmail = process.env.SMTP_FROM_EMAIL;
+  if (process.env.ADMIN_EMAIL) {
+    base.smtp.to = process.env.ADMIN_EMAIL;
+    base.resend.to = process.env.ADMIN_EMAIL;
+  }
   if (process.env.RESEND_API_KEY) base.resend.apiKey = process.env.RESEND_API_KEY;
-  if (process.env.RESEND_FROM) base.resend.from = process.env.RESEND_FROM;
-  if (process.env.RESEND_TO) base.resend.to = process.env.RESEND_TO;
+  if (process.env.RESEND_FROM_NAME) base.resend.fromName = process.env.RESEND_FROM_NAME;
+  if (process.env.RESEND_FROM_EMAIL) base.resend.fromEmail = process.env.RESEND_FROM_EMAIL;
   return base;
 }
 
@@ -333,6 +388,10 @@ function readConfig() {
     config.razorpay.keySecret = process.env.RAZORPAY_KEY_SECRET;
   }
   
+  if (process.env.EMAIL_PROVIDER) {
+    config.provider = process.env.EMAIL_PROVIDER;
+  }
+  
   if (process.env.SMTP_HOST) {
     config.smtp = config.smtp || {};
     config.smtp.host = process.env.SMTP_HOST;
@@ -349,26 +408,32 @@ function readConfig() {
     config.smtp = config.smtp || {};
     config.smtp.pass = process.env.SMTP_PASS;
   }
-  if (process.env.SMTP_FROM) {
+  if (process.env.SMTP_FROM_NAME) {
     config.smtp = config.smtp || {};
-    config.smtp.from = process.env.SMTP_FROM;
+    config.smtp.fromName = process.env.SMTP_FROM_NAME;
   }
-  if (process.env.SMTP_TO) {
+  if (process.env.SMTP_FROM_EMAIL) {
     config.smtp = config.smtp || {};
-    config.smtp.to = process.env.SMTP_TO;
+    config.smtp.fromEmail = process.env.SMTP_FROM_EMAIL;
+  }
+  if (process.env.ADMIN_EMAIL) {
+    config.smtp = config.smtp || {};
+    config.smtp.to = process.env.ADMIN_EMAIL;
+    config.resend = config.resend || {};
+    config.resend.to = process.env.ADMIN_EMAIL;
   }
   
   if (process.env.RESEND_API_KEY) {
     config.resend = config.resend || {};
     config.resend.apiKey = process.env.RESEND_API_KEY;
   }
-  if (process.env.RESEND_FROM) {
+  if (process.env.RESEND_FROM_NAME) {
     config.resend = config.resend || {};
-    config.resend.from = process.env.RESEND_FROM;
+    config.resend.fromName = process.env.RESEND_FROM_NAME;
   }
-  if (process.env.RESEND_TO) {
+  if (process.env.RESEND_FROM_EMAIL) {
     config.resend = config.resend || {};
-    config.resend.to = process.env.RESEND_TO;
+    config.resend.fromEmail = process.env.RESEND_FROM_EMAIL;
   }
   
   if (process.env.GOOGLE_CLIENT_ID) {
@@ -416,6 +481,118 @@ async function initConfig() {
   global.CONFIG = readConfigFallback();
 }
 
+// ---------- EMAIL TEMPLATING, DISPATCH & HISTORY LOGGING ----------
+
+async function logEmailToHistory(recipient, subject, provider, status, error, messageId, latency) {
+  try {
+    const logs = await dbList('email_logs');
+    const newLog = {
+      id: 'log_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      timestamp: new Date().toISOString(),
+      recipient,
+      subject,
+      provider,
+      status,
+      error: error || '',
+      messageId: messageId || '',
+      latency: latency || 0
+    };
+    logs.unshift(newLog); // Prepend to show newest first
+    // Limit to last 100 entries to prevent files bloating
+    const limitedLogs = logs.slice(0, 100);
+    await dbWrite('email_logs', limitedLogs);
+  } catch (e) {
+    console.error('[Error logging email to history]:', e);
+  }
+}
+
+async function renderEmailTemplate(templateId, variables = {}) {
+  const templates = await dbList('email_templates');
+  let template = templates.find(t => t.id === templateId);
+  
+  // If not found, return default fallback templates
+  if (!template) {
+    const defaults = {
+      inquiry_alert: {
+        subject: 'New Project Scoping Form Submitted - {{projectName}}',
+        body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p style="font-size: 14.5px; line-height: 1.6; color: #0a0a0a; font-weight: 600;">New Project Scoping Form Submitted</p>\n  <p><strong>Client Name:</strong> {{clientName}}</p>\n  <p><strong>Email:</strong> {{clientEmail}}</p>\n  <p><strong>Phone:</strong> {{clientPhone}}</p>\n  <p><strong>Budget:</strong> {{budget}}</p>\n  <p><strong>Message:</strong> {{message}}</p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+      },
+      client_receipt: {
+        subject: 'Payment Confirmation: Invoice #{{receiptNumber}}',
+        body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p>Dear {{clientName}},</p>\n  <p>Thank you for your payment! We have successfully processed your transaction for project <strong>{{projectName}}</strong>.</p>\n  <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Receipt ID:</td>\n      <td style="padding: 8px 0; text-align: right;">{{receiptNumber}}</td>\n    </tr>\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Amount Paid:</td>\n      <td style="padding: 8px 0; text-align: right; font-size: 16px; color: #00aa00; font-weight: 700;">{{amount}}</td>\n    </tr>\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Status:</td>\n      <td style="padding: 8px 0; text-align: right; text-transform: uppercase; font-weight: 700; color: #00aa00;">Paid</td>\n    </tr>\n  </table>\n  <p>If you have any billing inquiries, feel free to contact us or log in to your Client Portal.</p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+      },
+      client_invoice: {
+        subject: 'New Invoice Issued: {{projectName}}',
+        body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p>Dear {{clientName}},</p>\n  <p>A new invoice has been generated for your project <strong>{{projectName}}</strong>.</p>\n  <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Invoice ID:</td>\n      <td style="padding: 8px 0; text-align: right;">{{receiptNumber}}</td>\n    </tr>\n    <tr style="border-bottom: 1px solid #dedcd4;">\n      <td style="padding: 8px 0; font-weight: 600;">Amount Due:</td>\n      <td style="padding: 8px 0; text-align: right; font-size: 16px; font-weight: 700;">{{amount}}</td>\n    </tr>\n  </table>\n  <p style="margin: 25px 0; text-align: center;">\n    <a href="{{portalUrl}}" style="background-color: #0a0a0a; color: #fafaf9; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; display: inline-block;">Log In to Pay Invoice</a>\n  </p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+      },
+      welcome_email: {
+        subject: 'Welcome to your NextGen Client Portal',
+        body: `<div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">\n  <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>\n  <p>Dear {{clientName}},</p>\n  <p>Your client portal account has been approved and activated! You can now log in to view project statuses, access invoices, and settle milestones securely.</p>\n  <p><strong>Login Email:</strong> {{clientEmail}}</p>\n  <p style="margin: 25px 0; text-align: center;">\n    <a href="{{portalUrl}}" style="background-color: #0a0a0a; color: #fafaf9; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 14px; display: inline-block;">Access Client Portal</a>\n  </p>\n  <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">\n    Coimbatore, Tamil Nadu • Indian Standard Time\n  </div>\n</div>`
+      }
+    };
+    template = defaults[templateId] || { subject: 'Notification', body: '{{body}}' };
+    template.id = templateId;
+  }
+
+  let subject = template.subject;
+  let body = template.body;
+
+  Object.keys(variables).forEach(key => {
+    const val = variables[key];
+    const regex = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
+    subject = subject.replace(regex, val);
+    body = body.replace(regex, val);
+  });
+
+  return { subject, html: body };
+}
+
+async function dispatchEmail(emailOptions) {
+  const config = readConfig();
+  const startTime = Date.now();
+  
+  let provider = config.provider || 'resend';
+  // If no resend key is configured, fallback to smtp configuration
+  if (provider === 'resend' && !config.resend.apiKey && config.smtp.user && config.smtp.pass) {
+    provider = 'smtp';
+  }
+  
+  const activeConfig = {
+    provider,
+    resend: config.resend,
+    smtp: config.smtp
+  };
+
+  const toEmail = emailOptions.to || config.resend.to || config.smtp.to || 'shridharsan@nextgenwebstudio.in';
+  const emailPayload = {
+    ...emailOptions,
+    to: toEmail
+  };
+
+  try {
+    const result = await smtpClient.sendMail(activeConfig, emailPayload);
+    const latency = Date.now() - startTime;
+    
+    // Find Message ID in log list if it's there
+    let messageId = 'N/A';
+    if (result.log) {
+      const match = result.log.find(l => l.includes('id') || l.includes('Message'));
+      if (match) {
+        // Try parsing the message id
+        const cleanMatch = match.match(/(?:id|Message ID):\s*([\w-]+)/i);
+        if (cleanMatch) messageId = cleanMatch[1];
+      }
+    }
+    
+    await logEmailToHistory(toEmail, emailPayload.subject, provider, 'Success', null, messageId, latency);
+    return { success: true, log: result.log, messageId, latency };
+  } catch (err) {
+    const latency = Date.now() - startTime;
+    await logEmailToHistory(toEmail, emailPayload.subject, provider, 'Failed', err.message, null, latency);
+    throw err;
+  }
+}
+
 async function dbMarkAllChatbotMessagesRead() {
   if (supabase) {
     const { error } = await supabase.from('chatbot_messages').update({ read: true }).eq('read', false);
@@ -454,26 +631,20 @@ async function registerUserAndSendCredentials(email, name) {
     const hasResend = !!(config.resend && config.resend.apiKey);
 
     if (hasSmtp || hasResend) {
-      const subject = `Welcome to NextGen Client Hub — Portal Access Active`;
-      const emailText = `
-Hello ${name || 'Client'},
+      const portalUrl = 'https://nextgenwebstudio.in/client.html';
+      const rendered = await renderEmailTemplate('welcome_email', {
+        clientName: name || 'Client',
+        clientEmail: email.toLowerCase(),
+        portalUrl: portalUrl
+      });
 
-Thank you for starting a project with NextGen Web Studio!
-
-We have approved and activated your email address in our secure Client Hub registry. You can now log in directly using your Google (Gmail) or Apple account to view milestone roadmaps, track invoice status, and complete payments securely online:
-
-Access Link: http://localhost:3000/client.html
-Approved Email: ${email.toLowerCase()}
-
-Simply click the "Sign In with Google" or "Sign In with Apple" button matching your approved email address.
-
-Best regards,
-NextGen Web Studio
-Coimbatore, Tamil Nadu, India
-      `;
-      smtpClient.sendMail(config, { subject, text: emailText, to: email.trim().toLowerCase() })
-        .then(() => console.log(`[Email Dispatch] Onboarding email dispatched to ${email.trim().toLowerCase()}`))
-        .catch(err => console.error(`[Email Dispatch] Onboarding email failed:`, err.message));
+      dispatchEmail({
+        subject: rendered.subject,
+        text: rendered.html,
+        to: email.trim().toLowerCase()
+      })
+      .then(() => console.log(`[Email Dispatch] Onboarding email dispatched to ${email.trim().toLowerCase()}`))
+      .catch(err => console.error(`[Email Dispatch] Onboarding email failed:`, err.message));
     }
   } catch (err) {
     console.error('[Auth] Failed to register and send credentials:', err);
@@ -931,8 +1102,28 @@ function parseBudgetToNumber(budgetString) {
           const hasResend = !!(config.resend && config.resend.apiKey);
 
           if (hasSmtp || hasResend) {
-            const subject = `${receipt.status === 'Paid' ? 'Payment Confirmation Receipt' : 'Invoice Billing Statement'}: ${receipt.projectTitle} (${receipt.id.toUpperCase()})`;
-            const htmlBody = generateReceiptEmailHtml(receipt);
+            const amountString = receipt.totalAmount ? '₹' + receipt.totalAmount.toLocaleString('en-IN') : '₹0';
+            let rendered;
+            
+            if (receipt.status === 'Paid') {
+              rendered = await renderEmailTemplate('client_receipt', {
+                clientName: receipt.clientName,
+                projectName: receipt.projectTitle,
+                receiptNumber: receipt.id.toUpperCase(),
+                amount: amountString
+              });
+            } else {
+              rendered = await renderEmailTemplate('client_invoice', {
+                clientName: receipt.clientName,
+                projectName: receipt.projectTitle,
+                receiptNumber: receipt.id.toUpperCase(),
+                amount: amountString,
+                portalUrl: 'https://nextgenwebstudio.in/client.html'
+              });
+            }
+
+            const subject = rendered.subject;
+            const htmlBody = rendered.html;
             const pdfBuffer = generateReceiptPdfBuffer(receipt);
             const attachments = [
               {
@@ -941,7 +1132,7 @@ function parseBudgetToNumber(budgetString) {
                 content: pdfBuffer.toString('base64')
               }
             ];
-            smtpClient.sendMail(config, { subject, text: htmlBody, to: receipt.clientEmail.trim().toLowerCase(), attachments })
+            dispatchEmail({ subject, text: htmlBody, to: receipt.clientEmail.trim().toLowerCase(), attachments })
               .then(() => console.log(`[Email Dispatch] Dispatched statement with PDF attachment for receipt ${receipt.id} to ${receipt.clientEmail.trim().toLowerCase()}`))
               .catch(err => console.error(`[Email Dispatch] Failed to dispatch statement: ${err.message}`));
           } else {
@@ -992,27 +1183,29 @@ function parseBudgetToNumber(budgetString) {
     req.on('end', async () => {
       try {
         const payload = JSON.parse(body);
-        if (!payload.smtp && !payload.resend) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Email configuration parameters are required' }));
-          return;
+        const config = readConfig();
+
+        if (payload.provider) {
+          config.provider = payload.provider;
         }
 
-        const config = readConfig();
         if (payload.smtp) {
           config.smtp = {
             host: payload.smtp.host || '',
             port: parseInt(payload.smtp.port) || 0,
             user: payload.smtp.user || '',
-            pass: (payload.smtp.pass || '').replace(/\s+/g, ''), // Strip spaces
-            from: payload.smtp.from || payload.smtp.user || '',
+            pass: (payload.smtp.pass || '').replace(/\s+/g, ''),
+            fromName: payload.smtp.fromName || 'NextGen Web Studio',
+            fromEmail: payload.smtp.fromEmail || payload.smtp.user || '',
             to: payload.smtp.to || 'shridharsan@nextgenwebstudio.in'
           };
         }
+
         if (payload.resend) {
           config.resend = {
             apiKey: payload.resend.apiKey || '',
-            from: payload.resend.from || 'NextGen Web Studio <shridharsan@nextgenwebstudio.in>',
+            fromName: payload.resend.fromName || 'NextGen Web Studio',
+            fromEmail: payload.resend.fromEmail || 'shridharsan@nextgenwebstudio.in',
             to: payload.resend.to || 'shridharsan@nextgenwebstudio.in'
           };
         }
@@ -1026,10 +1219,56 @@ function parseBudgetToNumber(budgetString) {
         }
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Server error saving configurations' }));
+        res.end(JSON.stringify({ error: 'Server error saving configurations: ' + err.message }));
       }
     });
     return;
+  }
+
+  function fetchResendDomainStatus(apiKey, domainName) {
+    return new Promise((resolve) => {
+      const options = {
+        hostname: 'api.resend.com',
+        port: 443,
+        path: '/domains',
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const req = https.request(options, (res) => {
+        let resBody = '';
+        res.on('data', chunk => resBody += chunk);
+        res.on('end', () => {
+          try {
+            const resJson = JSON.parse(resBody);
+            if (res.statusCode === 200 && resJson && resJson.data) {
+              const cleanDomain = domainName.trim().toLowerCase();
+              const record = resJson.data.find(d => d.name.toLowerCase() === cleanDomain);
+              if (record) {
+                resolve({
+                  found: true,
+                  status: record.status,
+                  verified: record.status === 'verified'
+                });
+                return;
+              }
+            }
+            resolve({ found: false, verified: false, status: 'not_found' });
+          } catch (e) {
+            resolve({ found: false, verified: false, status: 'error', error: e.message });
+          }
+        });
+      });
+
+      req.on('error', (e) => {
+        resolve({ found: false, verified: false, status: 'error', error: e.message });
+      });
+
+      req.end();
+    });
   }
 
   // --- EMAIL TESTING & RECEIPT EMAILING ---
@@ -1039,29 +1278,29 @@ function parseBudgetToNumber(budgetString) {
     req.on('end', async () => {
       try {
         const payload = JSON.parse(body);
+        const provider = payload.provider || 'resend';
         const smtpConfig = payload.smtp || readConfig().smtp;
         const resendConfig = payload.resend || readConfig().resend;
+        const testRecipient = payload.to || resendConfig.to || smtpConfig.to || 'shridharsan@nextgenwebstudio.in';
         
         if (smtpConfig.pass) {
-          smtpConfig.pass = smtpConfig.pass.replace(/\s+/g, ''); // Strip spaces
+          smtpConfig.pass = smtpConfig.pass.replace(/\s+/g, '');
         }
 
-        const hasSmtp = !!(smtpConfig.user && smtpConfig.pass);
-        const hasResend = !!(resendConfig && resendConfig.apiKey);
-        
-        if (!hasSmtp && !hasResend) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'SMTP credentials or Resend API key is required for connection tests.' }));
-          return;
-        }
+        const activeConfig = {
+          provider,
+          resend: resendConfig,
+          smtp: smtpConfig
+        };
 
         const testEmail = {
-          subject: 'Test Connection — NextGen Web Studio Email Dispatcher',
+          subject: `Test Connection — NextGen Email [${provider.toUpperCase()}]`,
+          to: testRecipient,
           text: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #dedcd4; border-radius: 8px; padding: 24px; background-color: #fafaf9; color: #0a0a0a;">
               <h2 style="border-bottom: 2px solid #0a0a0a; padding-bottom: 12px; margin-top: 0; font-weight: 700; text-transform: uppercase; font-size: 18px; letter-spacing: 0.5px;">NextGen Web Studio</h2>
               <p style="font-size: 14.5px; line-height: 1.5; color: #0a0a0a; font-weight: 600;">Connection Verified successfully!</p>
-              <p style="font-size: 13.5px; line-height: 1.5; color: #59564f;">This is a test notification confirming your email dispatcher works successfully over secure HTTPS/SMTP transport.</p>
+              <p style="font-size: 13.5px; line-height: 1.5; color: #59564f;">This is a test notification confirming your email dispatcher works successfully over secure ${provider.toUpperCase()} transport.</p>
               <div style="margin-top: 30px; border-top: 1px dashed #dedcd4; padding-top: 15px; font-size: 11px; text-align: center; color: #8c897f;">
                 Coimbatore, Tamil Nadu • Indian Standard Time
               </div>
@@ -1069,17 +1308,59 @@ function parseBudgetToNumber(budgetString) {
           `
         };
 
-        const configToSend = { smtp: smtpConfig, resend: resendConfig };
-        
-        smtpClient.sendMail(configToSend, testEmail)
-          .then(result => {
+        const startTime = Date.now();
+        smtpClient.sendMail(activeConfig, testEmail)
+          .then(async (result) => {
+            const latency = Date.now() - startTime;
+            
+            // Resolve domain name and verification
+            let domain = 'N/A';
+            let verified = 'N/A';
+            let messageId = 'N/A';
+
+            if (provider === 'resend') {
+              const fromEmail = resendConfig.fromEmail || 'shridharsan@nextgenwebstudio.in';
+              domain = fromEmail.substring(fromEmail.indexOf('@') + 1);
+              const verification = await fetchResendDomainStatus(resendConfig.apiKey, domain);
+              verified = verification.verified ? 'Verified' : 'Pending/Unverified';
+            }
+
+            if (result.log) {
+              const match = result.log.find(l => l.includes('id') || l.includes('Message'));
+              if (match) {
+                const cleanMatch = match.match(/(?:id|Message ID):\s*([\w-]+)/i);
+                if (cleanMatch) messageId = cleanMatch[1];
+              }
+            }
+
+            // Log this test to history
+            await logEmailToHistory(testRecipient, testEmail.subject, provider, 'Success', null, messageId, latency);
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: true, log: result.log }));
+            res.end(JSON.stringify({
+              success: true,
+              provider,
+              domain,
+              verified,
+              recipient: testRecipient,
+              messageId,
+              latency,
+              status: 'Success',
+              log: result.log
+            }));
           })
-          .catch(err => {
-            console.error('[Email Test Error]', err);
+          .catch(async (err) => {
+            const latency = Date.now() - startTime;
+            await logEmailToHistory(testRecipient, testEmail.subject, provider, 'Failed', err.message, null, latency);
+            
             res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: err.message }));
+            res.end(JSON.stringify({
+              success: false,
+              error: err.message,
+              latency,
+              provider,
+              recipient: testRecipient
+            }));
           });
       } catch (err) {
         console.error('[SMTP Test Catch]', err);
@@ -1087,6 +1368,74 @@ function parseBudgetToNumber(budgetString) {
         res.end(JSON.stringify({ error: 'Server error during connection test: ' + err.message }));
       }
     });
+    return;
+  }
+
+  if (pathname === '/api/resend/domain-status' && req.method === 'GET') {
+    const config = readConfig();
+    const apiKey = config.resend.apiKey;
+    const fromEmail = config.resend.fromEmail || 'shridharsan@nextgenwebstudio.in';
+    const domain = fromEmail.substring(fromEmail.indexOf('@') + 1);
+
+    if (!apiKey) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'not_configured', verified: false, domain }));
+      return;
+    }
+
+    try {
+      const verification = await fetchResendDomainStatus(apiKey, domain);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        status: verification.status,
+        verified: verification.verified,
+        domain
+      }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/email/templates' && req.method === 'GET') {
+    try {
+      const templates = await dbList('email_templates');
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(templates));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/email/templates/save' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const payload = JSON.parse(body);
+        await dbWrite('email_templates', payload);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/email/logs' && req.method === 'GET') {
+    try {
+      const logs = await dbList('email_logs');
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(logs));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
     return;
   }
 
@@ -1121,8 +1470,28 @@ function parseBudgetToNumber(budgetString) {
           }
 
           recipient = item.clientEmail;
-          subject = `${item.status === 'Paid' ? 'Payment Confirmation Receipt' : 'Invoice Billing Statement'}: ${item.projectTitle} (${item.id.toUpperCase()})`;
-          htmlBody = generateReceiptEmailHtml(item);
+          const amountString = item.totalAmount ? '₹' + item.totalAmount.toLocaleString('en-IN') : '₹0';
+          let rendered;
+          
+          if (item.status === 'Paid') {
+            rendered = await renderEmailTemplate('client_receipt', {
+              clientName: item.clientName,
+              projectName: item.projectTitle,
+              receiptNumber: item.id.toUpperCase(),
+              amount: amountString
+            });
+          } else {
+            rendered = await renderEmailTemplate('client_invoice', {
+              clientName: item.clientName,
+              projectName: item.projectTitle,
+              receiptNumber: item.id.toUpperCase(),
+              amount: amountString,
+              portalUrl: 'https://nextgenwebstudio.in/client.html'
+            });
+          }
+
+          subject = rendered.subject;
+          htmlBody = rendered.html;
           
           const pdfBuffer = generateReceiptPdfBuffer(item);
           attachments = [
@@ -1144,7 +1513,7 @@ function parseBudgetToNumber(budgetString) {
             return;
           }
 
-          recipient = config.to || 'shridharsan@nextgenwebstudio.in';
+          recipient = config.resend.to || config.smtp.to || 'shridharsan@nextgenwebstudio.in';
           subject = `Fwd Lead Brief: ${item.name} (${type.toUpperCase()})`;
           htmlBody = `
             <div style="background-color: #0b0b0a; padding: 40px 20px; font-family: 'Outfit', 'Inter', -apple-system, sans-serif; color: #f5f4f0; margin: 0 auto; max-width: 600px; border-radius: 12px;">
@@ -1197,10 +1566,10 @@ function parseBudgetToNumber(budgetString) {
         }
 
         // Send Email
-        smtpClient.sendMail(config, { subject, text: htmlBody, to: recipient, attachments })
+        dispatchEmail({ subject, text: htmlBody, to: recipient, attachments })
           .then(result => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ success: true, message: 'Email statement dispatched successfully!' }));
+            res.end(JSON.stringify({ success: true, message: 'Email statement dispatched successfully!', log: result.log }));
           })
           .catch(err => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -1209,7 +1578,7 @@ function parseBudgetToNumber(budgetString) {
 
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Server error dispatching receipt email' }));
+        res.end(JSON.stringify({ error: 'Server error dispatching receipt email: ' + err.message }));
       }
     });
     return;
@@ -1960,8 +2329,16 @@ function parseBudgetToNumber(budgetString) {
 
             if (hasSmtp || hasResend) {
               const updatedReceipt = receipts[index];
-              const subject = `Payment Confirmation Receipt: ${updatedReceipt.projectTitle} (${updatedReceipt.id.toUpperCase()})`;
-              const htmlBody = generateReceiptEmailHtml(updatedReceipt);
+              const amountString = updatedReceipt.totalAmount ? '₹' + updatedReceipt.totalAmount.toLocaleString('en-IN') : '₹0';
+              const rendered = await renderEmailTemplate('client_receipt', {
+                clientName: updatedReceipt.clientName,
+                projectName: updatedReceipt.projectTitle,
+                receiptNumber: updatedReceipt.id.toUpperCase(),
+                amount: amountString
+              });
+
+              const subject = rendered.subject;
+              const htmlBody = rendered.html;
               const pdfBuffer = generateReceiptPdfBuffer(updatedReceipt);
               const attachments = [
                 {
@@ -1970,7 +2347,7 @@ function parseBudgetToNumber(budgetString) {
                   content: pdfBuffer.toString('base64')
                 }
               ];
-              smtpClient.sendMail(config, { subject, text: htmlBody, to: updatedReceipt.clientEmail.trim().toLowerCase(), attachments })
+              dispatchEmail({ subject, text: htmlBody, to: updatedReceipt.clientEmail.trim().toLowerCase(), attachments })
                 .then(() => console.log(`[Email Dispatch] Dispatched paid confirmation for receipt ${updatedReceipt.id} to ${updatedReceipt.clientEmail.trim().toLowerCase()}`))
                 .catch(err => console.error(`[Email Dispatch] Failed to send paid confirmation:`, err.message));
             }
@@ -2623,7 +3000,7 @@ function generateLeadEmailHtml(lead, isProject, leadType, phone, budget, categor
   `;
 }
 
-function dispatchNotificationEmail(lead, isProject) {
+async function dispatchNotificationEmail(lead, isProject) {
   const config = readConfig();
   const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
   const hasResend = !!(config.resend && config.resend.apiKey);
@@ -2635,13 +3012,18 @@ function dispatchNotificationEmail(lead, isProject) {
 
   const leadType = isProject ? 'Project Scoping Lead' : 'General Enquiry';
   const budget = lead.budget || 'Not specified';
-  const categories = lead.projectType || 'Not specified';
   const phone = lead.phone || 'Not Provided';
 
-  const subject = `🚀 New Lead: ${lead.name} (${leadType})`;
-  const htmlBody = generateLeadEmailHtml(lead, isProject, leadType, phone, budget, categories);
+  const rendered = await renderEmailTemplate('inquiry_alert', {
+    projectName: lead.projectName || leadType,
+    clientName: lead.name,
+    clientEmail: lead.email,
+    clientPhone: phone,
+    budget: budget,
+    message: lead.message
+  });
 
-  smtpClient.sendMail(config, { subject, text: htmlBody })
+  dispatchEmail({ subject: rendered.subject, text: rendered.html })
     .then(res => console.log(`[Email Dispatch] Success dispatching email alert for lead ${lead.id}`))
     .catch(err => console.error(`[Email Dispatch] Fail to send lead email: ${err.message}`));
 }

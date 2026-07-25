@@ -11,52 +11,49 @@ const https = require('https');
  * @returns {Promise<Object>} Status and connection logs
  */
 function sendMail(config, email) {
-  const smtpConfig = config.smtp || config;
+  const provider = config.provider || 'resend';
   const resendConfig = config.resend;
+  const smtpConfig = config.smtp;
 
-  function tryResend(primaryError) {
+  if (provider === 'resend') {
     if (resendConfig && resendConfig.apiKey) {
-      console.log('[Email Dispatch] SMTP failed, attempting automatic fallback to Resend API...');
-      return sendMailViaResend(resendConfig, email).then(result => {
-        result.log = [
-          `SMTP ERROR: ${primaryError.message}`,
-          '--- FALLBACK INITIATED ---',
-          ...result.log
-        ];
-        return result;
-      });
+      return sendMailViaResend(resendConfig, email);
     }
-    return Promise.reject(primaryError);
+    return Promise.reject(new Error('Resend API key is missing. Configure it in settings.'));
+  } else if (provider === 'smtp') {
+    if (smtpConfig && smtpConfig.user && smtpConfig.pass) {
+      return sendMailViaSmtpDirect(smtpConfig, email);
+    }
+    return Promise.reject(new Error('SMTP username or password is missing. Configure it in settings.'));
+  } else {
+    return Promise.reject(new Error(`Invalid email provider specified: ${provider}`));
   }
+}
 
-  const hasSmtp = !!(smtpConfig.user && smtpConfig.pass);
-  const hasResend = !!(resendConfig && resendConfig.apiKey);
-
-  if (hasResend && !hasSmtp) {
-    return sendMailViaResend(resendConfig, email);
-  }
-
+function sendMailViaSmtpDirect(smtpConfig, email) {
   return new Promise((resolve, reject) => {
     const host = smtpConfig.host || 'smtp.gmail.com';
     const port = parseInt(smtpConfig.port) || 465;
     const user = smtpConfig.user || '';
     const pass = smtpConfig.pass || '';
-    const from = smtpConfig.from || user || 'no-reply@nextgen.com';
+    const fromName = smtpConfig.fromName || 'NextGen Web Studio';
+    const fromEmail = smtpConfig.fromEmail || user || 'no-reply@nextgen.com';
+    const from = `${fromName} <${fromEmail}>`;
     const to = email.to || smtpConfig.to || user;
     
     // Parse From Display Name and Sender Email
-    let fromEmail = user;
-    let fromHeader = '';
+    let fromEmailParsed = user;
+    let fromHeader = `${fromName} <${fromEmail}>`;
     
     if (from.includes('<') && from.includes('>')) {
       fromHeader = from;
       const matches = from.match(/<([^>]+)>/);
       if (matches && matches[1]) {
-        fromEmail = matches[1].trim();
+        fromEmailParsed = matches[1].trim();
       }
     } else if (from.includes('@')) {
-      fromEmail = from.trim();
-      fromHeader = `<${fromEmail}>`;
+      fromEmailParsed = from.trim();
+      fromHeader = `<${fromEmailParsed}>`;
     } else {
       fromHeader = `"${from}" <${user}>`;
     }
@@ -143,6 +140,8 @@ function sendMail(config, email) {
             step = 4;
           }
         }
+      } else if (code === 220 && step === 1.5) {
+        // Handled above, but safeguard
       } else if (code === 334 && step === 2) {
         // Send base64 username
         write(Buffer.from(user).toString('base64'));
@@ -153,7 +152,7 @@ function sendMail(config, email) {
         socket.write(Buffer.from(pass).toString('base64') + '\r\n');
         step = 3.5;
       } else if (code === 235 && step === 3.5) {
-        write(`MAIL FROM:<${fromEmail}>`);
+        write(`MAIL FROM:<${fromEmailParsed}>`);
         step = 4;
       } else if (code === 250 && step === 4) {
         write(`RCPT TO:<${to}>`);
@@ -233,9 +232,6 @@ function sendMail(config, email) {
         reject(new Error(`SMTP socket closed prematurely at step ${step}\nLog:\n${log.join('\n')}`));
       }
     });
-  })
-  .catch(err => {
-    return tryResend(err);
   });
 }
 
@@ -245,7 +241,9 @@ function sendMail(config, email) {
 function sendMailViaResend(resendConfig, email) {
   return new Promise((resolve, reject) => {
     const apiKey = resendConfig.apiKey;
-    const from = email.from || resendConfig.from || 'NextGen Web Studio <shridharsan@nextgenwebstudio.in>';
+    const fromName = resendConfig.fromName || 'NextGen Web Studio';
+    const fromEmail = resendConfig.fromEmail || 'shridharsan@nextgenwebstudio.in';
+    const from = email.from || `${fromName} <${fromEmail}>`;
     const to = email.to || resendConfig.to;
     const subject = email.subject || 'Notification';
     const body = email.text || '';

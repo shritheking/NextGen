@@ -1553,17 +1553,55 @@
         </div>
       </div>
 
-      <!-- TAB SECTION 4: SMTP CONFIGURATION -->
+      <!-- TAB SECTION 4: EMAIL DISPATCH HUB -->
       <div class="tab-section" id="settingsTab">
-        <div class="receipts-workspace" style="grid-template-columns: 1fr;">
-          <div class="creator-card" style="max-width: 600px; margin: 0 auto; margin-bottom: 40px;">
-            <h3>SMTP Mail Server Credentials</h3>
+        <div class="receipts-workspace" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 30px; align-items: start;">
+          
+          <!-- Left: Provider Configurations -->
+          <div class="creator-card" style="margin-bottom: 0;">
+            <h3>Email Provider Config</h3>
             <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; line-height:1.5;">
-              Configure SMTP credentials to automatically dispatch email alerts when a client submits an enquiry or when you mail invoices to clients. For Gmail, please use a secure 16-digit App Password instead of your account password.
+              Choose your primary email sending provider. HTTPS over Resend API is recommended for Render hosting to bypass SMTP port restrictions.
             </p>
             <form id="smtpSettingsForm">
-              <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px;">
+              <!-- Provider Selection Radio -->
+              <div class="input-group" style="margin-bottom: 25px;">
+                <label style="display: block; margin-bottom: 10px;">Select Email Provider</label>
+                <div style="display: flex; gap: 20px;">
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 500;">
+                    <input type="radio" name="emailProvider" value="resend" checked style="accent-color: var(--accent);"> Resend API (Recommended)
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 500;">
+                    <input type="radio" name="emailProvider" value="smtp" style="accent-color: var(--accent);"> SMTP Server (Advanced)
+                  </label>
+                </div>
+              </div>
+
+              <!-- Resend Fields -->
+              <div id="resendConfigBlock" class="settings-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px;">
                 <div class="input-group">
+                  <label for="resendApiKey">Resend API Key</label>
+                  <input type="password" id="resendApiKey" placeholder="re_xxxxxxxxxxxxxxxxxxxxxxxx">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="input-group">
+                    <label for="resendFromName">From Display Name</label>
+                    <input type="text" id="resendFromName" placeholder="e.g. NextGen Web Studio">
+                  </div>
+                  <div class="input-group">
+                    <label for="resendFromEmail">From Email Address</label>
+                    <input type="email" id="resendFromEmail" placeholder="e.g. shridharsan@nextgenwebstudio.in">
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label for="resendTo">Admin Notification Email</label>
+                  <input type="email" id="resendTo" placeholder="e.g. shridharsan@nextgenwebstudio.in">
+                </div>
+              </div>
+
+              <!-- SMTP Fields -->
+              <div id="smtpConfigBlock" class="settings-grid" style="display: none; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                <div class="input-group" style="grid-column: span 2;">
                   <label for="smtpHost">SMTP Server Host</label>
                   <input type="text" id="smtpHost" placeholder="e.g. smtp.gmail.com">
                 </div>
@@ -1572,50 +1610,131 @@
                   <input type="number" id="smtpPort" placeholder="e.g. 465 or 587">
                 </div>
                 <div class="input-group">
-                  <label for="smtpUser">Sender Email Account Username</label>
+                  <label for="smtpUser">SMTP Username</label>
                   <input type="email" id="smtpUser" placeholder="e.g. name@domain.com">
                 </div>
-                <div class="input-group">
+                <div class="input-group" style="grid-column: span 2;">
                   <label for="smtpPass">SMTP Access Password (App Password)</label>
                   <input type="password" id="smtpPass" placeholder="🔒 Enter App Password">
                 </div>
                 <div class="input-group">
-                  <label for="smtpFrom">Sender Display Name / From Email</label>
-                  <input type="text" id="smtpFrom" placeholder="e.g. NextGen Web Studio &lt;shridharsan@nextgenwebstudio.in&gt;">
+                  <label for="smtpFromName">From Display Name</label>
+                  <input type="text" id="smtpFromName" placeholder="e.g. NextGen Web Studio">
                 </div>
                 <div class="input-group">
-                  <label for="smtpTo">Recipient Admin Notification Email</label>
+                  <label for="smtpFromEmail">From Email Address</label>
+                  <input type="email" id="smtpFromEmail" placeholder="e.g. shridharsan@nextgenwebstudio.in">
+                </div>
+                <div class="input-group" style="grid-column: span 2;">
+                  <label for="smtpTo">Admin Notification Email</label>
                   <input type="email" id="smtpTo" placeholder="e.g. shridharsan@nextgenwebstudio.in">
                 </div>
               </div>
 
-              <!-- Resend API Alternative Options -->
-              <h4 style="margin: 30px 0 10px 0; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; color: var(--accent); border-bottom: 1px dashed var(--border); padding-bottom: 8px;"><i class="fa-solid fa-cloud"></i> Alternative: Resend API (Recommended for Render Free Tier)</h4>
-              <p style="font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 15px;">
-                If your host (like Render Free Tier) blocks outbound SMTP ports, configure Resend. If a Resend API Key is provided, all emails will be dispatched over secure HTTPS (port 443) instead of SMTP. Sign up for free at <a href="https://resend.com" target="_blank" style="color: var(--accent); text-decoration: underline;">resend.com</a>.
-              </p>
-              <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                <div class="input-group" style="grid-column: span 2;">
-                  <label for="resendApiKey">Resend API Key</label>
-                  <input type="password" id="resendApiKey" placeholder="e.g. re_123456789...">
-                </div>
-                <div class="input-group">
-                  <label for="resendFrom">Verified Sender Email</label>
-                  <input type="text" id="resendFrom" placeholder="e.g. onboarding@resend.dev">
-                </div>
-                <div class="input-group">
-                  <label for="resendTo">Receiver Notification Email</label>
-                  <input type="email" id="resendTo" placeholder="e.g. name@domain.com">
+              <!-- Save settings action -->
+              <div style="margin-top: 10px; margin-bottom: 30px;">
+                <button type="submit" class="login-btn" style="width: 100%;"><i class="fa-solid fa-save"></i> Save Configurations</button>
+              </div>
+
+              <!-- Send Test Email Tool -->
+              <div style="border-top: 1px solid var(--border); padding-top: 25px;">
+                <h4 style="margin-bottom: 10px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; color: var(--accent);">Send Dispatch Test</h4>
+                <p style="font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 15px;">
+                  Verify your active credentials by sending a test email layout to any recipient.
+                </p>
+                <div style="display: flex; gap: 15px; align-items: end;">
+                  <div class="input-group" style="flex: 1; margin-bottom: 0;">
+                    <label for="emailTestTo">Recipient Email</label>
+                    <input type="email" id="emailTestTo" placeholder="e.g. client@example.com">
+                  </div>
+                  <button type="button" class="refresh-btn" id="testSmtpBtn" style="height: 48px; border-radius: var(--radius-sm); margin-top: 0; padding: 0 24px; font-weight: 600;"><i class="fa-solid fa-paper-plane"></i> Send Test</button>
                 </div>
               </div>
-              
-              <div class="action-group" style="margin-top:30px; display: flex; gap: 15px;">
-                <button type="submit" class="login-btn" style="flex:1; width: auto;"><i class="fa-solid fa-save"></i> Save Settings</button>
-                <button type="button" class="refresh-btn" id="testSmtpBtn" style="flex:1; justify-content:center; width: auto; margin-top: 0; padding: 0 20px;"><i class="fa-solid fa-paper-plane"></i> Test Connection</button>
-              </div>
-              <div id="smtpTestStatus" style="display:none; margin-top:20px; padding: 16px; border-radius: var(--radius-sm); font-size:12.5px; font-family:var(--font-mono); line-height: 1.5; white-space: pre-wrap; word-break: break-all; border: 1px solid var(--border);"></div>
+
+              <div id="smtpTestStatus" style="display:none; margin-top:20px; padding: 16px; border-radius: var(--radius-sm); font-size:12.5px; font-family:var(--font-mono); line-height: 1.6; white-space: pre-wrap; word-break: break-all; border: 1px solid var(--border);"></div>
             </form>
           </div>
+
+          <!-- Right Column: Diagnostics, Templates, & Logs -->
+          <div style="display: grid; grid-template-columns: 1fr; gap: 30px;">
+            
+            <!-- Email Diagnostics Status Card -->
+            <div class="creator-card" style="margin-bottom: 0;">
+              <h3>System Diagnostics</h3>
+              <div style="margin-top: 15px; display: grid; grid-template-columns: 1.2fr 2fr; gap: 12px 10px; font-size: 13px; font-family: var(--font-mono);">
+                <div style="color: var(--ink-soft);">Active Provider:</div>
+                <div id="diagProvider" style="font-weight: 700; text-transform: uppercase; color: var(--accent);">resend</div>
+                
+                <div style="color: var(--ink-soft);">Status:</div>
+                <div id="diagConnection" style="color: var(--ink-faint);">-</div>
+                
+                <div style="color: var(--ink-soft);">Sender Domain:</div>
+                <div id="diagDomain" style="color: var(--ink); font-weight: 600;">-</div>
+                
+                <div style="color: var(--ink-soft);">Verification:</div>
+                <div id="diagVerification" style="color: var(--ink-faint);">-</div>
+                
+                <div style="color: var(--ink-soft);">Last Test:</div>
+                <div id="diagLastTest" style="color: var(--ink-soft);">-</div>
+                
+                <div style="color: var(--ink-soft);">Message ID:</div>
+                <div id="diagMessageId" style="color: var(--ink-faint); font-size: 11px; word-break: break-all;">-</div>
+              </div>
+            </div>
+
+            <!-- Email Templates Manager -->
+            <div class="creator-card" style="margin-bottom: 0;">
+              <h3>Email Templates Manager</h3>
+              <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:15px; line-height:1.5;">
+                Select a notification template and customize its subject or layout.
+              </p>
+              
+              <div class="input-group" style="margin-bottom: 15px;">
+                <label for="templateSelect">Choose Template</label>
+                <select id="templateSelect" style="width: 100%; height: 48px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-alt); color: var(--ink); padding: 0 15px; font-weight: 500;">
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+
+              <div class="input-group" style="margin-bottom: 15px;">
+                <label for="templateSubject">Subject Header</label>
+                <input type="text" id="templateSubject" placeholder="Template Subject">
+              </div>
+
+              <div class="input-group" style="margin-bottom: 20px;">
+                <label for="templateBody">HTML Template Body</label>
+                <textarea id="templateBody" style="width: 100%; height: 220px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-alt); color: var(--ink); padding: 12px 15px; font-family: var(--font-mono); font-size: 12px; line-height: 1.5; resize: vertical; box-sizing: border-box;"></textarea>
+                <small style="display: block; margin-top: 6px; color: var(--ink-faint); font-size: 11px; line-height: 1.4;">
+                  Supported placeholders: <code style="color: var(--accent);">{{clientName}}</code>, <code style="color: var(--accent);">{{projectName}}</code>, <code style="color: var(--accent);">{{receiptNumber}}</code>, <code style="color: var(--accent);">{{amount}}</code>, <code style="color: var(--accent);">{{clientEmail}}</code>, <code style="color: var(--accent);">{{clientPhone}}</code>, <code style="color: var(--accent);">{{message}}</code>, <code style="color: var(--accent);">{{portalUrl}}</code>
+                </small>
+              </div>
+
+              <button type="button" class="login-btn" id="saveTemplateBtn" style="width: 100%;"><i class="fa-solid fa-save"></i> Save Template changes</button>
+            </div>
+
+            <!-- Email Delivery Logs Table -->
+            <div class="creator-card" style="margin-bottom: 0; max-height: 380px; display: flex; flex-direction: column;">
+              <h3 style="margin-bottom: 12px;">Delivery Logs History</h3>
+              <div style="flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt);">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                  <thead>
+                    <tr style="border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); font-family: var(--font-mono);">
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Time</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Recipient</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Subject</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Provider</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600; text-align: right;">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="emailLogsTableBody">
+                    <!-- Dynamically populated -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
@@ -3661,25 +3780,68 @@
       }
     }
 
-    // ---------- SMTP CONFIGURATION AND TESTING ----------
+    // ---------- EMAIL HUB SYSTEM: CONFIGURATION, DIAGNOSTICS & LOGS ----------
+    
+    // Toggle blocks depending on provider radio
+    const providerRadios = document.getElementsByName('emailProvider');
+    function toggleProviderBlocks(selectedProvider) {
+      const resendBlock = document.getElementById('resendConfigBlock');
+      const smtpBlock = document.getElementById('smtpConfigBlock');
+      if (selectedProvider === 'smtp') {
+        resendBlock.style.display = 'none';
+        smtpBlock.style.display = 'grid';
+      } else {
+        resendBlock.style.display = 'grid';
+        smtpBlock.style.display = 'none';
+      }
+    }
+    
+    providerRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        toggleProviderBlocks(e.target.value);
+        const fromEmail = e.target.value === 'resend' ? 
+          document.getElementById('resendFromEmail').value : 
+          document.getElementById('smtpFromEmail').value;
+        loadDomainDiagnostics(e.target.value, fromEmail);
+      });
+    });
+
     async function fetchSmtpConfig() {
       try {
         const res = await fetch(getApiUrl('/api/config'));
         if (res.ok) {
           const config = await res.json();
+          
+          // Populate provider
+          const activeProvider = config.provider || 'resend';
+          const targetRadio = Array.from(providerRadios).find(r => r.value === activeProvider);
+          if (targetRadio) targetRadio.checked = true;
+          toggleProviderBlocks(activeProvider);
+
           if (config.smtp) {
             document.getElementById('smtpHost').value = config.smtp.host || '';
             document.getElementById('smtpPort').value = config.smtp.port || '';
             document.getElementById('smtpUser').value = config.smtp.user || '';
             document.getElementById('smtpPass').value = config.smtp.pass || '';
-            document.getElementById('smtpFrom').value = config.smtp.from || '';
+            document.getElementById('smtpFromName').value = config.smtp.fromName || 'NextGen Web Studio';
+            document.getElementById('smtpFromEmail').value = config.smtp.fromEmail || '';
             document.getElementById('smtpTo').value = config.smtp.to || 'shridharsan@nextgenwebstudio.in';
           }
           if (config.resend) {
             document.getElementById('resendApiKey').value = config.resend.apiKey || '';
-            document.getElementById('resendFrom').value = config.resend.from || '';
-            document.getElementById('resendTo').value = config.resend.to || '';
+            document.getElementById('resendFromName').value = config.resend.fromName || 'NextGen Web Studio';
+            document.getElementById('resendFromEmail').value = config.resend.fromEmail || 'shridharsan@nextgenwebstudio.in';
+            document.getElementById('resendTo').value = config.resend.to || 'shridharsan@nextgenwebstudio.in';
           }
+
+          // Trigger logs & templates fetch
+          loadTemplates();
+          loadEmailLogs();
+
+          const activeFromEmail = activeProvider === 'resend' ? 
+            (config.resend ? config.resend.fromEmail : '') : 
+            (config.smtp ? config.smtp.fromEmail : '');
+          loadDomainDiagnostics(activeProvider, activeFromEmail);
         }
       } catch (err) {
         console.warn('Failed to fetch SMTP configuration settings from backend.');
@@ -3690,18 +3852,22 @@
     smtpSettingsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      const activeProvider = document.querySelector('input[name="emailProvider"]:checked').value;
       const payload = {
+        provider: activeProvider,
         smtp: {
           host: document.getElementById('smtpHost').value.trim(),
           port: parseInt(document.getElementById('smtpPort').value) || 0,
           user: document.getElementById('smtpUser').value.trim(),
-          pass: document.getElementById('smtpPass').value.replace(/\s+/g, ''), // Strip all spaces
-          from: document.getElementById('smtpFrom').value.trim(),
+          pass: document.getElementById('smtpPass').value.replace(/\s+/g, ''),
+          fromName: document.getElementById('smtpFromName').value.trim(),
+          fromEmail: document.getElementById('smtpFromEmail').value.trim(),
           to: document.getElementById('smtpTo').value.trim()
         },
         resend: {
           apiKey: document.getElementById('resendApiKey').value.trim(),
-          from: document.getElementById('resendFrom').value.trim(),
+          fromName: document.getElementById('resendFromName').value.trim(),
+          fromEmail: document.getElementById('resendFromEmail').value.trim(),
           to: document.getElementById('resendTo').value.trim()
         }
       };
@@ -3730,20 +3896,25 @@
     testSmtpBtn.addEventListener('click', async () => {
       const originalText = testSmtpBtn.innerHTML;
       testSmtpBtn.disabled = true;
-      testSmtpBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Connecting...`;
+      testSmtpBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Dispatched...`;
 
+      const activeProvider = document.querySelector('input[name="emailProvider"]:checked').value;
       const payload = {
+        provider: activeProvider,
+        to: document.getElementById('emailTestTo').value.trim(),
         smtp: {
           host: document.getElementById('smtpHost').value.trim(),
           port: parseInt(document.getElementById('smtpPort').value) || 0,
           user: document.getElementById('smtpUser').value.trim(),
-          pass: document.getElementById('smtpPass').value.replace(/\s+/g, ''), // Strip all spaces
-          from: document.getElementById('smtpFrom').value.trim(),
+          pass: document.getElementById('smtpPass').value.replace(/\s+/g, ''),
+          fromName: document.getElementById('smtpFromName').value.trim(),
+          fromEmail: document.getElementById('smtpFromEmail').value.trim(),
           to: document.getElementById('smtpTo').value.trim()
         },
         resend: {
           apiKey: document.getElementById('resendApiKey').value.trim(),
-          from: document.getElementById('resendFrom').value.trim(),
+          fromName: document.getElementById('resendFromName').value.trim(),
+          fromEmail: document.getElementById('resendFromEmail').value.trim(),
           to: document.getElementById('resendTo').value.trim()
         }
       };
@@ -3753,7 +3924,7 @@
       statusDiv.style.background = 'rgba(224, 255, 79, 0.04)';
       statusDiv.style.borderColor = 'var(--border)';
       statusDiv.style.color = 'var(--ink-soft)';
-      statusDiv.innerText = 'Connecting to email service and negotiating secure handshakes...';
+      statusDiv.innerText = 'Connecting to email dispatcher and dispatching connection check...';
 
       try {
         const res = await fetch(getApiUrl('/api/smtp/test'), {
@@ -3767,25 +3938,197 @@
           statusDiv.style.background = 'rgba(74, 222, 128, 0.08)';
           statusDiv.style.borderColor = 'rgba(74, 222, 128, 0.3)';
           statusDiv.style.color = '#4ADE80';
-          const toEmail = payload.resend.apiKey ? payload.resend.to : payload.smtp.to;
-          statusDiv.innerText = `EMAIL CONNECTION TEST PASSED!\n\nSecure handshakes negotiated successfully.\nA test email has been dispatched to: ${toEmail}\n\nConnection Handshake Logs:\n${(data.log || []).join('\n')}`;
+          
+          statusDiv.innerText = [
+            `Provider      : ${data.provider}`,
+            `Domain        : ${data.domain}`,
+            `Verified      : ${data.verified}`,
+            `Recipient     : ${data.recipient}`,
+            `Message ID    : ${data.messageId}`,
+            `Latency       : ${data.latency} ms`,
+            `Status        : ${data.status}`
+          ].join('\n');
+
+          // Update diagnostics details
+          document.getElementById('diagLastTest').innerText = new Date().toLocaleTimeString();
+          document.getElementById('diagMessageId').innerText = data.messageId || '-';
+          
+          // Refresh logs
+          loadEmailLogs();
+          const activeFromEmail = activeProvider === 'resend' ? 
+            document.getElementById('resendFromEmail').value : 
+            document.getElementById('smtpFromEmail').value;
+          loadDomainDiagnostics(activeProvider, activeFromEmail);
         } else {
           statusDiv.style.background = 'rgba(239, 68, 68, 0.08)';
           statusDiv.style.borderColor = 'rgba(239, 68, 68, 0.3)';
           statusDiv.style.color = '#EF4444';
-          statusDiv.innerText = `SMTP CONNECTION TEST FAILED:\n\n${data.error || 'Connection failed.'}\n\nVerify host, port, credentials, and network connectivity.`;
+          statusDiv.innerText = `EMAIL CONNECTION TEST FAILED:\n\n${data.error || 'Connection failed.'}\n\nVerify provider keys, server ports, and domain mappings.`;
         }
       } catch (err) {
         console.error(err);
         statusDiv.style.background = 'rgba(239, 68, 68, 0.08)';
         statusDiv.style.borderColor = 'rgba(239, 68, 68, 0.3)';
         statusDiv.style.color = '#EF4444';
-        statusDiv.innerText = `API CONNECTIVITY ERROR:\n\nFailed to establish connection to the backend SMTP test router. Ensure server.js is running.`;
+        statusDiv.innerText = `API CONNECTIVITY ERROR:\n\nFailed to establish connection to the backend test router. Ensure server.js is running.`;
       } finally {
         testSmtpBtn.disabled = false;
         testSmtpBtn.innerHTML = originalText;
       }
     });
+
+    // Domain diagnostics loader
+    async function loadDomainDiagnostics(provider, fromEmail) {
+      const diagProvider = document.getElementById('diagProvider');
+      const diagConnection = document.getElementById('diagConnection');
+      const diagDomain = document.getElementById('diagDomain');
+      const diagVerification = document.getElementById('diagVerification');
+
+      diagProvider.innerText = provider.toUpperCase();
+
+      if (fromEmail && fromEmail.includes('@')) {
+        const domain = fromEmail.substring(fromEmail.indexOf('@') + 1);
+        diagDomain.innerText = domain;
+      } else {
+        diagDomain.innerText = '-';
+      }
+
+      if (provider === 'resend') {
+        try {
+          const res = await fetch(getApiUrl('/api/resend/domain-status'));
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status === 'not_configured') {
+              diagConnection.innerHTML = '<span style="color: #EF4444;">🔴 Not Configured</span>';
+              diagVerification.innerHTML = '<span style="color: var(--ink-faint);">N/A (Missing API Key)</span>';
+            } else {
+              diagConnection.innerHTML = '<span style="color: #4ADE80;">🟢 Connected</span>';
+              if (data.verified) {
+                diagVerification.innerHTML = '<span style="color: #4ADE80;">✅ Verified</span>';
+              } else {
+                diagVerification.innerHTML = '<span style="color: #FBBF24;">⏳ Pending/Unverified</span>';
+              }
+            }
+          } else {
+            diagConnection.innerHTML = '<span style="color: #EF4444;">🔴 Offline</span>';
+            diagVerification.innerHTML = '<span style="color: #EF4444;">Verification Query Fail</span>';
+          }
+        } catch (e) {
+          diagConnection.innerHTML = '<span style="color: #EF4444;">🔴 Error</span>';
+          diagVerification.innerHTML = '<span style="color: #EF4444;">Query Error</span>';
+        }
+      } else {
+        const host = document.getElementById('smtpHost').value;
+        const user = document.getElementById('smtpUser').value;
+        if (host && user) {
+          diagConnection.innerHTML = '<span style="color: #4ADE80;">🟢 Configured</span>';
+        } else {
+          diagConnection.innerHTML = '<span style="color: #EF4444;">🔴 Disconnected</span>';
+        }
+        diagVerification.innerHTML = '<span style="color: var(--ink-faint);">N/A (SMTP Mode)</span>';
+      }
+    }
+
+    // Email templates manager logic
+    let templatesData = [];
+    const templateSelect = document.getElementById('templateSelect');
+    const templateSubject = document.getElementById('templateSubject');
+    const templateBody = document.getElementById('templateBody');
+    const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+
+    async function loadTemplates() {
+      try {
+        const res = await fetch(getApiUrl('/api/email/templates'));
+        if (res.ok) {
+          templatesData = await res.json();
+          templateSelect.innerHTML = '';
+          templatesData.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t.id;
+            opt.innerText = t.name || t.id;
+            templateSelect.appendChild(opt);
+          });
+          if (templatesData.length > 0) {
+            selectTemplate(templatesData[0].id);
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching email templates:', e);
+      }
+    }
+
+    function selectTemplate(id) {
+      const t = templatesData.find(temp => temp.id === id);
+      if (t) {
+        templateSubject.value = t.subject || '';
+        templateBody.value = t.body || '';
+      }
+    }
+
+    templateSelect.addEventListener('change', (e) => {
+      selectTemplate(e.target.value);
+    });
+
+    saveTemplateBtn.addEventListener('click', async () => {
+      const activeId = templateSelect.value;
+      const index = templatesData.findIndex(t => t.id === activeId);
+      if (index !== -1) {
+        templatesData[index].subject = templateSubject.value;
+        templatesData[index].body = templateBody.value;
+        
+        try {
+          const res = await fetch(getApiUrl('/api/email/templates/save'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(templatesData)
+          });
+          if (res.ok) {
+            showToast('Template Saved', 'Template changes have been saved successfully.', 'success');
+          } else {
+            showToast('Save Failed', 'Failed to save email template.', 'error');
+          }
+        } catch (e) {
+          showToast('Connection Error', 'Error saving template to server.', 'error');
+        }
+      }
+    });
+
+    // Email delivery logs logic
+    async function loadEmailLogs() {
+      try {
+        const res = await fetch(getApiUrl('/api/email/logs'));
+        if (res.ok) {
+          const logs = await res.json();
+          const tbody = document.getElementById('emailLogsTableBody');
+          tbody.innerHTML = '';
+          if (logs.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="padding: 15px; text-align: center; color: var(--ink-faint);">No email delivery logs recorded yet.</td></tr>`;
+            return;
+          }
+          logs.forEach(log => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid rgba(255,255,255,0.02)';
+            
+            const dateStr = new Date(log.timestamp).toLocaleString('en-IN', {
+              day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+            });
+            const statusColor = log.status === 'Success' ? '#4ADE80' : '#EF4444';
+            const statusIcon = log.status === 'Success' ? '✅' : '❌';
+            
+            tr.innerHTML = `
+              <td style="padding: 10px 12px; color: var(--ink-soft); white-space: nowrap;">${dateStr}</td>
+              <td style="padding: 10px 12px; font-weight: 500; word-break: break-all;">${log.recipient}</td>
+              <td style="padding: 10px 12px; color: var(--ink-soft);">${log.subject}</td>
+              <td style="padding: 10px 12px; text-transform: uppercase; font-size: 11px; font-family: var(--font-mono);">${log.provider}</td>
+              <td style="padding: 10px 12px; text-align: right; color: ${statusColor}; font-weight: 600; white-space: nowrap;">${statusIcon} ${log.status}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.error('Error fetching email delivery logs:', e);
+      }
+    }
 
     // ---------- CUSTOM TOAST NOTIFICATIONS HELPER ----------
     function showToast(title, message, type = 'info') {
