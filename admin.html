@@ -3023,6 +3023,7 @@
         item.classList.add('active');
         const targetTabId = item.getAttribute('data-tab');
         document.getElementById(targetTabId).classList.add('active');
+        window.scrollTo(0, 0);
 
         // Update Title Eyebrow
         const tabTitles = {
