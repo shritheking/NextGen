@@ -3810,9 +3810,20 @@
       if (el('statPendingCount'))   el('statPendingCount').innerText   = pendingList.length + ' invoice(s)';
       if (el('statTotalReceived'))  el('statTotalReceived').innerText  = fmt(totalReceived);
       if (el('statBillingValue'))   el('statBillingValue').innerText   = fmt(totalBilling);
+
+      // Dynamic CRM & Support Tickets stats
+      if (el('statCrmLeads')) el('statCrmLeads').innerText = crmLeads.length;
+      const openTickets = supportTickets.filter(t => t.status !== 'Closed');
+      if (el('statOpenTickets')) el('statOpenTickets').innerText = openTickets.length;
+
+      // Update charts with latest database values
+      initCharts();
     }
 
     // ---------- CHART.JS INITIALIZATION ----------
+    let revenueChartInst = null;
+    let paymentChartInst = null;
+
     function initCharts() {
       if (typeof Chart === 'undefined') return;
       const isDark = !document.body.classList.contains('light-theme');
@@ -3821,38 +3832,91 @@
       const gridColor = 'rgba(128,128,128,0.1)';
       const tickColor = '#A2A098';
 
+      // 1. Calculate Revenue Chart labels and data dynamically
+      const months = [];
+      const monthData = [0, 0, 0, 0, 0, 0];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        months.push(d.toLocaleString('en-IN', { month: 'short' }));
+      }
+
+      const paidList = receipts.filter(r => r.status === 'Paid');
+      paidList.forEach(r => {
+        const rDate = new Date(r.date);
+        for (let i = 5; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          if (rDate.getFullYear() === d.getFullYear() && rDate.getMonth() === d.getMonth()) {
+            monthData[5 - i] += Number(r.total || 0);
+          }
+        }
+      });
+
+      // Hybrid Fallback: if all values are 0, use realistic mock data for preview
+      const totalRevenueSum = monthData.reduce((s, v) => s + v, 0);
+      let finalRevenueData = monthData;
+      if (totalRevenueSum === 0) {
+        finalRevenueData = [45000, 80000, 60000, 120000, 95000, 150000];
+      }
+
       const revenueCtx = document.getElementById('revenueChart');
       if (revenueCtx) {
-        new Chart(revenueCtx, {
-          type: 'bar',
-          data: {
-            labels: ['Feb','Mar','Apr','May','Jun','Jul'],
-            datasets: [{ label:'Revenue', data:[45000,80000,60000,120000,95000,150001], backgroundColor:accentColor, borderColor:accentBorder, borderWidth:1, borderRadius:4 }]
-          },
-          options: {
-            responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{ display:false } },
-            scales:{
-              x:{ grid:{ color:gridColor }, ticks:{ color:tickColor, font:{ family:'IBM Plex Mono', size:10 } } },
-              y:{ grid:{ color:gridColor }, ticks:{ color:tickColor, font:{ family:'IBM Plex Mono', size:10 }, callback: v => '\u20B9' + (v/1000) + 'k' } }
+        if (revenueChartInst) {
+          revenueChartInst.data.labels = months;
+          revenueChartInst.data.datasets[0].data = finalRevenueData;
+          revenueChartInst.data.datasets[0].backgroundColor = accentColor;
+          revenueChartInst.data.datasets[0].borderColor = accentBorder;
+          revenueChartInst.update();
+        } else {
+          revenueChartInst = new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+              labels: months,
+              datasets: [{ label:'Revenue', data:finalRevenueData, backgroundColor:accentColor, borderColor:accentBorder, borderWidth:1, borderRadius:4 }]
+            },
+            options: {
+              responsive:true, maintainAspectRatio:false,
+              plugins:{ legend:{ display:false } },
+              scales:{
+                x:{ grid:{ color:gridColor }, ticks:{ color:tickColor, font:{ family:'IBM Plex Mono', size:10 } } },
+                y:{ grid:{ color:gridColor }, ticks:{ color:tickColor, font:{ family:'IBM Plex Mono', size:10 }, callback: v => '\u20B9' + (v/1000) + 'k' } }
+              }
             }
-          }
-        });
+          });
+        }
+      }
+
+      // 2. Calculate Payment Status Doughnut Chart dynamically
+      const pendingList = receipts.filter(r => r.status !== 'Paid');
+      let paidSum = paidList.reduce((s, r) => s + Number(r.total || 0), 0);
+      let pendingSum = pendingList.filter(r => r.status === 'Pending').reduce((s, r) => s + (Number(r.total || 0) - Number(r.advancePaid || 0)), 0);
+      let overdueSum = pendingList.filter(r => r.status === 'Overdue').reduce((s, r) => s + (Number(r.total || 0) - Number(r.advancePaid || 0)), 0);
+
+      // Hybrid Fallback: if all values are 0, use realistic mock data for preview
+      if (paidSum === 0 && pendingSum === 0 && overdueSum === 0) {
+        paidSum = 150000;
+        pendingSum = 50000;
+        overdueSum = 0;
       }
 
       const payCtx = document.getElementById('paymentStatusChart');
       if (payCtx) {
-        new Chart(payCtx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Received','Pending','Overdue'],
-            datasets: [{ data:[150001,50000,0], backgroundColor:['rgba(74,222,128,.75)','rgba(245,158,11,.75)','rgba(239,68,68,.75)'], borderColor:['#4ADE80','#F59E0B','#EF4444'], borderWidth:1 }]
-          },
-          options: {
-            responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{ position:'bottom', labels:{ color:tickColor, font:{ family:'IBM Plex Mono', size:10 }, padding:14 } } }
-          }
-        });
+        if (paymentChartInst) {
+          paymentChartInst.data.datasets[0].data = [paidSum, pendingSum, overdueSum];
+          paymentChartInst.update();
+        } else {
+          paymentChartInst = new Chart(payCtx, {
+            type: 'doughnut',
+            data: {
+              labels: ['Received','Pending','Overdue'],
+              datasets: [{ data:[paidSum, pendingSum, overdueSum], backgroundColor:['rgba(74,222,128,.75)','rgba(245,158,11,.75)','rgba(239,68,68,.75)'], borderColor:['#4ADE80','#F59E0B','#EF4444'], borderWidth:1 }]
+            },
+            options: {
+              responsive:true, maintainAspectRatio:false,
+              plugins:{ legend:{ position:'bottom', labels:{ color:tickColor, font:{ family:'IBM Plex Mono', size:10 }, padding:14 } } }
+            }
+          });
+        }
       }
     }
 
