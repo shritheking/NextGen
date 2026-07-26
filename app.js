@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initChatbot();
   initTestimonialsCarousel();
   initProcessAnimations();
+  initScrollHighlight();
 });
 
 /* ---------- Loading Screen Overlay ---------- */
@@ -857,5 +858,36 @@ function initProcessAnimations() {
   
   processItems.forEach(item => {
     observer.observe(item);
+  });
+}
+
+/* ---------- Active Section Scroll Highlighting ---------- */
+function initScrollHighlight() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  if (sections.length === 0 || navLinks.length === 0) return;
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-30% 0px -60% 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => {
+    observer.observe(section);
   });
 }
