@@ -2660,34 +2660,36 @@
     });
 
     // ---------- AUTHENTICATION SECURITY CHECK ----------
-    const loginOverlay = document.getElementById('loginOverlay');
-    const loginForm = document.getElementById('adminLoginForm');
-    const adminPass = document.getElementById('adminPass');
-    const loginError = document.getElementById('loginError');
-    const logoutBtn = document.getElementById('logoutBtn');
+    window.addEventListener('load', () => {
+      const loginOverlay = document.getElementById('loginOverlay');
+      const loginForm = document.getElementById('adminLoginForm');
+      const adminPass = document.getElementById('adminPass');
+      const loginError = document.getElementById('loginError');
+      const logoutBtn = document.getElementById('logoutBtn');
 
-    if (localStorage.getItem('adminAuth') === 'true') {
-      loginOverlay.classList.add('hidden');
-      initDashboard();
-    }
-
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (adminPass.value === 'admin123') {
-        localStorage.setItem('adminAuth', 'true');
+      if (localStorage.getItem('adminAuth') === 'true') {
         loginOverlay.classList.add('hidden');
         initDashboard();
-      } else {
-        loginError.style.display = 'block';
-        adminPass.value = '';
       }
-    });
 
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('adminAuth');
-      loginOverlay.classList.remove('hidden');
-      adminPass.value = '';
-      loginError.style.display = 'none';
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (adminPass.value === 'admin123') {
+          localStorage.setItem('adminAuth', 'true');
+          loginOverlay.classList.add('hidden');
+          initDashboard();
+        } else {
+          loginError.style.display = 'block';
+          adminPass.value = '';
+        }
+      });
+
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('adminAuth');
+        loginOverlay.classList.remove('hidden');
+        adminPass.value = '';
+        loginError.style.display = 'none';
+      });
     });
 
     // ---------- TAB MENU ROUTING ----------
