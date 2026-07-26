@@ -1460,7 +1460,7 @@
         <li class="sidebar-section-label">Systems</li>
         <li data-tab="calendarTab"><a href="#"><i class="fa-solid fa-calendar-days"></i> Calendar</a></li>
         <li data-tab="portalControlTab"><a href="#"><i class="fa-solid fa-toggle-on"></i> Portal Control</a></li>
-        <li data-tab="accessTab"><a href="#"><i class="fa-solid fa-user-shield"></i> Access Registry</a></li>
+        <li data-tab="accessTab"><a href="#"><i class="fa-solid fa-users"></i> Client Management</a></li>
         <li data-tab="settingsTab"><a href="#"><i class="fa-solid fa-gears"></i> SMTP Settings</a></li>
         <li data-tab="chatbotTab"><a href="#" style="display:flex; align-items:center; justify-content:space-between; width:100%;"><span style="display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-comments"></i> Chatbot Inbox</span><span id="chatNotificationDot" style="display:none; width:8px; height:8px; background-color:#ef4444; border-radius:50%; box-shadow:0 0 8px #ef4444;"></span></a></li>
       </ul>
@@ -2297,39 +2297,59 @@
       <div class="tab-section" id="accessTab">
         <div class="receipts-workspace access-workspace" style="padding: 24px;">
           <!-- Left: Add Approved User Form -->
-          <div class="creator-card" style="margin-bottom: 0;">
-            <h3>Approve Client Email</h3>
+          <div class="creator-card" style="margin-bottom: 0; max-height:85vh; overflow-y:auto; padding-right:10px;">
+            <h3>Create Client Profile</h3>
             <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; line-height:1.5;">
-              Manually authorize a client's email address to let them access the portal. They will be able to log in securely using their Google or Apple account.
+              Manually authorize a client's email address and pre-configure their profile details (Company, Phone, GST, Address) for the Agency Dashboard.
             </p>
             <form id="addApprovedUserForm" onsubmit="handleAddApprovedUser(event)">
               <div class="input-group">
-                <label for="newUserEmail">Client Email Address</label>
+                <label for="newUserName">Client Name *</label>
+                <input type="text" id="newUserName" required placeholder="e.g. John Doe">
+              </div>
+              <div class="input-group">
+                <label for="newUserEmail">Client Email Address *</label>
                 <input type="email" id="newUserEmail" required placeholder="client@gmail.com">
               </div>
               <div class="input-group">
-                <label for="newUserName">Client Name</label>
-                <input type="text" id="newUserName" required placeholder="e.g. John Doe">
+                <label for="newUserCompany">Company Name</label>
+                <input type="text" id="newUserCompany" placeholder="e.g. Acme Corp">
               </div>
-              <button type="submit" class="login-btn" style="margin-top:20px;"><i class="fa-solid fa-plus"></i> Authorize &amp; Approve</button>
+              <div class="input-group">
+                <label for="newUserPhone">Phone Number</label>
+                <input type="text" id="newUserPhone" placeholder="e.g. +91 98765 43210">
+              </div>
+              <div class="input-group">
+                <label for="newUserGst">GST Number</label>
+                <input type="text" id="newUserGst" placeholder="e.g. 33AAAAA1111A1Z1">
+              </div>
+              <div class="input-group">
+                <label for="newUserAddress">Address</label>
+                <textarea id="newUserAddress" placeholder="Client physical address" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea>
+              </div>
+              <div class="input-group">
+                <label for="newUserNotes">Notes (Internal Annotations)</label>
+                <textarea id="newUserNotes" placeholder="Private admin notes about this client..." style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea>
+              </div>
+              <button type="submit" class="login-btn" style="margin-top:20px; width:100%;"><i class="fa-solid fa-plus"></i> Add Client Profile</button>
             </form>
           </div>
 
           <!-- Right: Approved Users Table -->
           <div class="panel" style="margin-bottom: 0;">
             <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-              <h2>Approved Access Accounts Registry</h2>
+              <h2>Approved Client Profiles</h2>
               <div style="display:flex; gap:12px; align-items:center;">
-                <input type="text" id="searchAccessInput" placeholder="🔍 Search registry..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
-                <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="approvedUsersCount">0 approved found</span>
+                <input type="text" id="searchAccessInput" placeholder="🔍 Search clients..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+                <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="approvedUsersCount">0 clients found</span>
               </div>
             </div>
             <div class="table-container">
               <table>
                 <thead>
                   <tr>
-                    <th>Approved Client Details</th>
-                    <th>Date Authorized</th>
+                    <th>Client Details</th>
+                    <th>Company &amp; Contact</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -2337,6 +2357,7 @@
                   <!-- Loaded dynamically -->
                 </tbody>
               </table>
+            </div>
           </div>
         </div>
       </div>
@@ -2493,6 +2514,86 @@
     </div>
   </div>
 
+  <!-- 5. CLIENT PROFILE DETAIL MODAL -->
+  <div class="receipt-modal" id="clientProfileModal" style="z-index: 2400;">
+    <div class="receipt-card" style="max-width: 800px; width: 90%;">
+      <span class="receipt-close" onclick="closeClientProfileModal()">&times;</span>
+      <div class="receipt-header" style="display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border); padding-bottom:16px;">
+        <div id="profileAvatar" style="width:48px; height:48px; border-radius:50%; background:var(--accent); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; font-weight:700; text-transform:uppercase;"></div>
+        <div>
+          <h3 id="profileName" style="margin:0; font-size:18px; font-weight:700;"></h3>
+          <p id="profileCompany" style="margin:4px 0 0 0; font-size:12px; color:var(--ink-soft); font-family:var(--font-mono);"></p>
+        </div>
+      </div>
+      <div class="receipt-body" style="padding: 20px 0; max-height:60vh; overflow-y:auto;">
+        <!-- Tabs for profile sections -->
+        <div style="display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+          <button class="action-btn active" id="btnProfileDetails" onclick="switchProfileTab('details')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">General Details</button>
+          <button class="action-btn" id="btnProfileProjects" onclick="switchProfileTab('projects')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">Projects</button>
+          <button class="action-btn" id="btnProfileInvoices" onclick="switchProfileTab('invoices')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">Invoices &amp; Payments</button>
+          <button class="action-btn" id="btnProfileActivity" onclick="switchProfileTab('activity')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">Activity Log</button>
+        </div>
+
+        <!-- Section: General Details -->
+        <div id="profileTab_details" class="profile-tab-content">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+            <div class="input-group" style="margin-bottom:0;"><label>Client Email</label><input type="email" id="editProfileEmail" readonly style="opacity:0.7;"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Client Name</label><input type="text" id="editProfileName"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Company Name</label><input type="text" id="editProfileCompany"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Phone Number</label><input type="text" id="editProfilePhone"></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>GST Number</label><input type="text" id="editProfileGst"></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Address</label><textarea id="editProfileAddress" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Notes (Internal)</label><textarea id="editProfileNotes" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
+          </div>
+          <button class="login-btn" onclick="saveClientProfileDetails()" style="margin-top:10px; width:100%;"><i class="fa-solid fa-save"></i> Save Client Profile Details</button>
+        </div>
+
+        <!-- Section: Projects -->
+        <div id="profileTab_projects" class="profile-tab-content" style="display:none;">
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Budget</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="profileProjectsList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section: Invoices -->
+        <div id="profileTab_invoices" class="profile-tab-content" style="display:none;">
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Invoice ID</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="profileInvoicesList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section: Activity Log -->
+        <div id="profileTab_activity" class="profile-tab-content" style="display:none;">
+          <div id="profileActivityList" style="display:flex; flex-direction:column; gap:10px;">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ---------- LIGHT/DARK THEME TRIGGERS ----------
     const themeToggle = document.getElementById('adminThemeToggle');
@@ -2618,7 +2719,7 @@
           'paymentsTab':     'Payment Records',
           'calendarTab':     'Calendar & Schedule',
           'portalControlTab':'Client Portal Control',
-          'accessTab':       'Portal Access Registry',
+          'accessTab':       'Client Management',
           'settingsTab':     'SMTP & Email Settings',
           'chatbotTab':      'Chatbot Inbox'
         };
@@ -3309,7 +3410,7 @@
 
     function renderApprovedUsers(list) {
       const tbody = document.getElementById('approvedUsersTableBody');
-      document.getElementById('approvedUsersCount').innerText = `${list.length} approved found`;
+      document.getElementById('approvedUsersCount').innerText = `${list.length} clients found`;
       tbody.innerHTML = '';
       
       if (list.length === 0) {
@@ -3328,20 +3429,39 @@
 
       list.forEach(item => {
         const tr = document.createElement('tr');
-        const formattedDate = item.created 
-          ? new Date(item.created).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
-          : 'N/A';
+        const names = (item.name || 'Approved Client').split(' ');
+        const initials = names.map(n => n[0]).join('').substring(0, 2);
+        
+        // Dynamic avatar colors
+        const colors = ['#E0FF4F', '#4ADE80', '#3B82F6', '#F59E0B', '#A78BFA', '#F472B6'];
+        const avatarBg = colors[Math.abs(item.email.split('').reduce((s, c) => s + c.charCodeAt(0), 0)) % colors.length];
+        const avatarColor = avatarBg === '#E0FF4F' || avatarBg === '#4ADE80' ? '#0A0A0A' : '#FFFFFF';
         
         tr.innerHTML = `
           <td>
-            <div class="col-name">${item.name}</div>
-            <div style="font-size:12px; color:var(--accent); font-family:var(--font-mono); margin-top:2px;">${item.email}</div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:50%; background:${avatarBg}; color:${avatarColor}; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; font-weight:700; text-transform:uppercase;">
+                ${initials}
+              </div>
+              <div>
+                <div class="col-name">${item.name || 'Approved Client'}</div>
+                <div style="font-size:12.5px; color:var(--ink-faint); font-family:var(--font-mono);">${item.email}</div>
+              </div>
+            </div>
           </td>
-          <td style="font-family:var(--font-mono); font-size:12px; color:var(--ink-soft);">${formattedDate}</td>
           <td>
-            <button class="action-btn btn-delete" title="Revoke Access" onclick="deleteApprovedUser('${item.email}')">
-              <i class="fa-solid fa-user-minus"></i>
-            </button>
+            <div style="font-weight:600; color:var(--ink);">${item.company || 'No Company'}</div>
+            <div style="font-size:12px; color:var(--ink-soft);">${item.phone || 'No Phone'}</div>
+          </td>
+          <td>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button class="action-btn" style="font-size:12px; height:28px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; background-color:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:4px; cursor:pointer; width:auto !important;" onclick="openClientProfileModal('${item.email}')">
+                <i class="fa-solid fa-folder-open"></i> Open Profile
+              </button>
+              <button class="action-btn btn-delete" title="Revoke Access" onclick="deleteApprovedUser('${item.email}')" style="height:28px; width:28px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; margin-top:0 !important;">
+                <i class="fa-solid fa-user-minus"></i>
+              </button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
@@ -3352,15 +3472,20 @@
       e.preventDefault();
       const email = document.getElementById('newUserEmail').value.trim();
       const name = document.getElementById('newUserName').value.trim();
+      const company = document.getElementById('newUserCompany').value.trim();
+      const phone = document.getElementById('newUserPhone').value.trim();
+      const gst = document.getElementById('newUserGst').value.trim();
+      const address = document.getElementById('newUserAddress').value.trim();
+      const notes = document.getElementById('newUserNotes').value.trim();
       
       try {
         const res = await fetch(getApiUrl('/api/approved-users/add'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name })
+          body: JSON.stringify({ email, name, company, phone, gst, address, notes })
         });
         if (res.ok) {
-          showToast('User Approved', 'Email address successfully approved in OAuth registry!', 'success');
+          showToast('Client Profile Created', 'Client successfully authorized and profile created!', 'success');
           document.getElementById('addApprovedUserForm').reset();
           fetchApprovedUsers();
         } else {
@@ -3371,6 +3496,140 @@
         showToast('Connection Error', 'Could not connect to access registry API.', 'error');
       }
     }
+
+    function openClientProfileModal(email) {
+      const client = approvedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (!client) return;
+
+      const el = id => document.getElementById(id);
+      
+      // Initials for avatar
+      const names = (client.name || 'Approved Client').split(' ');
+      const initials = names.map(n => n[0]).join('').substring(0, 2);
+      el('profileAvatar').innerText = initials;
+      el('profileName').innerText = client.name || 'Approved Client';
+      el('profileCompany').innerText = client.company || 'No Company Details';
+
+      el('editProfileEmail').value = client.email;
+      el('editProfileName').value = client.name || '';
+      el('editProfileCompany').value = client.company || '';
+      el('editProfilePhone').value = client.phone || '';
+      el('editProfileGst').value = client.gst || '';
+      el('editProfileAddress').value = client.address || '';
+      el('editProfileNotes').value = client.notes || '';
+
+      // Populate Projects
+      const clientProjects = projects.filter(p => p.email && p.email.toLowerCase() === email.toLowerCase());
+      const projectsTbody = el('profileProjectsList');
+      if (clientProjects.length === 0) {
+        projectsTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:20px; color:var(--ink-soft);">No projects found.</td></tr>`;
+      } else {
+        projectsTbody.innerHTML = clientProjects.map(p => `
+          <tr>
+            <td>
+              <div style="font-weight:600; color:var(--ink);">${p.name || p.projectType || 'Custom Website'}</div>
+              <div style="font-size:11px; color:var(--ink-faint);">${p.date || 'Date not set'}</div>
+            </td>
+            <td style="font-family:var(--font-mono); color:var(--accent); font-weight:600;">${p.budget || 'TBD'}</td>
+            <td>
+              <span class="status-badge ${p.status === 'Completed' ? 'completed' : (p.status === 'Starting Project' ? 'pending' : (p.status === 'New Project' ? 'new' : 'hold'))}">${p.status || 'New Project'}</span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Populate Invoices
+      const clientReceipts = receipts.filter(r => r.clientEmail && r.clientEmail.toLowerCase() === email.toLowerCase());
+      const invoicesTbody = el('profileInvoicesList');
+      const fmt = v => Number(v).toLocaleString('en-IN', { style:'currency', currency:'INR', maximumFractionDigits:0 });
+      if (clientReceipts.length === 0) {
+        invoicesTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:20px; color:var(--ink-soft);">No invoices found.</td></tr>`;
+      } else {
+        invoicesTbody.innerHTML = clientReceipts.map(r => `
+          <tr>
+            <td>
+              <div style="font-family:var(--font-mono); font-weight:600;">#${r.id.substring(0, 8)}</div>
+              <div style="font-size:11px; color:var(--ink-faint);">${r.projectTitle || 'Retainer Invoice'}</div>
+            </td>
+            <td style="font-family:var(--font-mono); font-weight:600;">${fmt(r.total)}</td>
+            <td>
+              <span class="status-badge ${r.status === 'Paid' ? 'paid' : 'pending'}">${r.status || 'Pending'}</span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Populate Activity (Chatbot Messages)
+      const clientChats = chatbotMessages.filter(m => m.email && m.email.toLowerCase() === email.toLowerCase());
+      const activityDiv = el('profileActivityList');
+      if (clientChats.length === 0) {
+        activityDiv.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft);">No chatbot interaction history.</div>`;
+      } else {
+        activityDiv.innerHTML = clientChats.slice(0, 10).map(c => `
+          <div style="padding:10px 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm);">
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--ink-faint); margin-bottom:4px; font-family:var(--font-mono);">
+              <span>Client Message</span>
+              <span>${new Date(c.date || c.timestamp).toLocaleDateString()}</span>
+            </div>
+            <div style="font-size:13px; color:var(--ink); margin-bottom:6px;">"${c.text}"</div>
+            <div style="font-size:11px; color:var(--accent); font-family:var(--font-mono);">Bot Response: "${c.botResponse || 'Direct message (No response)'}"</div>
+          </div>
+        `).join('');
+      }
+
+      switchProfileTab('details');
+      el('clientProfileModal').classList.add('show');
+    }
+    window.openClientProfileModal = openClientProfileModal;
+
+    function closeClientProfileModal() {
+      document.getElementById('clientProfileModal').classList.remove('show');
+    }
+    window.closeClientProfileModal = closeClientProfileModal;
+
+    function switchProfileTab(tabName) {
+      const tabs = ['details', 'projects', 'invoices', 'activity'];
+      tabs.forEach(t => {
+        const content = document.getElementById('profileTab_' + t);
+        const btn = document.getElementById('btnProfile' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (content) content.style.display = t === tabName ? 'block' : 'none';
+        if (btn) {
+          if (t === tabName) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+    }
+    window.switchProfileTab = switchProfileTab;
+
+    async function saveClientProfileDetails() {
+      const el = id => document.getElementById(id);
+      const email = el('editProfileEmail').value;
+      const name = el('editProfileName').value;
+      const company = el('editProfileCompany').value;
+      const phone = el('editProfilePhone').value;
+      const gst = el('editProfileGst').value;
+      const address = el('editProfileAddress').value;
+      const notes = el('editProfileNotes').value;
+
+      try {
+        const res = await fetch(getApiUrl('/api/approved-users/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, company, phone, gst, address, notes })
+        });
+        const result = await res.json();
+        if (res.ok && result.success) {
+          showToast('Success', 'Client details updated successfully.', 'success');
+          closeClientProfileModal();
+          fetchApprovedUsers();
+        } else {
+          showToast('Error', result.error || 'Failed to update client details.', 'error');
+        }
+      } catch (err) {
+        showToast('Error', 'Connection failed.', 'error');
+      }
+    }
+    window.saveClientProfileDetails = saveClientProfileDetails;
 
     async function deleteApprovedUser(email) {
       showConfirmModal(`Permanently revoke portal access for client email: ${email}?`, async () => {
@@ -5232,7 +5491,9 @@
         const q = e.target.value.toLowerCase();
         const filtered = approvedUsers.filter(item => 
           (item.email && item.email.toLowerCase().includes(q)) ||
-          (item.dateAdded && item.dateAdded.toLowerCase().includes(q))
+          (item.name && item.name.toLowerCase().includes(q)) ||
+          (item.company && item.company.toLowerCase().includes(q)) ||
+          (item.phone && item.phone.toLowerCase().includes(q))
         );
         renderApprovedUsers(filtered);
       });

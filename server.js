@@ -227,7 +227,12 @@ async function dbWrite(collection, list) {
         email: item.email,
         name: item.name || '',
         role: item.role || 'client',
-        dateApproved: item.created || item.dateApproved || new Date().toISOString()
+        dateApproved: item.created || item.dateApproved || new Date().toISOString(),
+        company: item.company || '',
+        phone: item.phone || '',
+        gst: item.gst || '',
+        address: item.address || '',
+        notes: item.notes || ''
       }));
     } else if (collection === 'projects') {
       upsertList = list.map(item => ({
@@ -2270,7 +2275,7 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { email, name } = JSON.parse(body);
+        const { email, name, company, phone, gst, address, notes } = JSON.parse(body);
         if (!email) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Email address is required' }));
@@ -2284,6 +2289,11 @@ function parseBudgetToNumber(budgetString) {
           users.push({
             email: email.trim().toLowerCase(),
             name: name ? name.trim() : 'Approved Client',
+            company: company ? company.trim() : '',
+            phone: phone ? phone.trim() : '',
+            gst: gst ? gst.trim() : '',
+            address: address ? address.trim() : '',
+            notes: notes ? notes.trim() : '',
             created: new Date().toISOString()
           });
           await dbWrite('users', users);
@@ -2293,7 +2303,44 @@ function parseBudgetToNumber(budgetString) {
         res.end(JSON.stringify({ success: true, message: 'Client email added to approved OAuth registry.' }));
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Server error adding approved user' }));
+        res.end(JSON.stringify({ error: 'Failed to add approved user' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/approved-users/update' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { email, name, company, phone, gst, address, notes } = JSON.parse(body);
+        if (!email) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Email address is required' }));
+          return;
+        }
+
+        const users = await dbList('users');
+        const userIndex = users.findIndex(u => u.email.toLowerCase() === email.trim().toLowerCase());
+        
+        if (userIndex !== -1) {
+          if (name !== undefined) users[userIndex].name = name.trim();
+          if (company !== undefined) users[userIndex].company = company.trim();
+          if (phone !== undefined) users[userIndex].phone = phone.trim();
+          if (gst !== undefined) users[userIndex].gst = gst.trim();
+          if (address !== undefined) users[userIndex].address = address.trim();
+          if (notes !== undefined) users[userIndex].notes = notes.trim();
+          await dbWrite('users', users);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Client details updated successfully.' }));
+        } else {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Client not found.' }));
+        }
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to update client details' }));
       }
     });
     return;
