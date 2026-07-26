@@ -168,16 +168,6 @@ h1, h2, h3, h4 {
 }
 
 #themeToggleBtn {
-  background: none;
-  border: none;
-  color: var(--ink-soft);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 50%;
-#themeToggleBtn {
   background-color: var(--bg-alt);
   border: 1px solid var(--border);
   width: 38px;
