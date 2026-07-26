@@ -3134,12 +3134,6 @@
       setInterval(() => {
         if (localStorage.getItem('adminAuth') === 'true') {
           syncAllDatabases();
-          
-          // Also sync approved users list if access tab is currently open
-          const activeTab = document.querySelector('.sidebar-menu li.active');
-          if (activeTab && activeTab.getAttribute('data-tab') === 'accessTab') {
-            fetchApprovedUsers();
-          }
         }
       }, 5000);
     }
@@ -3153,7 +3147,8 @@
           fetchChatbotMessages(),
           fetchCrmLeads(),
           fetchTasks(),
-          fetchSupportTickets()
+          fetchSupportTickets(),
+          fetchApprovedUsers()
         ]);
         initialFetchSuccess = true;
         updateDashboardStats();
