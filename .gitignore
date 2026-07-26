@@ -5,6 +5,9 @@ projects.json
 receipts.json
 approved_users.json
 chatbot_messages.json
+crm_leads.json
+tasks.json
+support_tickets.json
 .env
 config.json
 leads.json

@@ -407,38 +407,53 @@
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      height: 24px;
+      padding: 0 10px;
       font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 500;
-      padding: 3px 10px;
-      border-radius: var(--radius-sm);
+      font-weight: 600;
+      border-radius: 4px;
       text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      border: 1px solid transparent;
     }
-    .status-badge.new {
-      background-color: rgba(224, 255, 79, 0.08);
-      color: var(--accent);
-      border: 1px solid var(--accent);
+    .status-badge.paid, .status-badge.completed {
+      background-color: rgba(16, 185, 129, 0.08);
+      color: #10B981;
+      border-color: rgba(16, 185, 129, 0.2);
     }
-    body.light-theme .status-badge.new {
-      background-color: rgba(10, 10, 10, 0.04);
-      color: var(--ink);
-      border-color: var(--border);
+    body.light-theme .status-badge.paid, body.light-theme .status-badge.completed {
+      background-color: rgba(4, 120, 87, 0.08);
+      color: #047857;
+      border-color: rgba(4, 120, 87, 0.2);
     }
-    .status-badge.contacted {
-      background-color: rgba(74, 222, 128, 0.08);
-      color: #4ADE80;
-      border: 1px solid rgba(74, 222, 128, 0.2);
+    .status-badge.pending, .status-badge.pending-payment {
+      background-color: rgba(245, 158, 11, 0.08);
+      color: #F59E0B;
+      border-color: rgba(245, 158, 11, 0.2);
     }
-    .status-badge.paid {
-      background-color: rgba(74, 222, 128, 0.1);
-      color: #4ADE80;
-      border: 1px solid rgba(74, 222, 128, 0.3);
+    .status-badge.in-progress, .status-badge.contacted, .status-badge.new {
+      background-color: rgba(59, 130, 246, 0.08);
+      color: #3B82F6;
+      border-color: rgba(59, 130, 246, 0.2);
     }
-    .status-badge.pending {
-      background-color: rgba(251, 191, 36, 0.1);
-      color: #FBBF24;
-      border: 1px solid rgba(251, 191, 36, 0.3);
+    .status-badge.hold, .status-badge.on-hold {
+      background-color: rgba(156, 163, 175, 0.08);
+      color: #9CA3AF;
+      border-color: rgba(156, 163, 175, 0.2);
+    }
+
+    /* Alternating Table Row Backgrounds */
+    tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.015);
+    }
+    body.light-theme tbody tr:nth-child(even) {
+      background-color: #FAFAFA;
+    }
+    body:not(.light-theme) tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.015);
     }
 
     .col-tags span {
@@ -1645,37 +1660,46 @@
         <div class="panel" style="margin-bottom:28px;">
           <div class="panel-header">
             <h2>CRM Lead Pipeline</h2>
-            <button class="refresh-btn" onclick="showToast('CRM','Lead added (mock)','info')"><i class="fa-solid fa-plus"></i> Add Lead</button>
+            <button class="refresh-btn" onclick="document.getElementById('crmAddForm').style.display = document.getElementById('crmAddForm').style.display === 'none' ? 'block' : 'none'"><i class="fa-solid fa-plus"></i> Add Lead</button>
           </div>
           <div style="padding:20px;">
             <div class="crm-pipeline">
-              <div class="crm-column">
-                <div class="crm-column-header"><h4>New</h4><span class="crm-count">2</span></div>
-                <div class="crm-lead-card"><div class="crm-lead-name">Ravi Kumar</div><div class="crm-lead-budget">&#8377;45,000</div><div class="crm-lead-meta"><span class="crm-lead-tag">Website</span><span class="crm-lead-tag">Instagram</span></div></div>
-                <div class="crm-lead-card"><div class="crm-lead-name">Priya Textiles</div><div class="crm-lead-budget">&#8377;80,000</div><div class="crm-lead-meta"><span class="crm-lead-tag">E-Commerce</span><span class="crm-lead-tag">Referral</span></div></div>
+              <div class="crm-column" id="crmCol_New">
+                <div class="crm-column-header"><h4>New</h4><span class="crm-count">0</span></div>
               </div>
-              <div class="crm-column">
-                <div class="crm-column-header"><h4>Contacted</h4><span class="crm-count">2</span></div>
-                <div class="crm-lead-card"><div class="crm-lead-name">Green Organics</div><div class="crm-lead-budget">&#8377;60,000</div><div class="crm-lead-meta"><span class="crm-lead-tag">Landing Page</span></div></div>
-                <div class="crm-lead-card"><div class="crm-lead-name">Dr. Nair Clinic</div><div class="crm-lead-budget">&#8377;35,000</div><div class="crm-lead-meta"><span class="crm-lead-tag">Booking Site</span></div></div>
+              <div class="crm-column" id="crmCol_Contacted">
+                <div class="crm-column-header"><h4>Contacted</h4><span class="crm-count">0</span></div>
               </div>
-              <div class="crm-column">
-                <div class="crm-column-header"><h4>Meeting</h4><span class="crm-count">1</span></div>
-                <div class="crm-lead-card"><div class="crm-lead-name">Fitness Hub CBE</div><div class="crm-lead-budget">&#8377;1,20,000</div><div class="crm-lead-meta"><span class="crm-lead-tag">Full Stack</span><span class="crm-lead-tag">App</span></div></div>
+              <div class="crm-column" id="crmCol_Meeting">
+                <div class="crm-column-header"><h4>Meeting</h4><span class="crm-count">0</span></div>
               </div>
-              <div class="crm-column">
-                <div class="crm-column-header"><h4>Proposal</h4><span class="crm-count">1</span></div>
-                <div class="crm-lead-card"><div class="crm-lead-name">Artisan Bakery</div><div class="crm-lead-budget">&#8377;50,000</div><div class="crm-lead-meta"><span class="crm-lead-tag">Website</span><span class="crm-lead-tag">SEO</span></div></div>
+              <div class="crm-column" id="crmCol_Proposal">
+                <div class="crm-column-header"><h4>Proposal</h4><span class="crm-count">0</span></div>
               </div>
-              <div class="crm-column">
-                <div class="crm-column-header"><h4 style="color:#4ADE80;">Won &#10003;</h4><span class="crm-count">1</span></div>
-                <div class="crm-lead-card" style="border-color:rgba(74,222,128,.3);"><div class="crm-lead-name">NextGen Demo Client</div><div class="crm-lead-budget" style="color:#4ADE80;">&#8377;1,50,001</div><div class="crm-lead-meta"><span class="crm-lead-tag">Full Project</span></div></div>
+              <div class="crm-column" id="crmCol_Won">
+                <div class="crm-column-header"><h4 style="color:#4ADE80;">Won &#10003;</h4><span class="crm-count">0</span></div>
               </div>
-              <div class="crm-column">
+              <div class="crm-column" id="crmCol_Lost">
                 <div class="crm-column-header"><h4 style="color:#EF4444;">Lost</h4><span class="crm-count">0</span></div>
               </div>
             </div>
           </div>
+        </div>
+        <!-- Add Lead Form -->
+        <div id="crmAddForm" style="display:none; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; margin-top:16px;">
+          <h3 style="font-size:14px; font-weight:600; margin-bottom:14px;">Add New CRM Lead</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+            <div class="input-group" style="margin-bottom:0;"><label>Name *</label><input type="text" id="crmLeadName" placeholder="Lead name"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Email</label><input type="email" id="crmLeadEmail" placeholder="email@domain.com"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Budget (&#8377;)</label><input type="text" id="crmLeadBudget" placeholder="e.g. &#8377;50,000"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Project Type</label><input type="text" id="crmLeadType" placeholder="e.g. Website"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Source</label><input type="text" id="crmLeadSource" placeholder="e.g. Instagram"></div>
+            <div style="display:flex; align-items:flex-end; gap:8px;">
+              <button class="login-btn" style="flex:1; margin-top:0;" onclick="addCrmLead()"><i class="fa-solid fa-plus"></i> Add Lead</button>
+              <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('crmAddForm').style.display='none'">Cancel</button>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
@@ -1813,45 +1837,66 @@
       <!-- TAB SECTION: TASK BOARD -->
       <div class="tab-section" id="tasksTab">
         <div class="panel" style="margin-bottom:28px;">
-          <div class="panel-header"><h2>Task Board</h2><span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);">Developer / Designer / QA</span></div>
+          <div class="panel-header"><h2>Task Board</h2>
+            <button class="refresh-btn" onclick="document.getElementById('taskAddForm').style.display = document.getElementById('taskAddForm').style.display === 'none' ? 'block' : 'none'"><i class="fa-solid fa-plus"></i> Add Task</button>
+          </div>
           <div style="padding:20px;">
             <div class="task-board">
-              <div class="task-column">
-                <div class="task-column-header">Todo <span class="crm-count">3</span></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority high"></span>Homepage hero section</div><div class="task-assign">&#8594; Designer</div></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority med"></span>Setup Razorpay checkout</div><div class="task-assign">&#8594; Developer</div></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority low"></span>Write FAQ content</div><div class="task-assign">&#8594; Admin</div></div>
+              <div class="task-column" id="taskCol_Todo">
+                <div class="task-column-header">Todo <span class="crm-count">0</span></div>
               </div>
-              <div class="task-column">
-                <div class="task-column-header">Design <span class="crm-count">2</span></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority high"></span>Services section layout</div><div class="task-assign">&#8594; Designer</div></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority med"></span>Color system tokens</div><div class="task-assign">&#8594; Designer</div></div>
+              <div class="task-column" id="taskCol_Design">
+                <div class="task-column-header">Design <span class="crm-count">0</span></div>
               </div>
-              <div class="task-column">
-                <div class="task-column-header">Development <span class="crm-count">2</span></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority high"></span>Auth API endpoint</div><div class="task-assign">&#8594; Developer</div></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority med"></span>Invoice PDF generator</div><div class="task-assign">&#8594; Developer</div></div>
+              <div class="task-column" id="taskCol_Development">
+                <div class="task-column-header">Development <span class="crm-count">0</span></div>
               </div>
-              <div class="task-column">
-                <div class="task-column-header">Testing <span class="crm-count">1</span></div>
-                <div class="task-card"><div class="task-title"><span class="task-priority med"></span>Mobile UI audit</div><div class="task-assign">&#8594; QA</div></div>
+              <div class="task-column" id="taskCol_Testing">
+                <div class="task-column-header">Testing <span class="crm-count">0</span></div>
               </div>
-              <div class="task-column">
-                <div class="task-column-header" style="color:#4ADE80;">Done <span class="crm-count">4</span></div>
-                <div class="task-card" style="opacity:.6;"><div class="task-title"><span class="task-priority low"></span>Domain DNS setup</div><div class="task-assign">&#8594; Admin</div></div>
-                <div class="task-card" style="opacity:.6;"><div class="task-title"><span class="task-priority low"></span>Sitemap.xml</div><div class="task-assign">&#8594; Developer</div></div>
-                <div class="task-card" style="opacity:.6;"><div class="task-title"><span class="task-priority low"></span>Google Analytics</div><div class="task-assign">&#8594; Admin</div></div>
-                <div class="task-card" style="opacity:.6;"><div class="task-title"><span class="task-priority low"></span>Chatbot setup</div><div class="task-assign">&#8594; Developer</div></div>
+              <div class="task-column" id="taskCol_Done">
+                <div class="task-column-header" style="color:#4ADE80;">Done <span class="crm-count">0</span></div>
               </div>
             </div>
           </div>
+        </div>
+        <!-- Add Task Form -->
+        <div id="taskAddForm" style="display:none; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; margin-top:16px;">
+          <h3 style="font-size:14px; font-weight:600; margin-bottom:14px;">Add New Task</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; align-items:end;">
+            <div class="input-group" style="margin-bottom:0;"><label>Task Title *</label><input type="text" id="taskTitle" placeholder="e.g. Homepage hero"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Assign To</label><input type="text" id="taskAssign" placeholder="Designer / Developer"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Priority</label><select id="taskPriority" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Column</label><select id="taskStage" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option>Todo</option><option>Design</option><option>Development</option><option>Testing</option><option>Done</option></select></div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button class="login-btn" style="margin-top:0;" onclick="addTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('taskAddForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
         </div>
       </div>
 
       <!-- TAB SECTION: SUPPORT DESK -->
       <div class="tab-section" id="supportTab">
         <div class="panel" style="margin-bottom:28px;">
-          <div class="panel-header"><h2>Support Desk</h2><button class="refresh-btn" onclick="showToast('Support','Tickets refreshed','info')"><i class="fa-solid fa-rotate"></i> Refresh</button></div>
+          <div class="panel-header"><h2>Support Desk</h2>
+            <button class="refresh-btn" onclick="document.getElementById('ticketAddForm').style.display = document.getElementById('ticketAddForm').style.display === 'none' ? 'block' : 'none'"><i class="fa-solid fa-plus"></i> New Ticket</button>
+          </div>
+          <!-- Add Ticket Form -->
+          <div id="ticketAddForm" style="display:none; padding:16px 20px; background:var(--bg-alt); border-bottom:1px solid var(--border);">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; align-items:end;">
+              <div class="input-group" style="margin-bottom:0;"><label>Subject *</label><input type="text" id="ticketSubject" placeholder="Issue description"></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Client Email</label><input type="email" id="ticketEmail" placeholder="client@domain.com"></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Category</label><select id="ticketCategory" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option>Billing</option><option>Development</option><option>Files</option><option>General</option></select></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Priority</label><select id="ticketPriority" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
+            </div>
+            <div class="input-group" style="margin-bottom:0; margin-top:10px;"><label>Message</label><textarea id="ticketMessage" rows="2" placeholder="Describe the issue..." style="width:100%; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:var(--radius-sm); padding:8px 12px; font-family:inherit;"></textarea></div>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button class="login-btn" style="margin-top:0;" onclick="addSupportTicket()"><i class="fa-solid fa-plus"></i> Create Ticket</button>
+              <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('ticketAddForm').style.display='none'">Cancel</button>
+            </div>
+          </div>
           <div id="ticketList">
             <div class="ticket-row">
               <div class="ticket-priority-dot" style="background:#EF4444;"></div>
@@ -2591,9 +2636,9 @@
     let approvedUsers = [];
     let initialFetchSuccess = false;
 
-    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:'
+    const API_URL = window.location.protocol === 'file:'
       ? 'http://localhost:3000'
-      : 'https://nextgen-studio-czz7.onrender.com';
+      : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? '' : 'https://nextgen-studio-czz7.onrender.com');
 
     // Intercept global fetch to include credentials for CORS authentication
     const originalFetch = window.fetch;
@@ -2651,7 +2696,10 @@
           fetchInquiries(),
           fetchProjects(),
           fetchReceipts(),
-          fetchChatbotMessages()
+          fetchChatbotMessages(),
+          fetchCrmLeads(),
+          fetchTasks(),
+          fetchSupportTickets()
         ]);
         initialFetchSuccess = true;
         updateDashboardStats();
@@ -2659,6 +2707,267 @@
         console.warn('Sync databases failed:', err);
       }
     }
+
+    // ---------- CRM LEADS ----------
+    let crmLeads = [];
+    async function fetchCrmLeads() {
+      try {
+        const res = await fetch(getApiUrl('/api/crm-leads?_t=' + Date.now()));
+        if (!res.ok) throw new Error();
+        crmLeads = await res.json();
+        renderCrmLeads(crmLeads);
+      } catch (err) { console.warn('CRM leads fetch failed', err); }
+    }
+
+    function renderCrmLeads(list) {
+      const stages = ['New','Contacted','Meeting','Proposal','Won','Lost'];
+      stages.forEach(stage => {
+        const col = document.getElementById('crmCol_' + stage);
+        if (!col) return;
+        const cards = col.querySelectorAll('.crm-lead-card');
+        cards.forEach(c => c.remove());
+        const countEl = col.querySelector('.crm-count');
+        const stageLeads = list.filter(l => l.stage === stage);
+        if (countEl) countEl.innerText = stageLeads.length;
+        stageLeads.forEach(lead => {
+          const card = document.createElement('div');
+          card.className = 'crm-lead-card';
+          card.style.borderColor = stage === 'Won' ? 'rgba(74,222,128,.3)' : '';
+          card.innerHTML = `
+            <div class="crm-lead-name">${lead.name}</div>
+            <div class="crm-lead-budget" style="${stage === 'Won' ? 'color:#4ADE80;' : ''}">${lead.budget || 'Budget TBD'}</div>
+            <div class="crm-lead-meta">
+              ${lead.projectType ? '<span class="crm-lead-tag">' + lead.projectType + '</span>' : ''}
+              ${lead.source ? '<span class="crm-lead-tag">' + lead.source + '</span>' : ''}
+            </div>
+            <div style="margin-top:8px; display:flex; gap:6px;">
+              <select style="font-size:10px; padding:2px 6px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:3px; flex:1; cursor:pointer;" onchange="moveCrmLead('${lead.id}', this.value)">
+                ${stages.map(s => '<option value="' + s + '"' + (s === stage ? ' selected' : '') + '>' + s + '</option>').join('')}
+              </select>
+              <button onclick="deleteCrmLead('${lead.id}')" style="background:none; border:none; color:#EF4444; font-size:13px; cursor:pointer;" title="Delete"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          `;
+          col.appendChild(card);
+        });
+      });
+    }
+
+    async function moveCrmLead(id, newStage) {
+      try {
+        await fetch(getApiUrl('/api/crm-leads/update'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, stage: newStage })
+        });
+        fetchCrmLeads();
+      } catch (err) { console.error(err); }
+    }
+
+    async function deleteCrmLead(id) {
+      showConfirmModal('Delete this CRM lead?', async () => {
+        await fetch(getApiUrl('/api/crm-leads/delete'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        fetchCrmLeads();
+      });
+    }
+    window.moveCrmLead = moveCrmLead;
+    window.deleteCrmLead = deleteCrmLead;
+
+    async function addCrmLead() {
+      const name = document.getElementById('crmLeadName').value.trim();
+      const email = document.getElementById('crmLeadEmail').value.trim();
+      const budget = document.getElementById('crmLeadBudget').value.trim();
+      const projectType = document.getElementById('crmLeadType').value.trim();
+      const source = document.getElementById('crmLeadSource').value.trim();
+      if (!name) { showToast('Error', 'Lead name is required', 'error'); return; }
+      try {
+        const res = await fetch(getApiUrl('/api/crm-leads/create'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, budget, projectType, source })
+        });
+        if (res.ok) {
+          showToast('CRM Lead Added', name + ' added to pipeline!', 'success');
+          document.getElementById('crmLeadName').value = '';
+          document.getElementById('crmLeadEmail').value = '';
+          document.getElementById('crmLeadBudget').value = '';
+          document.getElementById('crmLeadType').value = '';
+          document.getElementById('crmLeadSource').value = '';
+          document.getElementById('crmAddForm').style.display = 'none';
+          fetchCrmLeads();
+        } else { showToast('Error', 'Failed to add lead', 'error'); }
+      } catch (err) { showToast('Error', 'Connection failed', 'error'); }
+    }
+    window.addCrmLead = addCrmLead;
+
+    // ---------- TASKS ----------
+    let tasks = [];
+    async function fetchTasks() {
+      try {
+        const res = await fetch(getApiUrl('/api/tasks?_t=' + Date.now()));
+        if (!res.ok) throw new Error();
+        tasks = await res.json();
+        renderTasks(tasks);
+      } catch (err) { console.warn('Tasks fetch failed', err); }
+    }
+
+    function renderTasks(list) {
+      const stages = ['Todo','Design','Development','Testing','Done'];
+      stages.forEach(stage => {
+        const col = document.getElementById('taskCol_' + stage);
+        if (!col) return;
+        const cards = col.querySelectorAll('.task-card');
+        cards.forEach(c => c.remove());
+        const countEl = col.querySelector('.crm-count');
+        const stageItems = list.filter(t => t.stage === stage);
+        if (countEl) countEl.innerText = stageItems.length;
+        stageItems.forEach(task => {
+          const card = document.createElement('div');
+          card.className = 'task-card';
+          if (stage === 'Done') card.style.opacity = '0.65';
+          card.innerHTML = `
+            <div class="task-title"><span class="task-priority ${task.priority || 'low'}"></span>${task.title}</div>
+            <div class="task-assign">&#8594; ${task.assignedTo || 'Admin'}</div>
+            <div style="margin-top:8px; display:flex; gap:6px;">
+              <select style="font-size:10px; padding:2px 6px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:3px; flex:1; cursor:pointer;" onchange="moveTask('${task.id}', this.value)">
+                ${stages.map(s => '<option value="' + s + '"' + (s === stage ? ' selected' : '') + '>' + s + '</option>').join('')}
+              </select>
+              <button onclick="deleteTask('${task.id}')" style="background:none; border:none; color:#EF4444; font-size:13px; cursor:pointer;" title="Delete"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          `;
+          col.appendChild(card);
+        });
+      });
+    }
+
+    async function moveTask(id, newStage) {
+      try {
+        await fetch(getApiUrl('/api/tasks/update'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, stage: newStage })
+        });
+        fetchTasks();
+      } catch (err) { console.error(err); }
+    }
+
+    async function deleteTask(id) {
+      showConfirmModal('Delete this task?', async () => {
+        await fetch(getApiUrl('/api/tasks/delete'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        fetchTasks();
+      });
+    }
+    window.moveTask = moveTask;
+    window.deleteTask = deleteTask;
+
+    async function addTask() {
+      const title = document.getElementById('taskTitle').value.trim();
+      const assignedTo = document.getElementById('taskAssign').value.trim();
+      const priority = document.getElementById('taskPriority').value;
+      const stage = document.getElementById('taskStage').value;
+      if (!title) { showToast('Error', 'Task title required', 'error'); return; }
+      try {
+        const res = await fetch(getApiUrl('/api/tasks/create'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, assignedTo, priority, stage })
+        });
+        if (res.ok) {
+          showToast('Task Added', title, 'success');
+          document.getElementById('taskTitle').value = '';
+          document.getElementById('taskAddForm').style.display = 'none';
+          fetchTasks();
+        } else { showToast('Error', 'Failed to add task', 'error'); }
+      } catch (err) { showToast('Error', 'Connection failed', 'error'); }
+    }
+    window.addTask = addTask;
+
+    // ---------- SUPPORT TICKETS ----------
+    let supportTickets = [];
+    async function fetchSupportTickets() {
+      try {
+        const res = await fetch(getApiUrl('/api/support-tickets?_t=' + Date.now()));
+        if (!res.ok) throw new Error();
+        supportTickets = await res.json();
+        renderSupportTickets(supportTickets);
+      } catch (err) { console.warn('Support tickets fetch failed', err); }
+    }
+
+    function renderSupportTickets(list) {
+      const container = document.getElementById('ticketList');
+      if (!container) return;
+      if (list.length === 0) {
+        container.innerHTML = `<div style="padding:30px 20px; text-align:center; color:var(--ink-soft);"><i class="fa-solid fa-check-circle" style="font-size:28px; color:#4ADE80; margin-bottom:10px; display:block;"></i>No open tickets. All clear!</div>`;
+        return;
+      }
+      container.innerHTML = '';
+      list.sort((a,b) => new Date(b.date) - new Date(a.date)).forEach(ticket => {
+        const priorityColor = ticket.priority === 'high' ? '#EF4444' : ticket.priority === 'med' ? '#F59E0B' : '#3B82F6';
+        const statusColor   = ticket.status === 'Resolved' ? '#4ADE80' : ticket.status === 'In Review' ? '#3B82F6' : '#F59E0B';
+        const ageStr = ticket.date ? new Date(ticket.date).toLocaleDateString('en-IN', { day:'2-digit', month:'short' }) : '';
+        const row = document.createElement('div');
+        row.className = 'ticket-row';
+        row.innerHTML = `
+          <div class="ticket-priority-dot" style="background:${priorityColor};"></div>
+          <div class="ticket-info">
+            <div class="ticket-subject">#${ticket.ticketNumber || '000'} &mdash; ${ticket.subject}</div>
+            <div class="ticket-meta">${ticket.clientEmail || 'N/A'} &bull; ${ticket.category || 'General'} &bull; ${ageStr}</div>
+          </div>
+          <span class="ticket-badge" style="color:${priorityColor}; border-color:${priorityColor}33;">${ticket.priority || 'Low'}</span>
+          <span class="ticket-badge" style="color:${statusColor}; border-color:${statusColor}33;">${ticket.status}</span>
+          <div class="action-group">
+            <button class="action-btn" title="Mark Resolved" onclick="resolveTicket('${ticket.id}')"><i class="fa-solid fa-check"></i></button>
+            <button class="action-btn btn-delete" title="Delete" onclick="deleteTicket('${ticket.id}')"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    async function resolveTicket(id) {
+      try {
+        await fetch(getApiUrl('/api/support-tickets/update'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status: 'Resolved' })
+        });
+        showToast('Ticket Resolved', 'Marked as resolved!', 'success');
+        fetchSupportTickets();
+      } catch (err) { console.error(err); }
+    }
+
+    async function deleteTicket(id) {
+      showConfirmModal('Delete this support ticket?', async () => {
+        await fetch(getApiUrl('/api/support-tickets/delete'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        fetchSupportTickets();
+      });
+    }
+    window.resolveTicket = resolveTicket;
+    window.deleteTicket = deleteTicket;
+
+    async function addSupportTicket() {
+      const subject = document.getElementById('ticketSubject').value.trim();
+      const clientEmail = document.getElementById('ticketEmail').value.trim();
+      const category = document.getElementById('ticketCategory').value;
+      const priority = document.getElementById('ticketPriority').value;
+      const message = document.getElementById('ticketMessage').value.trim();
+      if (!subject) { showToast('Error', 'Subject required', 'error'); return; }
+      try {
+        const res = await fetch(getApiUrl('/api/support-tickets/create'), {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject, clientEmail, category, priority, message })
+        });
+        if (res.ok) {
+          showToast('Ticket Created', subject, 'success');
+          document.getElementById('ticketAddForm').style.display = 'none';
+          fetchSupportTickets();
+        } else { showToast('Error', 'Failed to create ticket', 'error'); }
+      } catch (err) { showToast('Error', 'Connection failed', 'error'); }
+    }
+    window.addSupportTicket = addSupportTicket;
 
     let chatbotMessages = [];
 
@@ -3173,7 +3482,7 @@
         const budgetText = item.budget || 'Not Specified';
         const projectTypes = item.projectType ? item.projectType.split(', ') : ['Web Design'];
         const tagsMarkup = projectTypes.map(t => `<span>${t}</span>`).join('');
-        const statusClass = item.status === 'Completed' ? 'paid' : (item.status === 'Homepage Created' ? 'contacted' : (item.status === 'Starting Project' ? 'pending' : 'new'));
+        const statusClass = item.status === 'Completed' ? 'completed' : (item.status === 'Homepage Created' ? 'contacted' : (item.status === 'Starting Project' ? 'pending' : (item.status === 'New Project' ? 'new' : 'hold')));
 
         tr.innerHTML = `
           <td>

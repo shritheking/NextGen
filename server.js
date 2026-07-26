@@ -41,6 +41,9 @@ const USERS_FILE = path.join(__dirname, 'users.json');
 const CHAT_MESSAGES_FILE = path.join(__dirname, 'chatbot_messages.json');
 const EMAIL_TEMPLATES_FILE = path.join(__dirname, 'email_templates.json');
 const EMAIL_LOGS_FILE = path.join(__dirname, 'email_logs.json');
+const CRM_LEADS_FILE = path.join(__dirname, 'crm_leads.json');
+const TASKS_FILE = path.join(__dirname, 'tasks.json');
+const SUPPORT_TICKETS_FILE = path.join(__dirname, 'support_tickets.json');
 
 // Ensure database files exist
 if (!fs.existsSync(PROJECTS_FILE)) fs.writeFileSync(PROJECTS_FILE, JSON.stringify([], null, 2));
@@ -48,6 +51,9 @@ if (!fs.existsSync(INQUIRIES_FILE)) fs.writeFileSync(INQUIRIES_FILE, JSON.string
 if (!fs.existsSync(RECEIPTS_FILE)) fs.writeFileSync(RECEIPTS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(CHAT_MESSAGES_FILE)) fs.writeFileSync(CHAT_MESSAGES_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(EMAIL_LOGS_FILE)) fs.writeFileSync(EMAIL_LOGS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(CRM_LEADS_FILE)) fs.writeFileSync(CRM_LEADS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(TASKS_FILE)) fs.writeFileSync(TASKS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(SUPPORT_TICKETS_FILE)) fs.writeFileSync(SUPPORT_TICKETS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(EMAIL_TEMPLATES_FILE)) {
   const defaultTemplates = [
     {
@@ -122,6 +128,9 @@ function getTableName(collection) {
     case 'receipts': return 'receipts';
     case 'users': return 'users';
     case 'chatbot_messages': return 'chatbot_messages';
+    case 'crm_leads': return 'crm_leads';
+    case 'tasks': return 'tasks';
+    case 'support_tickets': return 'support_tickets';
     default: return collection;
   }
 }
@@ -135,6 +144,9 @@ function getLocalFile(collection) {
     case 'chatbot_messages': return CHAT_MESSAGES_FILE;
     case 'email_templates': return EMAIL_TEMPLATES_FILE;
     case 'email_logs': return EMAIL_LOGS_FILE;
+    case 'crm_leads': return CRM_LEADS_FILE;
+    case 'tasks': return TASKS_FILE;
+    case 'support_tickets': return SUPPORT_TICKETS_FILE;
     default: return path.join(__dirname, `${collection}.json`);
   }
 }
@@ -180,6 +192,23 @@ async function dbList(collection) {
         data = data.map(item => ({
           ...item,
           date: item.timestamp
+        }));
+      } else if (collection === 'crm_leads') {
+        data = data.map(item => ({
+          ...item,
+          projectType: item.project_type || item.projectType
+        }));
+      } else if (collection === 'tasks') {
+        data = data.map(item => ({
+          ...item,
+          assignedTo: item.assigned_to || item.assignedTo,
+          projectId: item.project_id || item.projectId
+        }));
+      } else if (collection === 'support_tickets') {
+        data = data.map(item => ({
+          ...item,
+          ticketNumber: item.ticket_number || item.ticketNumber,
+          clientEmail: item.client_email || item.clientEmail
         }));
       }
     }
@@ -243,6 +272,42 @@ async function dbWrite(collection, list) {
         botResponse: item.botResponse || '',
         read: !!item.read,
         timestamp: item.date || item.timestamp || new Date().toISOString()
+      }));
+    } else if (collection === 'crm_leads') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        name: item.name || '',
+        email: item.email || '',
+        phone: item.phone || '',
+        budget: item.budget || '',
+        source: item.source || '',
+        stage: item.stage || 'New',
+        project_type: item.projectType || '',
+        notes: item.notes || '',
+        date: item.date || new Date().toISOString()
+      }));
+    } else if (collection === 'tasks') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        title: item.title || '',
+        assigned_to: item.assignedTo || 'Admin',
+        priority: item.priority || 'med',
+        stage: item.stage || 'Todo',
+        project_id: item.projectId || '',
+        notes: item.notes || '',
+        date: item.date || new Date().toISOString()
+      }));
+    } else if (collection === 'support_tickets') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        ticket_number: item.ticketNumber || '',
+        subject: item.subject || '',
+        client_email: item.clientEmail || '',
+        category: item.category || 'General',
+        priority: item.priority || 'low',
+        status: item.status || 'Open',
+        message: item.message || '',
+        date: item.date || new Date().toISOString()
       }));
     }
     const { error } = await supabase.from(table).upsert(upsertList);
@@ -1035,6 +1100,266 @@ function parseBudgetToNumber(budgetString) {
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Server error deleting project' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- CRM LEADS API ----------
+  if (pathname === '/api/crm-leads' && req.method === 'GET') {
+    try {
+      const leads = await dbList('crm_leads');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(leads));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch CRM leads' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/crm-leads/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        if (!d.name) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Lead name is required' }));
+          return;
+        }
+        const leads = await dbList('crm_leads');
+        const newLead = {
+          id: 'crm_' + Date.now(),
+          name: d.name,
+          email: d.email || '',
+          phone: d.phone || '',
+          budget: d.budget || '',
+          source: d.source || '',
+          stage: d.stage || 'New',
+          projectType: d.projectType || '',
+          notes: d.notes || '',
+          date: new Date().toISOString()
+        };
+        leads.push(newLead);
+        await dbWrite('crm_leads', leads);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, lead: newLead }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error creating CRM lead' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/crm-leads/update' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        const leads = await dbList('crm_leads');
+        const idx = leads.findIndex(l => l.id === d.id);
+        if (idx === -1) { res.writeHead(404, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ error: 'Lead not found' })); return; }
+        Object.assign(leads[idx], d);
+        await dbWrite('crm_leads', leads);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, lead: leads[idx] }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error updating CRM lead' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/crm-leads/delete' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id } = JSON.parse(body);
+        await dbDelete('crm_leads', id);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error deleting CRM lead' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- TASKS API ----------
+  if (pathname === '/api/tasks' && req.method === 'GET') {
+    try {
+      const tasks = await dbList('tasks');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(tasks));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch tasks' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/tasks/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        if (!d.title) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Task title is required' }));
+          return;
+        }
+        const tasks = await dbList('tasks');
+        const newTask = {
+          id: 'task_' + Date.now(),
+          title: d.title,
+          assignedTo: d.assignedTo || 'Admin',
+          priority: d.priority || 'med',
+          stage: d.stage || 'Todo',
+          projectId: d.projectId || '',
+          notes: d.notes || '',
+          date: new Date().toISOString()
+        };
+        tasks.push(newTask);
+        await dbWrite('tasks', tasks);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, task: newTask }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error creating task' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/tasks/update' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        const tasks = await dbList('tasks');
+        const idx = tasks.findIndex(t => t.id === d.id);
+        if (idx === -1) { res.writeHead(404, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ error: 'Task not found' })); return; }
+        Object.assign(tasks[idx], d);
+        await dbWrite('tasks', tasks);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, task: tasks[idx] }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error updating task' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/tasks/delete' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id } = JSON.parse(body);
+        await dbDelete('tasks', id);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error deleting task' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- SUPPORT TICKETS API ----------
+  if (pathname === '/api/support-tickets' && req.method === 'GET') {
+    try {
+      const tickets = await dbList('support_tickets');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(tickets));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch support tickets' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/support-tickets/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        if (!d.subject) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Subject is required' }));
+          return;
+        }
+        const tickets = await dbList('support_tickets');
+        const ticketNum = tickets.length + 1;
+        const newTicket = {
+          id: 'tkt_' + Date.now(),
+          ticketNumber: String(ticketNum).padStart(3, '0'),
+          subject: d.subject,
+          clientEmail: d.clientEmail || '',
+          category: d.category || 'General',
+          priority: d.priority || 'med',
+          status: d.status || 'Open',
+          message: d.message || '',
+          adminReply: '',
+          date: new Date().toISOString()
+        };
+        tickets.push(newTicket);
+        await dbWrite('support_tickets', tickets);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ticket: newTicket }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error creating support ticket' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/support-tickets/update' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        const tickets = await dbList('support_tickets');
+        const idx = tickets.findIndex(t => t.id === d.id);
+        if (idx === -1) { res.writeHead(404, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ error: 'Ticket not found' })); return; }
+        Object.assign(tickets[idx], d);
+        await dbWrite('support_tickets', tickets);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, ticket: tickets[idx] }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error updating ticket' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/support-tickets/delete' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id } = JSON.parse(body);
+        await dbDelete('support_tickets', id);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error deleting ticket' }));
       }
     });
     return;

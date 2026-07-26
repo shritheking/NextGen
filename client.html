@@ -478,44 +478,45 @@
     }
     .timeline-stepper {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
       position: relative;
-      padding: 0 4px;
+      padding: 4px 0 4px 12px;
     }
     .timeline-stepper::before {
       content: '';
       position: absolute;
-      left: 20px;
-      right: 20px;
-      top: 11px;
-      height: 2px;
+      left: 21px;
+      top: 13px;
+      bottom: 13px;
+      width: 2px;
       background-color: var(--border);
       z-index: 1;
     }
     .timeline-stepper .step {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       position: relative;
       z-index: 2;
-      gap: 6px;
-      width: 50px;
+      gap: 14px;
+      width: 100%;
     }
     .step-circle {
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background-color: var(--bg-card);
       border: 2px solid var(--border);
       color: var(--ink-faint);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3s ease;
+      flex-shrink: 0;
     }
     .step.done .step-circle {
       background-color: rgba(16, 185, 129, 0.1);
@@ -540,11 +541,10 @@
     }
     .step-name {
       font-family: var(--font-mono);
-      font-size: 8.5px;
+      font-size: 11px;
       color: var(--ink-faint);
       text-transform: uppercase;
-      letter-spacing: 0.02em;
-      text-align: center;
+      letter-spacing: 0.04em;
     }
     .step.done .step-name {
       color: var(--ink-soft);
@@ -573,41 +573,44 @@
       padding: 0 10px;
       font-size: 11px;
       font-weight: 600;
-      border-radius: 6px;
+      border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.03em;
       border: 1px solid transparent;
       white-space: nowrap;
     }
     .badge.paid, .badge.completed {
-      background-color: rgba(4, 120, 87, 0.1);
-      color: #047857;
-      border-color: rgba(4, 120, 87, 0.2);
-    }
-    body.dark-theme .badge.paid, body.dark-theme .badge.completed {
-      background-color: rgba(16, 185, 129, 0.1);
+      background-color: rgba(16, 185, 129, 0.08);
       color: #10B981;
       border-color: rgba(16, 185, 129, 0.2);
     }
+    body.light-theme .badge.paid, body.light-theme .badge.completed {
+      background-color: rgba(4, 120, 87, 0.08);
+      color: #047857;
+      border-color: rgba(4, 120, 87, 0.2);
+    }
     .badge.pending, .badge.pending-payment {
-      background-color: rgba(245, 158, 11, 0.1);
+      background-color: rgba(245, 158, 11, 0.08);
       color: #F59E0B;
       border-color: rgba(245, 158, 11, 0.2);
     }
-    .badge.in-progress, .badge.design-phase {
-      background-color: rgba(59, 130, 246, 0.1);
+    .badge.in-progress, .badge.design-phase, .badge.starting {
+      background-color: rgba(59, 130, 246, 0.08);
       color: #3B82F6;
       border-color: rgba(59, 130, 246, 0.2);
     }
-    .badge.starting {
-      background-color: rgba(6, 182, 212, 0.1);
-      color: #06B6D4;
-      border-color: rgba(6, 182, 212, 0.2);
-    }
     .badge.hold {
-      background-color: rgba(156, 163, 175, 0.1);
+      background-color: rgba(156, 163, 175, 0.08);
       color: #9CA3AF;
       border-color: rgba(156, 163, 175, 0.2);
+    }
+
+    /* Alternating Table Row Backgrounds */
+    .table-container tbody tr:nth-child(even) {
+      background-color: #FAFAFA;
+    }
+    body.dark-theme .table-container tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.015);
     }
 
     /* Table Formatting & Color Highlighting */
@@ -1174,13 +1177,13 @@
         </div>
       </div>
 
-      <!-- Left Column: Billing & Invoices -->
+      <!-- Left Column: Billing & Invoices (Top Left) -->
       <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
         <div class="term-header-bar">
           <div class="dot red"></div>
           <div class="dot yellow"></div>
           <div class="dot green"></div>
-          <span class="title-text"><i class="fa-solid fa-folder-open"></i> ~/scoping-bills &bull; <span id="invoicesCount">0 items</span> <span id="billsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+          <span class="title-text"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/scoping-bills &bull; <span id="invoicesCount">0 items</span> <span id="billsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
         </div>
         
         <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
@@ -1231,48 +1234,45 @@
         </div>
       </div>
 
-      <!-- Right Column: Project roadmap & support -->
-      <div style="display: flex; flex-direction: column; gap: 24px; height: 100%;">
-        <!-- Roadmap Term-Card -->
-        <div class="term-card" style="flex: 1;">
-          <div class="term-header-bar">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
-            <span class="title-text"><i class="fa-solid fa-map-location-dot"></i> ~/project-roadmaps &bull; <span id="projectsCount">0 paths</span> <span id="roadmapsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+      <!-- Right Column: Project roadmap (Top Right) -->
+      <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/project-roadmaps &bull; <span id="projectsCount">0 paths</span> <span id="roadmapsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+        </div>
+        
+        <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
+          <div id="projectsListContainer">
+            <!-- Rendered dynamically as custom timelines -->
           </div>
           
-          <div style="padding: 24px;">
-            <div id="projectsListContainer">
-              <!-- Rendered dynamically as custom timelines -->
-            </div>
-            
-            <div class="empty-state" id="projectsEmpty" style="display: none; padding: 32px 0; text-align: center;">
-              <i class="fa-solid fa-route" style="font-size: 32px; color: var(--ink-faint); margin-bottom: 12px; display: block;"></i>
-              <p style="color: var(--ink-soft); font-size: 14.5px; margin-bottom: 16px;">No active project roadmaps registered for this email.</p>
-              <a href="/#contact" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px;">Start your first project <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
+          <div class="empty-state" id="projectsEmpty" style="display: none; padding: 32px 0; text-align: center;">
+            <i class="fa-solid fa-route" style="font-size: 32px; color: var(--ink-faint); margin-bottom: 12px; display: block;"></i>
+            <p style="color: var(--ink-soft); font-size: 14.5px; margin-bottom: 16px;">No active project roadmaps registered for this email.</p>
+            <a href="/#contact" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px;">Start your first project <i class="fa-solid fa-arrow-right"></i></a>
           </div>
         </div>
+      </div>
 
-        <!-- Support Card Widget -->
-        <div class="term-card">
-          <div class="term-header-bar">
-            <div class="dot red"></div>
-            <div class="dot yellow"></div>
-            <div class="dot green"></div>
-            <span class="title-text"><i class="fa-solid fa-headset"></i> ~/support-desk</span>
+      <!-- Support Card Widget (Bottom full width) -->
+      <div class="term-card" style="grid-column: 1 / -1; margin-top: 8px;">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/support-desk</span>
+        </div>
+        <div style="padding: 24px; text-align: center; max-width: 600px; margin: 0 auto;">
+          <h4 style="font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Need help with your project?</h4>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.5;">Our support team is online to assist you with scoping, billing queries, or technical adjustments.</p>
+          <div class="support-badge" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #10B981; background-color: rgba(16, 185, 129, 0.1); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 16px;">
+            <span class="pulse-dot"></span> Online &bull; Average response &lt;15 min
           </div>
-          <div style="padding: 24px; text-align: center;">
-            <h4 style="font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Need help with your project?</h4>
-            <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.5;">Our support team is online to assist you with scoping, billing queries, or technical adjustments.</p>
-            <div class="support-badge" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #10B981; background-color: rgba(16, 185, 129, 0.1); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 16px;">
-              <span class="pulse-dot"></span> Online &bull; Average response &lt;15 min
-            </div>
-            <a href="/#contact" class="btn-primary" style="display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%;">
-              <i class="fa-solid fa-envelope"></i> Message Support
-            </a>
-          </div>
+          <a href="/#contact" class="btn-primary" style="display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; max-width: 250px; margin: 0 auto;">
+            <i class="fa-solid fa-envelope"></i> Message Support
+          </a>
         </div>
       </div>
 
@@ -1757,11 +1757,18 @@
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const etaText = diffDays > 0 ? `${diffDays} Days Remaining` : 'Launching Soon';
         
+        let displayStatus = status;
         let badgeClass = 'hold';
-        if (status === 'Completed') badgeClass = 'completed';
-        else if (status === 'Development Phase') badgeClass = 'in-progress';
-        else if (status === 'Homepage Created' || status === 'Design Phase') badgeClass = 'design-phase';
-        else if (status === 'Starting Project' || status === 'New Project') badgeClass = 'starting';
+        if (status === 'Completed') {
+          displayStatus = 'Completed';
+          badgeClass = 'completed';
+        } else if (status === 'On Hold' || status === 'Not Yet Started') {
+          displayStatus = 'On Hold';
+          badgeClass = 'hold';
+        } else {
+          displayStatus = 'In Progress';
+          badgeClass = 'in-progress';
+        }
 
         card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -1769,7 +1776,7 @@
               <h4 style="font-size:16px; font-weight:700; color:var(--ink); margin:0;">${item.projectType || 'Custom Website'}</h4>
               <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:2px; display:block;">Milestone Scopes &bull; ${item.budget}</span>
             </div>
-            <span class="badge ${badgeClass}">${status}</span>
+            <span class="badge ${badgeClass}">${displayStatus}</span>
           </div>
           
           <!-- Progress Bar -->
@@ -1799,7 +1806,7 @@
             </div>
             <div class="step ${step4}">
               <div class="step-circle">${step4 === 'done' ? '<i class="fa-solid fa-check"></i>' : (step4 === 'active' ? '●' : '○')}</div>
-              <span class="step-name">Build</span>
+              <span class="step-name">Development</span>
             </div>
             <div class="step ${step5}">
               <div class="step-circle">${step5 === 'done' ? '<i class="fa-solid fa-check"></i>' : (step5 === 'active' ? '●' : '○')}</div>
