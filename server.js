@@ -44,6 +44,15 @@ const EMAIL_LOGS_FILE = path.join(__dirname, 'email_logs.json');
 const CRM_LEADS_FILE = path.join(__dirname, 'crm_leads.json');
 const TASKS_FILE = path.join(__dirname, 'tasks.json');
 const SUPPORT_TICKETS_FILE = path.join(__dirname, 'support_tickets.json');
+const DEVELOPERS_FILE = path.join(__dirname, 'developers.json');
+const PROJECT_ROADMAP_FILE = path.join(__dirname, 'project_roadmap.json');
+const NOTIFICATIONS_FILE = path.join(__dirname, 'notifications.json');
+const PROJECT_FILES_FILE = path.join(__dirname, 'project_files.json');
+const ACTIVITY_LOGS_FILE = path.join(__dirname, 'activity_logs.json');
+const PAYMENTS_FILE = path.join(__dirname, 'payments.json');
+const CLIENT_NOTES_FILE = path.join(__dirname, 'client_notes.json');
+const PREVIEW_LINKS_FILE = path.join(__dirname, 'preview_links.json');
+const INTERNAL_COMMENTS_FILE = path.join(__dirname, 'internal_comments.json');
 
 // Ensure database files exist
 if (!fs.existsSync(PROJECTS_FILE)) fs.writeFileSync(PROJECTS_FILE, JSON.stringify([], null, 2));
@@ -54,6 +63,15 @@ if (!fs.existsSync(EMAIL_LOGS_FILE)) fs.writeFileSync(EMAIL_LOGS_FILE, JSON.stri
 if (!fs.existsSync(CRM_LEADS_FILE)) fs.writeFileSync(CRM_LEADS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(TASKS_FILE)) fs.writeFileSync(TASKS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(SUPPORT_TICKETS_FILE)) fs.writeFileSync(SUPPORT_TICKETS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(DEVELOPERS_FILE)) fs.writeFileSync(DEVELOPERS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(PROJECT_ROADMAP_FILE)) fs.writeFileSync(PROJECT_ROADMAP_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(NOTIFICATIONS_FILE)) fs.writeFileSync(NOTIFICATIONS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(PROJECT_FILES_FILE)) fs.writeFileSync(PROJECT_FILES_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(ACTIVITY_LOGS_FILE)) fs.writeFileSync(ACTIVITY_LOGS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(PAYMENTS_FILE)) fs.writeFileSync(PAYMENTS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(CLIENT_NOTES_FILE)) fs.writeFileSync(CLIENT_NOTES_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(PREVIEW_LINKS_FILE)) fs.writeFileSync(PREVIEW_LINKS_FILE, JSON.stringify([], null, 2));
+if (!fs.existsSync(INTERNAL_COMMENTS_FILE)) fs.writeFileSync(INTERNAL_COMMENTS_FILE, JSON.stringify([], null, 2));
 if (!fs.existsSync(EMAIL_TEMPLATES_FILE)) {
   const defaultTemplates = [
     {
@@ -131,6 +149,16 @@ function getTableName(collection) {
     case 'crm_leads': return 'crm_leads';
     case 'tasks': return 'tasks';
     case 'support_tickets': return 'support_tickets';
+    case 'developers': return 'developers';
+    case 'project_roadmap': return 'project_roadmap';
+    case 'notifications': return 'notifications';
+    case 'project_files': return 'project_files';
+    case 'activity_logs': return 'activity_logs';
+    case 'payments': return 'payments';
+    case 'client_notes': return 'client_notes';
+    case 'preview_links': return 'preview_links';
+    case 'email_logs': return 'email_logs';
+    case 'internal_comments': return 'internal_comments';
     default: return collection;
   }
 }
@@ -147,6 +175,15 @@ function getLocalFile(collection) {
     case 'crm_leads': return CRM_LEADS_FILE;
     case 'tasks': return TASKS_FILE;
     case 'support_tickets': return SUPPORT_TICKETS_FILE;
+    case 'developers': return DEVELOPERS_FILE;
+    case 'project_roadmap': return PROJECT_ROADMAP_FILE;
+    case 'notifications': return NOTIFICATIONS_FILE;
+    case 'project_files': return PROJECT_FILES_FILE;
+    case 'activity_logs': return ACTIVITY_LOGS_FILE;
+    case 'payments': return PAYMENTS_FILE;
+    case 'client_notes': return CLIENT_NOTES_FILE;
+    case 'preview_links': return PREVIEW_LINKS_FILE;
+    case 'internal_comments': return INTERNAL_COMMENTS_FILE;
     default: return path.join(__dirname, `${collection}.json`);
   }
 }
@@ -202,13 +239,90 @@ async function dbList(collection) {
         data = data.map(item => ({
           ...item,
           assignedTo: item.assigned_to || item.assignedTo,
-          projectId: item.project_id || item.projectId
+          projectId: item.project_id || item.projectId,
+          dueDate: item.due_date || item.dueDate,
+          completedAt: item.completed_at || item.completedAt
         }));
       } else if (collection === 'support_tickets') {
         data = data.map(item => ({
           ...item,
           ticketNumber: item.ticket_number || item.ticketNumber,
-          clientEmail: item.client_email || item.clientEmail
+          clientEmail: item.client_email || item.clientEmail,
+          assignedTo: item.assigned_to || item.assignedTo,
+          resolvedAt: item.resolved_at || item.resolvedAt,
+          lastReply: item.last_reply || item.lastReply,
+          internalNotes: item.internal_notes || item.internalNotes
+        }));
+      } else if (collection === 'project_roadmap') {
+        data = data.map(item => ({
+          ...item,
+          projectId: item.project_id || item.projectId,
+          completedAt: item.completed_at || item.completedAt,
+          orderIndex: item.order_index || item.orderIndex
+        }));
+      } else if (collection === 'notifications') {
+        data = data.map(item => ({
+          ...item,
+          userId: item.user_id || item.userId,
+          actionUrl: item.action_url || item.actionUrl,
+          createdAt: item.created_at || item.createdAt,
+          expiresAt: item.expires_at || item.expiresAt
+        }));
+      } else if (collection === 'project_files') {
+        data = data.map(item => ({
+          ...item,
+          projectId: item.project_id || item.projectId,
+          fileName: item.file_name || item.fileName,
+          fileSize: item.file_size || item.fileSize,
+          mimeType: item.mime_type || item.mimeType,
+          fileUrl: item.file_url || item.fileUrl,
+          uploadedBy: item.uploaded_by || item.uploadedBy,
+          uploadedAt: item.uploaded_at || item.uploadedAt
+        }));
+      } else if (collection === 'activity_logs') {
+        data = data.map(item => ({
+          ...item,
+          userId: item.user_id || item.userId,
+          entityId: item.entity_id || item.entityId,
+          ipAddress: item.ip_address || item.ipAddress,
+          createdBy: item.created_by || item.createdBy,
+          createdAt: item.created_at || item.createdAt
+        }));
+      } else if (collection === 'payments') {
+        data = data.map(item => ({
+          ...item,
+          receiptId: item.receipt_id || item.receiptId,
+          invoiceId: item.invoice_id || item.invoiceId,
+          transactionId: item.transaction_id || item.transactionId,
+          paidAt: item.paid_at || item.paidAt
+        }));
+      } else if (collection === 'client_notes') {
+        data = data.map(item => ({
+          ...item,
+          userId: item.user_id || item.userId,
+          createdBy: item.created_by || item.createdBy,
+          createdAt: item.created_at || item.createdAt,
+          updatedAt: item.updated_at || item.updatedAt
+        }));
+      } else if (collection === 'preview_links') {
+        data = data.map(item => ({
+          ...item,
+          projectId: item.project_id || item.projectId,
+          expiresAt: item.expires_at || item.expiresAt
+        }));
+      } else if (collection === 'email_logs') {
+        data = data.map(item => ({
+          ...item,
+          userId: item.user_id || item.userId,
+          templateName: item.template_name || item.templateName,
+          sentAt: item.sent_at || item.sentAt
+        }));
+      } else if (collection === 'internal_comments') {
+        data = data.map(item => ({
+          ...item,
+          userId: item.user_id || item.userId,
+          senderName: item.sender_name || item.senderName,
+          createdAt: item.created_at || item.createdAt
         }));
       }
     }
@@ -242,11 +356,17 @@ async function dbWrite(collection, list) {
         phone: item.phone || '',
         budget: item.budget || '',
         stack: item.projectType || item.stack || 'Web Development',
-        status: item.status || 'New Project',
+        status: item.status || 'Pending',
         previewUrl: item.previewUrl || '',
         message: item.message || '',
         adminNotes: item.adminNotes || '',
-        date: item.date || new Date().toLocaleDateString()
+        date: item.date || new Date().toLocaleDateString(),
+        progress: Number(item.progress) || 0,
+        current_stage: item.current_stage || item.currentStage || 'Pending',
+        developer_id: item.developer_id || item.developerId || '',
+        deadline: item.deadline || null,
+        started_at: item.started_at || item.startedAt || null,
+        completed_at: item.completed_at || item.completedAt || null
       }));
     } else if (collection === 'receipts') {
       upsertList = list.map(item => ({
@@ -267,7 +387,14 @@ async function dbWrite(collection, list) {
         status: item.status || 'Pending',
         razorpayPaymentId: item.razorpayPaymentId || '',
         razorpaySignature: item.razorpaySignature || '',
-        date: item.date || new Date().toLocaleDateString()
+        date: item.date || new Date().toLocaleDateString(),
+        invoice_number: item.invoice_number || item.invoiceNumber || '',
+        due_date: item.due_date || item.dueDate || null,
+        payment_date: item.payment_date || item.paymentDate || null,
+        currency: item.currency || 'INR',
+        payment_method: item.payment_method || item.paymentMethod || '',
+        receipt_url: item.receipt_url || item.receiptUrl || '',
+        invoice_pdf: item.invoice_pdf || item.invoicePdf || ''
       }));
     } else if (collection === 'chatbot_messages') {
       upsertList = list.map(item => ({
@@ -300,7 +427,9 @@ async function dbWrite(collection, list) {
         stage: item.stage || 'Todo',
         project_id: item.projectId || '',
         notes: item.notes || '',
-        date: item.date || new Date().toISOString()
+        date: item.date || new Date().toISOString(),
+        due_date: item.dueDate || item.due_date || null,
+        completed_at: item.completedAt || item.completed_at || null
       }));
     } else if (collection === 'support_tickets') {
       upsertList = list.map(item => ({
@@ -312,7 +441,122 @@ async function dbWrite(collection, list) {
         priority: item.priority || 'low',
         status: item.status || 'Open',
         message: item.message || '',
-        date: item.date || new Date().toISOString()
+        date: item.date || new Date().toISOString(),
+        assigned_to: item.assignedTo || item.assigned_to || '',
+        resolved_at: item.resolvedAt || item.resolved_at || null,
+        last_reply: item.lastReply || item.last_reply || '',
+        internal_notes: item.internalNotes || item.internal_notes || ''
+      }));
+    } else if (collection === 'developers') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        name: item.name || '',
+        email: item.email || ''
+      }));
+    } else if (collection === 'project_roadmap') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        project_id: item.projectId || item.project_id || '',
+        stage: item.stage || 'Discovery',
+        completed: !!item.completed,
+        completed_at: item.completedAt || item.completed_at || null,
+        notes: item.notes || '',
+        order_index: Number(item.orderIndex) || Number(item.order_index) || 0
+      }));
+    } else if (collection === 'notifications') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        user_id: item.userId || item.user_id || '',
+        title: item.title || '',
+        message: item.message || '',
+        type: item.type || 'info',
+        priority: item.priority || 'Medium',
+        icon: item.icon || 'fa-info-circle',
+        action_url: item.actionUrl || item.action_url || '',
+        read: !!item.read,
+        created_at: item.createdAt || item.created_at || new Date().toISOString(),
+        expires_at: item.expiresAt || item.expires_at || null
+      }));
+    } else if (collection === 'project_files') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        project_id: item.projectId || item.project_id || '',
+        title: item.title || '',
+        file_name: item.fileName || item.file_name || '',
+        file_size: Number(item.fileSize) || Number(item.file_size) || 0,
+        mime_type: item.mimeType || item.mime_type || '',
+        category: item.category || 'Other',
+        file_url: item.fileUrl || item.file_url || '',
+        version: item.version || 'V1',
+        uploaded_by: item.uploadedBy || item.uploaded_by || 'Admin',
+        uploaded_at: item.uploadedAt || item.uploaded_at || new Date().toISOString()
+      }));
+    } else if (collection === 'activity_logs') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        user_id: item.userId || item.user_id || '',
+        action: item.action || '',
+        description: item.description || '',
+        entity: item.entity || '',
+        entity_id: item.entityId || item.entity_id || '',
+        ip_address: item.ipAddress || item.ip_address || '',
+        browser: item.browser || '',
+        created_by: item.createdBy || item.created_by || 'System',
+        created_at: item.createdAt || item.created_at || new Date().toISOString()
+      }));
+    } else if (collection === 'payments') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        receipt_id: item.receiptId || item.receipt_id || '',
+        invoice_id: item.invoiceId || item.invoice_id || '',
+        amount: Number(item.amount) || 0,
+        currency: item.currency || 'INR',
+        gateway: item.gateway || 'Razorpay',
+        fee: Number(item.fee) || 0,
+        tax: Number(item.tax) || 0,
+        status: item.status || 'Pending',
+        transaction_id: item.transactionId || item.transaction_id || '',
+        paid_at: item.paidAt || item.paid_at || null
+      }));
+    } else if (collection === 'client_notes') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        user_id: item.userId || item.user_id || '',
+        note: item.note || '',
+        pinned: !!item.pinned,
+        private: !!item.private,
+        created_by: item.createdBy || item.created_by || 'Admin',
+        created_at: item.createdAt || item.created_at || new Date().toISOString(),
+        updated_at: item.updatedAt || item.updated_at || new Date().toISOString()
+      }));
+    } else if (collection === 'preview_links') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        project_id: item.projectId || item.project_id || '',
+        url: item.url || '',
+        password: item.password || '',
+        active: !!item.active,
+        expires_at: item.expiresAt || item.expires_at || null
+      }));
+    } else if (collection === 'email_logs') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        user_id: item.userId || item.user_id || '',
+        template_name: item.templateName || item.template_name || '',
+        status: item.status || 'Sent',
+        subject: item.subject || '',
+        recipient: item.recipient || '',
+        opened: !!item.opened,
+        clicked: !!item.clicked,
+        sent_at: item.sentAt || item.sent_at || new Date().toISOString()
+      }));
+    } else if (collection === 'internal_comments') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        user_id: item.userId || item.user_id || '',
+        sender_name: item.senderName || item.sender_name || '',
+        text: item.text || '',
+        created_at: item.createdAt || item.created_at || new Date().toISOString()
       }));
     }
     const { error } = await supabase.from(table).upsert(upsertList);
@@ -745,6 +989,53 @@ function getFrontendRedirectUrl(req, redirectPath = '/client.html') {
   }
   const frontendUrl = process.env.FRONTEND_URL || 'https://nextgenwebstudio.in';
   return `${frontendUrl}${redirectPath}`;
+}
+
+async function logActivity(userId, action, description = '', entity = '', entityId = '', req = null) {
+  try {
+    const logs = await dbList('activity_logs');
+    const newLog = {
+      id: crypto.randomUUID(),
+      userId: userId || 'system',
+      action: action,
+      description: description,
+      entity: entity,
+      entityId: entityId,
+      ipAddress: req ? (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '') : '',
+      browser: req ? (req.headers['user-agent'] || '') : '',
+      createdBy: 'System',
+      createdAt: new Date().toISOString()
+    };
+    logs.push(newLog);
+    await dbWrite('activity_logs', logs);
+    return newLog;
+  } catch (err) {
+    console.error('Error logging activity:', err);
+  }
+}
+
+async function createNotification(userId, title, message = '', type = 'info', priority = 'Medium', icon = 'fa-info-circle', actionUrl = '') {
+  try {
+    const notifs = await dbList('notifications');
+    const newNotif = {
+      id: crypto.randomUUID(),
+      userId: userId || 'all',
+      title: title,
+      message: message,
+      type: type,
+      priority: priority,
+      icon: icon,
+      actionUrl: actionUrl,
+      read: false,
+      createdAt: new Date().toISOString(),
+      expiresAt: null
+    };
+    notifs.push(newNotif);
+    await dbWrite('notifications', notifs);
+    return newNotif;
+  } catch (err) {
+    console.error('Error creating notification:', err);
+  }
 }
 
 const server = http.createServer(async (req, res) => {
@@ -1277,6 +1568,591 @@ function parseBudgetToNumber(budgetString) {
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Server error deleting task' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- DEVELOPERS API ----------
+  if (pathname === '/api/developers' && req.method === 'GET') {
+    try {
+      const list = await dbList('developers');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch developers' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/developers/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        if (!d.name || !d.email) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Developer name and email are required' }));
+          return;
+        }
+        const devs = await dbList('developers');
+        const newDev = {
+          id: crypto.randomUUID(),
+          name: d.name.trim(),
+          email: d.email.trim().toLowerCase()
+        };
+        devs.push(newDev);
+        await dbWrite('developers', devs);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, developer: newDev }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error creating developer' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- PROJECT ROADMAP API ----------
+  if (pathname === '/api/project-roadmap' && req.method === 'GET') {
+    try {
+      const list = await dbList('project_roadmap');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch project roadmap' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/project-roadmap/update' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id, projectId, stage, completed, notes, orderIndex } = JSON.parse(body);
+        if (!projectId || !stage) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project ID and stage are required' }));
+          return;
+        }
+
+        const roadmap = await dbList('project_roadmap');
+        let record = roadmap.find(r => r.projectId === projectId && r.stage === stage);
+        
+        if (record) {
+          record.completed = !!completed;
+          record.completedAt = completed ? new Date().toISOString() : null;
+          if (notes !== undefined) record.notes = notes;
+          if (orderIndex !== undefined) record.orderIndex = orderIndex;
+        } else {
+          record = {
+            id: id || crypto.randomUUID(),
+            projectId,
+            stage,
+            completed: !!completed,
+            completedAt: completed ? new Date().toISOString() : null,
+            notes: notes || '',
+            orderIndex: orderIndex || 0
+          };
+          roadmap.push(record);
+        }
+        await dbWrite('project_roadmap', roadmap);
+
+        // Auto-calculate project progress based on checks
+        const projectRoadmap = roadmap.filter(r => r.projectId === projectId);
+        const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
+        let progress = 0;
+        let currentStage = 'Pending';
+        stages.forEach((stg, idx) => {
+          const match = projectRoadmap.find(r => r.stage === stg);
+          if (match && match.completed) {
+            progress = (idx + 1) * 20;
+            currentStage = stg;
+          }
+        });
+
+        // Update Project
+        const projects = await dbList('projects');
+        const projIdx = projects.findIndex(p => p.id === projectId);
+        if (projIdx !== -1) {
+          projects[projIdx].progress = progress;
+          projects[projIdx].currentStage = currentStage;
+          if (progress === 100) {
+            projects[projIdx].status = 'Completed';
+            projects[projIdx].completedAt = new Date().toISOString();
+          } else {
+            projects[projIdx].status = 'In Progress';
+          }
+          await dbWrite('projects', projects);
+
+          // Log Activity and Alert Client
+          const clientEmail = projects[projIdx].email;
+          await logActivity(clientEmail, 'Roadmap Updated', `Project "${projects[projIdx].name}" roadmap updated to ${progress}% (${currentStage}).`, 'projects', projectId);
+          await createNotification(clientEmail, 'Roadmap Progress Update', `Project progress is now at ${progress}% (${currentStage}).`, 'info', 'Medium', 'fa-route');
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, progress, currentStage }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error updating roadmap' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- PROJECT FILES API ----------
+  if (pathname === '/api/project-files' && req.method === 'GET') {
+    try {
+      const list = await dbList('project_files');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch project files' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/project-files/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        if (!d.projectId || !d.title || !d.fileUrl) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project ID, title, and file URL are required' }));
+          return;
+        }
+
+        const files = await dbList('project_files');
+        const newFile = {
+          id: crypto.randomUUID(),
+          projectId: d.projectId,
+          title: d.title.trim(),
+          fileName: d.fileName || d.title.trim(),
+          fileSize: Number(d.fileSize) || 0,
+          mimeType: d.mimeType || 'application/pdf',
+          category: d.category || 'Other',
+          fileUrl: d.fileUrl,
+          version: d.version || 'V1',
+          uploadedBy: d.uploadedBy || 'Admin',
+          uploadedAt: new Date().toISOString()
+        };
+        files.push(newFile);
+        await dbWrite('project_files', files);
+
+        // Log and Alert
+        const projects = await dbList('projects');
+        const proj = projects.find(p => p.id === d.projectId);
+        if (proj) {
+          await logActivity(proj.email, 'File Uploaded', `Document "${newFile.title}" (${newFile.category}) shared by Admin.`, 'files', newFile.id);
+          await createNotification(proj.email, 'New Document Shared', `A new file "${newFile.title}" has been uploaded to your portal.`, 'success', 'Medium', 'fa-file-download');
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, file: newFile }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error saving project file' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/project-files/delete' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id } = JSON.parse(body);
+        await dbDelete('project_files', id);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error deleting project file' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- NOTIFICATIONS API ----------
+  if (pathname === '/api/notifications' && req.method === 'GET') {
+    try {
+      const list = await dbList('notifications');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch notifications' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/notifications/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { userId, title, message, type, priority, icon, actionUrl } = JSON.parse(body);
+        if (!userId || !title) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'User Email/ID and title are required' }));
+          return;
+        }
+
+        const notif = await createNotification(userId, title, message, type, priority, icon, actionUrl);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, notification: notif }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error creating notification' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/notifications/mark-read' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id } = JSON.parse(body);
+        const notifs = await dbList('notifications');
+        const idx = notifs.findIndex(n => n.id === id);
+        if (idx !== -1) {
+          notifs[idx].read = true;
+          await dbWrite('notifications', notifs);
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error updating notification status' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- ACTIVITY LOGS API ----------
+  if (pathname === '/api/activity-logs' && req.method === 'GET') {
+    try {
+      const list = await dbList('activity_logs');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch activity logs' }));
+    }
+    return;
+  }
+
+  // ---------- PAYMENTS API ----------
+  if (pathname === '/api/payments' && req.method === 'GET') {
+    try {
+      const list = await dbList('payments');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch payments' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/payments/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        const payments = await dbList('payments');
+        const newPayment = {
+          id: crypto.randomUUID(),
+          receiptId: d.receiptId,
+          invoiceId: d.invoiceId || d.receiptId,
+          amount: Number(d.amount),
+          currency: d.currency || 'INR',
+          gateway: d.gateway || 'Razorpay',
+          fee: Number(d.fee) || 0,
+          tax: Number(d.tax) || 0,
+          status: d.status || 'Paid',
+          transactionId: d.transactionId || '',
+          paidAt: d.paidAt || new Date().toISOString()
+        };
+        payments.push(newPayment);
+        await dbWrite('payments', payments);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, payment: newPayment }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error saving payment records' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- CLIENT NOTES API ----------
+  if (pathname === '/api/client-notes' && req.method === 'GET') {
+    try {
+      const list = await dbList('client_notes');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch client notes' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/client-notes/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        if (!d.userId || !d.note) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Client ID and note content are required' }));
+          return;
+        }
+        const notes = await dbList('client_notes');
+        const newNote = {
+          id: crypto.randomUUID(),
+          userId: d.userId,
+          note: d.note,
+          pinned: !!d.pinned,
+          private: !!d.private,
+          createdBy: d.createdBy || 'Admin',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        notes.push(newNote);
+        await dbWrite('client_notes', notes);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, note: newNote }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error saving client notes' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/client-notes/delete' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { id } = JSON.parse(body);
+        await dbDelete('client_notes', id);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error deleting note' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- PREVIEW LINKS API ----------
+  if (pathname === '/api/preview-links' && req.method === 'GET') {
+    try {
+      const list = await dbList('preview_links');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch preview links' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/preview-links/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const d = JSON.parse(body);
+        const links = await dbList('preview_links');
+        const newLink = {
+          id: crypto.randomUUID(),
+          projectId: d.projectId,
+          url: d.url,
+          password: d.password || '',
+          active: d.active !== false,
+          expiresAt: d.expiresAt || null
+        };
+        links.push(newLink);
+        await dbWrite('preview_links', links);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, link: newLink }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error saving preview link' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- EMAIL LOGS API ----------
+  if (pathname === '/api/email-logs' && req.method === 'GET') {
+    try {
+      const list = await dbList('email_logs');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch email logs' }));
+    }
+    return;
+  }
+
+  // ---------- INTERNAL COMMENTS API ----------
+  if (pathname === '/api/internal-comments' && req.method === 'GET') {
+    try {
+      const list = await dbList('internal_comments');
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify(list));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Failed to fetch comments' }));
+    }
+    return;
+  }
+
+  if (pathname === '/api/internal-comments/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { userId, senderName, text } = JSON.parse(body);
+        if (!userId || !text) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'User ID and message text are required' }));
+          return;
+        }
+
+        const comments = await dbList('internal_comments');
+        const newComment = {
+          id: crypto.randomUUID(),
+          userId,
+          senderName: senderName || 'Admin',
+          text: text.trim(),
+          createdAt: new Date().toISOString()
+        };
+        comments.push(newComment);
+        await dbWrite('internal_comments', comments);
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, comment: newComment }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error saving comment' }));
+      }
+    });
+    return;
+  }
+
+  // ---------- CLIENT APPROVAL STAGE LOOP ----------
+  if (pathname === '/api/projects/approve-stage' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { projectId, stage } = JSON.parse(body);
+        if (!projectId || !stage) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project ID and stage are required' }));
+          return;
+        }
+
+        const projects = await dbList('projects');
+        const projIdx = projects.findIndex(p => p.id === projectId);
+        if (projIdx === -1) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project not found' }));
+          return;
+        }
+
+        const clientEmail = projects[projIdx].email;
+        const currentStageName = stage;
+
+        // Mark this stage completed in roadmap
+        const roadmap = await dbList('project_roadmap');
+        let record = roadmap.find(r => r.projectId === projectId && r.stage === currentStageName);
+        if (record) {
+          record.completed = true;
+          record.completedAt = new Date().toISOString();
+        } else {
+          record = {
+            id: crypto.randomUUID(),
+            projectId,
+            stage: currentStageName,
+            completed: true,
+            completedAt: new Date().toISOString(),
+            notes: 'Approved via client portal',
+            orderIndex: 0
+          };
+          roadmap.push(record);
+        }
+        await dbWrite('project_roadmap', roadmap);
+
+        // Auto-calculate new progress %
+        const projectRoadmap = roadmap.filter(r => r.projectId === projectId);
+        const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
+        let progress = 0;
+        let nextStage = 'Pending';
+        stages.forEach((stg, idx) => {
+          const match = projectRoadmap.find(r => r.stage === stg);
+          if (stg === currentStageName || (match && match.completed)) {
+            progress = (idx + 1) * 20;
+            nextStage = stages[idx + 1] || 'Completed';
+          }
+        });
+
+        projects[projIdx].progress = progress;
+        projects[projIdx].currentStage = currentStageName;
+        if (progress === 100) {
+          projects[projIdx].status = 'Completed';
+          projects[projIdx].completedAt = new Date().toISOString();
+        } else {
+          projects[projIdx].status = 'In Progress';
+        }
+        await dbWrite('projects', projects);
+
+        // Trigger Alerts
+        await logActivity(clientEmail, 'Stage Approved', `Client approved project stage: "${currentStageName}". Progress is now ${progress}%.`, 'projects', projectId);
+        await createNotification(clientEmail, `🔔 Stage Approved`, `You successfully approved the ${currentStageName} milestone.`, 'success', 'Medium', 'fa-thumbs-up');
+        
+        // Dispatch email notification to admin
+        try {
+          await smtpClient.sendMail({
+            templateId: 'project_update',
+            to: process.env.SMTP_TO || 'shridharsan@nextgenwebstudio.in',
+            variables: {
+              clientName: projects[projIdx].name,
+              projectName: projects[projIdx].name,
+              stageName: currentStageName,
+              progressPercent: `${progress}%`
+            }
+          });
+        } catch (e) {
+          console.warn('Notification email failed to send to admin.');
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, progress, nextStage }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Server error processing stage approval' }));
       }
     });
     return;

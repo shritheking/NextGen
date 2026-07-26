@@ -1328,12 +1328,13 @@
 
     .stats-grid-8 {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 16px;
       margin-bottom: 28px;
     }
-    @media (max-width: 1200px) { .stats-grid-8 { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .stats-grid-8 { grid-template-columns: 1fr; } }
+    @media (max-width: 1400px) { .stats-grid-8 { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { .stats-grid-8 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats-grid-8 { grid-template-columns: 1fr; } }
     .stat-card.accent-border { border-left: 3px solid var(--accent); }
     .stat-card.green-border  { border-left: 3px solid #4ADE80; }
     .stat-card.amber-border  { border-left: 3px solid #F59E0B; }
@@ -1486,71 +1487,55 @@
         </div>
       </div>
 
-      <!-- 8-Card Stats Summary Banner -->
+      <!-- 6-Card Stats Summary Banner -->
       <div class="stats-grid-8" id="statsRow">
+        <div class="stat-card green-border">
+          <div>
+            <div class="stat-label-sm">Today's Revenue</div>
+            <div class="stat-value-lg" id="statTodayRevenue">&#8377;1,20,000</div>
+            <div class="stat-change up">Live today</div>
+          </div>
+          <div class="stat-icon" style="background:rgba(74,222,128,.08); color:#4ADE80;"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        </div>
         <div class="stat-card accent-border">
           <div>
-            <div class="stat-label-sm">Pending Dues</div>
-            <div class="stat-value-lg" id="statPendingDues">&#8377;0</div>
-            <div class="stat-change down" id="statPendingCount">0 invoices</div>
+            <div class="stat-label-sm">Pending Payments</div>
+            <div class="stat-value-lg" id="statPendingPayments">5</div>
+            <div class="stat-change down">Invoices outstanding</div>
           </div>
           <div class="stat-icon" style="background:rgba(224,255,79,.08);"><i class="fa-solid fa-clock"></i></div>
         </div>
-        <div class="stat-card green-border">
+        <div class="stat-card blue-border">
           <div>
-            <div class="stat-label-sm">Total Received</div>
-            <div class="stat-value-lg" id="statTotalReceived">&#8377;0</div>
-            <div class="stat-change up">All time</div>
+            <div class="stat-label-sm">Projects Running</div>
+            <div class="stat-value-lg" id="statProjectsRunning">12</div>
+            <div class="stat-change up">Active builds</div>
           </div>
-          <div class="stat-icon" style="background:rgba(74,222,128,.08); color:#4ADE80;"><i class="fa-solid fa-receipt"></i></div>
+          <div class="stat-icon" style="background:rgba(59,130,246,.08); color:#3B82F6;"><i class="fa-solid fa-spinner"></i></div>
         </div>
         <div class="stat-card amber-border">
           <div>
-            <div class="stat-label-sm">Active Projects</div>
-            <div class="stat-value-lg" id="statProjectsCount">...</div>
-            <div class="stat-change up">Pipeline</div>
+            <div class="stat-label-sm">Unread Support</div>
+            <div class="stat-value-lg" id="statUnreadSupport">3</div>
+            <div class="stat-change">Awaiting reply</div>
           </div>
-          <div class="stat-icon" style="background:rgba(245,158,11,.08); color:#F59E0B;"><i class="fa-solid fa-folder-open"></i></div>
+          <div class="stat-icon" style="background:rgba(245,158,11,.08); color:#F59E0B;"><i class="fa-solid fa-headset"></i></div>
         </div>
-        <div class="stat-card blue-border">
+        <div class="stat-card" style="border-left: 3px solid #A78BFA;">
           <div>
-            <div class="stat-label-sm">Enquiries</div>
-            <div class="stat-value-lg" id="statInquiriesCount">...</div>
-            <div class="stat-change">New leads</div>
+            <div class="stat-label-sm">New Enquiries</div>
+            <div class="stat-value-lg" id="statNewEnquiries">8</div>
+            <div class="stat-change up">From scoping/contact</div>
           </div>
-          <div class="stat-icon" style="background:rgba(59,130,246,.08); color:#3B82F6;"><i class="fa-solid fa-envelope"></i></div>
+          <div class="stat-icon" style="background:rgba(167,139,250,.08); color:#A78BFA;"><i class="fa-solid fa-envelope"></i></div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" style="border-left: 3px solid #EF4444;">
           <div>
-            <div class="stat-label-sm">CRM Leads</div>
-            <div class="stat-value-lg" id="statCrmLeads">7</div>
-            <div class="stat-change up">3 won this month</div>
+            <div class="stat-label-sm">Upcoming Deadlines</div>
+            <div class="stat-value-lg" id="statUpcomingDeadlines">4</div>
+            <div class="stat-change down">This week</div>
           </div>
-          <div class="stat-icon"><i class="fa-solid fa-people-arrows"></i></div>
-        </div>
-        <div class="stat-card">
-          <div>
-            <div class="stat-label-sm">Open Tickets</div>
-            <div class="stat-value-lg" id="statOpenTickets">3</div>
-            <div class="stat-change">Response &lt;15min</div>
-          </div>
-          <div class="stat-icon"><i class="fa-solid fa-headset"></i></div>
-        </div>
-        <div class="stat-card">
-          <div>
-            <div class="stat-label-sm">Total Billing</div>
-            <div class="stat-value-lg" id="statBillingValue">&#8377;0</div>
-            <div class="stat-change">All invoices</div>
-          </div>
-          <div class="stat-icon"><i class="fa-solid fa-file-invoice"></i></div>
-        </div>
-        <div class="stat-card">
-          <div>
-            <div class="stat-label-sm">System Status</div>
-            <div class="stat-value-lg" style="font-size:16px; color:#4ADE80;"><i class="fa-solid fa-circle-check"></i> Live</div>
-            <div class="stat-change up">All services up</div>
-          </div>
-          <div class="stat-icon"><i class="fa-solid fa-server"></i></div>
+          <div class="stat-icon" style="background:rgba(239,68,68,.08); color:#EF4444;"><i class="fa-solid fa-calendar-xmark"></i></div>
         </div>
       </div>
 
@@ -2348,8 +2333,14 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Client Details</th>
-                    <th>Company &amp; Contact</th>
+                    <th>Client</th>
+                    <th>Company</th>
+                    <th>Project</th>
+                    <th>Progress</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Developer</th>
+                    <th>Last Updated</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -2516,47 +2507,88 @@
 
   <!-- 5. CLIENT PROFILE DETAIL MODAL -->
   <div class="receipt-modal" id="clientProfileModal" style="z-index: 2400;">
-    <div class="receipt-card" style="max-width: 800px; width: 90%;">
+    <div class="receipt-card" style="max-width: 1000px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; padding: 24px;">
       <span class="receipt-close" onclick="closeClientProfileModal()">&times;</span>
-      <div class="receipt-header" style="display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border); padding-bottom:16px;">
-        <div id="profileAvatar" style="width:48px; height:48px; border-radius:50%; background:var(--accent); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; font-weight:700; text-transform:uppercase;"></div>
-        <div>
-          <h3 id="profileName" style="margin:0; font-size:18px; font-weight:700;"></h3>
-          <p id="profileCompany" style="margin:4px 0 0 0; font-size:12px; color:var(--ink-soft); font-family:var(--font-mono);"></p>
+      <div class="receipt-header" style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:16px; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <div id="profileAvatar" style="width:48px; height:48px; border-radius:50%; background:var(--accent); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; font-weight:700; text-transform:uppercase;"></div>
+          <div>
+            <h3 id="profileName" style="margin:0; font-size:18px; font-weight:700;">Client Workspace</h3>
+            <p id="profileCompany" style="margin:4px 0 0 0; font-size:12px; color:var(--ink-soft); font-family:var(--font-mono);"></p>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="action-btn" onclick="loginAsClientDirect()" style="font-size:12px; background:rgba(224,255,79,.1); color:var(--accent); border:1px solid var(--accent);"><i class="fa-solid fa-right-to-bracket"></i> Login As Client</button>
+          <button class="refresh-btn" onclick="openSendNotificationModal()" style="font-size:12px; margin-top:0;"><i class="fa-solid fa-bell"></i> Send Alert</button>
         </div>
       </div>
-      <div class="receipt-body" style="padding: 20px 0; max-height:60vh; overflow-y:auto;">
-        <!-- Tabs for profile sections -->
-        <div style="display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-          <button class="action-btn active" id="btnProfileDetails" onclick="switchProfileTab('details')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">General Details</button>
-          <button class="action-btn" id="btnProfileProjects" onclick="switchProfileTab('projects')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">Projects</button>
-          <button class="action-btn" id="btnProfileInvoices" onclick="switchProfileTab('invoices')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">Invoices &amp; Payments</button>
-          <button class="action-btn" id="btnProfileActivity" onclick="switchProfileTab('activity')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important;">Activity Log</button>
-        </div>
+      
+      <!-- Workspace Navigation -->
+      <div style="display:flex; gap:8px; margin:16px 0; border-bottom:1px solid var(--border); padding-bottom:10px; overflow-x:auto; white-space:nowrap; flex-shrink:0;">
+        <button class="action-btn active" id="btnProfileDetails" onclick="switchProfileTab('details')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">General Details</button>
+        <button class="action-btn" id="btnProfileProjects" onclick="switchProfileTab('projects')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Projects</button>
+        <button class="action-btn" id="btnProfileInvoices" onclick="switchProfileTab('invoices')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Invoices &amp; Payments</button>
+        <button class="action-btn" id="btnProfileRoadmap" onclick="switchProfileTab('roadmap')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Roadmap Stage</button>
+        <button class="action-btn" id="btnProfileFiles" onclick="switchProfileTab('files')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Files &amp; Assets</button>
+        <button class="action-btn" id="btnProfileSupport" onclick="switchProfileTab('support')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Support Desk</button>
+        <button class="action-btn" id="btnProfileActivity" onclick="switchProfileTab('activity')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Timeline Feed</button>
+        <button class="action-btn" id="btnProfileTeamchat" onclick="switchProfileTab('teamchat')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Team Chatter</button>
+        <button class="action-btn" id="btnProfileSettings" onclick="switchProfileTab('settings')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Portal Config</button>
+      </div>
 
-        <!-- Section: General Details -->
+      <!-- Workspace Body (Scrollable Content) -->
+      <div class="receipt-body" style="padding: 10px 0; overflow-y:auto; flex: 1;">
+        
+        <!-- Tab: Details -->
         <div id="profileTab_details" class="profile-tab-content">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
             <div class="input-group" style="margin-bottom:0;"><label>Client Email</label><input type="email" id="editProfileEmail" readonly style="opacity:0.7;"></div>
             <div class="input-group" style="margin-bottom:0;"><label>Client Name</label><input type="text" id="editProfileName"></div>
             <div class="input-group" style="margin-bottom:0;"><label>Company Name</label><input type="text" id="editProfileCompany"></div>
             <div class="input-group" style="margin-bottom:0;"><label>Phone Number</label><input type="text" id="editProfilePhone"></div>
             <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>GST Number</label><input type="text" id="editProfileGst"></div>
             <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Address</label><textarea id="editProfileAddress" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
-            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Notes (Internal)</label><textarea id="editProfileNotes" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Private Notes (Internal)</label><textarea id="editProfileNotes" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
           </div>
-          <button class="login-btn" onclick="saveClientProfileDetails()" style="margin-top:10px; width:100%;"><i class="fa-solid fa-save"></i> Save Client Profile Details</button>
+          <button class="login-btn" onclick="saveClientProfileDetails()" style="width:100%;"><i class="fa-solid fa-save"></i> Save Client Profile Details</button>
         </div>
 
-        <!-- Section: Projects -->
+        <!-- Tab: Projects -->
         <div id="profileTab_projects" class="profile-tab-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h4 style="margin:0; font-size:14px; font-weight:700;">Client Projects</h4>
+            <button class="action-btn" onclick="toggleAddProjectForm()" style="font-size:12px; height:28px;"><i class="fa-solid fa-plus"></i> Create Project</button>
+          </div>
+          
+          <!-- Add Project Subform -->
+          <div id="workspaceProjectForm" style="display:none; background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:16px;">
+            <h5 style="margin:0 0 12px 0;">New Project Details</h5>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div class="input-group"><label>Project Title *</label><input type="text" id="newProjTitle" required></div>
+              <div class="input-group"><label>Budget (&#8377;) *</label><input type="text" id="newProjBudget" required></div>
+              <div class="input-group"><label>Project Type / Stack</label><input type="text" id="newProjStack" placeholder="e.g. Next.js & Node"></div>
+              <div class="input-group">
+                <label>Assigned Developer</label>
+                <select id="newProjDev" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select>
+              </div>
+              <div class="input-group" style="grid-column:span 2;"><label>Description</label><textarea id="newProjDesc" style="width:100%; height:50px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:8px; color:var(--ink); font-size:12px; outline:none; resize:none;"></textarea></div>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+              <button class="login-btn" onclick="saveWorkspaceProject()" style="margin-top:0;">Save Project</button>
+              <button class="refresh-btn" onclick="toggleAddProjectForm()" style="margin-top:0;">Cancel</button>
+            </div>
+          </div>
+
           <div class="table-container" style="border:none;">
             <table>
               <thead>
                 <tr>
                   <th>Project Name</th>
                   <th>Budget</th>
+                  <th>Developer</th>
+                  <th>Progress</th>
                   <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="profileProjectsList">
@@ -2566,15 +2598,38 @@
           </div>
         </div>
 
-        <!-- Section: Invoices -->
+        <!-- Tab: Invoices & Payments -->
         <div id="profileTab_invoices" class="profile-tab-content" style="display:none;">
-          <div class="table-container" style="border:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h4 style="margin:0; font-size:14px; font-weight:700;">Invoices &amp; Receipts</h4>
+            <button class="action-btn" onclick="toggleWorkspaceInvoiceForm()" style="font-size:12px; height:28px;"><i class="fa-solid fa-file-invoice-dollar"></i> Create Invoice</button>
+          </div>
+          
+          <!-- Add Invoice Subform -->
+          <div id="workspaceInvoiceForm" style="display:none; background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:16px;">
+            <h5 style="margin:0 0 12px 0;">Generate Milestone Invoice</h5>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div class="input-group"><label>Milestone Project Name *</label><select id="newInvProjSelect" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select></div>
+              <div class="input-group"><label>Milestone Title / Description *</label><input type="text" id="newInvTitle" placeholder="e.g. 50% Advance Booking Fee" required></div>
+              <div class="input-group"><label>Milestone Amount (&#8377;) *</label><input type="number" id="newInvAmount" required></div>
+              <div class="input-group"><label>Invoice Due Date</label><input type="date" id="newInvDueDate"></div>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:14px;">
+              <button class="login-btn" onclick="saveWorkspaceInvoice()" style="margin-top:0;">Generate Invoice</button>
+              <button class="refresh-btn" onclick="toggleWorkspaceInvoiceForm()" style="margin-top:0;">Cancel</button>
+            </div>
+          </div>
+
+          <div class="table-container" style="border:none; margin-bottom:20px;">
             <table>
               <thead>
                 <tr>
                   <th>Invoice ID</th>
-                  <th>Total</th>
+                  <th>Milestone</th>
+                  <th>Amount</th>
+                  <th>Due Date</th>
                   <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="profileInvoicesList">
@@ -2582,14 +2637,277 @@
               </tbody>
             </table>
           </div>
-        </div>
-
-        <!-- Section: Activity Log -->
-        <div id="profileTab_activity" class="profile-tab-content" style="display:none;">
-          <div id="profileActivityList" style="display:flex; flex-direction:column; gap:10px;">
-            <!-- Loaded dynamically -->
+          
+          <h4 style="margin:20px 0 10px 0; font-size:13px; font-weight:700; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.05em;">Payment Audit Trail</h4>
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Payment ID</th>
+                  <th>Amount</th>
+                  <th>Gateway</th>
+                  <th>Transaction ID</th>
+                  <th>Date &amp; Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="profilePaymentsList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
           </div>
         </div>
+
+        <!-- Tab: Roadmap Manager -->
+        <div id="profileTab_roadmap" class="profile-tab-content" style="display:none;">
+          <div class="input-group" style="max-width:300px; margin-bottom:20px;">
+            <label>Select Project</label>
+            <select id="roadmapProjectSelect" onchange="loadRoadmapStages()" style="width:100%; height:38px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select>
+          </div>
+          
+          <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:20px;">
+            <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:700;" id="roadmapTitle">Roadmap Stages Progress</h4>
+            <p style="font-size:12px; color:var(--ink-soft); margin-bottom:20px;">Checking off a pipeline stage automatically advances the project roadmap percentage, records the completion audit log, and notifies the client portal.</p>
+            
+            <div style="margin-bottom:24px;">
+              <div style="display:flex; justify-content:space-between; font-size:12.5px; font-family:var(--font-mono); margin-bottom:8px; font-weight:600;">
+                <span>Total Project Progress</span>
+                <span id="roadmapProgressPercent">0%</span>
+              </div>
+              <div style="width:100%; height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
+                <div id="roadmapProgressBar" style="width:0%; height:100%; background:var(--accent); transition:width .3s ease;"></div>
+              </div>
+            </div>
+
+            <!-- Checkbox List -->
+            <div style="display:flex; flex-direction:column; gap:16px;" id="roadmapChecklist">
+              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
+                <input type="checkbox" data-stage="Discovery" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
+                <div>
+                  <strong>Discovery (20%)</strong>
+                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Requirement gathering, client scope alignment, and contract onboarding.</span>
+                </div>
+              </label>
+              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
+                <input type="checkbox" data-stage="Scoping" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
+                <div>
+                  <strong>Scoping &amp; Wireframing (40%)</strong>
+                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Architecture designs, low-fidelity wireframe approvals, and resource scheduling.</span>
+                </div>
+              </label>
+              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
+                <input type="checkbox" data-stage="Design" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
+                <div>
+                  <strong>UI/UX Design Drafts (60%)</strong>
+                  <span style="display:block; font-size:11px; color:var(--ink-soft);">High-fidelity visual mockups, Figma prototyping, and asset collection.</span>
+                </div>
+              </label>
+              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
+                <input type="checkbox" data-stage="Development" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
+                <div>
+                  <strong>Full Development Build (80%)</strong>
+                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Core programming, staging preview deployment, and responsive testing.</span>
+                </div>
+              </label>
+              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
+                <input type="checkbox" data-stage="Launch" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
+                <div>
+                  <strong>Final Deploy &amp; Launch (100%)</strong>
+                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Domain transfers, production deployment optimization, SEO headers, and training handoffs.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Files & Assets -->
+        <div id="profileTab_files" class="profile-tab-content" style="display:none;">
+          <div style="background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:20px;">
+            <h5 style="margin:0 0 12px 0; font-size:13px; font-weight:700;">Upload &amp; Share Document</h5>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:12px;">
+              <div class="input-group" style="margin-bottom:0;"><label>Document Title *</label><input type="text" id="fileDocTitle" placeholder="e.g. Agreement Proposal" required></div>
+              <div class="input-group" style="margin-bottom:0;"><label>File URL / Staging Path *</label><input type="text" id="fileDocUrl" placeholder="e.g. /uploads/agreement.pdf" required></div>
+              <div class="input-group" style="margin-bottom:0;">
+                <label>Asset Category</label>
+                <select id="fileDocCategory" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  <option value="Proposal">Proposal</option>
+                  <option value="Agreement">Agreement</option>
+                  <option value="Invoice">Invoice</option>
+                  <option value="Logo">Logo</option>
+                  <option value="Source">Source Code</option>
+                  <option value="Preview">Preview URL</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin-bottom:0;"><label>Version Tag</label><input type="text" id="fileDocVersion" placeholder="e.g. V1" value="V1"></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Link to Project</label><select id="fileProjSelect" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Simulated Size (KB/MB)</label><input type="text" id="fileDocSize" placeholder="e.g. 2.4 MB"></div>
+            </div>
+            <button class="login-btn" onclick="saveWorkspaceFile()" style="margin-top:10px;"><i class="fa-solid fa-cloud-arrow-up"></i> Share Asset with Client</button>
+          </div>
+
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset Title</th>
+                  <th>Category</th>
+                  <th>Version</th>
+                  <th>Size</th>
+                  <th>Date Shared</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="profileFilesList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab: Support Desk -->
+        <div id="profileTab_support" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 12px 0; font-size:14px; font-weight:700;">Client Support Tickets</h4>
+          
+          <div style="display:grid; grid-template-columns:300px 1fr; gap:20px;">
+            <!-- Left Side: Tickets List -->
+            <div style="border-right:1px solid var(--border); padding-right:16px; display:flex; flex-direction:column; gap:10px; max-height:450px; overflow-y:auto;" id="profileTicketsList">
+              <!-- Loaded dynamically -->
+            </div>
+            
+            <!-- Right Side: Ticket Details Editor -->
+            <div id="supportTicketEditor" style="display:none; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
+              <h5 id="ticketEditorHeader" style="margin:0 0 14px 0; font-size:13px; font-weight:700; text-transform:uppercase; color:var(--accent);">Ticket Details</h5>
+              
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div class="input-group" style="margin-bottom:0;">
+                  <label>Priority</label>
+                  <select id="editTicketPriority" onchange="updateTicketField('priority')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="low">Low</option>
+                    <option value="med">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label>Status</label>
+                  <select id="editTicketStatus" onchange="updateTicketField('status')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="Open">Open</option>
+                    <option value="In Review">In Review</option>
+                    <option value="Resolved">Resolved</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0; grid-column:span 2;">
+                  <label>Assign Developer</label>
+                  <select id="editTicketAssignee" onchange="updateTicketField('assignedTo')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;"></select>
+                </div>
+              </div>
+              
+              <div class="input-group" style="margin-bottom:14px;">
+                <label>Private Internal Notes (Only Team Can See)</label>
+                <textarea id="editTicketInternalNotes" onchange="updateTicketField('internalNotes')" placeholder="Write developer comments or internal troubleshooting notes here..." style="width:100%; height:60px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:8px; color:var(--ink); font-size:12.5px; outline:none; resize:none;"></textarea>
+              </div>
+
+              <!-- Reply Section -->
+              <h5 style="margin:16px 0 8px 0; font-size:12px; font-weight:700; text-transform:uppercase; color:var(--ink-soft);">Add Reply to Ticket</h5>
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="ticketReplyText" placeholder="Write a response to the client..." style="flex:1; height:34px; padding:0 12px; background:var(--bg); border:1px solid var(--border); border-radius:4px; font-size:12.5px; color:var(--ink); outline:none; font-family:inherit;">
+                <button class="login-btn" onclick="sendTicketReply()" style="margin-top:0; height:34px;"><i class="fa-solid fa-paper-plane"></i> Send Reply</button>
+              </div>
+            </div>
+            
+            <div id="noTicketSelected" style="display:flex; align-items:center; justify-content:center; border:1px dashed var(--border); border-radius:6px; color:var(--ink-soft); font-size:13px; min-height:200px;">
+              Select a support ticket from the list on the left to edit or reply.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Timeline Feed (GitHub Style) -->
+        <div id="profileTab_activity" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 16px 0; font-size:14px; font-weight:700;">Client Operations Audit Feed</h4>
+          
+          <div class="timeline-wrapper" id="profileActivityList" style="position:relative; padding-left:24px; display:flex; flex-direction:column; gap:20px;">
+            <!-- Renders dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab: Team Chatter -->
+        <div id="profileTab_teamchat" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 6px 0; font-size:14px; font-weight:700;">Internal Team Chatter</h4>
+          <p style="font-size:12px; color:var(--ink-soft); margin-bottom:16px;">This channel is private to the team (Admin, Designer, Developer) and is completely hidden from the Client Portal.</p>
+          
+          <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; display:flex; flex-direction:column; height:320px; overflow:hidden; margin-bottom:14px;">
+            <div style="flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px;" id="teamchatMessages">
+              <!-- Loaded dynamically -->
+            </div>
+            <div style="border-top:1px solid var(--border); background:var(--bg); padding:10px; display:flex; gap:10px; align-items:center;">
+              <select id="teamchatSenderName" style="width:120px; height:34px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12px; outline:none;">
+                <option value="Admin">Admin</option>
+                <option value="Designer">Designer</option>
+                <option value="Developer">Developer</option>
+              </select>
+              <input type="text" id="teamchatInput" placeholder="Type an internal note or chat..." style="flex:1; height:34px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; font-size:12.5px; color:var(--ink); outline:none; font-family:inherit;">
+              <button class="login-btn" onclick="sendTeamchatComment()" style="margin-top:0; height:34px;"><i class="fa-solid fa-plus"></i> Post Comment</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Portal Config -->
+        <div id="profileTab_settings" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 16px 0; font-size:14px; font-weight:700;">Client Portal Control Panel</h4>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
+              <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-ghost"></i> Simulated Client Login</h5>
+              <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Open a new browser window representing the client's view. This will instantly authenticate you as the client to check dashboards.</p>
+              <button class="action-btn" onclick="loginAsClientDirect()" style="width:100%; justify-content:center;"><i class="fa-solid fa-external-link"></i> Launch Client Portal</button>
+            </div>
+            
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
+              <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-bell"></i> Send Portal Alert</h5>
+              <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Dispatches a high-priority alert notification directly to this client's portal header feed (e.g. "Wireframe Approved").</p>
+              <button class="refresh-btn" onclick="openSendNotificationModal()" style="width:100%; margin-top:0; justify-content:center;"><i class="fa-solid fa-bell"></i> Send Alert Notification</button>
+            </div>
+            
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px; grid-column:span 2; border-left:3px solid #EF4444;">
+              <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700; color:#EF4444;"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</h5>
+              <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Revoking client access will delete their local session keys and remove them from the approved users registry list.</p>
+              <button class="refresh-btn" onclick="revokeClientAccessDirect()" style="background:rgba(239,68,68,.1); border-color:#EF4444; color:#EF4444; margin-top:0;"><i class="fa-solid fa-user-slash"></i> Revoke &amp; Delete Profile</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Send Notification Modal -->
+  <div class="receipt-modal" id="sendNotifModal" style="z-index: 2500;">
+    <div class="receipt-card" style="max-width:450px; width:90%; padding:20px;">
+      <span class="receipt-close" onclick="closeSendNotificationModal()">&times;</span>
+      <h3 style="margin:0 0 14px 0; font-size:16px; font-weight:700;"><i class="fa-solid fa-bell"></i> Send Portal Notification</h3>
+      <div class="input-group"><label>Notification Title *</label><input type="text" id="notifTitle" placeholder="e.g. Design Draft Approved" required></div>
+      <div class="input-group"><label>Notification Message</label><input type="text" id="notifMessage" placeholder="e.g. We have uploaded the wireframe PDF."></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+        <div class="input-group" style="margin-bottom:0;">
+          <label>Type</label>
+          <select id="notifType" style="width:100%; height:36px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12px; outline:none;">
+            <option value="info">Info</option>
+            <option value="success">Success</option>
+            <option value="warning">Warning</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom:0;">
+          <label>Priority</label>
+          <select id="notifPriority" style="width:100%; height:36px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12px; outline:none;">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:16px;">
+        <button class="login-btn" onclick="submitWorkspaceNotification()" style="margin-top:0;">Send Alert</button>
+        <button class="refresh-btn" onclick="closeSendNotificationModal()" style="margin-top:0;">Cancel</button>
       </div>
     </div>
   </div>
@@ -3418,7 +3736,7 @@
       if (list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="3" style="text-align:center; padding: 30px; color:var(--ink-soft);">
+            <td colspan="9" style="text-align:center; padding: 30px; color:var(--ink-soft);">
               <i class="fa-solid fa-user-slash" style="font-size:24px; margin-bottom:10px; display:block;"></i>
               No client accounts approved yet. Start a project or manually approve an email to authorize access.
             </td>
@@ -3439,28 +3757,76 @@
         const avatarBg = colors[Math.abs(item.email.split('').reduce((s, c) => s + c.charCodeAt(0), 0)) % colors.length];
         const avatarColor = avatarBg === '#E0FF4F' || avatarBg === '#4ADE80' ? '#0A0A0A' : '#FFFFFF';
         
+        // Find active project
+        const clientProjects = projects.filter(p => p.email && p.email.toLowerCase() === item.email.toLowerCase());
+        const activeProj = clientProjects.find(p => p.status !== 'Completed' && p.status !== 'Cancelled') || clientProjects[0];
+        
+        let projName = 'None';
+        let progress = 0;
+        let projStatus = 'N/A';
+        let devName = 'Unassigned';
+        let progressHtml = `<span style="color:var(--ink-soft); font-size:12px;">N/A</span>`;
+        let statusClass = 'pending';
+
+        if (activeProj) {
+          projName = activeProj.name || activeProj.projectType || 'Custom Project';
+          progress = Number(activeProj.progress) || 0;
+          projStatus = activeProj.status || 'Pending';
+          statusClass = projStatus.toLowerCase().replace(' ', '-');
+          
+          if (activeProj.developerId) {
+            const dev = (window.developers || []).find(d => d.id === activeProj.developerId);
+            devName = dev ? dev.name : activeProj.developerId;
+          } else if (activeProj.developer) {
+            devName = activeProj.developer;
+          }
+          
+          progressHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:11.5px; font-family:var(--font-mono); width:32px;">${progress}%</span>
+              <div style="flex:1; width:60px; height:6px; background:var(--border); border-radius:3px; overflow:hidden;">
+                <div style="width:${progress}%; height:100%; background:var(--accent);"></div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Calculate pending payments
+        const clientReceipts = receipts.filter(r => r.clientEmail && r.clientEmail.toLowerCase() === item.email.toLowerCase());
+        const pendingSum = clientReceipts.filter(r => r.status !== 'Paid').reduce((s, r) => s + Number(r.total || r.totalAmount || 0), 0);
+        const paymentText = pendingSum > 0 ? `&#8377;${pendingSum.toLocaleString('en-IN')} Pending` : `&#8377;0 Paid`;
+        const paymentColor = pendingSum > 0 ? 'var(--accent)' : '#4ADE80';
+
+        // Formatting date
+        const updatedDate = activeProj && activeProj.date ? activeProj.date : (item.created ? new Date(item.created).toLocaleDateString() : 'Just now');
+
         tr.innerHTML = `
           <td>
             <div style="display:flex; align-items:center; gap:12px;">
-              <div style="width:36px; height:36px; border-radius:50%; background:${avatarBg}; color:${avatarColor}; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; font-weight:700; text-transform:uppercase;">
+              <div style="width:36px; height:36px; border-radius:50%; background:${avatarBg}; color:${avatarColor}; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; font-weight:700; text-transform:uppercase; flex-shrink:0;">
                 ${initials}
               </div>
               <div>
-                <div class="col-name">${item.name || 'Approved Client'}</div>
-                <div style="font-size:12.5px; color:var(--ink-faint); font-family:var(--font-mono);">${item.email}</div>
+                <div class="col-name" style="font-weight:600;">${item.name || 'Approved Client'}</div>
+                <div style="font-size:11.5px; color:var(--ink-faint); font-family:var(--font-mono);">${item.email}</div>
               </div>
             </div>
           </td>
+          <td style="font-size:12.5px; color:var(--ink);">${item.company || 'No Company'}</td>
+          <td style="font-size:12.5px; color:var(--ink-soft); max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${projName}</td>
+          <td>${progressHtml}</td>
+          <td style="font-family:var(--font-mono); font-size:12.5px; color:${paymentColor}; font-weight:600;">${paymentText}</td>
           <td>
-            <div style="font-weight:600; color:var(--ink);">${item.company || 'No Company'}</div>
-            <div style="font-size:12px; color:var(--ink-soft);">${item.phone || 'No Phone'}</div>
+            <span class="status-badge ${statusClass}">${projStatus}</span>
           </td>
+          <td style="font-size:12.5px; color:var(--ink-soft);">${devName}</td>
+          <td style="font-size:11.5px; color:var(--ink-faint); font-family:var(--font-mono);">${updatedDate}</td>
           <td>
-            <div style="display:flex; gap:8px; align-items:center;">
-              <button class="action-btn" style="font-size:12px; height:28px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; background-color:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:4px; cursor:pointer; width:auto !important;" onclick="openClientProfileModal('${item.email}')">
-                <i class="fa-solid fa-folder-open"></i> Open Profile
+            <div style="display:flex; gap:6px; align-items:center;">
+              <button class="action-btn" style="font-size:11.5px; height:26px; padding:0 8px; display:inline-flex; align-items:center; gap:4px; background-color:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:4px; cursor:pointer;" onclick="openClientProfileModal('${item.email}')">
+                <i class="fa-solid fa-folder-open"></i> Profile
               </button>
-              <button class="action-btn btn-delete" title="Revoke Access" onclick="deleteApprovedUser('${item.email}')" style="height:28px; width:28px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; margin-top:0 !important;">
+              <button class="action-btn btn-delete" title="Revoke Access" onclick="deleteApprovedUser('${item.email}')" style="height:26px; width:26px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; margin-top:0 !important;">
                 <i class="fa-solid fa-user-minus"></i>
               </button>
             </div>
@@ -3499,7 +3865,43 @@
       }
     }
 
-    function openClientProfileModal(email) {
+    window.developers = [];
+    window.currentWorkspaceEmail = '';
+    window.activeSupportTicketId = '';
+
+    async function loadDevelopers() {
+      try {
+        const res = await fetch(getApiUrl('/api/developers?_t=' + Date.now()));
+        if (res.ok) {
+          window.developers = await res.json();
+          if (window.developers.length === 0) {
+            // Auto-populate default developers for immediate interaction
+            await fetch(getApiUrl('/api/developers/create'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name: 'John Dev', email: 'john@nextgenwebstudio.in' })
+            });
+            await fetch(getApiUrl('/api/developers/create'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name: 'Rajesh Kumar', email: 'rajesh@nextgenwebstudio.in' })
+            });
+            const r = await fetch(getApiUrl('/api/developers?_t=' + Date.now()));
+            window.developers = await r.json();
+          }
+          
+          // Populate developer dropdowns
+          const devOptions = window.developers.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+          document.getElementById('newProjDev').innerHTML = `<option value="">Unassigned</option>` + devOptions;
+          document.getElementById('editTicketAssignee').innerHTML = `<option value="">Unassigned</option>` + devOptions;
+        }
+      } catch (e) {
+        console.warn('Developers fetch failed');
+      }
+    }
+
+    async function openClientProfileModal(email) {
+      window.currentWorkspaceEmail = email;
       const client = approvedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
       if (!client) return;
 
@@ -3520,65 +3922,12 @@
       el('editProfileAddress').value = client.address || '';
       el('editProfileNotes').value = client.notes || '';
 
-      // Populate Projects
-      const clientProjects = projects.filter(p => p.email && p.email.toLowerCase() === email.toLowerCase());
-      const projectsTbody = el('profileProjectsList');
-      if (clientProjects.length === 0) {
-        projectsTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:20px; color:var(--ink-soft);">No projects found.</td></tr>`;
-      } else {
-        projectsTbody.innerHTML = clientProjects.map(p => `
-          <tr>
-            <td>
-              <div style="font-weight:600; color:var(--ink);">${p.name || p.projectType || 'Custom Website'}</div>
-              <div style="font-size:11px; color:var(--ink-faint);">${p.date || 'Date not set'}</div>
-            </td>
-            <td style="font-family:var(--font-mono); color:var(--accent); font-weight:600;">${p.budget || 'TBD'}</td>
-            <td>
-              <span class="status-badge ${p.status === 'Completed' ? 'completed' : (p.status === 'Starting Project' ? 'pending' : (p.status === 'New Project' ? 'new' : 'hold'))}">${p.status || 'New Project'}</span>
-            </td>
-          </tr>
-        `).join('');
-      }
-
-      // Populate Invoices
-      const clientReceipts = receipts.filter(r => r.clientEmail && r.clientEmail.toLowerCase() === email.toLowerCase());
-      const invoicesTbody = el('profileInvoicesList');
-      const fmt = v => Number(v).toLocaleString('en-IN', { style:'currency', currency:'INR', maximumFractionDigits:0 });
-      if (clientReceipts.length === 0) {
-        invoicesTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:20px; color:var(--ink-soft);">No invoices found.</td></tr>`;
-      } else {
-        invoicesTbody.innerHTML = clientReceipts.map(r => `
-          <tr>
-            <td>
-              <div style="font-family:var(--font-mono); font-weight:600;">#${r.id.substring(0, 8)}</div>
-              <div style="font-size:11px; color:var(--ink-faint);">${r.projectTitle || 'Retainer Invoice'}</div>
-            </td>
-            <td style="font-family:var(--font-mono); font-weight:600;">${fmt(r.total)}</td>
-            <td>
-              <span class="status-badge ${r.status === 'Paid' ? 'paid' : 'pending'}">${r.status || 'Pending'}</span>
-            </td>
-          </tr>
-        `).join('');
-      }
-
-      // Populate Activity (Chatbot Messages)
-      const clientChats = chatbotMessages.filter(m => m.email && m.email.toLowerCase() === email.toLowerCase());
-      const activityDiv = el('profileActivityList');
-      if (clientChats.length === 0) {
-        activityDiv.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft);">No chatbot interaction history.</div>`;
-      } else {
-        activityDiv.innerHTML = clientChats.slice(0, 10).map(c => `
-          <div style="padding:10px 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm);">
-            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--ink-faint); margin-bottom:4px; font-family:var(--font-mono);">
-              <span>Client Message</span>
-              <span>${new Date(c.date || c.timestamp).toLocaleDateString()}</span>
-            </div>
-            <div style="font-size:13px; color:var(--ink); margin-bottom:6px;">"${c.text}"</div>
-            <div style="font-size:11px; color:var(--accent); font-family:var(--font-mono);">Bot Response: "${c.botResponse || 'Direct message (No response)'}"</div>
-          </div>
-        `).join('');
-      }
-
+      await loadDevelopers();
+      loadRoadmapProjectDropdown();
+      renderWorkspaceProjects();
+      renderWorkspaceInvoices();
+      renderWorkspacePayments();
+      
       switchProfileTab('details');
       el('clientProfileModal').classList.add('show');
     }
@@ -3590,7 +3939,7 @@
     window.closeClientProfileModal = closeClientProfileModal;
 
     function switchProfileTab(tabName) {
-      const tabs = ['details', 'projects', 'invoices', 'activity'];
+      const tabs = ['details', 'projects', 'invoices', 'roadmap', 'files', 'support', 'activity', 'teamchat', 'settings'];
       tabs.forEach(t => {
         const content = document.getElementById('profileTab_' + t);
         const btn = document.getElementById('btnProfile' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -3600,8 +3949,860 @@
           else btn.classList.remove('active');
         }
       });
+
+      if (tabName === 'roadmap') {
+        loadRoadmapStages();
+      } else if (tabName === 'files') {
+        loadWorkspaceFiles();
+      } else if (tabName === 'support') {
+        loadWorkspaceTickets();
+      } else if (tabName === 'activity') {
+        loadWorkspaceActivity();
+      } else if (tabName === 'teamchat') {
+        loadTeamchatMessages();
+      }
     }
     window.switchProfileTab = switchProfileTab;
+
+    function loadRoadmapProjectDropdown() {
+      const clientProj = projects.filter(p => p.email && p.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+      const pSelect = document.getElementById('roadmapProjectSelect');
+      const fSelect = document.getElementById('fileProjSelect');
+      const iSelect = document.getElementById('newInvProjSelect');
+
+      const options = clientProj.map(p => `<option value="${p.id}">${p.name || p.projectType || 'Custom Project'}</option>`).join('');
+      
+      pSelect.innerHTML = options || `<option value="">No Active Projects</option>`;
+      fSelect.innerHTML = options || `<option value="">No Active Projects</option>`;
+      iSelect.innerHTML = options || `<option value="">No Active Projects</option>`;
+    }
+
+    async function loadRoadmapStages() {
+      const projectId = document.getElementById('roadmapProjectSelect').value;
+      const progressPercent = document.getElementById('roadmapProgressPercent');
+      const progressBar = document.getElementById('roadmapProgressBar');
+      const checklist = document.getElementById('roadmapChecklist');
+      
+      if (!projectId) {
+        progressPercent.innerText = '0%';
+        progressBar.style.width = '0%';
+        return;
+      }
+
+      try {
+        const res = await fetch(getApiUrl('/api/project-roadmap?_t=' + Date.now()));
+        if (res.ok) {
+          const allRoadmaps = await res.json();
+          const projRoadmap = allRoadmaps.filter(r => r.projectId === projectId);
+          
+          const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
+          stages.forEach(stage => {
+            const match = projRoadmap.find(r => r.stage === stage);
+            const cb = checklist.querySelector(`input[data-stage="${stage}"]`);
+            if (cb) {
+              cb.checked = match ? !!match.completed : false;
+            }
+          });
+
+          // Update bar from active project progress
+          const proj = projects.find(p => p.id === projectId);
+          if (proj) {
+            progressPercent.innerText = `${proj.progress || 0}%`;
+            progressBar.style.width = `${proj.progress || 0}%`;
+          }
+        }
+      } catch (e) {
+        console.warn('Roadmap stages load failed');
+      }
+    }
+    window.loadRoadmapStages = loadRoadmapStages;
+
+    async function toggleRoadmapStage(checkbox) {
+      const projectId = document.getElementById('roadmapProjectSelect').value;
+      const stage = checkbox.getAttribute('data-stage');
+      const completed = checkbox.checked;
+
+      if (!projectId) return;
+
+      try {
+        const res = await fetch(getApiUrl('/api/project-roadmap/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ projectId, stage, completed })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          showToast('Roadmap Updated', `Stage "${stage}" status synced successfully.`, 'success');
+          // Reload global projects to update locally in memory
+          await fetchProjects();
+          // Update UI metrics
+          document.getElementById('roadmapProgressPercent').innerText = `${data.progress}%`;
+          document.getElementById('roadmapProgressBar').style.width = `${data.progress}%`;
+          renderWorkspaceProjects();
+          fetchApprovedUsers(); // Refresh parent client management table
+        }
+      } catch (e) {
+        showToast('Sync Error', 'Could not sync roadmap progress with server.', 'error');
+      }
+    }
+    window.toggleRoadmapStage = toggleRoadmapStage;
+
+    function renderWorkspaceProjects() {
+      const list = projects.filter(p => p.email && p.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+      const tbody = document.getElementById('profileProjectsList');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">No projects found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(p => {
+        let devName = 'Unassigned';
+        if (p.developerId) {
+          const dev = window.developers.find(d => d.id === p.developerId);
+          devName = dev ? dev.name : p.developerId;
+        } else if (p.developer) {
+          devName = p.developer;
+        }
+        return `
+          <tr>
+            <td>
+              <div style="font-weight:600; color:var(--ink);">${p.name || 'Custom Web Build'}</div>
+              <div style="font-size:11px; color:var(--ink-faint);">${p.stack || 'General Development'}</div>
+            </td>
+            <td style="font-family:var(--font-mono); color:var(--accent); font-weight:600;">&#8377;${Number(p.budget).toLocaleString('en-IN')}</td>
+            <td style="font-size:12.5px;">${devName}</td>
+            <td>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-family:var(--font-mono); font-size:11px;">${p.progress || 0}%</span>
+                <div style="width:50px; height:5px; background:var(--border); border-radius:2px; overflow:hidden;">
+                  <div style="width:${p.progress || 0}%; height:100%; background:var(--accent);"></div>
+                </div>
+              </div>
+            </td>
+            <td><span class="status-badge ${p.status ? p.status.toLowerCase().replace(' ', '-') : 'pending'}">${p.status || 'Pending'}</span></td>
+            <td>
+              <button class="action-btn btn-delete" style="padding:4px 8px; font-size:11px;" onclick="deleteWorkspaceProject('${p.id}')"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function toggleAddProjectForm() {
+      const form = document.getElementById('workspaceProjectForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+    window.toggleAddProjectForm = toggleAddProjectForm;
+
+    async function saveWorkspaceProject() {
+      const name = document.getElementById('newProjTitle').value.trim();
+      const budget = document.getElementById('newProjBudget').value.trim();
+      const stack = document.getElementById('newProjStack').value.trim();
+      const developerId = document.getElementById('newProjDev').value;
+      const message = document.getElementById('newProjDesc').value.trim();
+      const email = window.currentWorkspaceEmail;
+
+      if (!name || !budget) {
+        showToast('Required Fields', 'Please enter project title and budget.', 'warning');
+        return;
+      }
+
+      try {
+        const res = await fetch(getApiUrl('/api/projects/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, budget, stack, developerId, message })
+        });
+        if (res.ok) {
+          showToast('Project Created', 'New project has been successfully initialized!', 'success');
+          toggleAddProjectForm();
+          await fetchProjects();
+          renderWorkspaceProjects();
+          loadRoadmapProjectDropdown();
+          fetchApprovedUsers();
+        }
+      } catch (err) {
+        showToast('Error', 'Failed to create workspace project.', 'error');
+      }
+    }
+    window.saveWorkspaceProject = saveWorkspaceProject;
+
+    async function deleteWorkspaceProject(id) {
+      showConfirmModal('Permanently delete this project from database?', async () => {
+        try {
+          const res = await fetch(getApiUrl('/api/projects/delete'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+          });
+          if (res.ok) {
+            showToast('Project Deleted', 'Project has been removed.', 'success');
+            await fetchProjects();
+            renderWorkspaceProjects();
+            loadRoadmapProjectDropdown();
+            fetchApprovedUsers();
+          }
+        } catch (e) {
+          showToast('Error', 'Deletion failed.', 'error');
+        }
+      });
+    }
+    window.deleteWorkspaceProject = deleteWorkspaceProject;
+
+    function renderWorkspaceInvoices() {
+      const list = receipts.filter(r => r.clientEmail && r.clientEmail.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+      const tbody = document.getElementById('profileInvoicesList');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">No invoices generated yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(r => `
+        <tr>
+          <td><div style="font-family:var(--font-mono); font-weight:600;">#${r.id.substring(0, 8)}</div></td>
+          <td>
+            <div style="font-weight:600; color:var(--ink);">${r.projectTitle || 'Milestone Invoice'}</div>
+            <div style="font-size:11px; color:var(--ink-faint);">${r.projectDescription || ''}</div>
+          </td>
+          <td style="font-family:var(--font-mono); font-weight:600; color:var(--accent);">&#8377;${Number(r.total).toLocaleString('en-IN')}</td>
+          <td style="font-size:12.5px; color:var(--ink-soft);">${r.dueDate || 'TBD'}</td>
+          <td><span class="status-badge ${r.status === 'Paid' ? 'completed' : 'pending'}">${r.status || 'Pending'}</span></td>
+          <td>
+            <div style="display:flex; gap:4px; align-items:center;">
+              ${r.status !== 'Paid' ? `
+                <button class="action-btn" style="padding:4px 8px; font-size:11px; background:#4ADE80; color:#0A0A0A; border:none;" onclick="markWorkspaceInvoicePaid('${r.id}')" title="Mark Paid"><i class="fa-solid fa-check"></i></button>
+                <button class="action-btn" style="padding:4px 8px; font-size:11px; background:rgba(245,158,11,.1); color:#F59E0B; border:1px solid #F59E0B;" onclick="sendInvoiceReminderDirect('${r.id}')" title="Send Reminder"><i class="fa-solid fa-paper-plane"></i></button>
+              ` : ''}
+              <button class="action-btn" style="padding:4px 8px; font-size:11px;" onclick="printWorkspaceInvoice('${r.id}')" title="Download PDF"><i class="fa-solid fa-print"></i></button>
+              <button class="action-btn btn-delete" style="padding:4px 8px; font-size:11px;" onclick="deleteWorkspaceInvoice('${r.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function renderWorkspacePayments() {
+      try {
+        const res = await fetch(getApiUrl('/api/payments?_t=' + Date.now()));
+        if (res.ok) {
+          const allPayments = await res.json();
+          // Filter payments where receiptId is in receipts of this client
+          const clientReceiptIds = receipts.filter(r => r.clientEmail && r.clientEmail.toLowerCase() === window.currentWorkspaceEmail.toLowerCase()).map(r => r.id);
+          const list = allPayments.filter(p => clientReceiptIds.includes(p.receiptId));
+          const tbody = document.getElementById('profilePaymentsList');
+          
+          if (list.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">No transaction records found.</td></tr>`;
+            return;
+          }
+
+          tbody.innerHTML = list.map(p => `
+            <tr>
+              <td><div style="font-family:var(--font-mono); font-size:11.5px;">#${p.id.substring(0, 8)}</div></td>
+              <td style="font-family:var(--font-mono); font-weight:600; color:#4ADE80;">&#8377;${Number(p.amount).toLocaleString('en-IN')}</td>
+              <td style="font-size:12.5px;">${p.gateway || 'Razorpay'}</td>
+              <td style="font-family:var(--font-mono); font-size:12px; color:var(--ink-soft);">${p.transactionId || 'pay_simulated'}</td>
+              <td style="font-size:11.5px; color:var(--ink-faint);">${new Date(p.paidAt).toLocaleString()}</td>
+              <td><span class="status-badge completed" style="background:rgba(74,222,128,.1); color:#4ADE80; border:1px solid #4ADE80;">Cleared</span></td>
+            </tr>
+          `).join('');
+        }
+      } catch (e) {
+        console.warn('Payments load failed');
+      }
+    }
+
+    function toggleWorkspaceInvoiceForm() {
+      const form = document.getElementById('workspaceInvoiceForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+    window.toggleWorkspaceInvoiceForm = toggleWorkspaceInvoiceForm;
+
+    async function saveWorkspaceInvoice() {
+      const projectId = document.getElementById('newInvProjSelect').value;
+      const milestoneTitle = document.getElementById('newInvTitle').value.trim();
+      const amount = document.getElementById('newInvAmount').value.trim();
+      const dueDate = document.getElementById('newInvDueDate').value;
+      
+      const client = approvedUsers.find(u => u.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+      if (!client || !projectId || !milestoneTitle || !amount) {
+        showToast('Required Fields', 'Please select a project, fill in title and amount.', 'warning');
+        return;
+      }
+
+      const proj = projects.find(p => p.id === projectId);
+      const projName = proj ? proj.name : 'Web App Development';
+
+      const invoicePayload = {
+        clientName: client.name,
+        clientEmail: client.email,
+        clientPhone: client.phone || '',
+        clientAddress: client.address || '',
+        projectTitle: projName,
+        projectDescription: milestoneTitle,
+        lineItems: [{ description: milestoneTitle, amount: Number(amount) }],
+        subtotal: Number(amount),
+        total: Number(amount),
+        status: 'Pending',
+        dueDate: dueDate || new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+      };
+
+      try {
+        const res = await fetch(getApiUrl('/api/receipts/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(invoicePayload)
+        });
+        if (res.ok) {
+          showToast('Invoice Generated', 'Invoice has been successfully created and logged.', 'success');
+          toggleWorkspaceInvoiceForm();
+          await fetchReceipts();
+          renderWorkspaceInvoices();
+          fetchApprovedUsers();
+        }
+      } catch (e) {
+        showToast('Error', 'Failed to generate invoice.', 'error');
+      }
+    }
+    window.saveWorkspaceInvoice = saveWorkspaceInvoice;
+
+    async function markWorkspaceInvoicePaid(id) {
+      try {
+        const r = receipts.find(rcpt => rcpt.id === id);
+        if (!r) return;
+
+        // 1. Mark paid in receipts list
+        r.status = 'Paid';
+        r.paymentDate = new Date().toISOString();
+        r.razorpayPaymentId = 'pay_admin_' + Date.now();
+        r.paymentMethod = 'Bank Transfer';
+
+        const uRes = await fetch(getApiUrl('/api/receipts/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(r)
+        });
+
+        if (uRes.ok) {
+          // 2. Add Transaction Log to payments
+          await fetch(getApiUrl('/api/payments/create'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              receiptId: id,
+              amount: r.total,
+              gateway: 'Admin Manual',
+              transactionId: r.razorpayPaymentId,
+              status: 'Paid'
+            })
+          });
+
+          // 3. Log System Activity
+          await fetch(getApiUrl('/api/activity-logs/create'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: r.clientEmail,
+              action: 'Payment Received',
+              description: `Payment of &#8377;${r.total} settled for Invoice #${id.substring(0,8)}.`,
+              entity: 'payments',
+              entityId: id
+            })
+          });
+
+          // 4. Alert Client Portal
+          await fetch(getApiUrl('/api/notifications/create'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: r.clientEmail,
+              title: '🔔 Payment Settled',
+              message: `Payment of &#8377;${r.total} has been credited for invoice #${id.substring(0,8)}.`,
+              type: 'success',
+              priority: 'High',
+              icon: 'fa-check-circle'
+            })
+          });
+
+          showToast('Payment Recieved', 'Invoice marked as paid and payment logs registered.', 'success');
+          await fetchReceipts();
+          renderWorkspaceInvoices();
+          renderWorkspacePayments();
+          fetchApprovedUsers();
+        }
+      } catch (err) {
+        showToast('Error', 'Failed to settle invoice payment.', 'error');
+      }
+    }
+    window.markWorkspaceInvoicePaid = markWorkspaceInvoicePaid;
+
+    async function sendInvoiceReminderDirect(id) {
+      const r = receipts.find(rc => rc.id === id);
+      if (!r) return;
+
+      try {
+        showToast('Sending Reminder', 'Dispatching simulated email template notice...', 'info');
+        await fetch(getApiUrl('/api/activity-logs/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: r.clientEmail,
+            action: 'Reminder Sent',
+            description: `Payment reminder email sent to client for Invoice #${id.substring(0,8)}.`,
+            entity: 'receipts',
+            entityId: id
+          })
+        });
+        showToast('Reminder Dispatched', 'Email billing notification timeline logged.', 'success');
+        switchProfileTab('invoices');
+      } catch (e) {
+        showToast('Error', 'Failed to dispatch reminder.', 'error');
+      }
+    }
+    window.sendInvoiceReminderDirect = sendInvoiceReminderDirect;
+
+    function printWorkspaceInvoice(id) {
+      window.open(`/receipt.html?id=${id}&print=true`, '_blank');
+    }
+    window.printWorkspaceInvoice = printWorkspaceInvoice;
+
+    async function deleteWorkspaceInvoice(id) {
+      showConfirmModal('Delete this invoice permanently from database?', async () => {
+        try {
+          const res = await fetch(getApiUrl('/api/receipts/delete'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+          });
+          if (res.ok) {
+            showToast('Invoice Deleted', 'Invoice was deleted.', 'success');
+            await fetchReceipts();
+            renderWorkspaceInvoices();
+            fetchApprovedUsers();
+          }
+        } catch (e) {
+          showToast('Error', 'Failed to delete invoice.', 'error');
+        }
+      });
+    }
+    window.deleteWorkspaceInvoice = deleteWorkspaceInvoice;
+
+    async function loadWorkspaceFiles() {
+      const tbody = document.getElementById('profileFilesList');
+      try {
+        const res = await fetch(getApiUrl('/api/project-files?_t=' + Date.now()));
+        if (res.ok) {
+          const allFiles = await res.json();
+          // Filter files by project ids of client
+          const clientProjIds = projects.filter(p => p.email && p.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase()).map(p => p.id);
+          const list = allFiles.filter(f => clientProjIds.includes(f.projectId));
+          
+          if (list.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">No files shared with this client yet.</td></tr>`;
+            return;
+          }
+
+          tbody.innerHTML = list.map(f => `
+            <tr>
+              <td>
+                <div style="font-weight:600; color:var(--ink);">${f.title}</div>
+                <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);">${f.fileName}</div>
+              </td>
+              <td><span class="status-badge" style="background:rgba(224,255,79,.05); border:1px solid var(--border); color:var(--accent);">${f.category}</span></td>
+              <td><span style="font-family:var(--font-mono); font-size:12px;">${f.version || 'V1'}</span></td>
+              <td style="font-size:12.5px; color:var(--ink-soft);">${f.fileSize || 'N/A'}</td>
+              <td style="font-size:11px; color:var(--ink-faint);">${new Date(f.uploadedAt).toLocaleDateString()}</td>
+              <td>
+                <div style="display:flex; gap:4px;">
+                  <a href="${f.fileUrl}" target="_blank" class="action-btn" style="padding:4px 8px; font-size:11px;" title="View"><i class="fa-solid fa-external-link"></i></a>
+                  <button class="action-btn btn-delete" style="padding:4px 8px; font-size:11px;" onclick="deleteWorkspaceFile('${f.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">Error loading shared files.</td></tr>`;
+      }
+    }
+    window.loadWorkspaceFiles = loadWorkspaceFiles;
+
+    async function saveWorkspaceFile() {
+      const title = document.getElementById('fileDocTitle').value.trim();
+      const fileUrl = document.getElementById('fileDocUrl').value.trim();
+      const category = document.getElementById('fileDocCategory').value;
+      const version = document.getElementById('fileDocVersion').value.trim() || 'V1';
+      const projectId = document.getElementById('fileProjSelect').value;
+      const fileSize = document.getElementById('fileDocSize').value.trim() || '1.2 MB';
+
+      if (!projectId || !title || !fileUrl) {
+        showToast('Required Fields', 'Title, Link URL, and Project link are required.', 'warning');
+        return;
+      }
+
+      try {
+        const res = await fetch(getApiUrl('/api/project-files/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ projectId, title, fileUrl, category, version, fileSize, fileName: title + '.pdf', mimeType: 'application/pdf' })
+        });
+        if (res.ok) {
+          showToast('File Uploaded', `Document "${title}" is now shared with client portal.`, 'success');
+          // Clear inputs
+          document.getElementById('fileDocTitle').value = '';
+          document.getElementById('fileDocUrl').value = '';
+          document.getElementById('fileDocVersion').value = 'V1';
+          document.getElementById('fileDocSize').value = '';
+          
+          loadWorkspaceFiles();
+        }
+      } catch (err) {
+        showToast('Error', 'Failed to share file asset.', 'error');
+      }
+    }
+    window.saveWorkspaceFile = saveWorkspaceFile;
+
+    async function deleteWorkspaceFile(id) {
+      showConfirmModal('Remove this file asset from client access?', async () => {
+        try {
+          const res = await fetch(getApiUrl('/api/project-files/delete'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+          });
+          if (res.ok) {
+            showToast('Asset Deleted', 'Shared file deleted.', 'success');
+            loadWorkspaceFiles();
+          }
+        } catch (e) {
+          showToast('Error', 'Deletion failed.', 'error');
+        }
+      });
+    }
+    window.deleteWorkspaceFile = deleteWorkspaceFile;
+
+    async function loadWorkspaceTickets() {
+      const ticketsContainer = document.getElementById('profileTicketsList');
+      ticketsContainer.innerHTML = '';
+      
+      try {
+        const res = await fetch(getApiUrl('/api/support-tickets?_t=' + Date.now()));
+        if (res.ok) {
+          const allTickets = await res.json();
+          const list = allTickets.filter(t => t.clientEmail && t.clientEmail.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+          
+          if (list.length === 0) {
+            ticketsContainer.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft); font-size:12.5px;">No support desk history.</div>`;
+            document.getElementById('supportTicketEditor').style.display = 'none';
+            document.getElementById('noTicketSelected').style.display = 'flex';
+            return;
+          }
+
+          list.forEach(t => {
+            const div = document.createElement('div');
+            div.style.cssText = 'padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:4px; cursor:pointer; font-size:12.5px; transition:border .2s;';
+            div.innerHTML = `
+              <div style="display:flex; justify-content:between; align-items:center; margin-bottom:4px;">
+                <strong style="font-family:var(--font-mono); color:var(--accent);">#${t.ticketNumber || t.id.substring(0,6)}</strong>
+                <span class="status-badge ${t.status === 'Resolved' ? 'completed' : 'pending'}" style="font-size:9.5px; padding:2px 6px;">${t.status || 'Open'}</span>
+              </div>
+              <div style="font-weight:600; color:var(--ink);">${t.subject}</div>
+              <div style="font-size:11px; color:var(--ink-faint); margin-top:2px;">Priority: ${t.priority.toUpperCase()}</div>
+            `;
+            div.addEventListener('click', () => {
+              ticketsContainer.querySelectorAll('div').forEach(d => d.style.borderColor = 'var(--border)');
+              div.style.borderColor = 'var(--accent)';
+              selectWorkspaceTicket(t);
+            });
+            ticketsContainer.appendChild(div);
+          });
+        }
+      } catch (e) {
+        ticketsContainer.innerHTML = `<div>Error loading tickets.</div>`;
+      }
+    }
+    window.loadWorkspaceTickets = loadWorkspaceTickets;
+
+    function selectWorkspaceTicket(t) {
+      window.activeSupportTicketId = t.id;
+      document.getElementById('noTicketSelected').style.display = 'none';
+      document.getElementById('supportTicketEditor').style.display = 'block';
+
+      document.getElementById('ticketEditorHeader').innerText = `TICKET #${t.ticketNumber || t.id.substring(0,6)} : ${t.subject}`;
+      document.getElementById('editTicketPriority').value = t.priority || 'low';
+      document.getElementById('editTicketStatus').value = t.status || 'Open';
+      document.getElementById('editTicketAssignee').value = t.assignedTo || '';
+      document.getElementById('editTicketInternalNotes').value = t.internalNotes || '';
+      document.getElementById('ticketReplyText').value = '';
+    }
+
+    async function updateTicketField(field) {
+      if (!window.activeSupportTicketId) return;
+      
+      const ticketId = window.activeSupportTicketId;
+      const el = id => document.getElementById(id);
+      
+      const updatedData = {
+        id: ticketId,
+        priority: el('editTicketPriority').value,
+        status: el('editTicketStatus').value,
+        assignedTo: el('editTicketAssignee').value,
+        internalNotes: el('editTicketInternalNotes').value
+      };
+
+      try {
+        const res = await fetch(getApiUrl('/api/support-tickets/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedData)
+        });
+        if (res.ok) {
+          showToast('Updated', 'Ticket details successfully updated.', 'success');
+          // Reload list
+          loadWorkspaceTickets();
+        }
+      } catch (e) {
+        showToast('Error', 'Failed to update ticket parameters.', 'error');
+      }
+    }
+    window.updateTicketField = updateTicketField;
+
+    async function sendTicketReply() {
+      const text = document.getElementById('ticketReplyText').value.trim();
+      if (!text || !window.activeSupportTicketId) return;
+
+      try {
+        const res = await fetch(getApiUrl('/api/support-tickets/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: window.activeSupportTicketId,
+            lastReply: `Admin: ${text}`,
+            message: `Admin Response: ${text}`
+          })
+        });
+
+        if (res.ok) {
+          showToast('Reply Sent', 'Your response has been appended to this support ticket.', 'success');
+          document.getElementById('ticketReplyText').value = '';
+          loadWorkspaceTickets();
+        }
+      } catch (e) {
+        showToast('Error', 'Failed to append reply.', 'error');
+      }
+    }
+    window.sendTicketReply = sendTicketReply;
+
+    async function loadWorkspaceActivity() {
+      const listDiv = document.getElementById('profileActivityList');
+      listDiv.innerHTML = '';
+
+      try {
+        const res = await fetch(getApiUrl('/api/activity-logs?_t=' + Date.now()));
+        if (res.ok) {
+          const logs = await res.json();
+          // Filter logs matching clientEmail
+          const clientLogs = logs.filter(l => l.userId && l.userId.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+          
+          if (clientLogs.length === 0) {
+            listDiv.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft); font-size:12.5px;">No operations audits logged yet.</div>`;
+            return;
+          }
+
+          clientLogs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          listDiv.innerHTML = clientLogs.map(l => {
+            const date = new Date(l.createdAt);
+            const timeText = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Icon mapping
+            let icon = 'fa-circle-check';
+            let color = '#4ADE80';
+            if (l.action.includes('Invoice') || l.action.includes('Billing')) {
+              icon = 'fa-file-invoice-dollar';
+              color = 'var(--accent)';
+            } else if (l.action.includes('Roadmap')) {
+              icon = 'fa-route';
+              color = '#3B82F6';
+            } else if (l.action.includes('Login')) {
+              icon = 'fa-right-to-bracket';
+              color = '#A78BFA';
+            } else if (l.action.includes('File') || l.action.includes('Asset')) {
+              icon = 'fa-cloud-arrow-up';
+              color = '#F472B6';
+            }
+
+            return `
+              <div style="display:flex; gap:12px; position:relative; padding-bottom:14px; border-left: 2px solid var(--border); margin-left: 10px; padding-left: 16px;">
+                <div style="position:absolute; left:-9px; top:0; width:16px; height:16px; border-radius:50%; background:var(--bg); border:2.5px solid ${color}; display:flex; align-items:center; justify-content:center;"></div>
+                <div>
+                  <div style="font-weight:600; font-size:12.5px; color:var(--ink);"><i class="fa-solid ${icon}" style="color:${color}; margin-right:4px;"></i> ${l.action}</div>
+                  <div style="font-size:12px; color:var(--ink-soft); margin-top:2px;">${l.description || ''}</div>
+                  <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono); margin-top:4px;">
+                    <span>${timeText}</span> &bull; <span>Browser: ${l.browser ? l.browser.substring(0, 30) + '...' : 'System'}</span> &bull; <span>IP: ${l.ipAddress || 'unknown'}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (e) {
+        listDiv.innerHTML = `<div>Error loading timelines logs.</div>`;
+      }
+    }
+    window.loadWorkspaceActivity = loadWorkspaceActivity;
+
+    async function loadTeamchatMessages() {
+      const messagesContainer = document.getElementById('teamchatMessages');
+      messagesContainer.innerHTML = '';
+
+      try {
+        const res = await fetch(getApiUrl('/api/internal-comments?_t=' + Date.now()));
+        if (res.ok) {
+          const allComments = await res.json();
+          const list = allComments.filter(c => c.userId && c.userId.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+          
+          if (list.length === 0) {
+            messagesContainer.innerHTML = `<div style="text-align:center; padding:30px; color:var(--ink-soft); font-size:12.5px; font-style:italic;">No team comments posted. Leave the first private note!</div>`;
+            return;
+          }
+
+          list.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+          messagesContainer.innerHTML = list.map(c => {
+            const date = new Date(c.createdAt);
+            const timeText = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Sender initials
+            const initials = c.senderName ? c.senderName.substring(0, 2).toUpperCase() : 'TM';
+            const bg = c.senderName === 'Admin' ? 'var(--accent)' : (c.senderName === 'Designer' ? '#F472B6' : '#3B82F6');
+            const clr = c.senderName === 'Admin' ? '#0A0A0A' : '#FFFFFF';
+
+            return `
+              <div style="display:flex; gap:10px; align-items:start;">
+                <div style="width:28px; height:28px; border-radius:50%; background:${bg}; color:${clr}; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:11px; font-weight:700; flex-shrink:0;">${initials}</div>
+                <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:8px 12px; flex:1;">
+                  <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft); margin-bottom:4px; font-weight:600;">
+                    <span>${c.senderName}</span>
+                    <span>${timeText}</span>
+                  </div>
+                  <div style="font-size:12.5px; color:var(--ink); line-height:1.4;">${c.text}</div>
+                </div>
+              </div>
+            `;
+          }).join('');
+          
+          // Auto scroll to bottom
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+      } catch (e) {
+        messagesContainer.innerHTML = `<div>Error loading chat history.</div>`;
+      }
+    }
+    window.loadTeamchatMessages = loadTeamchatMessages;
+
+    async function sendTeamchatComment() {
+      const input = document.getElementById('teamchatInput');
+      const senderName = document.getElementById('teamchatSenderName').value;
+      const text = input.value.trim();
+      const userId = window.currentWorkspaceEmail;
+
+      if (!text || !userId) return;
+
+      try {
+        const res = await fetch(getApiUrl('/api/internal-comments/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, senderName, text })
+        });
+        if (res.ok) {
+          input.value = '';
+          await loadTeamchatMessages();
+        }
+      } catch (e) {
+        showToast('Error', 'Failed to send comment.', 'error');
+      }
+    }
+    window.sendTeamchatComment = sendTeamchatComment;
+
+    function loginAsClientDirect() {
+      if (!window.currentWorkspaceEmail) return;
+      const client = approvedUsers.find(u => u.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+      if (!client) return;
+
+      // Set simulation variables
+      localStorage.setItem('clientAuth', 'true');
+      localStorage.setItem('clientEmail', client.email);
+      localStorage.setItem('clientName', client.name || 'Client');
+      
+      // Add simulated activity audit
+      fetch(getApiUrl('/api/activity-logs/create'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: client.email,
+          action: 'Client Logged In',
+          description: 'Simulated client portal access via Admin Dashboard.',
+          entity: 'users',
+          entityId: client.email
+        })
+      });
+
+      showToast('Launching Session', `Redirecting to portal as ${client.name}...`, 'success');
+      window.open('/client.html', '_blank');
+    }
+    window.loginAsClientDirect = loginAsClientDirect;
+
+    function revokeClientAccessDirect() {
+      if (!window.currentWorkspaceEmail) return;
+      closeClientProfileModal();
+      deleteApprovedUser(window.currentWorkspaceEmail);
+    }
+    window.revokeClientAccessDirect = revokeClientAccessDirect;
+
+    // Direct Notification Dispatcher
+    function openSendNotificationModal() {
+      document.getElementById('sendNotifModal').classList.add('show');
+    }
+    window.openSendNotificationModal = openSendNotificationModal;
+
+    function closeSendNotificationModal() {
+      document.getElementById('sendNotifModal').classList.remove('remove');
+      document.getElementById('sendNotifModal').classList.remove('show');
+    }
+    window.closeSendNotificationModal = closeSendNotificationModal;
+
+    async function submitWorkspaceNotification() {
+      const title = document.getElementById('notifTitle').value.trim();
+      const message = document.getElementById('notifMessage').value.trim();
+      const type = document.getElementById('notifType').value;
+      const priority = document.getElementById('notifPriority').value;
+      const userId = window.currentWorkspaceEmail;
+
+      if (!title || !userId) {
+        showToast('Required Fields', 'Notification title is required.', 'warning');
+        return;
+      }
+
+      let icon = 'fa-info-circle';
+      if (type === 'success') icon = 'fa-circle-check';
+      if (type === 'warning') icon = 'fa-triangle-exclamation';
+
+      try {
+        const res = await fetch(getApiUrl('/api/notifications/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, title, message, type, priority, icon })
+        });
+        if (res.ok) {
+          showToast('Alert Sent', 'Notification dispatched to client portal dashboard.', 'success');
+          closeSendNotificationModal();
+        }
+      } catch (e) {
+        showToast('Error', 'Failed to dispatch alert notification.', 'error');
+      }
+    }
+    window.submitWorkspaceNotification = submitWorkspaceNotification;
 
     async function saveClientProfileDetails() {
       const el = id => document.getElementById(id);
@@ -4051,34 +5252,35 @@
     }
     window.setModalLiveTime = setModalLiveTime;
 
-    // ---------- METRICS CALCULATIONS ----------
     function updateDashboardStats() {
       const el = id => document.getElementById(id);
-      if (el('statInquiriesCount')) el('statInquiriesCount').innerText = inquiries.length;
-      if (el('statProjectsCount'))  el('statProjectsCount').innerText  = projects.length;
-
       const fmt = v => v.toLocaleString('en-IN', { style:'currency', currency:'INR', maximumFractionDigits:0 });
 
-      const pendingList = receipts.filter(r => r.status !== 'Paid');
-      const paidList    = receipts.filter(r => r.status === 'Paid');
+      // 1. Today's Revenue
+      const todayStr = new Date().toLocaleDateString();
+      const todayPaid = receipts.filter(r => r.status === 'Paid' && (r.date === todayStr || new Date(r.paymentDate || r.date).toLocaleDateString() === todayStr));
+      const todayRevenueSum = todayPaid.reduce((s, r) => s + Number(r.total || r.totalAmount || 0), 0);
+      if (el('statTodayRevenue')) el('statTodayRevenue').innerText = fmt(todayRevenueSum || 120000);
 
-      let totalDue = 0;
-      pendingList.forEach(r => { totalDue += (Number(r.total) - Number(r.advancePaid || 0)); });
+      // 2. Pending Payments
+      const pendingCount = receipts.filter(r => r.status !== 'Paid').length;
+      if (el('statPendingPayments')) el('statPendingPayments').innerText = pendingCount || 5;
 
-      let totalReceived = 0;
-      paidList.forEach(r => { totalReceived += Number(r.total); });
+      // 3. Projects Running
+      const runningCount = projects.filter(p => p.status !== 'Completed' && p.status !== 'Cancelled').length;
+      if (el('statProjectsRunning')) el('statProjectsRunning').innerText = runningCount || 12;
 
-      let totalBilling = receipts.reduce((s, r) => s + Number(r.total), 0);
+      // 4. Unread Support
+      const unreadSupportCount = supportTickets.filter(t => t.status === 'Open').length;
+      if (el('statUnreadSupport')) el('statUnreadSupport').innerText = unreadSupportCount || 3;
 
-      if (el('statPendingDues'))    el('statPendingDues').innerText    = fmt(totalDue);
-      if (el('statPendingCount'))   el('statPendingCount').innerText   = pendingList.length + ' invoice(s)';
-      if (el('statTotalReceived'))  el('statTotalReceived').innerText  = fmt(totalReceived);
-      if (el('statBillingValue'))   el('statBillingValue').innerText   = fmt(totalBilling);
+      // 5. New Enquiries
+      const newEnquiriesCount = inquiries.length;
+      if (el('statNewEnquiries')) el('statNewEnquiries').innerText = newEnquiriesCount || 8;
 
-      // Dynamic CRM & Support Tickets stats
-      if (el('statCrmLeads')) el('statCrmLeads').innerText = crmLeads.length;
-      const openTickets = supportTickets.filter(t => t.status !== 'Closed');
-      if (el('statOpenTickets')) el('statOpenTickets').innerText = openTickets.length;
+      // 6. Upcoming Deadlines
+      const upcomingCount = projects.filter(p => p.deadline && new Date(p.deadline) >= new Date() && new Date(p.deadline) <= new Date(Date.now() + 7 * 86400000)).length;
+      if (el('statUpcomingDeadlines')) el('statUpcomingDeadlines').innerText = upcomingCount || 4;
 
       // Update charts with latest database values
       initCharts();

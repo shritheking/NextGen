@@ -1177,6 +1177,11 @@
         </div>
       </div>
 
+      <!-- Real-time Notifications Feed Banner -->
+      <div style="grid-column: 1 / -1; display: none; flex-direction: column; gap: 10px; margin-bottom: 8px;" id="portalNotificationsFeed">
+        <!-- Renders dynamically -->
+      </div>
+
       <!-- Left Column: Billing & Invoices (Top Left) -->
       <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
         <div class="term-header-bar">
@@ -1234,8 +1239,51 @@
         </div>
       </div>
 
+      <!-- Project Files Share Card (Left Column) -->
+      <div class="term-card" style="margin-top: 16px; display: flex; flex-direction: column;">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-folder-open" style="font-size:11px; margin-right:6px;"></i> ~/shared-assets &bull; <span id="filesCount">0 files</span></span>
+        </div>
+        <div style="padding: 24px;">
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset Title</th>
+                  <th>Category</th>
+                  <th>Version</th>
+                  <th>Size</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="sharedFilesTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="filesEmpty" style="display: none; padding: 20px 0; text-align: center;">
+            <i class="fa-solid fa-folder-closed" style="font-size: 28px; color: var(--ink-faint); margin-bottom: 10px; display: block;"></i>
+            <p style="color: var(--ink-soft); font-size: 13.5px; margin:0;">No shared document assets uploaded for your account yet.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Right Column: Project roadmap (Top Right) -->
       <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+        <!-- Client Stage Approval Panel (Right Column top) -->
+        <div id="stageApprovalPanel" style="display: none; background: rgba(224,255,79,0.03); border-bottom: 1px solid var(--border); padding: 20px; border-radius: 6px 6px 0 0;">
+          <h4 style="margin: 0 0 6px 0; font-size: 13.5px; font-weight: 700; display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-thumbs-up" style="color:var(--accent);"></i> Client Approval Required</h4>
+          <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px;" id="approvalStageDescription">
+            Please review the current stage drafts (<strong id="approvalStageName">Discovery Stage</strong>). If satisfied, click Approve to advance the project pipeline automatically.
+          </p>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-primary" id="btnApproveStage" onclick="approveCurrentStage()" style="flex:1; justify-content:center; gap:6px; font-size:11.5px; height:32px;"><i class="fa-solid fa-circle-check"></i> Approve Milestone</button>
+          </div>
+        </div>
+
         <div class="term-header-bar">
           <div class="dot red"></div>
           <div class="dot yellow"></div>
@@ -1567,6 +1615,10 @@
           projects = await pRes.json();
           renderProjects();
         }
+
+        await fetchPortalNotifications();
+        await fetchSharedFiles();
+        await fetchCurrentStageApproval();
       } catch (err) {
         showToast('Load Error', 'Failed to refresh client roadmap data.', 'error');
       } finally {
@@ -1574,6 +1626,178 @@
         if (rL) rL.style.display = 'none';
       }
     }
+
+    async function fetchPortalNotifications() {
+      try {
+        const res = await fetch(API_URL + '/api/notifications?_t=' + Date.now());
+        if (res.ok) {
+          const list = await res.json();
+          const unread = list.filter(n => n.read === false && (n.userId.toLowerCase() === currentUser.toLowerCase() || n.userId === 'all'));
+          const feed = document.getElementById('portalNotificationsFeed');
+          
+          if (unread.length === 0) {
+            feed.style.display = 'none';
+            feed.innerHTML = '';
+            return;
+          }
+
+          feed.style.display = 'flex';
+          feed.innerHTML = unread.map(n => `
+            <div style="background:rgba(224,255,79,0.06); border:1px solid rgba(224,255,79,0.18); padding:10px 14px; border-radius:6px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="color:var(--ink);"><i class="fa-solid ${n.icon || 'fa-info-circle'}" style="color:var(--accent); margin-right:6px;"></i> <strong>${n.title}</strong> &bull; ${n.message || ''}</span>
+              <button onclick="dismissPortalNotification('${n.id}')" style="background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:14px; padding:0 4px;"><i class="fa-solid fa-times"></i></button>
+            </div>
+          `).join('');
+        }
+      } catch (e) {}
+    }
+    window.fetchPortalNotifications = fetchPortalNotifications;
+
+    async function dismissPortalNotification(id) {
+      try {
+        const res = await fetch(API_URL + '/api/notifications/mark-read', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        if (res.ok) {
+          fetchPortalNotifications();
+        }
+      } catch (e) {}
+    }
+    window.dismissPortalNotification = dismissPortalNotification;
+
+    async function fetchSharedFiles() {
+      const tbody = document.getElementById('sharedFilesTableBody');
+      const emptyState = document.getElementById('filesEmpty');
+      const filesCount = document.getElementById('filesCount');
+
+      try {
+        const res = await fetch(API_URL + '/api/project-files?_t=' + Date.now());
+        if (res.ok) {
+          const list = await res.json();
+          // Filter files by project ids of this client
+          const clientProjIds = projects.map(p => p.id);
+          const clientFiles = list.filter(f => clientProjIds.includes(f.projectId));
+          
+          filesCount.innerText = `${clientFiles.length} files`;
+          if (clientFiles.length === 0) {
+            tbody.innerHTML = '';
+            emptyState.style.display = 'block';
+            return;
+          }
+
+          emptyState.style.display = 'none';
+          tbody.innerHTML = clientFiles.map(f => `
+            <tr>
+              <td>
+                <div style="font-weight:600; color:var(--ink);">${f.title}</div>
+                <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);">${f.fileName}</div>
+              </td>
+              <td><span class="status-badge" style="background:rgba(224,255,79,.04); border:1px solid var(--border); color:var(--accent); font-size:10px;">${f.category}</span></td>
+              <td><span style="font-family:var(--font-mono); font-size:11.5px;">${f.version || 'V1'}</span></td>
+              <td style="font-size:12px; color:var(--ink-soft);">${f.fileSize || 'N/A'}</td>
+              <td>
+                <a href="${f.fileUrl}" target="_blank" class="btn-primary" style="padding:4px 8px; font-size:11px; display:inline-flex; align-items:center; gap:4px; text-decoration:none;"><i class="fa-solid fa-cloud-download"></i> View</a>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (e) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+      }
+    }
+    window.fetchSharedFiles = fetchSharedFiles;
+
+    window.activeApprovalProjectId = '';
+    window.activeApprovalStage = '';
+
+    async function fetchCurrentStageApproval() {
+      const panel = document.getElementById('stageApprovalPanel');
+      const stageNameEl = document.getElementById('approvalStageName');
+      const stageDescEl = document.getElementById('approvalStageDescription');
+      
+      const activeProj = projects.find(p => p.status !== 'Completed' && p.status !== 'Cancelled');
+      if (!activeProj) {
+        panel.style.display = 'none';
+        return;
+      }
+
+      window.activeApprovalProjectId = activeProj.id;
+
+      try {
+        const res = await fetch(API_URL + '/api/project-roadmap?_t=' + Date.now());
+        if (res.ok) {
+          const roadmaps = await res.json();
+          const projRoadmap = roadmaps.filter(r => r.projectId === activeProj.id);
+          
+          const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
+          const stageDescriptions = {
+            'Discovery': 'onboarding roadmap and requirements scope specifications',
+            'Scoping': 'Scoping & Wireframe layouts structural design documents',
+            'Design': 'Figma Visual Design prototype specifications drafts',
+            'Development': 'fully integrated Staging build code release configurations',
+            'Launch': 'final Production Release, DNS redirection and launch handovers'
+          };
+
+          // Find first uncompleted stage
+          let targetStage = '';
+          for (let stg of stages) {
+            const match = projRoadmap.find(r => r.stage === stg);
+            if (!match || !match.completed) {
+              targetStage = stg;
+              break;
+            }
+          }
+
+          if (!targetStage) {
+            panel.style.display = 'none';
+            return;
+          }
+
+          window.activeApprovalStage = targetStage;
+          panel.style.display = 'block';
+          stageNameEl.innerText = `${targetStage} Milestone`;
+          stageDescEl.innerHTML = `Please review and approve deliverables for <strong style="color:var(--accent);">${targetStage} Stage</strong> (${stageDescriptions[targetStage]}). Clicking approve moves the project pipeline forward.`;
+        }
+      } catch (e) {
+        panel.style.display = 'none';
+      }
+    }
+    window.fetchCurrentStageApproval = fetchCurrentStageApproval;
+
+    async function approveCurrentStage() {
+      if (!window.activeApprovalProjectId || !window.activeApprovalStage) return;
+      
+      const btn = document.getElementById('btnApproveStage');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting Approval...`;
+
+      try {
+        const res = await fetch(API_URL + '/api/projects/approve-stage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projectId: window.activeApprovalProjectId,
+            stage: window.activeApprovalStage
+          })
+        });
+
+        if (res.ok) {
+          showToast('Milestone Approved', `Thank you! You have successfully approved the ${window.activeApprovalStage} milestone.`, 'success');
+          await loadDashboardData();
+        } else {
+          showToast('Approval Error', 'Server failed to log milestone approval.', 'error');
+        }
+      } catch (e) {
+        showToast('Connection Error', 'Failed to communicate with stage approval API.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Approve Milestone`;
+      }
+    }
+    window.approveCurrentStage = approveCurrentStage;
 
     // ---------- RENDER FUNCTIONS ----------
     function renderReceipts() {
