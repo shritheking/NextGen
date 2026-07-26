@@ -1676,6 +1676,9 @@
               <div class="crm-column" id="crmCol_Proposal">
                 <div class="crm-column-header"><h4>Proposal</h4><span class="crm-count">0</span></div>
               </div>
+              <div class="crm-column" id="crmCol_Negotiation">
+                <div class="crm-column-header"><h4>Negotiation</h4><span class="crm-count">0</span></div>
+              </div>
               <div class="crm-column" id="crmCol_Won">
                 <div class="crm-column-header"><h4 style="color:#4ADE80;">Won &#10003;</h4><span class="crm-count">0</span></div>
               </div>
@@ -2720,7 +2723,7 @@
     }
 
     function renderCrmLeads(list) {
-      const stages = ['New','Contacted','Meeting','Proposal','Won','Lost'];
+      const stages = ['New','Contacted','Meeting','Proposal','Negotiation','Won','Lost'];
       stages.forEach(stage => {
         const col = document.getElementById('crmCol_' + stage);
         if (!col) return;
