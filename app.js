@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initParallax();
   initChatbot();
   initTestimonialsCarousel();
+  initProcessAnimations();
 });
 
 /* ---------- Loading Screen Overlay ---------- */
@@ -832,4 +833,29 @@ function showToast(title, message, type = 'info') {
       toast.remove();
     }, 350);
   }, 4000);
+}
+
+/* ---------- Process Timeline Scroll Reveal ---------- */
+function initProcessAnimations() {
+  const processItems = document.querySelectorAll('.process-item');
+  if (processItems.length === 0) return;
+  
+  const observerOptions = {
+    root: null,
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  processItems.forEach(item => {
+    observer.observe(item);
+  });
 }
