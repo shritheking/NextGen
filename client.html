@@ -72,13 +72,27 @@
         radial-gradient(circle at 50% 35%, rgba(37, 99, 235, 0.06), transparent 55%),
         linear-gradient(var(--border) 1px, transparent 1px),
         linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      /* Slightly reduced grid opacity so it doesn't compete with card (#9) */
       background-size: 100% 100%, 40px 40px, 40px 40px;
+      background-blend-mode: normal;
+      opacity: 1;
+    }
+    body.login-mode::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
     }
     body.login-mode.light-theme {
       background-image: 
         radial-gradient(circle at 50% 35%, rgba(37, 99, 235, 0.04), transparent 55%),
-        linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+        linear-gradient(rgba(0, 0, 0, 0.008) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.008) 1px, transparent 1px);
     }
     body.login-mode .portal-main-wrap {
       flex: 1;
@@ -86,7 +100,9 @@
       min-height: 0;
       justify-content: center;
       align-items: center;
-      padding-top: 10px; /* Shrunk by 80px */
+      padding-top: 10px;
+      position: relative;
+      z-index: 1;
     }
     body.login-mode .login-container {
       margin: 0 auto;
@@ -162,17 +178,20 @@
       body.login-mode {
         overflow-y: auto;
       }
+      /* #1: Reduce top whitespace on mobile by ~35px */
       body.login-mode .portal-main-wrap {
-        padding: 24px 16px !important;
+        padding: 10px 12px 24px !important;
         justify-content: flex-start;
       }
+      /* #2: Increase card width to 96% on mobile */
       body.login-mode .login-container {
-        max-width: 100% !important;
+        max-width: 96% !important;
         border-radius: 16px !important;
         border: 1px solid var(--border) !important;
       }
+      /* #4: Reduce heading size slightly on mobile */
       .login-header-promo h1 {
-        font-size: 24px;
+        font-size: 22px;
       }
       .login-btn, .portal-submit-btn {
         height: 48px !important;
@@ -1090,11 +1109,12 @@
         </div>
         
         <!-- Benefits checklist -->
+        <!-- #3: Shorter feature labels that don't wrap awkwardly -->
         <ul style="list-style:none; padding:0; margin: 0 0 24px 0; font-size:13px; color:var(--ink-soft); display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; border-bottom:1px dashed var(--border); padding-bottom:20px; text-align:left;">
-          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> View milestones</li>
-          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Download receipts</li>
-          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Track progress</li>
-          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Clear invoices</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> View Progress</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Download Receipts</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> View Milestones</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Pay Invoices</li>
         </ul>
         
         <!-- Passwordless Email Login Form -->
@@ -1103,7 +1123,8 @@
             <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px; letter-spacing:0.02em;">Client Email</label>
             <input type="email" id="portalEmailInput" required placeholder="work-email@company.com" style="width:100%; height:44px; padding:0 12px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:14px; outline:none; transition:all 0.2s;" onfocus="this.style.borderColor='var(--accent)';" onblur="this.style.borderColor='var(--border)';">
           </div>
-          <button type="submit" class="login-btn" id="loginSubmitBtn">Sign In <i class="fa-solid fa-arrow-right-long arrow-icon"></i></button>
+          <!-- #6: Extra space below Sign In button before the OR divider -->
+          <button type="submit" class="login-btn" id="loginSubmitBtn" style="margin-bottom:10px;">Sign In <i class="fa-solid fa-arrow-right-long arrow-icon"></i></button>
         </form>
 
         <div style="display:flex; align-items:center; margin: 20px 0; color:var(--ink-faint); font-size:11px; text-transform:uppercase; font-family:var(--font-mono); width:100%;">
@@ -1126,16 +1147,20 @@
         </div>
 
         <!-- Trust Indicators & Help Link -->
-        <div style="display:flex; justify-content:center; gap:12px; margin-top:20px; color:var(--ink-faint); font-size:10px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.04em;">
-          <span><i class="fa-solid fa-lock" style="color:var(--accent); margin-right:3px;"></i> 256-bit SSL</span>
-          <span>&bull;</span>
-          <span><i class="fa-solid fa-shield-halved" style="color:var(--accent); margin-right:3px;"></i> Secure OAuth</span>
-          <span>&bull;</span>
-          <span><i class="fa-solid fa-user-check" style="color:var(--accent); margin-right:3px;"></i> Approved ONLY</span>
+        <!-- #5: More horizontal spacing and slightly darker text on security badges -->
+        <div style="display:flex; justify-content:center; gap:18px; margin-top:20px; color:var(--ink-soft); font-size:10px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.05em;">
+          <span><i class="fa-solid fa-lock" style="color:var(--accent); margin-right:5px;"></i>256-bit SSL</span>
+          <span style="color:var(--border);">|</span>
+          <span><i class="fa-solid fa-shield-halved" style="color:var(--accent); margin-right:5px;"></i>Secure OAuth</span>
+          <span style="color:var(--border);">|</span>
+          <span><i class="fa-solid fa-user-check" style="color:var(--accent); margin-right:5px;"></i>Approved Only</span>
         </div>
 
-        <div style="text-align:center; margin-top:20px; font-size:12.5px; color:var(--ink-soft); border-top:1px solid var(--border); padding-top:16px;">
-          Need portal access? <a href="/#contact" style="color:var(--accent); text-decoration:none; font-weight:600;">Contact NextGen <i class="fa-solid fa-arrow-right-long"></i></a>
+        <!-- #7: Styled button link instead of plain text -->
+        <div style="text-align:center; margin-top:20px; border-top:1px solid var(--border); padding-top:16px;">
+          <a href="/#contact" style="display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border:1px solid var(--border); border-radius:6px; font-size:12.5px; font-weight:600; color:var(--ink-soft); text-decoration:none; transition:all 0.2s ease; background:transparent;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink-soft)';">
+            Request Client Access <i class="fa-solid fa-arrow-right-long"></i>
+          </a>
         </div>
       </div>
     </div>

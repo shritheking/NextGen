@@ -3010,6 +3010,7 @@ html, body {
     padding: 0;
     margin: 0;
     margin-top: 6px; /* Align vertically with baseline logo text */
+    margin-right: 10px; /* #8: Move inward from right edge */
   }
 }
 
