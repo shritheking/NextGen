@@ -702,77 +702,107 @@
       <div class="path-label">~/faq</div>
       <div class="faq-container-grid">
         <div class="faq-head-sticky">
-          <div style="position: sticky; top: 120px; display: flex; flex-direction: column; gap: 16px;">
-            <h2 style="font-size: clamp(28px, 4vw, 42px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0;">Frequently Asked<br>Questions</h2>
-            <p class="section-note" style="margin: 0; max-width: 32ch;">Get answers to common queries about our web design, custom development, and deployment services.</p>
-          </div>
+          <h2>Questions? We've answered the most common ones.</h2>
+          <p class="section-note">Get answers to common queries about our web design, custom development, and deployment services.</p>
         </div>
 
-        <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
-        
-        <div class="faq-item" style="border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); overflow: hidden; transition: all 0.3s ease;">
-          <div class="faq-trigger" style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
-            <span style="font-family: var(--font-sans); font-weight: 600; font-size: 14.5px; color: var(--ink);">Are you a professional Website Development Company in Coimbatore?</span>
-            <i class="fa-solid fa-plus" style="color: var(--accent); transition: transform 0.3s ease; font-size: 13px;"></i>
+        <div class="faq-accordion">
+          <!-- FAQ 1: Coimbatore Web Dev -->
+          <div class="faq-item">
+            <div class="faq-trigger">
+              <div class="faq-question-block">
+                <span class="faq-number">01</span>
+                <span class="faq-category-icon"><i class="fa-solid fa-earth-americas"></i></span>
+                <span class="faq-question-text">Do you build custom websites for businesses in Coimbatore?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </div>
+            <div class="faq-content">
+              <p>
+                Yes, NextGen Web Studio is a premium web development agency based in Coimbatore, India. We build custom websites, high-performance portfolios, and web platforms designed to help businesses establish a premium digital footprint.
+              </p>
+            </div>
           </div>
-          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 24px;">
-            <p style="padding-bottom: 20px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;">
-              Yes, NextGen Web Studio is a premium website development company in Coimbatore, India. We engineer custom web applications, responsive portfolios, and tailored business software integrations to help startups and companies establish a powerful visual footprint.
-            </p>
+
+          <!-- FAQ 2: Tech stack -->
+          <div class="faq-item">
+            <div class="faq-trigger">
+              <div class="faq-question-block">
+                <span class="faq-number">02</span>
+                <span class="faq-category-icon"><i class="fa-solid fa-gears"></i></span>
+                <span class="faq-question-text">What technologies do you use for development?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </div>
+            <div class="faq-content">
+              <p>
+                We build utilizing modern full-stack architectures, primarily React and Node.js. This stack delivers blazing fast load speeds, real-time interactive connections, secure database sessions, and lightweight custom server builds.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 3: E-commerce -->
+          <div class="faq-item">
+            <div class="faq-trigger">
+              <div class="faq-question-block">
+                <span class="faq-number">03</span>
+                <span class="faq-category-icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                <span class="faq-question-text">How do you secure payment and checkout systems?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </div>
+            <div class="faq-content">
+              <p>
+                We integrate trusted, secure payment gateways like Razorpay and Stripe. We customize the checkout flows to match your specific branding and reservation rules, ensuring slot-bookings and checkouts run smoothly.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4: AI Integration -->
+          <div class="faq-item">
+            <div class="faq-trigger">
+              <div class="faq-question-block">
+                <span class="faq-number">04</span>
+                <span class="faq-category-icon"><i class="fa-solid fa-robot"></i></span>
+                <span class="faq-question-text">Can you integrate custom AI solutions into our site?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </div>
+            <div class="faq-content">
+              <p>
+                Absolutely. We build and integrate custom AI solutions, speech evaluation APIs, automated resume and document parsers, and interactive AI chatbot frameworks directly into customer portals and workflow dashboards.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 5: Pricing / SEO -->
+          <div class="faq-item">
+            <div class="faq-trigger">
+              <div class="faq-question-block">
+                <span class="faq-number">05</span>
+                <span class="faq-category-icon"><i class="fa-solid fa-chart-line"></i></span>
+                <span class="faq-question-text">How much does a custom website cost in Coimbatore?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </div>
+            <div class="faq-content">
+              <p>
+                Custom website pricing varies depending on your specific features, scoping requirements, and database integrations. Contact us for a free technical consultation, and we will prepare a transparent timeline and pricing document tailored to your budget.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ CTA Box -->
+          <div class="faq-cta-box">
+            <div class="faq-cta-left">
+              <h3>Still have questions?</h3>
+              <p>We're happy to discuss your specific requirements or project scoping details.</p>
+            </div>
+            <a href="#contact" class="btn-primary">Let's Talk <i class="fa-solid fa-arrow-right-long"></i></a>
           </div>
         </div>
-
-        <div class="faq-item" style="border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); overflow: hidden; transition: all 0.3s ease;">
-          <div class="faq-trigger" style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
-            <span style="font-family: var(--font-sans); font-weight: 600; font-size: 14.5px; color: var(--ink);">What technologies do you use for Custom Web Application Development?</span>
-            <i class="fa-solid fa-plus" style="color: var(--accent); transition: transform 0.3s ease; font-size: 13px;"></i>
-          </div>
-          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 24px;">
-            <p style="padding-bottom: 20px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;">
-              We specialize in custom web application development utilizing modern full-stack architectures, primarily React and Node.js development. This configuration provides blazing fast load performance, real-time sync connections, secure session structures, and lightweight database configurations.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item" style="border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); overflow: hidden; transition: all 0.3s ease;">
-          <div class="faq-trigger" style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
-            <span style="font-family: var(--font-sans); font-weight: 600; font-size: 14.5px; color: var(--ink);">Do you offer E-commerce Website Development services?</span>
-            <i class="fa-solid fa-plus" style="color: var(--accent); transition: transform 0.3s ease; font-size: 13px;"></i>
-          </div>
-          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 24px;">
-            <p style="padding-bottom: 20px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;">
-              Yes, our e-commerce website development solutions leverage high-speed digital architecture, optimized checkouts, secure Razorpay transaction configurations, and interactive filters. We build bespoke storefront layouts without bloated drag-and-drop engines, maximizing conversions and Google speed metrics.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item" style="border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); overflow: hidden; transition: all 0.3s ease;">
-          <div class="faq-trigger" style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
-            <span style="font-family: var(--font-sans); font-weight: 600; font-size: 14.5px; color: var(--ink);">Can you integrate custom AI Solutions into corporate portals?</span>
-            <i class="fa-solid fa-plus" style="color: var(--accent); transition: transform 0.3s ease; font-size: 13px;"></i>
-          </div>
-          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 24px;">
-            <p style="padding-bottom: 20px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;">
-              Absolutely. We build and integrate custom AI solutions, speech evaluation APIs, automated document parsing pipelines, and interactive AI chatbot frameworks directly into customer portals or workflow dashboards.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item" style="border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt); overflow: hidden; transition: all 0.3s ease;">
-          <div class="faq-trigger" style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;">
-            <span style="font-family: var(--font-sans); font-weight: 600; font-size: 14.5px; color: var(--ink);">Do you assist with Google search indexing and maintenance audits?</span>
-            <i class="fa-solid fa-plus" style="color: var(--accent); transition: transform 0.3s ease; font-size: 13px;"></i>
-          </div>
-          <div class="faq-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 24px;">
-            <p style="padding-bottom: 20px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6;">
-              Yes. All our digital products receive technical SEO checks, search console verification sitemap submissions, security header alerts, and PWA manifest links. We also offer hosting setup and website maintenance retentions.
-            </p>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
     <!-- Script to power the accordion interaction -->
     <script>
@@ -780,28 +810,18 @@
         trigger.addEventListener('click', () => {
           const item = trigger.closest('.faq-item');
           const content = item.querySelector('.faq-content');
-          const icon = trigger.querySelector('i');
           
           if (item.classList.contains('active')) {
             item.classList.remove('active');
             content.style.maxHeight = '0';
-            icon.style.transform = 'rotate(0deg)';
-            icon.className = 'fa-solid fa-plus';
-            item.style.borderColor = 'var(--border)';
           } else {
             document.querySelectorAll('.faq-item.active').forEach(activeItem => {
               activeItem.classList.remove('active');
               activeItem.querySelector('.faq-content').style.maxHeight = '0';
-              activeItem.querySelector('i').style.transform = 'rotate(0deg)';
-              activeItem.querySelector('i').className = 'fa-solid fa-plus';
-              activeItem.style.borderColor = 'var(--border)';
             });
 
             item.classList.add('active');
             content.style.maxHeight = content.scrollHeight + 'px';
-            icon.style.transform = 'rotate(45deg)';
-            icon.className = 'fa-solid fa-plus';
-            item.style.borderColor = 'var(--accent)';
           }
         });
       });
