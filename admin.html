@@ -55,22 +55,13 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100vh;
-      overflow: hidden;
-    }
     body {
       background-color: var(--bg);
       color: var(--ink);
       font-family: var(--font-body);
       line-height: 1.5;
+      overflow-x: hidden;
       transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    @media (max-width: 900px) {
-      html, body {
-        height: auto;
-        overflow: visible;
-      }
     }
 
     /* ---------- THEME TOGGLE ---------- */
@@ -194,19 +185,10 @@
     .dashboard-container {
       display: grid;
       grid-template-columns: 260px 1fr;
-      grid-template-rows: 100%;
-      height: 100vh;
-      max-height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
     }
     @media (max-width: 900px) {
-      .dashboard-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        height: auto;
-        max-height: none;
-        overflow: visible;
-      }
+      .dashboard-container { grid-template-columns: 1fr; }
     }
 
     /* Sidebar */
@@ -216,11 +198,6 @@
       padding: 30px;
       display: flex;
       flex-direction: column;
-      min-height: 0;
-      overflow-y: auto;
-    }
-    @media (max-width: 900px) {
-      aside { min-height: unset; overflow-y: visible; }
     }
     .sidebar-logo {
       font-family: var(--font-mono);
@@ -272,14 +249,7 @@
     /* Main Content Area */
     main {
       padding: 48px;
-      min-height: 0;
       overflow-y: auto;
-    }
-    @media (max-width: 900px) {
-      main {
-        min-height: unset;
-        overflow-y: visible;
-      }
     }
     @media (max-width: 640px) {
       main { padding: 24px; }
