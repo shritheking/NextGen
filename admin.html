@@ -1523,19 +1523,19 @@
         </div>
         <div class="stat-card" style="border-left: 3px solid #A78BFA;">
           <div>
-            <div class="stat-label-sm">New Enquiries</div>
-            <div class="stat-value-lg" id="statNewEnquiries">8</div>
-            <div class="stat-change up">From scoping/contact</div>
+            <div class="stat-label-sm">CRM Leads</div>
+            <div class="stat-value-lg" id="statCrmLeads">0</div>
+            <div class="stat-change up">Pipeline leads</div>
           </div>
-          <div class="stat-icon" style="background:rgba(167,139,250,.08); color:#A78BFA;"><i class="fa-solid fa-envelope"></i></div>
+          <div class="stat-icon" style="background:rgba(167,139,250,.08); color:#A78BFA;"><i class="fa-solid fa-users"></i></div>
         </div>
         <div class="stat-card" style="border-left: 3px solid #EF4444;">
           <div>
-            <div class="stat-label-sm">Upcoming Deadlines</div>
-            <div class="stat-value-lg" id="statUpcomingDeadlines">4</div>
-            <div class="stat-change down">This week</div>
+            <div class="stat-label-sm">Completed Milestones</div>
+            <div class="stat-value-lg" id="statCompletedMilestones">0</div>
+            <div class="stat-change down">Milestones achieved</div>
           </div>
-          <div class="stat-icon" style="background:rgba(239,68,68,.08); color:#EF4444;"><i class="fa-solid fa-calendar-xmark"></i></div>
+          <div class="stat-icon" style="background:rgba(239,68,68,.08); color:#EF4444;"><i class="fa-solid fa-circle-check"></i></div>
         </div>
       </div>
 
@@ -1607,35 +1607,8 @@
       <div class="tab-section" id="activityTab">
         <div class="panel">
           <div class="panel-header"><h2>Activity Log</h2><span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);">All system events</span></div>
-          <div style="padding:16px 24px;">
-            <div class="activity-item">
-              <div class="activity-icon"><i class="fa-solid fa-file-invoice"></i></div>
-              <div class="activity-text"><strong>Invoice Generated</strong><span>Today at 10:24 AM &bull; Admin action</span></div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon" style="color:#4ADE80;"><i class="fa-solid fa-circle-check"></i></div>
-              <div class="activity-text"><strong>Payment Received &#8377;50,000</strong><span>Yesterday at 3:12 PM &bull; Razorpay</span></div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon" style="color:#3B82F6;"><i class="fa-solid fa-user-plus"></i></div>
-              <div class="activity-text"><strong>New Client Portal Login</strong><span>2 days ago &bull; client@example.com</span></div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon" style="color:#F59E0B;"><i class="fa-solid fa-headset"></i></div>
-              <div class="activity-text"><strong>Support Ticket Opened</strong><span>3 days ago &bull; Priority: High &bull; Billing</span></div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i class="fa-solid fa-map"></i></div>
-              <div class="activity-text"><strong>Roadmap Phase Updated</strong><span>4 days ago &bull; Design &#8594; Development</span></div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i class="fa-solid fa-envelope"></i></div>
-              <div class="activity-text"><strong>Proposal Email Sent</strong><span>5 days ago &bull; client@domain.com &bull; Resend API</span></div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon" style="color:#EF4444;"><i class="fa-solid fa-key"></i></div>
-              <div class="activity-text"><strong>Admin Login</strong><span>5 days ago &bull; 192.168.1.1 &bull; Chrome / Windows</span></div>
-            </div>
+          <div style="padding:16px 24px; display:flex; flex-direction:column; gap:12px;" id="systemActivityLogList">
+            <!-- Dynamic activity logs rendered here -->
           </div>
         </div>
       </div>
@@ -3145,15 +3118,25 @@
     const refreshBtn = document.getElementById('refreshBtn');
     refreshBtn.addEventListener('click', syncAllDatabases);
 
-    let inquiries = [];
-    let projects = [];
-    let receipts = [];
-    let approvedUsers = [];
-    let initialFetchSuccess = false;
+    // Shared global state — accessible by all module scripts
+    window.inquiries = [];
+    window.approvedUsers = [];
+    window.projects = [];
+    window.receipts = [];
+    window.initialFetchSuccess = false;
+
+    // Aliases so inline code still works with the bare variable names
+    let inquiries = window.inquiries;
+    let approvedUsers = window.approvedUsers;
+    let projects = window.projects;
+    let receipts = window.receipts;
+    let initialFetchSuccess = window.initialFetchSuccess;
 
     const API_URL = window.location.protocol === 'file:'
       ? 'http://localhost:3000'
       : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? '' : 'https://nextgen-studio-czz7.onrender.com');
+
+    window.API_URL = API_URL;
 
     // Intercept global fetch to include credentials for CORS authentication
     const originalFetch = window.fetch;
@@ -3168,6 +3151,8 @@
     function getApiUrl(endpoint) {
       return `${API_URL}${endpoint}`;
     }
+    window.getApiUrl = getApiUrl;
+
 
     function startLiveClock() {
       const clockVal = document.getElementById('clockValue');
@@ -3209,7 +3194,8 @@
           fetchCrmLeads(),
           fetchTasks(),
           fetchSupportTickets(),
-          fetchApprovedUsers()
+          fetchApprovedUsers(),
+          fetchSystemActivityLogs()
         ]);
         initialFetchSuccess = true;
         updateDashboardStats();
@@ -3970,6 +3956,7 @@
         showToast('Connection Error', 'Could not connect to access registry API.', 'error');
       }
     }
+    window.handleAddApprovedUser = handleAddApprovedUser;
 
     window.developers = [];
     window.currentWorkspaceEmail = '';
@@ -5010,6 +4997,77 @@
     }
     window.loadWorkspaceActivity = loadWorkspaceActivity;
 
+    async function fetchSystemActivityLogs() {
+      const container = document.getElementById('systemActivityLogList');
+      if (!container) return;
+      
+      try {
+        const res = await fetch(getApiUrl('/api/activity-logs?_t=' + Date.now()));
+        if (res.ok) {
+          const logs = await res.json();
+          renderSystemActivityLogs(logs);
+        } else {
+          container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft); font-size:12.5px;">Failed to fetch activity logs.</div>`;
+        }
+      } catch (err) {
+        console.error('Failed to fetch system activity logs:', err);
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft); font-size:12.5px;">Error connecting to API.</div>`;
+      }
+    }
+    window.fetchSystemActivityLogs = fetchSystemActivityLogs;
+
+    function renderSystemActivityLogs(list) {
+      const container = document.getElementById('systemActivityLogList');
+      if (!container) return;
+      
+      if (!list || list.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--ink-soft); font-size:12.5px;">No system events logged yet.</div>`;
+        return;
+      }
+      
+      const sorted = [...list].sort((a, b) => new Date(b.createdAt || b.created_at) - new Date(a.createdAt || a.created_at));
+      
+      container.innerHTML = sorted.slice(0, 50).map(l => {
+        const date = new Date(l.createdAt || l.created_at);
+        const timeText = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        let icon = 'fa-circle-check';
+        let color = '#4ADE80';
+        
+        if (l.action.includes('Invoice') || l.action.includes('Billing') || l.action.includes('Payment')) {
+          icon = 'fa-file-invoice-dollar';
+          color = 'var(--accent)';
+        } else if (l.action.includes('Roadmap')) {
+          icon = 'fa-route';
+          color = '#3B82F6';
+        } else if (l.action.includes('Login')) {
+          icon = 'fa-right-to-bracket';
+          color = '#A78BFA';
+        } else if (l.action.includes('File') || l.action.includes('Asset') || l.action.includes('Uploaded')) {
+          icon = 'fa-cloud-arrow-up';
+          color = '#F472B6';
+        } else if (l.action.includes('Project Created') || l.action.includes('Onboarding')) {
+          icon = 'fa-rocket';
+          color = '#3B82F6';
+        } else if (l.action.includes('Ticket') || l.action.includes('Support')) {
+          icon = 'fa-headset';
+          color = '#F59E0B';
+        }
+        
+        return `
+          <div class="activity-item" style="border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 8px;">
+            <div class="activity-icon" style="color:${color}; background:rgba(128,128,128,0.05); display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; margin-right:12px;"><i class="fa-solid ${icon}"></i></div>
+            <div class="activity-text">
+              <strong>${l.action}</strong>
+              <div style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;">${l.description || ''}</div>
+              <span>${timeText} &bull; User: ${l.userId || 'system'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    window.renderSystemActivityLogs = renderSystemActivityLogs;
+
     async function loadTeamchatMessages() {
       const messagesContainer = document.getElementById('teamchatMessages');
       messagesContainer.innerHTML = '';
@@ -5212,6 +5270,7 @@
         }
       });
     }
+    window.deleteApprovedUser = deleteApprovedUser;
 
     // ---------- RENDER TABLES ----------
     function renderInquiries(list) {
@@ -5614,35 +5673,41 @@
       const el = id => document.getElementById(id);
       const fmt = v => v.toLocaleString('en-IN', { style:'currency', currency:'INR', maximumFractionDigits:0 });
 
+      const receipts = window.receipts || [];
+      const projects = window.projects || [];
+      const supportTickets = window.supportTickets || [];
+      const crmLeads = window.crmLeads || [];
+
       // 1. Today's Revenue
       const todayStr = new Date().toLocaleDateString();
       const todayPaid = receipts.filter(r => r.status === 'Paid' && (r.date === todayStr || new Date(r.paymentDate || r.date).toLocaleDateString() === todayStr));
       const todayRevenueSum = todayPaid.reduce((s, r) => s + Number(r.total || r.totalAmount || 0), 0);
-      if (el('statTodayRevenue')) el('statTodayRevenue').innerText = fmt(todayRevenueSum || 120000);
+      if (el('statTodayRevenue')) el('statTodayRevenue').innerText = fmt(todayRevenueSum);
 
       // 2. Pending Payments
       const pendingCount = receipts.filter(r => r.status !== 'Paid').length;
-      if (el('statPendingPayments')) el('statPendingPayments').innerText = pendingCount || 5;
+      if (el('statPendingPayments')) el('statPendingPayments').innerText = pendingCount;
 
       // 3. Projects Running
       const runningCount = projects.filter(p => p.status !== 'Completed' && p.status !== 'Cancelled').length;
-      if (el('statProjectsRunning')) el('statProjectsRunning').innerText = runningCount || 12;
+      if (el('statProjectsRunning')) el('statProjectsRunning').innerText = runningCount;
 
       // 4. Unread Support
       const unreadSupportCount = supportTickets.filter(t => t.status === 'Open').length;
-      if (el('statUnreadSupport')) el('statUnreadSupport').innerText = unreadSupportCount || 3;
+      if (el('statUnreadSupport')) el('statUnreadSupport').innerText = unreadSupportCount;
 
-      // 5. New Enquiries
-      const newEnquiriesCount = inquiries.length;
-      if (el('statNewEnquiries')) el('statNewEnquiries').innerText = newEnquiriesCount || 8;
+      // 5. CRM Leads
+      const crmLeadsCount = crmLeads.length;
+      if (el('statCrmLeads')) el('statCrmLeads').innerText = crmLeadsCount;
 
-      // 6. Upcoming Deadlines
-      const upcomingCount = projects.filter(p => p.deadline && new Date(p.deadline) >= new Date() && new Date(p.deadline) <= new Date(Date.now() + 7 * 86400000)).length;
-      if (el('statUpcomingDeadlines')) el('statUpcomingDeadlines').innerText = upcomingCount || 4;
+      // 6. Completed Milestones
+      const completedMilestonesCount = projects.filter(p => p.progress === 100 || p.currentStage === 'Completed' || p.status === 'Completed').length;
+      if (el('statCompletedMilestones')) el('statCompletedMilestones').innerText = completedMilestonesCount;
 
       // Update charts with latest database values
       initCharts();
     }
+    window.updateDashboardStats = updateDashboardStats;
 
     // ---------- CHART.JS INITIALIZATION ----------
     let revenueChartInst = null;
@@ -7074,5 +7139,18 @@
       });
     }
   </script>
+
+  <!-- ===== MODULAR JS COMPONENTS ===== -->
+  <!-- Load order matters: sync.js must come last as it calls all fetchers.
+       All modules use window.* globals set in the inline script above. -->
+  <script src="js/crm.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/support.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/clients.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/receipts.js"></script>
+  <script src="js/sync.js"></script>
+
 </body>
 </html>

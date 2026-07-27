@@ -210,12 +210,18 @@ async function dbList(collection) {
       if (collection === 'users') {
         data = data.map(item => ({
           ...item,
-          created: item.dateApproved || item.created_at
+          created: item.dateApproved || item.created_at || item.created,
+          portalEnabled: item.portal_enabled !== undefined ? item.portal_enabled : (item.portalEnabled !== undefined ? item.portalEnabled : true),
+          approved: item.approved !== undefined ? item.approved : true
         }));
       } else if (collection === 'projects') {
         data = data.map(item => ({
           ...item,
-          projectType: item.stack
+          projectType: item.stack,
+          currentStage: item.current_stage || item.currentStage || 'Discovery',
+          developerId: item.developer_id || item.developerId || '',
+          nextMilestone: item.next_milestone || item.nextMilestone || 'Wireframe UX Review',
+          eta: item.eta || ''
         }));
       } else if (collection === 'receipts') {
         console.log('[dbList receipts query from Supabase] Raw records:', data.map(r => ({ id: r.id, totalAmount: r.totalAmount, projectName: r.projectName })));
@@ -346,7 +352,10 @@ async function dbWrite(collection, list) {
         phone: item.phone || '',
         gst: item.gst || '',
         address: item.address || '',
-        notes: item.notes || ''
+        notes: item.notes || '',
+        status: item.status || 'Active',
+        portal_enabled: item.portalEnabled !== undefined ? (item.portalEnabled === true || item.portalEnabled === 'true') : true,
+        approved: item.approved !== undefined ? (item.approved === true || item.approved === 'true') : true
       }));
     } else if (collection === 'projects') {
       upsertList = list.map(item => ({
@@ -362,11 +371,13 @@ async function dbWrite(collection, list) {
         adminNotes: item.adminNotes || '',
         date: item.date || new Date().toLocaleDateString(),
         progress: Number(item.progress) || 0,
-        current_stage: item.current_stage || item.currentStage || 'Pending',
-        developer_id: item.developer_id || item.developerId || '',
+        current_stage: item.currentStage || item.current_stage || 'Discovery',
+        developer_id: item.developerId || item.developer_id || '',
         deadline: item.deadline || null,
         started_at: item.started_at || item.startedAt || null,
-        completed_at: item.completed_at || item.completedAt || null
+        completed_at: item.completed_at || item.completedAt || null,
+        next_milestone: item.nextMilestone || '',
+        eta: item.eta || ''
       }));
     } else if (collection === 'receipts') {
       upsertList = list.map(item => ({
@@ -1840,6 +1851,40 @@ function parseBudgetToNumber(budgetString) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Failed to fetch activity logs' }));
     }
+    return;
+  }
+
+  if (pathname === '/api/activity-logs/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { userId, action, description, entity, entityId } = JSON.parse(body);
+        const log = await logActivity(userId, action, description, entity, entityId, req);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, log }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to create activity log' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/notifications/create' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { userId, title, message, type, priority, icon, actionUrl } = JSON.parse(body);
+        const notification = await createNotification(userId, title, message, type, priority, icon, actionUrl);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, notification }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to create notification' }));
+      }
+    });
     return;
   }
 
