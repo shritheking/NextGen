@@ -801,7 +801,7 @@ section.block {
   justify-content: space-between;
   align-items: flex-end;
   gap: 32px;
-  margin-bottom: 56px;
+  margin-bottom: 38px; /* Reduced space below heading from 56px to 38px for cleaner layout */
   flex-wrap: wrap;
 }
 
@@ -1058,7 +1058,7 @@ body.dark-theme .work-card:hover {
 
 .browser-frame {
   background-color: var(--bg-alt);
-  padding: 12px 16px 0;
+  padding: 18px 20px 18px; /* Increased padding and added bottom padding for breathing room */
   border-bottom: 1px solid var(--border);
   border-radius: 20px 20px 0 0;
   transition: background-color var(--transition-normal);
@@ -1213,7 +1213,7 @@ body.dark-theme .work-card:hover {
 .chart-bar.h90 { height: 90%; }
 
 .work-info {
-  padding: 26px 28px 30px;
+  padding: 26px 28px 42px; /* Increased bottom padding by 12px so card doesn't feel tight */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -1282,6 +1282,10 @@ body.dark-theme .work-badge.featured {
   color: var(--ink-soft);
   line-height: 1.6;
   margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit description to 3 lines max */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .work-metrics {
@@ -2072,7 +2076,7 @@ form {
 .footer {
   background-color: var(--bg-alt);
   border-top: 1px solid var(--border);
-  padding: 80px 0 40px;
+  padding: 80px 0 110px; /* Increased bottom padding to 110px to prevent floating buttons overlap */
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
@@ -2248,9 +2252,8 @@ form {
   overflow: hidden;
   position: relative;
   background-color: var(--bg-alt);
-  border-radius: 4px 4px 0 0;
-  border: 1px solid var(--border);
-  border-bottom: none;
+  border-radius: 8px; /* Rounded corners for the screenshot */
+  border: 1px solid var(--border); /* Full border for a modern window floating look */
 }
 
 .work-image-container img {
@@ -3410,22 +3413,41 @@ html, body {
 /* ---------- 5. PORTFOLIO CARD LINKS ---------- */
 .work-view-link {
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: none;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin-top: 20px;
-  align-self: flex-start;
+  margin-top: 24px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  transition: all var(--transition-fast) ease;
+}
+
+.work-view-link:hover {
+  background-color: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+body.dark-theme .work-view-link:hover {
+  background-color: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
 }
 
 .work-view-link i {
   transition: transform var(--transition-fast) ease;
 }
 
-.work-card:hover .work-view-link i {
+.work-view-link:hover i {
   transform: translateX(6px);
 }
 
@@ -3439,6 +3461,37 @@ html, body {
   }
   .nav-toggle {
     display: flex;
+  }
+
+  /* Filter Chips Swiping for Mobile & Tablet */
+  .filters {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px !important;
+    margin-bottom: 30px !important;
+    gap: 8px !important;
+    scrollbar-width: none;
+    width: calc(100% + 48px) !important;
+    margin-left: -24px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  
+  @media (max-width: 576px) {
+    .filters {
+      width: calc(100% + 32px) !important;
+      margin-left: -16px !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+  }
+
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-btn {
+    flex-shrink: 0 !important;
   }
 }
 
@@ -3493,42 +3546,32 @@ html, body {
   .work-card .browser-frame {
     display: block !important; /* Show screenshots on mobile */
     border-radius: 20px 20px 0 0 !important;
-    padding: 10px 12px 0 !important;
+    padding: 12px 16px 12px !important; /* Increased mobile padding for breathing room */
   }
   .work-card .work-image-container {
     height: 180px !important; /* Mobile height 180px */
+    border-radius: 8px !important; /* Rounded corners for screenshot on mobile */
   }
   .work-card .work-info {
-    padding: 20px !important;
+    padding: 20px 20px 32px !important; /* Increased mobile bottom padding by 12px */
   }
   .work-view-link {
-    margin-top: 16px;
+    margin-top: 20px !important;
+    width: 100% !important; /* Maintain full width CTA button on mobile */
   }
   
   /* Testimonial Mobile Padding */
   .testimonials-carousel-container {
     padding: 32px 24px !important;
+  }  
+  /* Technology Badges Mobile size adjustments */
+  .work-stack span {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
   }
-
-  /* Mobile Filter Chips Swiping */
-  .filters {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 12px !important;
-    margin-bottom: 30px !important;
-    gap: 8px !important;
-    scrollbar-width: none;
-    width: calc(100% + 48px);
-    margin-left: -24px;
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-  .filters::-webkit-scrollbar {
-    display: none;
-  }
-  .filter-btn {
-    flex-shrink: 0 !important;
+  
+  .footer {
+    padding: 60px 0 100px !important; /* Raise footer bottom padding on mobile */
   }
   
   /* Drawer adjustments */
