@@ -1658,7 +1658,7 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { projectId, currentStage, progress, nextMilestone, eta, status, previewUrl } = JSON.parse(body);
+        const { projectId, currentStage, progress, nextMilestone, eta, status, previewUrl, lastUpdated } = JSON.parse(body);
         if (!projectId) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Project ID is required' }));
@@ -1682,7 +1682,8 @@ function parseBudgetToNumber(budgetString) {
         if (previewUrl !== undefined) {
           projects[projIdx].previewUrl = previewUrl;
         }
-        projects[projIdx].lastUpdated = new Date().toISOString();
+        projects[projIdx].lastUpdated = lastUpdated ? new Date(lastUpdated).toISOString() : new Date().toISOString();
+
 
         if (projects[projIdx].progress === 100) {
           projects[projIdx].status = 'Completed';
@@ -2315,8 +2316,11 @@ function parseBudgetToNumber(budgetString) {
           // Update existing receipt
           const index = receipts.findIndex(r => r.id === receipt.id);
           if (index !== -1) {
-            receipt.date = receipts[index].date || new Date().toISOString();
-            receipts[index] = receipt;
+            receipts[index] = {
+              ...receipts[index],
+              ...receipt,
+              date: receipt.date || receipts[index].date || new Date().toISOString()
+            };
           } else {
             receipt.date = new Date().toISOString();
             receipts.push(receipt);

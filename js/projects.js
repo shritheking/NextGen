@@ -1,4 +1,4 @@
-﻿// ========================================================
+// ========================================================
 // NextGen Web Studio - Inquiries & Projects Module  
 // Uses window.* globals shared with inline admin script
 // ========================================================
@@ -132,6 +132,9 @@ async function fetchProjects() {
     if (!res.ok) throw new Error();
     window.projects = await res.json();
     renderProjects(window.projects);
+    if (window.populateRoadmapEditorProjects) {
+      window.populateRoadmapEditorProjects();
+    }
   } catch (err) {
     console.warn('Projects fetch failed');
     renderProjects([]);
@@ -477,3 +480,400 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ---------- PROJECT MODAL VIEWER ----------
+function renderProjectModalView(id, isEditMode) {
+  const item = (window.projects || []).find(p => p.id === id);
+  if (!item) return;
+
+  const body = document.getElementById('receiptMetaDetails');
+  const footer = document.getElementById('receiptActionsContainer');
+  if (!body || !footer) return;
+
+  if (!isEditMode) {
+    body.innerHTML = `
+      <div class="receipt-row">
+        <span class="r-label">Client Name</span>
+        <span class="r-val">${item.name || 'Not Provided'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Client Email</span>
+        <span class="r-val">${item.email || 'Not Provided'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Client Phone</span>
+        <span class="r-val">${item.phone || 'Not Provided'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Selected Categories</span>
+        <span class="r-val">${item.projectType || 'Not specified'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Indicated Budget</span>
+        <span class="r-val" style="color:var(--accent); font-weight:600;">${item.budget || 'Not specified'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Milestone Status</span>
+        <span class="r-val" style="font-weight:600; color:var(--accent);">${item.status || 'Not Started'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Live Preview URL</span>
+        <span class="r-val">${item.previewUrl ? `<a href="${item.previewUrl}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:500;"><i class="fa-solid fa-square-up-right"></i> View Live Preview</a>` : 'Not Available'}</span>
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Description Message</span>
+        <div class="receipt-desc-block">${item.message || 'No description provided.'}</div>
+      </div>
+      <div style="margin-top:10px; margin-bottom:10px;">
+        <span class="r-label">Admin Notes (Internal Notes)</span>
+        <div class="receipt-desc-block" style="border-color:rgba(var(--accent-rgb), 0.2); background:rgba(var(--accent-rgb), 0.03);">${item.adminNotes || 'No notes saved yet.'}</div>
+      </div>
+    `;
+    footer.innerHTML = `
+      <button class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); flex:1;" onclick="renderProjectModalView('${item.id}', true)"><i class="fa-solid fa-pen-to-square"></i> Edit Project</button>
+      <button class="refresh-btn" style="justify-content:center; flex:1; margin-top:0;" onclick="dispatchEmail('${item.id}', 'project')">Dispatched SMTP Test</button>
+    `;
+  } else {
+    body.innerHTML = `
+      <div style="margin-top:10px;">
+        <span class="r-label">Client Name</span>
+        <input type="text" id="modalProjName" class="line-name-input" style="width:100%; margin-top:4px;" value="${item.name || ''}">
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Client Email</span>
+        <input type="email" id="modalProjEmail" class="line-name-input" style="width:100%; margin-top:4px;" value="${item.email || ''}">
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Client Phone</span>
+        <input type="text" id="modalProjPhone" class="line-name-input" style="width:100%; margin-top:4px;" value="${item.phone || ''}">
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Selected Categories (Project Type)</span>
+        <input type="text" id="modalProjType" class="line-name-input" style="width:100%; margin-top:4px;" value="${item.projectType || ''}">
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Indicated Budget</span>
+        <input type="text" id="modalProjBudget" class="line-name-input" style="width:100%; margin-top:4px; color:var(--accent); font-weight:600;" value="${item.budget || ''}">
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Project Status Milestone Selection</span>
+        <select id="modalProjStatus" class="line-name-input" style="width:100%; margin-top:4px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); padding:8px; border-radius:4px; outline:none; height:42px;">
+          <option value="New Project" ${item.status === 'New Project' ? 'selected' : ''}>New Project</option>
+          <option value="Not Yet Started" ${item.status === 'Not Yet Started' ? 'selected' : ''}>Not Yet Started</option>
+          <option value="Starting Project" ${item.status === 'Starting Project' ? 'selected' : ''}>Starting Project</option>
+          <option value="Homepage Created" ${item.status === 'Homepage Created' ? 'selected' : ''}>Homepage Created</option>
+          <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
+        </select>
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Project Live Preview URL</span>
+        <input type="url" id="modalProjPreviewUrl" class="line-name-input" style="width:100%; margin-top:4px;" placeholder="https://staging.nextgen.com" value="${item.previewUrl || ''}">
+      </div>
+      <div style="margin-top:10px;">
+        <span class="r-label">Inquiry Description:</span>
+        <textarea id="modalProjMessage" class="line-name-input" style="width:100%; margin-top:4px; min-height:80px; padding:10px; font-family:inherit; resize:vertical; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; color:var(--ink); line-height:1.5;">${item.message || ''}</textarea>
+      </div>
+      <div style="margin-top:10px; margin-bottom:15px;">
+        <span class="r-label">Admin Notes (Internal Notes):</span>
+        <textarea id="modalProjAdminNotes" class="line-name-input" style="width:100%; margin-top:4px; min-height:80px; padding:10px; font-family:inherit; resize:vertical; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; color:var(--ink); line-height:1.5;" placeholder="Add private comments, progress details, or customer notes...">${item.adminNotes || ''}</textarea>
+      </div>
+    `;
+    footer.innerHTML = `
+      <button class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); flex:1;" onclick="updateProjectDetails('${item.id}')"><i class="fa-solid fa-save"></i> Save All Details</button>
+      <button class="refresh-btn" style="justify-content:center; flex:1; margin-top:0;" onclick="renderProjectModalView('${item.id}', false)">Cancel</button>
+    `;
+  }
+}
+window.renderProjectModalView = renderProjectModalView;
+
+// ---------- WORKSPACE FILES MANAGER ----------
+async function loadWorkspaceFiles() {
+  const tbody = document.getElementById('profileFilesList');
+  if (!tbody) return;
+  try {
+    const res = await fetch(window.getApiUrl('/api/project-files?_t=' + Date.now()));
+    if (res.ok) {
+      const allFiles = await res.json();
+      const clientProjIds = (window.projects || []).filter(p => p.email && p.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase()).map(p => p.id);
+      const list = allFiles.filter(f => clientProjIds.includes(f.projectId));
+      
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">No files shared with this client yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(f => `
+        <tr>
+          <td>
+            <div style="font-weight:600; color:var(--ink);">${f.title}</div>
+            <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);">${f.fileName}</div>
+          </td>
+          <td><span class="status-badge" style="background:rgba(224,255,79,.05); border:1px solid var(--border); color:var(--accent);">${f.category}</span></td>
+          <td><span style="font-family:var(--font-mono); font-size:12px;">${f.version || 'V1'}</span></td>
+          <td style="font-size:12.5px; color:var(--ink-soft);">${f.fileSize || 'N/A'}</td>
+          <td style="font-size:11px; color:var(--ink-faint);">${new Date(f.uploadedAt).toLocaleDateString()}</td>
+          <td>
+            <div style="display:flex; gap:4px;">
+              <a href="${f.fileUrl}" target="_blank" class="action-btn" style="padding:4px 8px; font-size:11px;" title="View"><i class="fa-solid fa-external-link"></i></a>
+              <button class="action-btn btn-delete" style="padding:4px 8px; font-size:11px;" onclick="deleteWorkspaceFile('${f.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--ink-soft);">Error loading shared files.</td></tr>`;
+  }
+}
+window.loadWorkspaceFiles = loadWorkspaceFiles;
+
+async function saveWorkspaceFile() {
+  const title = document.getElementById('fileDocTitle').value.trim();
+  const fileUrl = document.getElementById('fileDocUrl').value.trim();
+  const category = document.getElementById('fileDocCategory').value;
+  const version = document.getElementById('fileDocVersion').value.trim() || 'V1';
+  const projectId = document.getElementById('fileProjSelect').value;
+  const fileSize = document.getElementById('fileDocSize').value.trim() || '1.2 MB';
+
+  if (!projectId || !title || !fileUrl) {
+    showToast('Required Fields', 'Title, Link URL, and Project link are required.', 'warning');
+    return;
+  }
+
+  try {
+    const res = await fetch(window.getApiUrl('/api/project-files/create'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ projectId, title, fileUrl, category, version, fileSize, fileName: title + '.pdf', mimeType: 'application/pdf' })
+    });
+    if (res.ok) {
+      showToast('File Uploaded', `Document "${title}" is now shared with client portal.`, 'success');
+      document.getElementById('fileDocTitle').value = '';
+      document.getElementById('fileDocUrl').value = '';
+      document.getElementById('fileDocVersion').value = 'V1';
+      document.getElementById('fileDocSize').value = '';
+      loadWorkspaceFiles();
+    }
+  } catch (err) {
+    showToast('Error', 'Failed to share file asset.', 'error');
+  }
+}
+window.saveWorkspaceFile = saveWorkspaceFile;
+
+async function deleteWorkspaceFile(id) {
+  showConfirmModal('Remove this file asset from client access?', async () => {
+    try {
+      const res = await fetch(window.getApiUrl('/api/project-files/delete'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      if (res.ok) {
+        showToast('Asset Deleted', 'Shared file deleted.', 'success');
+        loadWorkspaceFiles();
+      }
+    } catch (e) {
+      showToast('Error', 'Deletion failed.', 'error');
+    }
+  });
+}
+window.deleteWorkspaceFile = deleteWorkspaceFile;
+
+// ---------- MANUAL PROJECT CREATOR MODAL TRIGGER ACTIONS ----------
+function closeCreateModal() {
+  const projectCreateModal = document.getElementById('projectCreateModal');
+  if (projectCreateModal) projectCreateModal.classList.remove('show');
+}
+window.closeCreateModal = closeCreateModal;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const projectCreateModal = document.getElementById('projectCreateModal');
+  const addProjectBtn = document.getElementById('addProjectBtn');
+  const closeCreateProjectBtn = document.getElementById('closeCreateProjectBtn');
+  const cancelCreateProjectBtn = document.getElementById('cancelCreateProjectBtn');
+  const submitCreateProjectBtn = document.getElementById('submitCreateProjectBtn');
+  const projectGeneratorForm = document.getElementById('projectGeneratorForm');
+
+  if (addProjectBtn) {
+    addProjectBtn.addEventListener('click', () => {
+      if (projectGeneratorForm) projectGeneratorForm.reset();
+      if (projectCreateModal) projectCreateModal.classList.add('show');
+    });
+  }
+
+  if (closeCreateProjectBtn) closeCreateProjectBtn.addEventListener('click', closeCreateModal);
+  if (cancelCreateProjectBtn) cancelCreateProjectBtn.addEventListener('click', closeCreateModal);
+
+  if (submitCreateProjectBtn && projectGeneratorForm) {
+    submitCreateProjectBtn.addEventListener('click', () => {
+      projectGeneratorForm.requestSubmit();
+    });
+  }
+
+  if (projectGeneratorForm) {
+    projectGeneratorForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('manProjName').value.trim();
+      const email = document.getElementById('manProjEmail').value.trim();
+      const phone = document.getElementById('manProjPhone').value.trim();
+      const projectType = document.getElementById('manProjType').value.trim();
+      const budget = document.getElementById('manProjBudget').value.trim();
+      const status = document.getElementById('manProjStatus').value;
+      const previewUrl = document.getElementById('manProjPreviewUrl').value.trim();
+      const message = document.getElementById('manProjMessage').value.trim();
+      const adminNotes = document.getElementById('manProjAdminNotes').value.trim();
+
+      try {
+        const res = await fetch(window.getApiUrl('/api/projects/create-manual'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, projectType, budget, status, previewUrl, message, adminNotes })
+        });
+        if (res.ok) {
+          showToast('Project Created', 'Manual project lead successfully registered!', 'success');
+          projectGeneratorForm.reset();
+          closeCreateModal();
+          if (window.syncAllDatabases) {
+            window.syncAllDatabases();
+          }
+        } else {
+          const data = await res.json();
+          showToast('Error', data.error || 'Failed to create project.', 'error');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Connection Error', 'Could not contact project creation API.', 'error');
+      }
+    });
+  }
+});
+
+// ---------- PROJECT ROADMAP EDITOR ----------
+
+function populateRoadmapEditorProjects() {
+  const select = document.getElementById('roadmapEditorProjectSelect');
+  if (!select) return;
+
+  const currentVal = select.value;
+  select.innerHTML = '<option value="">-- Choose a Project --</option>';
+
+  const list = window.projects || [];
+  list.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.innerText = `${p.name} (${p.projectType || p.stack || 'Web'}) - ${p.id.substring(0, 6)}`;
+    select.appendChild(opt);
+  });
+
+  if (currentVal && list.some(p => p.id === currentVal)) {
+    select.value = currentVal;
+  } else {
+    const formContainer = document.getElementById('roadmapEditorFormContainer');
+    const placeholder = document.getElementById('roadmapEditorPlaceholder');
+    if (formContainer) formContainer.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'block';
+  }
+}
+window.populateRoadmapEditorProjects = populateRoadmapEditorProjects;
+
+function loadRoadmapEditorDetails() {
+  const select = document.getElementById('roadmapEditorProjectSelect');
+  const formContainer = document.getElementById('roadmapEditorFormContainer');
+  const placeholder = document.getElementById('roadmapEditorPlaceholder');
+  if (!select || !formContainer || !placeholder) return;
+
+  const id = select.value;
+  if (!id) {
+    formContainer.style.display = 'none';
+    placeholder.style.display = 'block';
+    return;
+  }
+
+  const p = (window.projects || []).find(proj => proj.id === id);
+  if (!p) return;
+
+  formContainer.style.display = 'block';
+  placeholder.style.display = 'none';
+
+  const header = document.getElementById('roadmapEditorProjectHeader');
+  if (header) header.innerText = `Roadmap: ${p.name}`;
+
+  if (document.getElementById('roadmapEditorCurrentStage')) document.getElementById('roadmapEditorCurrentStage').value = p.currentStage || 'Discovery';
+  if (document.getElementById('roadmapEditorProgress')) document.getElementById('roadmapEditorProgress').value = p.progress !== undefined ? p.progress : 15;
+  if (document.getElementById('roadmapEditorNextMilestone')) document.getElementById('roadmapEditorNextMilestone').value = p.nextMilestone || '';
+  if (document.getElementById('roadmapEditorEta')) document.getElementById('roadmapEditorEta').value = p.eta || '';
+  if (document.getElementById('roadmapEditorStatus')) document.getElementById('roadmapEditorStatus').value = p.status || 'In Progress';
+  if (document.getElementById('roadmapEditorPreviewUrl')) document.getElementById('roadmapEditorPreviewUrl').value = p.previewUrl || '';
+
+  const lastUpdatedInput = document.getElementById('roadmapEditorLastUpdated');
+  if (lastUpdatedInput) {
+    if (window.toDatetimeLocalString) {
+      lastUpdatedInput.value = window.toDatetimeLocalString(p.lastUpdated || new Date());
+    } else {
+      lastUpdatedInput.value = p.lastUpdated ? p.lastUpdated.substring(0, 16) : '';
+    }
+  }
+}
+window.loadRoadmapEditorDetails = loadRoadmapEditorDetails;
+
+function setRoadmapEditorLiveTime() {
+  const input = document.getElementById('roadmapEditorLastUpdated');
+  if (input) {
+    if (window.toDatetimeLocalString) {
+      input.value = window.toDatetimeLocalString(new Date());
+    } else {
+      input.value = (new Date()).toISOString().substring(0, 16);
+    }
+  }
+}
+window.setRoadmapEditorLiveTime = setRoadmapEditorLiveTime;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('roadmapEditorProjectSelect');
+  if (select) {
+    select.addEventListener('change', loadRoadmapEditorDetails);
+  }
+
+  const form = document.getElementById('roadmapEditorForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const projectId = document.getElementById('roadmapEditorProjectSelect').value;
+      if (!projectId) return;
+
+      const payload = {
+        projectId,
+        currentStage: document.getElementById('roadmapEditorCurrentStage').value,
+        progress: Number(document.getElementById('roadmapEditorProgress').value),
+        nextMilestone: document.getElementById('roadmapEditorNextMilestone').value.trim(),
+        eta: document.getElementById('roadmapEditorNextMilestone') ? document.getElementById('roadmapEditorEta').value.trim() : '',
+        status: document.getElementById('roadmapEditorStatus').value,
+        previewUrl: document.getElementById('roadmapEditorPreviewUrl').value.trim(),
+        lastUpdated: document.getElementById('roadmapEditorLastUpdated').value
+      };
+
+      try {
+        const res = await fetch(window.getApiUrl('/api/project-roadmap/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          showToast('Roadmap Saved', 'Project roadmap details successfully saved.', 'success');
+          if (window.syncAllDatabases) {
+            await window.syncAllDatabases();
+          } else {
+            await fetchProjects();
+          }
+          loadRoadmapEditorDetails();
+        } else {
+          showToast('Error', 'Failed to save roadmap details.', 'error');
+        }
+      } catch (err) {
+        showToast('Error', 'Connection failed.', 'error');
+      }
+    });
+  }
+});
+

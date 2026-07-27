@@ -108,3 +108,13 @@ function showToast(title, message, type = 'info') {
   }, 5000);
 }
 window.showToast = showToast;
+
+function toDatetimeLocalString(dateStr) {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  const tzoffset = date.getTimezoneOffset() * 60000;
+  const localISOTime = (new Date(date.getTime() - tzoffset)).toISOString().slice(0, 16);
+  return localISOTime;
+}
+window.toDatetimeLocalString = toDatetimeLocalString;
+

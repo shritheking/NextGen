@@ -8,7 +8,7 @@ window.currentWorkspaceEmail = '';
 // 2. Fetch & Render Clients List
 async function fetchApprovedUsers() {
   try {
-    const res = await fetch(getApiUrl('/api/approved-users?_t=' + Date.now()));
+    const res = await fetch(window.getApiUrl('/api/approved-users?_t=' + Date.now()));
     if (!res.ok) throw new Error();
     window.approvedUsers = await res.json(); var approvedUsers = window.approvedUsers;
     renderApprovedUsers(approvedUsers);
@@ -161,7 +161,7 @@ async function handleAddApprovedUser(e) {
   const portalEnabled = document.getElementById('newUserPortalEnabled').value;
   
   try {
-    const res = await fetch(getApiUrl('/api/approved-users/add'), {
+    const res = await fetch(window.getApiUrl('/api/approved-users/add'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
@@ -188,7 +188,7 @@ window.handleAddApprovedUser = handleAddApprovedUser;
 async function deleteApprovedUser(email) {
   showConfirmModal(`Permanently revoke portal access for client email: ${email}?`, async () => {
     try {
-      const res = await fetch(getApiUrl('/api/approved-users/delete'), {
+      const res = await fetch(window.getApiUrl('/api/approved-users/delete'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -288,7 +288,7 @@ async function saveClientProfileDetails() {
   }
 
   try {
-    const res = await fetch(getApiUrl('/api/approved-users/update'), {
+    const res = await fetch(window.getApiUrl('/api/approved-users/update'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, name, company, phone, gst, address, notes })
@@ -320,7 +320,7 @@ async function updateClientAccessSetting(field, val) {
   payload[field] = val;
 
   try {
-    const res = await fetch(getApiUrl('/api/approved-users/update'), {
+    const res = await fetch(window.getApiUrl('/api/approved-users/update'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -343,7 +343,7 @@ async function resetClientPortalSession() {
   if (!confirm(`Are you sure you want to reset all active portal sessions for ${email}?`)) return;
 
   try {
-    const res = await fetch(getApiUrl('/api/approved-users/reset-portal'), {
+    const res = await fetch(window.getApiUrl('/api/approved-users/reset-portal'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
@@ -367,7 +367,7 @@ async function loadPrivateNotes() {
   container.innerHTML = '';
 
   try {
-    const res = await fetch(getApiUrl('/api/client-notes?_t=' + Date.now()));
+    const res = await fetch(window.getApiUrl('/api/client-notes?_t=' + Date.now()));
     if (res.ok) {
       const allNotes = await res.json();
       const list = allNotes.filter(n => n.userId && n.userId.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
@@ -410,7 +410,7 @@ async function savePrivateNote() {
   if (!note || !userId) return;
 
   try {
-    const res = await fetch(getApiUrl('/api/client-notes/create'), {
+    const res = await fetch(window.getApiUrl('/api/client-notes/create'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, note, private: true })
@@ -429,7 +429,7 @@ window.savePrivateNote = savePrivateNote;
 async function deletePrivateNote(id) {
   showConfirmModal('Delete this private admin note?', async () => {
     try {
-      const res = await fetch(getApiUrl('/api/client-notes/delete'), {
+      const res = await fetch(window.getApiUrl('/api/client-notes/delete'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
@@ -461,4 +461,93 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// 11. Direct Client Access Actions
+function loginAsClientDirect() {
+  if (!window.currentWorkspaceEmail) return;
+  const client = (window.approvedUsers || []).find(u => u.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+  if (!client) return;
+
+  // Set simulation variables
+  localStorage.setItem('clientAuth', 'true');
+  localStorage.setItem('clientEmail', client.email);
+  localStorage.setItem('clientName', client.name || 'Client');
+  
+  // Add simulated activity audit
+  fetch(window.getApiUrl('/api/activity-logs/create'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userId: client.email,
+      action: 'Client Logged In',
+      description: 'Simulated client portal access via Admin Dashboard.',
+      entity: 'users',
+      entityId: client.email
+    })
+  });
+
+  showToast('Launching Session', `Redirecting to portal as ${client.name}...`, 'success');
+  window.open('/client.html', '_blank');
+}
+window.loginAsClientDirect = loginAsClientDirect;
+
+function revokeClientAccessDirect() {
+  if (!window.currentWorkspaceEmail) return;
+  if (window.closeClientProfileModal) {
+    window.closeClientProfileModal();
+  }
+  if (window.deleteApprovedUser) {
+    window.deleteApprovedUser(window.currentWorkspaceEmail);
+  }
+}
+window.revokeClientAccessDirect = revokeClientAccessDirect;
+
+// Direct Notification Dispatcher
+function openSendNotificationModal() {
+  const modal = document.getElementById('sendNotifModal');
+  if (modal) modal.classList.add('show');
+}
+window.openSendNotificationModal = openSendNotificationModal;
+
+function closeSendNotificationModal() {
+  const modal = document.getElementById('sendNotifModal');
+  if (modal) {
+    modal.classList.remove('remove');
+    modal.classList.remove('show');
+  }
+}
+window.closeSendNotificationModal = closeSendNotificationModal;
+
+async function submitWorkspaceNotification() {
+  const title = document.getElementById('notifTitle').value.trim();
+  const message = document.getElementById('notifMessage').value.trim();
+  const type = document.getElementById('notifType').value;
+  const priority = document.getElementById('notifPriority').value;
+  const userId = window.currentWorkspaceEmail;
+
+  if (!title || !userId) {
+    showToast('Required Fields', 'Notification title is required.', 'warning');
+    return;
+  }
+
+  let icon = 'fa-info-circle';
+  if (type === 'success') icon = 'fa-circle-check';
+  if (type === 'warning') icon = 'fa-triangle-exclamation';
+
+  try {
+    const res = await fetch(window.getApiUrl('/api/notifications/create'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, title, message, type, priority, icon })
+    });
+    if (res.ok) {
+      showToast('Alert Sent', 'Notification dispatched to client portal dashboard.', 'success');
+      closeSendNotificationModal();
+    }
+  } catch (e) {
+    showToast('Error', 'Failed to dispatch alert notification.', 'error');
+  }
+}
+window.submitWorkspaceNotification = submitWorkspaceNotification;
+
 

@@ -1,4 +1,4 @@
-﻿// ========================================================
+// ========================================================
 // NextGen Web Studio - Chatbot Console Module
 // ========================================================
 
@@ -25,6 +25,7 @@ async function fetchChatbotMessages() {
     }
 
     chatbotMessages = data;
+    window.chatbotMessages = chatbotMessages;
     renderChatbotMessages(chatbotMessages);
   } catch (err) {
     console.warn('Chatbot messages fetch failed', err);
@@ -377,4 +378,25 @@ async function sendTeamchatComment() {
   }
 }
 window.sendTeamchatComment = sendTeamchatComment;
+
+// ---------- EVENT BINDINGS FOR CHATBOT ----------
+document.addEventListener('DOMContentLoaded', () => {
+  const searchChat = document.getElementById('searchChatInput');
+  if (searchChat) {
+    searchChat.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = (chatbotMessages || []).filter(item => 
+        (item.email && item.email.toLowerCase().includes(q)) ||
+        (item.text && item.text.toLowerCase().includes(q)) ||
+        (item.botResponse && item.botResponse.toLowerCase().includes(q))
+      );
+      renderChatbotMessages(filtered);
+    });
+  }
+
+  const markAllChatReadBtn = document.getElementById('markAllChatReadBtn');
+  if (markAllChatReadBtn) {
+    markAllChatReadBtn.addEventListener('click', markAllChatbotMessagesRead);
+  }
+});
 

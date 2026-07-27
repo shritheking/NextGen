@@ -195,3 +195,53 @@ async function sendTicketReply() {
 }
 window.sendTicketReply = sendTicketReply;
 
+function selectWorkspaceTicket(t) {
+  window.activeSupportTicketId = t.id;
+  const noTicket = document.getElementById('noTicketSelected');
+  const ticketEditor = document.getElementById('supportTicketEditor');
+  if (noTicket) noTicket.style.display = 'none';
+  if (ticketEditor) ticketEditor.style.display = 'block';
+
+  if (document.getElementById('ticketEditorHeader')) {
+    document.getElementById('ticketEditorHeader').innerText = `TICKET #${t.ticketNumber || t.id.substring(0,6)} : ${t.subject}`;
+  }
+  if (document.getElementById('editTicketPriority')) document.getElementById('editTicketPriority').value = t.priority || 'low';
+  if (document.getElementById('editTicketStatus')) document.getElementById('editTicketStatus').value = t.status || 'Open';
+  if (document.getElementById('editTicketAssignee')) document.getElementById('editTicketAssignee').value = t.assignedTo || '';
+  if (document.getElementById('editTicketInternalNotes')) document.getElementById('editTicketInternalNotes').value = t.internalNotes || '';
+  if (document.getElementById('ticketReplyText')) document.getElementById('ticketReplyText').value = '';
+}
+window.selectWorkspaceTicket = selectWorkspaceTicket;
+
+async function updateTicketField(field) {
+  if (!window.activeSupportTicketId) return;
+  
+  const ticketId = window.activeSupportTicketId;
+  const el = id => document.getElementById(id);
+  
+  const updatedData = {
+    id: ticketId,
+    priority: el('editTicketPriority') ? el('editTicketPriority').value : 'low',
+    status: el('editTicketStatus') ? el('editTicketStatus').value : 'Open',
+    assignedTo: el('editTicketAssignee') ? el('editTicketAssignee').value : '',
+    internalNotes: el('editTicketInternalNotes') ? el('editTicketInternalNotes').value : ''
+  };
+
+  try {
+    const res = await fetch(window.getApiUrl('/api/support-tickets/update'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedData)
+    });
+    if (res.ok) {
+      showToast('Updated', 'Ticket details successfully updated.', 'success');
+      if (window.loadWorkspaceTickets) {
+        window.loadWorkspaceTickets();
+      }
+    }
+  } catch (e) {
+    showToast('Error', 'Failed to update ticket parameters.', 'error');
+  }
+}
+window.updateTicketField = updateTicketField;
+
