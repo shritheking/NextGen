@@ -1054,7 +1054,15 @@ const server = http.createServer(async (req, res) => {
 
   // Parse URL
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-  const pathname = parsedUrl.pathname;
+  let pathname = parsedUrl.pathname;
+
+  // Backward compatible route aliases
+  if (pathname === '/api/projects/create') {
+    pathname = '/api/projects/create-manual';
+  }
+  if (pathname === '/api/receipts/update') {
+    pathname = '/api/receipts/create';
+  }
 
   // Route: /admin -> Serve admin.html
   if (pathname === '/admin' || pathname === '/admin/') {
@@ -1346,10 +1354,10 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { name, email, phone, projectType, budget, status, previewUrl, message, adminNotes } = JSON.parse(body);
-        if (!name || !email || !projectType || !budget) {
+        const { name, email, phone, projectType, budget, status, previewUrl, message, adminNotes, developerId, stack } = JSON.parse(body);
+        if (!name || !email || !budget) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Name, email, project type, and budget are required' }));
+          res.end(JSON.stringify({ error: 'Name, email, and budget are required' }));
           return;
         }
 
@@ -1360,13 +1368,19 @@ function parseBudgetToNumber(budgetString) {
           email,
           phone: phone || 'Not Provided',
           budget,
-          projectType,
+          projectType: projectType || 'Web Development',
+          stack: stack || '',
+          developerId: developerId || '',
           message: message || '',
           date: new Date().toISOString(),
-          status: status || 'New Project',
+          status: status || 'In Progress',
           previewUrl: previewUrl || '',
           adminNotes: adminNotes || '',
-          startDate: new Date().toISOString()
+          startDate: new Date().toISOString(),
+          progress: 15,
+          currentStage: 'Discovery',
+          nextMilestone: 'Discovery Call',
+          eta: 'TBD'
         };
         projects.push(newProject);
         await dbWrite('projects', projects);
@@ -1633,67 +1647,43 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { id, projectId, stage, completed, notes, orderIndex } = JSON.parse(body);
-        if (!projectId || !stage) {
+        const { projectId, currentStage, progress, nextMilestone, eta, status, previewUrl } = JSON.parse(body);
+        if (!projectId) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Project ID and stage are required' }));
+          res.end(JSON.stringify({ error: 'Project ID is required' }));
           return;
         }
 
-        const roadmap = await dbList('project_roadmap');
-        let record = roadmap.find(r => r.projectId === projectId && r.stage === stage);
-        
-        if (record) {
-          record.completed = !!completed;
-          record.completedAt = completed ? new Date().toISOString() : null;
-          if (notes !== undefined) record.notes = notes;
-          if (orderIndex !== undefined) record.orderIndex = orderIndex;
-        } else {
-          record = {
-            id: id || crypto.randomUUID(),
-            projectId,
-            stage,
-            completed: !!completed,
-            completedAt: completed ? new Date().toISOString() : null,
-            notes: notes || '',
-            orderIndex: orderIndex || 0
-          };
-          roadmap.push(record);
-        }
-        await dbWrite('project_roadmap', roadmap);
-
-        // Auto-calculate project progress based on checks
-        const projectRoadmap = roadmap.filter(r => r.projectId === projectId);
-        const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
-        let progress = 0;
-        let currentStage = 'Pending';
-        stages.forEach((stg, idx) => {
-          const match = projectRoadmap.find(r => r.stage === stg);
-          if (match && match.completed) {
-            progress = (idx + 1) * 20;
-            currentStage = stg;
-          }
-        });
-
-        // Update Project
         const projects = await dbList('projects');
         const projIdx = projects.findIndex(p => p.id === projectId);
-        if (projIdx !== -1) {
-          projects[projIdx].progress = progress;
-          projects[projIdx].currentStage = currentStage;
-          if (progress === 100) {
-            projects[projIdx].status = 'Completed';
-            projects[projIdx].completedAt = new Date().toISOString();
-          } else {
-            projects[projIdx].status = 'In Progress';
-          }
-          await dbWrite('projects', projects);
-
-          // Log Activity and Alert Client
-          const clientEmail = projects[projIdx].email;
-          await logActivity(clientEmail, 'Roadmap Updated', `Project "${projects[projIdx].name}" roadmap updated to ${progress}% (${currentStage}).`, 'projects', projectId);
-          await createNotification(clientEmail, 'Roadmap Progress Update', `Project progress is now at ${progress}% (${currentStage}).`, 'info', 'Medium', 'fa-route');
+        if (projIdx === -1) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project not found.' }));
+          return;
         }
+
+        // Update Project
+        projects[projIdx].currentStage = currentStage || 'Discovery';
+        projects[projIdx].progress = progress !== undefined ? Number(progress) : 15;
+        projects[projIdx].nextMilestone = nextMilestone || '';
+        projects[projIdx].eta = eta || '';
+        projects[projIdx].status = status || 'In Progress';
+        if (previewUrl !== undefined) {
+          projects[projIdx].previewUrl = previewUrl;
+        }
+        projects[projIdx].lastUpdated = new Date().toISOString();
+
+        if (projects[projIdx].progress === 100) {
+          projects[projIdx].status = 'Completed';
+          projects[projIdx].completedAt = new Date().toISOString();
+        }
+
+        await dbWrite('projects', projects);
+
+        // Log Activity and Alert Client
+        const clientEmail = projects[projIdx].email;
+        await logActivity(clientEmail, 'Roadmap Updated', `Project "${projects[projIdx].name}" roadmap updated to ${progress}% (${currentStage}).`, 'projects', projectId);
+        await createNotification(clientEmail, 'Roadmap Progress Update', `Project progress is now at ${progress}% (${currentStage}). Next milestone: ${nextMilestone}`, 'info', 'Medium', 'fa-route');
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, progress, currentStage }));
@@ -2881,9 +2871,25 @@ function parseBudgetToNumber(budgetString) {
 
         const clientEmail = email.trim().toLowerCase();
         const users = await dbList('users');
-        const isApproved = users.some(u => u.email.toLowerCase() === clientEmail);
+        const clientRecord = users.find(u => u.email.toLowerCase() === clientEmail);
 
-        if (isApproved) {
+        if (clientRecord) {
+          if (clientRecord.status === 'Suspended') {
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'client_suspended' }));
+            return;
+          }
+          if (clientRecord.portalEnabled === false || clientRecord.portalEnabled === 'false') {
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'portal_disabled' }));
+            return;
+          }
+          if (clientRecord.approved === false || clientRecord.approved === 'false') {
+            res.writeHead(403, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'pending_approval' }));
+            return;
+          }
+
           const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
           SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
           res.writeHead(200, { 
@@ -2906,10 +2912,26 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/auth/mock' && req.method === 'GET') {
     const queryEmail = parsedUrl.searchParams.get('email') ? parsedUrl.searchParams.get('email').trim().toLowerCase() : 'shridharsanshridharsan@gmail.com';
     const users = await dbList('users');
-    const isApproved = users.some(u => u.email.toLowerCase() === queryEmail);
+    const clientRecord = users.find(u => u.email.toLowerCase() === queryEmail);
     
-    if (!isApproved) {
+    if (!clientRecord) {
       res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=unauthorized_email') });
+      res.end();
+      return;
+    }
+
+    if (clientRecord.status === 'Suspended') {
+      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=client_suspended') });
+      res.end();
+      return;
+    }
+    if (clientRecord.portalEnabled === false || clientRecord.portalEnabled === 'false') {
+      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=portal_disabled') });
+      res.end();
+      return;
+    }
+    if (clientRecord.approved === false || clientRecord.approved === 'false') {
+      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=pending_approval') });
       res.end();
       return;
     }
@@ -3017,9 +3039,25 @@ function parseBudgetToNumber(budgetString) {
                   if (userJson.email) {
                     const clientEmail = userJson.email.toLowerCase();
                     const users = await dbList('users');
-                    const isApproved = users.some(u => u.email.toLowerCase() === clientEmail);
+                    const clientRecord = users.find(u => u.email.toLowerCase() === clientEmail);
                     
-                    if (isApproved) {
+                    if (clientRecord) {
+                      if (clientRecord.status === 'Suspended') {
+                        res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=client_suspended') });
+                        res.end();
+                        return;
+                      }
+                      if (clientRecord.portalEnabled === false || clientRecord.portalEnabled === 'false') {
+                        res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=portal_disabled') });
+                        res.end();
+                        return;
+                      }
+                      if (clientRecord.approved === false || clientRecord.approved === 'false') {
+                        res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=pending_approval') });
+                        res.end();
+                        return;
+                      }
+
                       const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
                       SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                       res.writeHead(302, { 
@@ -3151,7 +3189,7 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { email, name, company, phone, gst, address, notes } = JSON.parse(body);
+        const { email, name, company, phone, gst, address, notes, projectName, budget, projectType, portalEnabled } = JSON.parse(body);
         if (!email) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Email address is required' }));
@@ -3162,7 +3200,9 @@ function parseBudgetToNumber(budgetString) {
         const exists = users.some(u => u.email.toLowerCase() === email.trim().toLowerCase());
         
         if (!exists) {
-          users.push({
+          const clientId = 'cli_' + Date.now();
+          const newClient = {
+            id: clientId,
             email: email.trim().toLowerCase(),
             name: name ? name.trim() : 'Approved Client',
             company: company ? company.trim() : '',
@@ -3170,9 +3210,41 @@ function parseBudgetToNumber(budgetString) {
             gst: gst ? gst.trim() : '',
             address: address ? address.trim() : '',
             notes: notes ? notes.trim() : '',
+            status: 'Active',
+            portalEnabled: portalEnabled !== undefined ? (portalEnabled === true || portalEnabled === 'true') : true,
+            approved: true,
             created: new Date().toISOString()
-          });
+          };
+          users.push(newClient);
           await dbWrite('users', users);
+
+          // If project details are provided, automatically create the linked project
+          if (projectName) {
+            const projectsList = await dbList('projects');
+            const newProj = {
+              id: 'proj_' + Date.now(),
+              name: projectName.trim(),
+              email: email.trim().toLowerCase(),
+              phone: phone ? phone.trim() : 'Not Provided',
+              budget: budget ? budget.trim() : 'Not Specified',
+              projectType: projectType ? projectType.trim() : 'Not Specified',
+              message: 'Created during client onboarding.',
+              date: new Date().toISOString(),
+              status: 'In Progress',
+              startDate: new Date().toISOString(),
+              progress: 15,
+              currentStage: 'Discovery',
+              nextMilestone: 'Discovery Call',
+              eta: 'TBD',
+              previewUrl: ''
+            };
+            projectsList.push(newProj);
+            await dbWrite('projects', projectsList);
+            
+            // Log activity and create notifications
+            await logActivity(email.trim().toLowerCase(), 'Project Created', `Project "${projectName.trim()}" automatically initialized during client onboarding.`, 'projects', newProj.id);
+            await createNotification(email.trim().toLowerCase(), 'Welcome to NextGen', `Your client space and project "${projectName.trim()}" have been successfully set up.`, 'success', 'High', 'fa-rocket');
+          }
         }
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -3190,7 +3262,7 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { email, name, company, phone, gst, address, notes } = JSON.parse(body);
+        const { email, name, company, phone, gst, address, notes, status, portalEnabled, approved } = JSON.parse(body);
         if (!email) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Email address is required' }));
@@ -3207,6 +3279,10 @@ function parseBudgetToNumber(budgetString) {
           if (gst !== undefined) users[userIndex].gst = gst.trim();
           if (address !== undefined) users[userIndex].address = address.trim();
           if (notes !== undefined) users[userIndex].notes = notes.trim();
+          if (status !== undefined) users[userIndex].status = status;
+          if (portalEnabled !== undefined) users[userIndex].portalEnabled = (portalEnabled === true || portalEnabled === 'true');
+          if (approved !== undefined) users[userIndex].approved = (approved === true || approved === 'true');
+
           await dbWrite('users', users);
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, message: 'Client details updated successfully.' }));
@@ -3241,6 +3317,37 @@ function parseBudgetToNumber(budgetString) {
       } catch (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Server error deleting approved user' }));
+      }
+    });
+    return;
+  }
+
+  if (pathname === '/api/approved-users/reset-portal' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { email } = JSON.parse(body);
+        if (!email) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Email address is required' }));
+          return;
+        }
+
+        const clientEmail = email.trim().toLowerCase();
+        let clearCount = 0;
+        for (const [sessId, sessData] of SESSIONS.entries()) {
+          if (sessData.email && sessData.email.toLowerCase() === clientEmail) {
+            SESSIONS.delete(sessId);
+            clearCount++;
+          }
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, message: `Cleared ${clearCount} active portal sessions.` }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to reset client portal session' }));
       }
     });
     return;

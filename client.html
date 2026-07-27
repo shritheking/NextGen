@@ -1264,38 +1264,6 @@
         </div>
       </div>
 
-      <!-- Project Files Share Card (Left Column) -->
-      <div class="term-card" style="margin-top: 16px; display: flex; flex-direction: column;">
-        <div class="term-header-bar">
-          <div class="dot red"></div>
-          <div class="dot yellow"></div>
-          <div class="dot green"></div>
-          <span class="title-text"><i class="fa-solid fa-folder-open" style="font-size:11px; margin-right:6px;"></i> ~/shared-assets &bull; <span id="filesCount">0 files</span></span>
-        </div>
-        <div style="padding: 24px;">
-          <div class="table-container" style="border:none;">
-            <table>
-              <thead>
-                <tr>
-                  <th>Asset Title</th>
-                  <th>Category</th>
-                  <th>Version</th>
-                  <th>Size</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="sharedFilesTableBody">
-                <!-- Rendered dynamically -->
-              </tbody>
-            </table>
-          </div>
-          <div class="empty-state" id="filesEmpty" style="display: none; padding: 20px 0; text-align: center;">
-            <i class="fa-solid fa-folder-closed" style="font-size: 28px; color: var(--ink-faint); margin-bottom: 10px; display: block;"></i>
-            <p style="color: var(--ink-soft); font-size: 13.5px; margin:0;">No shared document assets uploaded for your account yet.</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Right Column: Project roadmap (Top Right) -->
       <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
         <!-- Client Stage Approval Panel (Right Column top) -->
@@ -1642,7 +1610,6 @@
         }
 
         await fetchPortalNotifications();
-        await fetchSharedFiles();
         await fetchCurrentStageApproval();
       } catch (err) {
         showToast('Load Error', 'Failed to refresh client roadmap data.', 'error');
@@ -1692,48 +1659,7 @@
     }
     window.dismissPortalNotification = dismissPortalNotification;
 
-    async function fetchSharedFiles() {
-      const tbody = document.getElementById('sharedFilesTableBody');
-      const emptyState = document.getElementById('filesEmpty');
-      const filesCount = document.getElementById('filesCount');
 
-      try {
-        const res = await fetch(API_URL + '/api/project-files?_t=' + Date.now());
-        if (res.ok) {
-          const list = await res.json();
-          // Filter files by project ids of this client
-          const clientProjIds = projects.map(p => p.id);
-          const clientFiles = list.filter(f => clientProjIds.includes(f.projectId));
-          
-          filesCount.innerText = `${clientFiles.length} files`;
-          if (clientFiles.length === 0) {
-            tbody.innerHTML = '';
-            emptyState.style.display = 'block';
-            return;
-          }
-
-          emptyState.style.display = 'none';
-          tbody.innerHTML = clientFiles.map(f => `
-            <tr>
-              <td>
-                <div style="font-weight:600; color:var(--ink);">${f.title}</div>
-                <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);">${f.fileName}</div>
-              </td>
-              <td><span class="status-badge" style="background:rgba(224,255,79,.04); border:1px solid var(--border); color:var(--accent); font-size:10px;">${f.category}</span></td>
-              <td><span style="font-family:var(--font-mono); font-size:11.5px;">${f.version || 'V1'}</span></td>
-              <td style="font-size:12px; color:var(--ink-soft);">${f.fileSize || 'N/A'}</td>
-              <td>
-                <a href="${f.fileUrl}" target="_blank" class="btn-primary" style="padding:4px 8px; font-size:11px; display:inline-flex; align-items:center; gap:4px; text-decoration:none;"><i class="fa-solid fa-cloud-download"></i> View</a>
-              </td>
-            </tr>
-          `).join('');
-        }
-      } catch (e) {
-        tbody.innerHTML = '';
-        emptyState.style.display = 'block';
-      }
-    }
-    window.fetchSharedFiles = fetchSharedFiles;
 
     window.activeApprovalProjectId = '';
     window.activeApprovalStage = '';
@@ -1969,49 +1895,53 @@
           card.style.borderColor = 'var(--border)';
         });
         
-        const status = item.status || 'New Project';
+        // Extract roadmap properties directly from database
+        const progress = item.progress !== undefined ? Number(item.progress) : 15;
+        const milestoneName = item.nextMilestone || 'Wireframe UX Review';
         
-        // Progress stage configuration (5 stages: Discovery, Scoping, Design, Build, Launch)
-        let progress = 15;
-        let milestoneName = "Discovery Call";
-        let step1 = "done"; // Discovery (always done once active)
-        let step2 = "active"; // Scoping
-        let step3 = "pending"; // Design
-        let step4 = "pending"; // Build
-        let step5 = "pending"; // Launch
-        
-        if (status === 'Completed') {
-          progress = 100;
-          milestoneName = "Fully Deployed & Live";
-          step2 = "done"; step3 = "done"; step4 = "done"; step5 = "done";
-        } else if (status === 'Development Phase') {
-          progress = 75;
-          milestoneName = "Production Testing";
-          step2 = "done"; step3 = "done"; step4 = "active"; step5 = "pending";
-        } else if (status === 'Homepage Created' || status === 'Design Phase') {
-          progress = 50;
-          milestoneName = "Full-Stack Coding";
-          step2 = "done"; step3 = "active"; step4 = "pending"; step5 = "pending";
-        } else if (status === 'Starting Project' || status === 'New Project') {
-          progress = 30;
-          milestoneName = "Wireframe UX Review";
-          step2 = "active"; step3 = "pending"; step4 = "pending"; step5 = "pending";
+        // Dynamic Timeline Stepper mapping
+        const stageIndexMap = {
+          'Discovery': 0,
+          'Scoping': 1,
+          'Design': 2,
+          'Development': 3,
+          'Testing': 3,
+          'Launch': 4,
+          'Maintenance': 4,
+          'Completed': 5
+        };
+        const currentStageIdx = stageIndexMap[item.currentStage] !== undefined ? stageIndexMap[item.currentStage] : 0;
+
+        const getStepStatus = (stepIdx) => {
+          if (currentStageIdx > stepIdx) return 'done';
+          if (currentStageIdx === stepIdx) return 'active';
+          return 'pending';
+        };
+
+        const step1 = getStepStatus(0);
+        const step2 = getStepStatus(1);
+        const step3 = getStepStatus(2);
+        const step4 = getStepStatus(3);
+        const step5 = getStepStatus(4);
+
+        // Parse ETA
+        let etaText = item.eta || '';
+        if (!etaText) {
+          const startObj = item.startDate ? new Date(item.startDate) : new Date(item.date);
+          const etaDate = new Date(startObj.getTime() + 14 * 24 * 60 * 60 * 1000);
+          const today = new Date();
+          const diffTime = etaDate - today;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          etaText = diffDays > 0 ? `${diffDays} Days Remaining` : 'Launching Soon';
         }
-        
-        // Calculate ETA
-        const startObj = item.startDate ? new Date(item.startDate) : new Date(item.date);
-        const etaDate = new Date(startObj.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days duration
-        const today = new Date();
-        const diffTime = etaDate - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const etaText = diffDays > 0 ? `${diffDays} Days Remaining` : 'Launching Soon';
-        
-        let displayStatus = status;
-        let badgeClass = 'hold';
-        if (status === 'Completed') {
+
+        const rawStatus = item.status || 'In Progress';
+        let displayStatus = rawStatus;
+        let badgeClass = 'in-progress';
+        if (rawStatus === 'Completed') {
           displayStatus = 'Completed';
           badgeClass = 'completed';
-        } else if (status === 'On Hold' || status === 'Not Yet Started') {
+        } else if (rawStatus === 'Paused' || rawStatus === 'On Hold') {
           displayStatus = 'On Hold';
           badgeClass = 'hold';
         } else {
@@ -2022,8 +1952,8 @@
         card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <div>
-              <h4 style="font-size:16px; font-weight:700; color:var(--ink); margin:0;">${item.projectType || 'Custom Website'}</h4>
-              <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:2px; display:block;">Milestone Scopes &bull; ${item.budget}</span>
+              <h4 style="font-size:16px; font-weight:700; color:var(--ink); margin:0;">${item.name || item.projectType || 'Custom Website'}</h4>
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:2px; display:block;">Milestone Scopes &bull; &#8377;${(Number(item.budget) || 0).toLocaleString('en-IN')}</span>
             </div>
             <span class="badge ${badgeClass}">${displayStatus}</span>
           </div>
@@ -2369,8 +2299,16 @@
       let msg = `Operation callback failed: ${err}`;
       if (err === 'unauthorized_email') {
         msg = 'Access Denied: Your email address is not enrolled in the NextGen registry. Please contact admin.';
+      } else if (err === 'client_suspended') {
+        msg = 'Access Denied: Your client profile is currently suspended. Please contact the administrator.';
+      } else if (err === 'portal_disabled') {
+        msg = 'Access Denied: Client portal access is disabled for this account.';
+      } else if (err === 'pending_approval') {
+        msg = 'Access Denied: Google Authentication is pending admin approval. Please check back later.';
       }
-      showToast('Auth Error', msg, 'error');
+      showToast('Authentication Blocked', msg, 'error');
+      // Clean query string
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     // ---------- INITIALIZE PORTAL AUTH CHECK & FADE OUT LOADER ----------

@@ -2285,9 +2285,10 @@
           <div class="creator-card" style="margin-bottom: 0; max-height:85vh; overflow-y:auto; padding-right:10px;">
             <h3>Create Client Profile</h3>
             <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; line-height:1.5;">
-              Manually authorize a client's email address and pre-configure their profile details (Company, Phone, GST, Address) for the Agency Dashboard.
+              Create a new client profile, set up their primary active project details, and configure client portal access registry.
             </p>
             <form id="addApprovedUserForm" onsubmit="handleAddApprovedUser(event)">
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">1. Personal Info</div>
               <div class="input-group">
                 <label for="newUserName">Client Name *</label>
                 <input type="text" id="newUserName" required placeholder="e.g. John Doe">
@@ -2297,13 +2298,38 @@
                 <input type="email" id="newUserEmail" required placeholder="client@gmail.com">
               </div>
               <div class="input-group">
-                <label for="newUserCompany">Company Name</label>
-                <input type="text" id="newUserCompany" placeholder="e.g. Acme Corp">
-              </div>
-              <div class="input-group">
                 <label for="newUserPhone">Phone Number</label>
                 <input type="text" id="newUserPhone" placeholder="e.g. +91 98765 43210">
               </div>
+              <div class="input-group">
+                <label for="newUserCompany">Company Name</label>
+                <input type="text" id="newUserCompany" placeholder="e.g. Acme Corp">
+              </div>
+              
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-top:20px; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">2. Initial Project Info</div>
+              <div class="input-group">
+                <label for="newUserProjectName">Project Name *</label>
+                <input type="text" id="newUserProjectName" placeholder="e.g. E-Commerce Website Development" required>
+              </div>
+              <div class="input-group">
+                <label for="newUserProjectBudget">Project Budget</label>
+                <input type="text" id="newUserProjectBudget" placeholder="e.g. ₹1.5L - ₹3L">
+              </div>
+              <div class="input-group">
+                <label for="newUserProjectType">Project Type</label>
+                <input type="text" id="newUserProjectType" placeholder="e.g. Web Development">
+              </div>
+
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-top:20px; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">3. Portal Access</div>
+              <div class="input-group">
+                <label for="newUserPortalEnabled">Portal Access Status</label>
+                <select id="newUserPortalEnabled" style="width:100%; height:38px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  <option value="true">Enabled</option>
+                  <option value="false">Disabled</option>
+                </select>
+              </div>
+
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-top:20px; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">4. Other Details</div>
               <div class="input-group">
                 <label for="newUserGst">GST Number</label>
                 <input type="text" id="newUserGst" placeholder="e.g. 33AAAAA1111A1Z1">
@@ -2533,6 +2559,7 @@
         <button class="action-btn" id="btnProfileSupport" onclick="switchProfileTab('support')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Support Desk</button>
         <button class="action-btn" id="btnProfileActivity" onclick="switchProfileTab('activity')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Timeline Feed</button>
         <button class="action-btn" id="btnProfileTeamchat" onclick="switchProfileTab('teamchat')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Team Chatter</button>
+        <button class="action-btn" id="btnProfileNotes" onclick="switchProfileTab('notes')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Admin Notes</button>
         <button class="action-btn" id="btnProfileSettings" onclick="switchProfileTab('settings')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Portal Config</button>
       </div>
 
@@ -2602,20 +2629,32 @@
         <div id="profileTab_invoices" class="profile-tab-content" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <h4 style="margin:0; font-size:14px; font-weight:700;">Invoices &amp; Receipts</h4>
-            <button class="action-btn" onclick="toggleWorkspaceInvoiceForm()" style="font-size:12px; height:28px;"><i class="fa-solid fa-file-invoice-dollar"></i> Create Invoice</button>
+            <button class="action-btn" onclick="toggleWorkspaceInvoiceForm()" style="font-size:12px; height:28px;"><i class="fa-solid fa-file-invoice-dollar"></i> Create Invoice / Receipt</button>
+          </div>
+          
+          <!-- Payment Summary Metrics Panel -->
+          <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:12px; margin-bottom:20px;" id="profilePaymentSummaryContainer">
+            <!-- Populated dynamically by JS -->
           </div>
           
           <!-- Add Invoice Subform -->
           <div id="workspaceInvoiceForm" style="display:none; background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:16px;">
-            <h5 style="margin:0 0 12px 0;">Generate Milestone Invoice</h5>
+            <h5 style="margin:0 0 12px 0;">Generate Milestone Invoice or Paid Receipt</h5>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
               <div class="input-group"><label>Milestone Project Name *</label><select id="newInvProjSelect" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select></div>
               <div class="input-group"><label>Milestone Title / Description *</label><input type="text" id="newInvTitle" placeholder="e.g. 50% Advance Booking Fee" required></div>
               <div class="input-group"><label>Milestone Amount (&#8377;) *</label><input type="number" id="newInvAmount" required></div>
               <div class="input-group"><label>Invoice Due Date</label><input type="date" id="newInvDueDate"></div>
+              <div class="input-group">
+                <label>Status / Action</label>
+                <select id="newInvStatus" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  <option value="Pending">Generate Pending Invoice</option>
+                  <option value="Paid">Generate Paid Receipt</option>
+                </select>
+              </div>
             </div>
             <div style="display:flex; gap:10px; margin-top:14px;">
-              <button class="login-btn" onclick="saveWorkspaceInvoice()" style="margin-top:0;">Generate Invoice</button>
+              <button class="login-btn" onclick="saveWorkspaceInvoice()" style="margin-top:0;">Generate Statement</button>
               <button class="refresh-btn" onclick="toggleWorkspaceInvoiceForm()" style="margin-top:0;">Cancel</button>
             </div>
           </div>
@@ -2662,61 +2701,64 @@
         <div id="profileTab_roadmap" class="profile-tab-content" style="display:none;">
           <div class="input-group" style="max-width:300px; margin-bottom:20px;">
             <label>Select Project</label>
-            <select id="roadmapProjectSelect" onchange="loadRoadmapStages()" style="width:100%; height:38px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select>
+            <select id="roadmapProjectSelect" onchange="loadRoadmapDetails()" style="width:100%; height:38px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select>
           </div>
           
-          <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:20px;">
-            <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:700;" id="roadmapTitle">Roadmap Stages Progress</h4>
-            <p style="font-size:12px; color:var(--ink-soft); margin-bottom:20px;">Checking off a pipeline stage automatically advances the project roadmap percentage, records the completion audit log, and notifies the client portal.</p>
+          <div id="roadmapFormContainer" style="display:none; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:20px;">
+            <h4 style="margin:0 0 16px 0; font-size:15px; font-weight:700;">Update Project Roadmap</h4>
             
-            <div style="margin-bottom:24px;">
-              <div style="display:flex; justify-content:space-between; font-size:12.5px; font-family:var(--font-mono); margin-bottom:8px; font-weight:600;">
-                <span>Total Project Progress</span>
-                <span id="roadmapProgressPercent">0%</span>
-              </div>
-              <div style="width:100%; height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
-                <div id="roadmapProgressBar" style="width:0%; height:100%; background:var(--accent); transition:width .3s ease;"></div>
-              </div>
-            </div>
+            <form id="updateRoadmapForm" onsubmit="handleUpdateRoadmap(event)">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapCurrentStage">Current Stage</label>
+                  <select id="roadmapCurrentStage" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                    <option value="Discovery">Discovery</option>
+                    <option value="Scoping">Scoping</option>
+                    <option value="Design">Design</option>
+                    <option value="Development">Development</option>
+                    <option value="Testing">Testing</option>
+                    <option value="Launch">Launch</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+                
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapProgress">Progress (%)</label>
+                  <input type="number" id="roadmapProgress" min="0" max="100" required placeholder="e.g. 30" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                </div>
 
-            <!-- Checkbox List -->
-            <div style="display:flex; flex-direction:column; gap:16px;" id="roadmapChecklist">
-              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
-                <input type="checkbox" data-stage="Discovery" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
-                <div>
-                  <strong>Discovery (20%)</strong>
-                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Requirement gathering, client scope alignment, and contract onboarding.</span>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapNextMilestone">Next Milestone</label>
+                  <input type="text" id="roadmapNextMilestone" placeholder="e.g. Wireframe UX Review" required style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
                 </div>
-              </label>
-              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
-                <input type="checkbox" data-stage="Scoping" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
-                <div>
-                  <strong>Scoping &amp; Wireframing (40%)</strong>
-                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Architecture designs, low-fidelity wireframe approvals, and resource scheduling.</span>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapEta">ETA</label>
+                  <input type="text" id="roadmapEta" placeholder="e.g. 12 Days" required style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
                 </div>
-              </label>
-              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
-                <input type="checkbox" data-stage="Design" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
-                <div>
-                  <strong>UI/UX Design Drafts (60%)</strong>
-                  <span style="display:block; font-size:11px; color:var(--ink-soft);">High-fidelity visual mockups, Figma prototyping, and asset collection.</span>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapStatus">Status</label>
+                  <select id="roadmapStatus" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                    <option value="In Progress">In Progress</option>
+                    <option value="Paused">Paused</option>
+                    <option value="Completed">Completed</option>
+                  </select>
                 </div>
-              </label>
-              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
-                <input type="checkbox" data-stage="Development" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
-                <div>
-                  <strong>Full Development Build (80%)</strong>
-                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Core programming, staging preview deployment, and responsive testing.</span>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapPreviewUrl">Preview URL</label>
+                  <input type="text" id="roadmapPreviewUrl" placeholder="e.g. https://staging.client.com" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
                 </div>
-              </label>
-              <label style="display:flex; align-items:center; gap:12px; font-size:13.5px; cursor:pointer;">
-                <input type="checkbox" data-stage="Launch" onchange="toggleRoadmapStage(this)" style="width:18px; height:18px; accent-color:var(--accent);">
-                <div>
-                  <strong>Final Deploy &amp; Launch (100%)</strong>
-                  <span style="display:block; font-size:11px; color:var(--ink-soft);">Domain transfers, production deployment optimization, SEO headers, and training handoffs.</span>
-                </div>
-              </label>
-            </div>
+              </div>
+              
+              <button type="submit" class="login-btn" style="width:100%; margin-top:10px;"><i class="fa-solid fa-save"></i> Update Roadmap Details</button>
+            </form>
+          </div>
+          
+          <div id="noRoadmapProjectWarning" style="color:var(--ink-soft); text-align:center; padding:30px;">
+            No active project selected.
           </div>
         </div>
 
@@ -2851,11 +2893,59 @@
           </div>
         </div>
 
+        <!-- Tab: Admin Notes -->
+        <div id="profileTab_notes" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 12px 0; font-size:14px; font-weight:700;">Private Admin Notes</h4>
+          
+          <div style="background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:20px;">
+            <h5 style="margin:0 0 12px 0; font-size:13px; font-weight:700;">Add Private Note</h5>
+            <div class="input-group">
+              <label for="newPrivateNoteText">Note Content *</label>
+              <textarea id="newPrivateNoteText" placeholder="Enter private note content here..." style="width:100%; height:80px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea>
+            </div>
+            <button class="login-btn" onclick="savePrivateNote()" style="margin-top:10px;"><i class="fa-solid fa-note-sticky"></i> Save Private Note</button>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;" id="privateNotesList">
+            <!-- Loaded dynamically by JS -->
+          </div>
+        </div>
+
         <!-- Tab: Portal Config -->
         <div id="profileTab_settings" class="profile-tab-content" style="display:none;">
           <h4 style="margin:0 0 16px 0; font-size:14px; font-weight:700;">Client Portal Control Panel</h4>
           
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px; grid-column:span 2;">
+              <h5 style="margin:0 0 12px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-gears"></i> Access &amp; Status Controls</h5>
+              <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:14px;">
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="controlClientStatus">Client Status</label>
+                  <select id="controlClientStatus" onchange="updateClientAccessSetting('status')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="Active">Active</option>
+                    <option value="Suspended">Suspended</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="controlPortalEnabled">Portal Access</label>
+                  <select id="controlPortalEnabled" onchange="updateClientAccessSetting('portalEnabled')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="controlGoogleLogin">Google Login</label>
+                  <select id="controlGoogleLogin" onchange="updateClientAccessSetting('approved')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="true">Approved</option>
+                    <option value="false">Pending Approval</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button class="refresh-btn" onclick="resetClientPortalSession()" style="margin-top:0; font-size:12px;"><i class="fa-solid fa-arrows-rotate"></i> Reset Portal Session</button>
+              </div>
+            </div>
+
             <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
               <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-ghost"></i> Simulated Client Login</h5>
               <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Open a new browser window representing the client's view. This will instantly authenticate you as the client to check dashboards.</p>
@@ -3796,6 +3886,18 @@
         // Formatting date
         const updatedDate = activeProj && activeProj.date ? activeProj.date : (item.created ? new Date(item.created).toLocaleDateString() : 'Just now');
 
+        // Compute access badges
+        let accessBadges = '';
+        if (item.status === 'Suspended') {
+          accessBadges += ` <span style="background:rgba(239,68,68,.15); color:#EF4444; border:1px solid rgba(239,68,68,.3); font-size:10px; padding:1px 4px; border-radius:3px; font-family:var(--font-mono); font-weight:600; text-transform:uppercase; margin-left:4px;">Suspended</span>`;
+        }
+        if (item.portalEnabled === false || item.portalEnabled === 'false') {
+          accessBadges += ` <span style="background:rgba(245,158,11,.15); color:#F59E0B; border:1px solid rgba(245,158,11,.3); font-size:10px; padding:1px 4px; border-radius:3px; font-family:var(--font-mono); font-weight:600; text-transform:uppercase; margin-left:4px;">Portal Off</span>`;
+        }
+        if (item.approved === false || item.approved === 'false') {
+          accessBadges += ` <span style="background:rgba(59,130,246,.15); color:#3B82F6; border:1px solid rgba(59,130,246,.3); font-size:10px; padding:1px 4px; border-radius:3px; font-family:var(--font-mono); font-weight:600; text-transform:uppercase; margin-left:4px;">Unapproved</span>`;
+        }
+
         tr.innerHTML = `
           <td>
             <div style="display:flex; align-items:center; gap:12px;">
@@ -3803,7 +3905,7 @@
                 ${initials}
               </div>
               <div>
-                <div class="col-name" style="font-weight:600;">${item.name || 'Approved Client'}</div>
+                <div class="col-name" style="font-weight:600; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">${item.name || 'Approved Client'}${accessBadges}</div>
                 <div style="font-size:11.5px; color:var(--ink-faint); font-family:var(--font-mono);">${item.email}</div>
               </div>
             </div>
@@ -3842,11 +3944,19 @@
       const address = document.getElementById('newUserAddress').value.trim();
       const notes = document.getElementById('newUserNotes').value.trim();
       
+      const projectName = document.getElementById('newUserProjectName').value.trim();
+      const budget = document.getElementById('newUserProjectBudget').value.trim();
+      const projectType = document.getElementById('newUserProjectType').value.trim();
+      const portalEnabled = document.getElementById('newUserPortalEnabled').value;
+      
       try {
         const res = await fetch(getApiUrl('/api/approved-users/add'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name, company, phone, gst, address, notes })
+          body: JSON.stringify({ 
+            email, name, company, phone, gst, address, notes,
+            projectName, budget, projectType, portalEnabled
+          })
         });
         if (res.ok) {
           showToast('Client Profile Created', 'Client successfully authorized and profile created!', 'success');
@@ -3918,11 +4028,24 @@
       el('editProfileAddress').value = client.address || '';
       el('editProfileNotes').value = client.notes || '';
 
+      // Populate access settings controls
+      const sSel = id => document.getElementById(id);
+      if (sSel('controlClientStatus')) {
+        sSel('controlClientStatus').value = client.status || 'Active';
+      }
+      if (sSel('controlPortalEnabled')) {
+        sSel('controlPortalEnabled').value = (client.portalEnabled === false || client.portalEnabled === 'false') ? 'false' : 'true';
+      }
+      if (sSel('controlGoogleLogin')) {
+        sSel('controlGoogleLogin').value = (client.approved === false || client.approved === 'false') ? 'false' : 'true';
+      }
+
       await loadDevelopers();
       loadRoadmapProjectDropdown();
       renderWorkspaceProjects();
       renderWorkspaceInvoices();
       renderWorkspacePayments();
+      renderPaymentSummary();
       
       switchProfileTab('details');
       el('clientProfileModal').classList.add('show');
@@ -3935,7 +4058,7 @@
     window.closeClientProfileModal = closeClientProfileModal;
 
     function switchProfileTab(tabName) {
-      const tabs = ['details', 'projects', 'invoices', 'roadmap', 'files', 'support', 'activity', 'teamchat', 'settings'];
+      const tabs = ['details', 'projects', 'invoices', 'roadmap', 'files', 'support', 'activity', 'teamchat', 'notes', 'settings'];
       tabs.forEach(t => {
         const content = document.getElementById('profileTab_' + t);
         const btn = document.getElementById('btnProfile' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -3947,7 +4070,7 @@
       });
 
       if (tabName === 'roadmap') {
-        loadRoadmapStages();
+        loadRoadmapDetails();
       } else if (tabName === 'files') {
         loadWorkspaceFiles();
       } else if (tabName === 'support') {
@@ -3956,6 +4079,8 @@
         loadWorkspaceActivity();
       } else if (tabName === 'teamchat') {
         loadTeamchatMessages();
+      } else if (tabName === 'notes') {
+        loadPrivateNotes();
       }
     }
     window.switchProfileTab = switchProfileTab;
@@ -3973,75 +4098,264 @@
       iSelect.innerHTML = options || `<option value="">No Active Projects</option>`;
     }
 
-    async function loadRoadmapStages() {
+    async function loadRoadmapDetails() {
       const projectId = document.getElementById('roadmapProjectSelect').value;
-      const progressPercent = document.getElementById('roadmapProgressPercent');
-      const progressBar = document.getElementById('roadmapProgressBar');
-      const checklist = document.getElementById('roadmapChecklist');
+      const formContainer = document.getElementById('roadmapFormContainer');
+      const warning = document.getElementById('noRoadmapProjectWarning');
       
       if (!projectId) {
-        progressPercent.innerText = '0%';
-        progressBar.style.width = '0%';
+        formContainer.style.display = 'none';
+        warning.style.display = 'block';
         return;
       }
 
-      try {
-        const res = await fetch(getApiUrl('/api/project-roadmap?_t=' + Date.now()));
-        if (res.ok) {
-          const allRoadmaps = await res.json();
-          const projRoadmap = allRoadmaps.filter(r => r.projectId === projectId);
-          
-          const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
-          stages.forEach(stage => {
-            const match = projRoadmap.find(r => r.stage === stage);
-            const cb = checklist.querySelector(`input[data-stage="${stage}"]`);
-            if (cb) {
-              cb.checked = match ? !!match.completed : false;
-            }
-          });
+      formContainer.style.display = 'block';
+      warning.style.display = 'none';
 
-          // Update bar from active project progress
-          const proj = projects.find(p => p.id === projectId);
-          if (proj) {
-            progressPercent.innerText = `${proj.progress || 0}%`;
-            progressBar.style.width = `${proj.progress || 0}%`;
-          }
-        }
-      } catch (e) {
-        console.warn('Roadmap stages load failed');
-      }
+      const proj = projects.find(p => p.id === projectId);
+      if (!proj) return;
+
+      document.getElementById('roadmapCurrentStage').value = proj.currentStage || 'Discovery';
+      document.getElementById('roadmapProgress').value = proj.progress !== undefined ? proj.progress : 15;
+      document.getElementById('roadmapNextMilestone').value = proj.nextMilestone || '';
+      document.getElementById('roadmapEta').value = proj.eta || '';
+      document.getElementById('roadmapStatus').value = proj.status || 'In Progress';
+      document.getElementById('roadmapPreviewUrl').value = proj.previewUrl || '';
     }
-    window.loadRoadmapStages = loadRoadmapStages;
+    window.loadRoadmapDetails = loadRoadmapDetails;
 
-    async function toggleRoadmapStage(checkbox) {
+    async function handleUpdateRoadmap(e) {
+      e.preventDefault();
       const projectId = document.getElementById('roadmapProjectSelect').value;
-      const stage = checkbox.getAttribute('data-stage');
-      const completed = checkbox.checked;
-
       if (!projectId) return;
+
+      const currentStage = document.getElementById('roadmapCurrentStage').value;
+      const progress = document.getElementById('roadmapProgress').value;
+      const nextMilestone = document.getElementById('roadmapNextMilestone').value.trim();
+      const eta = document.getElementById('roadmapEta').value.trim();
+      const status = document.getElementById('roadmapStatus').value;
+      const previewUrl = document.getElementById('roadmapPreviewUrl').value.trim();
 
       try {
         const res = await fetch(getApiUrl('/api/project-roadmap/update'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ projectId, stage, completed })
+          body: JSON.stringify({
+            projectId,
+            currentStage,
+            progress,
+            nextMilestone,
+            eta,
+            status,
+            previewUrl
+          })
+        });
+
+        if (res.ok) {
+          showToast('Roadmap Updated', 'Project roadmap details updated successfully and synced!', 'success');
+          await fetchProjects();
+          loadRoadmapDetails();
+          renderWorkspaceProjects();
+          fetchApprovedUsers();
+        } else {
+          showToast('Error', 'Failed to update roadmap.', 'error');
+        }
+      } catch (err) {
+        showToast('Error', 'Connection failed.', 'error');
+      }
+    }
+    window.handleUpdateRoadmap = handleUpdateRoadmap;
+
+    async function loadPrivateNotes() {
+      const listContainer = document.getElementById('privateNotesList');
+      listContainer.innerHTML = '<div style="text-align:center; padding:20px; color:var(--ink-faint);"><i class="fa-solid fa-spinner fa-spin"></i> Loading notes...</div>';
+      
+      try {
+        const res = await fetch(getApiUrl('/api/client-notes?_t=' + Date.now()));
+        if (res.ok) {
+          const allNotes = await res.json();
+          const clientNotes = allNotes.filter(n => n.userId && n.userId.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+          
+          if (clientNotes.length === 0) {
+            listContainer.innerHTML = '<div style="text-align:center; padding:20px; color:var(--ink-soft);">No private notes registered for this client yet.</div>';
+            return;
+          }
+
+          clientNotes.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          listContainer.innerHTML = clientNotes.map(n => `
+            <div style="background:var(--bg-alt); border:1px solid var(--border); padding:14px; border-radius:6px; display:flex; justify-content:space-between; align-items:flex-start; border-left:3px solid var(--accent);">
+              <div style="flex:1; padding-right:16px;">
+                <p style="margin:0 0 8px 0; font-size:13px; color:var(--ink); line-height:1.5; white-space:pre-wrap;">${n.note}</p>
+                <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);"><i class="fa-solid fa-clock"></i> ${new Date(n.createdAt).toLocaleString()} &bull; by ${n.createdBy || 'Admin'}</span>
+              </div>
+              <button class="action-btn btn-delete" onclick="deletePrivateNote('${n.id}')" style="height:26px; width:26px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; margin-top:0 !important;" title="Delete Note">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        listContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#EF4444;">Failed to load notes.</div>';
+      }
+    }
+    window.loadPrivateNotes = loadPrivateNotes;
+
+    async function savePrivateNote() {
+      const txt = document.getElementById('newPrivateNoteText').value.trim();
+      if (!txt) {
+        showToast('Warning', 'Note text cannot be empty.', 'warning');
+        return;
+      }
+
+      try {
+        const res = await fetch(getApiUrl('/api/client-notes/create'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: window.currentWorkspaceEmail,
+            note: txt,
+            private: true
+          })
+        });
+
+        if (res.ok) {
+          showToast('Success', 'Private note saved successfully.', 'success');
+          document.getElementById('newPrivateNoteText').value = '';
+          loadPrivateNotes();
+        } else {
+          showToast('Error', 'Failed to save private note.', 'error');
+        }
+      } catch (e) {
+        showToast('Error', 'Connection failed.', 'error');
+      }
+    }
+    window.savePrivateNote = savePrivateNote;
+
+    async function deletePrivateNote(id) {
+      if (!confirm('Are you sure you want to delete this note?')) return;
+      try {
+        const res = await fetch(getApiUrl('/api/client-notes/delete'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        if (res.ok) {
+          showToast('Deleted', 'Note deleted successfully.', 'success');
+          loadPrivateNotes();
+        } else {
+          showToast('Error', 'Failed to delete note.', 'error');
+        }
+      } catch (e) {
+        showToast('Error', 'Connection failed.', 'error');
+      }
+    }
+    window.deletePrivateNote = deletePrivateNote;
+
+    async function updateClientAccessSetting(field) {
+      const email = window.currentWorkspaceEmail;
+      const select = document.getElementById(field === 'status' ? 'controlClientStatus' : (field === 'portalEnabled' ? 'controlPortalEnabled' : 'controlGoogleLogin'));
+      const val = select.value;
+      
+      const payload = { email };
+      payload[field] = val;
+
+      try {
+        const res = await fetch(getApiUrl('/api/approved-users/update'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          showToast('Updated', `Client portal setting for ${field} updated successfully to ${val}.`, 'success');
+          await fetchApprovedUsers();
+        } else {
+          showToast('Error', 'Failed to update access setting.', 'error');
+        }
+      } catch (e) {
+        showToast('Error', 'Connection failed.', 'error');
+      }
+    }
+    window.updateClientAccessSetting = updateClientAccessSetting;
+
+    async function resetClientPortalSession() {
+      const email = window.currentWorkspaceEmail;
+      if (!confirm(`Are you sure you want to reset all active portal sessions for ${email}?`)) return;
+
+      try {
+        const res = await fetch(getApiUrl('/api/approved-users/reset-portal'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
         });
         if (res.ok) {
           const data = await res.json();
-          showToast('Roadmap Updated', `Stage "${stage}" status synced successfully.`, 'success');
-          // Reload global projects to update locally in memory
-          await fetchProjects();
-          // Update UI metrics
-          document.getElementById('roadmapProgressPercent').innerText = `${data.progress}%`;
-          document.getElementById('roadmapProgressBar').style.width = `${data.progress}%`;
-          renderWorkspaceProjects();
-          fetchApprovedUsers(); // Refresh parent client management table
+          showToast('Reset Complete', data.message || 'All portal sessions have been reset.', 'success');
+        } else {
+          showToast('Error', 'Failed to reset sessions.', 'error');
         }
       } catch (e) {
-        showToast('Sync Error', 'Could not sync roadmap progress with server.', 'error');
+        showToast('Error', 'Connection failed.', 'error');
       }
     }
-    window.toggleRoadmapStage = toggleRoadmapStage;
+    window.resetClientPortalSession = resetClientPortalSession;
+
+    function renderPaymentSummary() {
+      const clientReceipts = receipts.filter(r => r.clientEmail && r.clientEmail.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
+      
+      const totalInvoices = clientReceipts.length;
+      const totalReceiptsPaid = clientReceipts.filter(r => r.status === 'Paid').length;
+      
+      let totalPaid = 0;
+      let totalPending = 0;
+      let totalAdvance = 0;
+      let totalRemaining = 0;
+      
+      clientReceipts.forEach(r => {
+        const total = Number(r.total) || 0;
+        const advance = Number(r.advancePaid) || 0;
+        if (r.status === 'Paid') {
+          totalPaid += total;
+          totalAdvance += advance;
+        } else {
+          totalPaid += advance;
+          totalAdvance += advance;
+          totalPending += (total - advance);
+          totalRemaining += (total - advance);
+        }
+      });
+      
+      const container = document.getElementById('profilePaymentSummaryContainer');
+      if (!container) return;
+      
+      container.innerHTML = `
+        <div style="background:var(--bg-alt); border:1px solid var(--border); padding:10px; border-radius:4px; text-align:center;">
+          <div style="font-size:10px; font-family:var(--font-mono); color:var(--ink-faint); text-transform:uppercase;">Invoices</div>
+          <div style="font-size:16px; font-weight:700; margin-top:4px;">${totalInvoices}</div>
+        </div>
+        <div style="background:var(--bg-alt); border:1px solid var(--border); padding:10px; border-radius:4px; text-align:center;">
+          <div style="font-size:10px; font-family:var(--font-mono); color:var(--ink-faint); text-transform:uppercase;">Receipts (Paid)</div>
+          <div style="font-size:16px; font-weight:700; margin-top:4px;">${totalReceiptsPaid}</div>
+        </div>
+        <div style="background:var(--bg-alt); border:1px solid var(--border); padding:10px; border-radius:4px; text-align:center;">
+          <div style="font-size:10px; font-family:var(--font-mono); color:var(--ink-faint); text-transform:uppercase;">Paid</div>
+          <div style="font-size:16px; font-weight:700; margin-top:4px; color:#4ADE80;">&#8377;${totalPaid.toLocaleString('en-IN')}</div>
+        </div>
+        <div style="background:var(--bg-alt); border:1px solid var(--border); padding:10px; border-radius:4px; text-align:center;">
+          <div style="font-size:10px; font-family:var(--font-mono); color:var(--ink-faint); text-transform:uppercase;">Pending</div>
+          <div style="font-size:16px; font-weight:700; margin-top:4px; color:var(--accent);">&#8377;${totalPending.toLocaleString('en-IN')}</div>
+        </div>
+        <div style="background:var(--bg-alt); border:1px solid var(--border); padding:10px; border-radius:4px; text-align:center;">
+          <div style="font-size:10px; font-family:var(--font-mono); color:var(--ink-faint); text-transform:uppercase;">Advance</div>
+          <div style="font-size:16px; font-weight:700; margin-top:4px; color:#3B82F6;">&#8377;${totalAdvance.toLocaleString('en-IN')}</div>
+        </div>
+        <div style="background:var(--bg-alt); border:1px solid var(--border); padding:10px; border-radius:4px; text-align:center;">
+          <div style="font-size:10px; font-family:var(--font-mono); color:var(--ink-faint); text-transform:uppercase;">Remaining</div>
+          <div style="font-size:16px; font-weight:700; margin-top:4px; color:#F59E0B;">&#8377;${totalRemaining.toLocaleString('en-IN')}</div>
+        </div>
+      `;
+    }
+    window.renderPaymentSummary = renderPaymentSummary;
 
     function renderWorkspaceProjects() {
       const list = projects.filter(p => p.email && p.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
@@ -4104,7 +4418,7 @@
       }
 
       try {
-        const res = await fetch(getApiUrl('/api/projects/create'), {
+        const res = await fetch(getApiUrl('/api/projects/create-manual'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, name, budget, stack, developerId, message })
@@ -4219,6 +4533,7 @@
       const milestoneTitle = document.getElementById('newInvTitle').value.trim();
       const amount = document.getElementById('newInvAmount').value.trim();
       const dueDate = document.getElementById('newInvDueDate').value;
+      const status = document.getElementById('newInvStatus').value;
       
       const client = approvedUsers.find(u => u.email.toLowerCase() === window.currentWorkspaceEmail.toLowerCase());
       if (!client || !projectId || !milestoneTitle || !amount) {
@@ -4239,7 +4554,7 @@
         lineItems: [{ description: milestoneTitle, amount: Number(amount) }],
         subtotal: Number(amount),
         total: Number(amount),
-        status: 'Pending',
+        status: status,
         dueDate: dueDate || new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
       };
 
@@ -4250,14 +4565,60 @@
           body: JSON.stringify(invoicePayload)
         });
         if (res.ok) {
-          showToast('Invoice Generated', 'Invoice has been successfully created and logged.', 'success');
+          const resData = await res.json();
+          const generatedReceipt = resData.receipt;
+
+          if (status === 'Paid' && generatedReceipt) {
+            // Log manual payment transaction
+            await fetch(getApiUrl('/api/payments/create'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                receiptId: generatedReceipt.id,
+                amount: generatedReceipt.total,
+                gateway: 'Admin Manual',
+                transactionId: 'pay_manual_' + Date.now(),
+                status: 'Paid'
+              })
+            });
+
+            // Log System Activity
+            await fetch(getApiUrl('/api/activity-logs/create'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                userId: client.email,
+                action: 'Payment Received',
+                description: `Payment of &#8377;${generatedReceipt.total} settled for Invoice #${generatedReceipt.id.substring(0,8)}.`,
+                entity: 'payments',
+                entityId: generatedReceipt.id
+              })
+            });
+
+            // Alert Client Portal
+            await fetch(getApiUrl('/api/notifications/create'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                userId: client.email,
+                title: '🔔 Payment Settled',
+                message: `Payment of &#8377;${generatedReceipt.total} has been credited for invoice #${generatedReceipt.id.substring(0,8)}.`,
+                type: 'success',
+                priority: 'High',
+                icon: 'fa-check-circle'
+              })
+            });
+          }
+
+          showToast(status === 'Paid' ? 'Receipt Generated' : 'Invoice Generated', 'Milestone statement created successfully.', 'success');
           toggleWorkspaceInvoiceForm();
           await fetchReceipts();
           renderWorkspaceInvoices();
+          renderPaymentSummary();
           fetchApprovedUsers();
         }
       } catch (e) {
-        showToast('Error', 'Failed to generate invoice.', 'error');
+        showToast('Error', 'Failed to generate statement.', 'error');
       }
     }
     window.saveWorkspaceInvoice = saveWorkspaceInvoice;
@@ -4273,7 +4634,7 @@
         r.razorpayPaymentId = 'pay_admin_' + Date.now();
         r.paymentMethod = 'Bank Transfer';
 
-        const uRes = await fetch(getApiUrl('/api/receipts/update'), {
+        const uRes = await fetch(getApiUrl('/api/receipts/create'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(r)
@@ -4320,10 +4681,11 @@
             })
           });
 
-          showToast('Payment Recieved', 'Invoice marked as paid and payment logs registered.', 'success');
+          showToast('Payment Settled', 'Invoice marked as paid and payment logs registered.', 'success');
           await fetchReceipts();
           renderWorkspaceInvoices();
           renderWorkspacePayments();
+          renderPaymentSummary();
           fetchApprovedUsers();
         }
       } catch (err) {
