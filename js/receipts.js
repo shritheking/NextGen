@@ -909,9 +909,6 @@ function editReceipt(id) {
 
   updateTotalSum();
   attachInputListeners();
-  
-  const creatorCard = document.querySelector('.creator-card');
-  if (creatorCard) creatorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 window.editReceipt = editReceipt;
 

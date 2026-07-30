@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (adminPass && adminPass.value === 'admin123') {
+      if (adminPass && adminPass.value === 'Shridharsan12@') {
         localStorage.setItem('adminAuth', 'true');
         if (loginOverlay) loginOverlay.classList.add('hidden');
         initDashboard();
