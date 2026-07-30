@@ -156,30 +156,30 @@ const templates = {
           </div>
 
           <div class="stat-grid">
-            <div class="stat-card">
-              <i data-lucide="check-square" class="stat-icon"></i>
-              <div class="stat-number">${data.stat_projects}</div>
-              <div class="stat-label">Delivered</div>
+            <div class="doc-stat-card">
+              <i data-lucide="check-square" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">${data.stat_projects}</div>
+              <div class="doc-stat-label">Delivered</div>
             </div>
-            <div class="stat-card">
-              <i data-lucide="smartphone" class="stat-icon"></i>
-              <div class="stat-number">100%</div>
-              <div class="stat-label">Responsive</div>
+            <div class="doc-stat-card">
+              <i data-lucide="smartphone" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">100%</div>
+              <div class="doc-stat-label">Responsive</div>
             </div>
-            <div class="stat-card">
-              <i data-lucide="activity" class="stat-icon"></i>
-              <div class="stat-number">${data.stat_uptime}</div>
-              <div class="stat-label">Uptime</div>
+            <div class="doc-stat-card">
+              <i data-lucide="activity" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">${data.stat_uptime}</div>
+              <div class="doc-stat-label">Uptime</div>
             </div>
-            <div class="stat-card">
-              <i data-lucide="heart" class="stat-icon"></i>
-              <div class="stat-number">30-Day</div>
-              <div class="stat-label">Support</div>
+            <div class="doc-stat-card">
+              <i data-lucide="heart" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">30-Day</div>
+              <div class="doc-stat-label">Support</div>
             </div>
-            <div class="stat-card">
-              <i data-lucide="clock" class="stat-icon"></i>
-              <div class="stat-number">${data.stat_delivery}</div>
-              <div class="stat-label">Timeline</div>
+            <div class="doc-stat-card">
+              <i data-lucide="clock" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">${data.stat_delivery}</div>
+              <div class="doc-stat-label">Timeline</div>
             </div>
           </div>
         </div>
