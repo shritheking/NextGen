@@ -1,0 +1,158 @@
+/* NextGen Document Center - Dedicated Print Stylesheet */
+
+@media print {
+  /* 1. Hide Dashboard & Controls & Admin Chrome */
+  aside,
+  .main-header,
+  .sidebar-header-wrapper,
+  .logout-btn,
+  .login-overlay,
+  .receipt-modal,
+  .doc-editor-sidebar,
+  .doc-preview-header,
+  #adminLiveClock,
+  .header-actions,
+  .doc-page-separator,
+  .print-tip {
+    display: none !important;
+  }
+
+  /* 2. Configure Print Canvas & Pages */
+  @page {
+    size: A4 portrait;
+    margin: 0 !important;
+  }
+
+  html, body {
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+  }
+
+  /* Admin Dashboard Layout Reset for Print */
+  .dashboard-container {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  main {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .tab-section {
+    display: none !important;
+  }
+  .tab-section.active, #proposalsTab {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .document-center-workspace {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    gap: 0 !important;
+  }
+
+  .doc-preview-workstation {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  .doc-preview-scroll-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    height: auto !important;
+    background-color: transparent !important;
+  }
+
+  .doc-preview-canvas {
+    width: 210mm !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    background-color: transparent !important;
+  }
+
+  /* 3. Style Individual Pages for Clean Breaks */
+  .doc-page {
+    width: 210mm !important;
+    height: 297mm !important; /* Exact A4 Height */
+    padding: 20mm !important; /* Standard Professional Page Padding */
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    position: relative !important;
+  }
+
+  /* Force background colors to print */
+  .preview-dark {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .preview-dark .doc-page {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .preview-light {
+    background-color: #ffffff !important;
+    color: #18181b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .preview-light .doc-page {
+    background-color: #ffffff !important;
+    color: #18181b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force print gradient backgrounds & borders */
+  .doc-hero-bg {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  .glass-card, .stat-card, .founder-message, .browser-mockup, .review-card, .check-item, .tech-item {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 4. Disable Editor Specific Highlights */
+  .live-val {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-bottom: none !important;
+    padding: 0 !important;
+  }
+}

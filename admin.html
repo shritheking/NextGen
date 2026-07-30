@@ -19,6 +19,10 @@
   <!-- Chart.js for Analytics Charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   
+  <!-- Document Suite Stylesheets -->
+  <link rel="stylesheet" href="documents.css">
+  <link rel="stylesheet" href="documents-print.css" media="print">
+  
   <style>
     /* ---------- CSS VARIABLES & THEMES ---------- */
     :root {
@@ -1505,7 +1509,7 @@
         <div class="sidebar-divider"></div>
         <li class="sidebar-section-label">Sales</li>
         <li data-tab="crmTab"><a href="#"><i class="fa-solid fa-people-arrows"></i> CRM Pipeline</a></li>
-        <li data-tab="proposalsTab"><a href="#"><i class="fa-solid fa-file-signature"></i> Proposals</a></li>
+        <li data-tab="proposalsTab"><a href="#"><i class="fa-solid fa-file-signature"></i> Document Center</a></li>
         <div class="sidebar-divider"></div>
         <li class="sidebar-section-label">Projects</li>
         <li data-tab="projectsTab"><a href="#"><i class="fa-solid fa-folder-open"></i> Project Scoping</a></li>
@@ -1725,27 +1729,79 @@
 
       <!-- TAB SECTION: PROPOSALS -->
       <div class="tab-section" id="proposalsTab">
-        <div style="display:grid; grid-template-columns:1fr 320px; gap:24px;">
-          <div class="panel" style="margin-bottom:0;">
-            <div class="panel-header"><h2>Sent Proposals</h2></div>
-            <div class="table-container">
-              <table>
-                <thead><tr><th>Client</th><th>Project</th><th>Value</th><th>Sent</th><th>Status</th><th>Actions</th></tr></thead>
-                <tbody>
-                  <tr><td class="col-name">NextGen Demo</td><td>Full Stack Website</td><td style="font-family:var(--font-mono); color:var(--accent);">&#8377;1,50,000</td><td class="col-date">15 Jul 2026</td><td><span class="status-badge contacted">Accepted</span></td><td><div class="action-group"><button class="action-btn" title="Download"><i class="fa-solid fa-download"></i></button><button class="action-btn" title="Email"><i class="fa-solid fa-envelope"></i></button></div></td></tr>
-                  <tr><td class="col-name">Artisan Bakery</td><td>Website + SEO</td><td style="font-family:var(--font-mono); color:var(--accent);">&#8377;50,000</td><td class="col-date">20 Jul 2026</td><td><span class="status-badge pending">Pending</span></td><td><div class="action-group"><button class="action-btn" title="Download"><i class="fa-solid fa-download"></i></button><button class="action-btn" title="Resend"><i class="fa-solid fa-envelope"></i></button></div></td></tr>
-                </tbody>
-              </table>
+        <!-- Split-pane layout for Document Center -->
+        <div class="document-center-workspace">
+          <!-- Left Sidebar Controls -->
+          <div class="doc-editor-sidebar">
+            <div class="doc-editor-scrollable">
+              <!-- Template Selector -->
+              <div class="input-group">
+                <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);"><i class="fa-solid fa-file-invoice"></i> Select Document Template</label>
+                <select id="docTemplateSelector" class="line-name-input" style="width:100%; height:40px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:4px; padding:0 10px; outline:none; font-family:inherit; margin-top:6px;">
+                  <option value="agreement" selected>Website Design Agreement</option>
+                  <option value="brochure">Company Profile & Brochure</option>
+                  <option value="proposal">Client Website Proposal</option>
+                  <option value="invoice">Client Invoice</option>
+                  <option value="receipt">Payment Receipt</option>
+                  <option value="maintenance">Maintenance Plans Collateral</option>
+                  <option value="brand_guidelines">Agency Brand Guidelines</option>
+                  <option value="handover">Website Handover Guide</option>
+                </select>
+              </div>
+
+              <!-- Options Toggles -->
+              <div class="doc-options-group" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; background:var(--bg-alt); padding:16px; border:1px solid var(--border); border-radius:6px;">
+                <h4 style="font-size:12px; font-weight:700; margin:0 0 8px 0; text-transform:uppercase; font-family:var(--font-mono); color:var(--ink-soft);">Print Settings</h4>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px;">
+                  <span>Dark Mode Print (Digital PDF)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="docThemeToggle" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px;">
+                  <span>Include Logo Headers</span>
+                  <label class="switch">
+                    <input type="checkbox" id="docLogoToggle" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px;">
+                  <span>Visual Page Padding Margins</span>
+                  <label class="switch">
+                    <input type="checkbox" id="docMarginToggle" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Dynamic Document Variables Fields Stack -->
+              <div style="margin-top:20px;">
+                <h4 style="font-size:12px; font-weight:700; margin:0 0 12px 0; text-transform:uppercase; font-family:var(--font-mono); color:var(--ink-soft);">Document Content Fields</h4>
+                <div id="docDynamicFields" style="display:flex; flex-direction:column; gap:12px;">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Sticky Bottom Actions -->
+            <div class="doc-editor-footer" style="padding-top:16px; border-top:1px solid var(--border); margin-top:20px; display:flex; flex-direction:column; gap:8px;">
+              <button id="docPrintBtn" class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); margin:0; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fa-solid fa-print"></i> Print Document</button>
+              <span style="font-size:10px; color:var(--ink-faint); text-align:center; font-family:var(--font-mono);">Choose 'Save as PDF' in browser print dialog</span>
             </div>
           </div>
-          <div class="creator-card">
-            <h3>Generate Proposal</h3>
-            <div class="input-group"><label>Client Name</label><input type="text" placeholder="e.g. Artisan Bakery"></div>
-            <div class="input-group"><label>Project Type</label><input type="text" placeholder="e.g. E-Commerce Website"></div>
-            <div class="input-group"><label>Quote Value (&#8377;)</label><input type="number" placeholder="50000"></div>
-            <div class="input-group"><label>Client Email</label><input type="email" placeholder="client@domain.com"></div>
-            <div class="input-group"><label>Notes</label><textarea rows="3" placeholder="Scope of work..."></textarea></div>
-            <button class="refresh-btn" style="width:100%; justify-content:center; margin-top:8px;" onclick="showToast('Proposal','Proposal generated and emailed!','success')"><i class="fa-solid fa-paper-plane"></i> Generate &amp; Send</button>
+
+          <!-- Right Document Preview Workstation -->
+          <div class="doc-preview-workstation">
+            <div class="doc-preview-header" style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:1px solid var(--border); background:var(--bg-alt); border-top-left-radius:6px; border-top-right-radius:6px;">
+              <div style="font-size:12px; font-weight:600; display:flex; align-items:center; gap:6px; color:var(--accent);"><i class="fa-solid fa-eye"></i> Document Preview Canvas</div>
+              <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);">A4 Portrait (A4 Standard)</div>
+            </div>
+            <div class="doc-preview-scroll-container">
+              <div id="docPreviewContainer" class="preview-canvas preview-dark">
+                <!-- Template HTML content rendered here -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -3110,9 +3166,9 @@
   <script src="js/clients.js"></script>
   <script src="js/projects.js"></script>
   <script src="js/receipts.js"></script>
+  <script src="js/documents.js"></script>
   <script src="js/activity.js"></script>
   <script src="js/sync.js"></script>
 
 </body>
 </html>
-
