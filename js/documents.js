@@ -389,7 +389,7 @@ const templates = {
   agreement: {
     name: "Website Design Agreement",
     fields: [
-      { id: "agr_id", label: "Agreement Reference ID", type: "text", default: "NG-2026-001" },
+      { id: "agr_id", label: "Agreement Reference ID", type: "text", default: "NXG-AGR-" + Math.floor(10000 + Math.random() * 90000) },
       { id: "agr_date", label: "Agreement Date", type: "text", default: "30 / 07 / 2026" },
       { id: "client_company", label: "Client Business Name", type: "text", default: "Boomers Gaming Cafe" },
       { id: "client_rep", label: "Client Representative", type: "text", default: "Vikram Sen" },
