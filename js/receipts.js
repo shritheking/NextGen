@@ -709,6 +709,8 @@ function renderReceiptModalEditView(id) {
   `;
 
   attachModalInputListeners();
+  const modal = document.getElementById('receiptModal');
+  if (modal) modal.classList.add('show');
 }
 window.renderReceiptModalEditView = renderReceiptModalEditView;
 

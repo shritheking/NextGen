@@ -666,12 +666,14 @@
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
       background-color: rgba(0,0,0,0.85);
-      z-index: 500;
+      z-index: 2500;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       opacity: 0; pointer-events: none;
       transition: opacity 0.3s ease;
+      overflow-y: auto;
+      padding: 40px 20px;
     }
     .receipt-modal.show {
       opacity: 1; pointer-events: auto;
@@ -679,7 +681,7 @@
     .receipt-card {
       width: 100%;
       max-width: 500px;
-      max-height: 90vh;
+      margin: auto 0;
       display: flex;
       flex-direction: column;
       background-color: var(--bg-card);
@@ -1754,7 +1756,7 @@
           <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <h2>Client Messages Inbox</h2>
             <div style="display:flex; gap:12px; align-items:center;">
-              <input type="text" id="searchInquiriesInput" placeholder="ðŸ” Search inquiries..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+              <input type="text" id="searchInquiriesInput" placeholder="&#x1F50D; Search inquiries..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
               <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="inquiriesCount">0 enquiries found</span>
             </div>
           </div>
@@ -1785,7 +1787,7 @@
           <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <h2>Detailed Project Leads</h2>
             <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-              <input type="text" id="searchProjectsInput" placeholder="ðŸ” Search projects..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+              <input type="text" id="searchProjectsInput" placeholder="&#x1F50D; Search projects..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
               <button id="addProjectBtn" class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); margin:0; padding:8px 16px; font-size:13px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; width:auto; height:38px;"><i class="fa-solid fa-plus"></i> Add Project</button>
               <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="projectsCount">0 projects found</span>
             </div>
@@ -1994,7 +1996,7 @@
             <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
               <h2>Billing Receipts</h2>
               <div style="display:flex; gap:12px; align-items:center;">
-                <input type="text" id="searchReceiptsInput" placeholder="ðŸ” Search invoices..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+                <input type="text" id="searchReceiptsInput" placeholder="&#x1F50D; Search invoices..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
                 <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="receiptsCount">0 receipts found</span>
               </div>
             </div>
@@ -2047,7 +2049,7 @@
                 </select>
               </div>
               <div class="input-group">
-                <label for="rcptAdvance">Advance Amount Paid (Optional, â‚¹)</label>
+                <label for="rcptAdvance">Advance Amount Paid (Optional, &#8377;)</label>
                 <input type="number" id="rcptAdvance" placeholder="e.g. 15000" min="0" class="line-name-input" style="width:100%;">
               </div>
               
@@ -2069,7 +2071,7 @@
                   <!-- Auto-appends dynamic item rows -->
                   <div class="item-row">
                     <input type="text" placeholder="Task Name (e.g. UX UI Design)" required class="line-name-input">
-                    <input type="number" placeholder="Cost (â‚¹)" required min="0" class="line-cost-input">
+                    <input type="number" placeholder="Cost (&#8377;)" required min="0" class="line-cost-input">
                     <button type="button" class="remove-row-btn" onclick="removeRow(this)">&times;</button>
                   </div>
                 </div>
@@ -2077,7 +2079,7 @@
 
               <div class="total-display-row">
                 <span>Calculated Amount:</span>
-                <h4 id="receiptTotalText">â‚¹0</h4>
+                <h4 id="receiptTotalText">&#8377;0</h4>
               </div>
 
               <div class="input-group" style="flex-direction: row; align-items: center; gap: 8px; margin-top: 15px; width: 100%;">
@@ -2194,7 +2196,7 @@
                 </div>
                 <div class="input-group" style="grid-column: span 2;">
                   <label for="smtpPass">SMTP Access Password (App Password)</label>
-                  <input type="password" id="smtpPass" placeholder="ðŸ”’ Enter App Password">
+                  <input type="password" id="smtpPass" placeholder="&#128272; Enter App Password">
                 </div>
                 <div class="input-group">
                   <label for="smtpFromName">From Display Name</label>
@@ -2388,7 +2390,7 @@
               </div>
               <div class="input-group">
                 <label for="newUserProjectBudget">Project Budget</label>
-                <input type="text" id="newUserProjectBudget" placeholder="e.g. â‚¹1.5L - â‚¹3L">
+                <input type="text" id="newUserProjectBudget" placeholder="e.g. &#8377;1.5L - &#8377;3L">
               </div>
               <div class="input-group">
                 <label for="newUserProjectType">Project Type</label>
@@ -2426,7 +2428,7 @@
             <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
               <h2>Approved Client Profiles</h2>
               <div style="display:flex; gap:12px; align-items:center;">
-                <input type="text" id="searchAccessInput" placeholder="ðŸ” Search clients..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+                <input type="text" id="searchAccessInput" placeholder="&#x1F50D; Search clients..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
                 <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="approvedUsersCount">0 clients found</span>
               </div>
             </div>
@@ -2461,7 +2463,7 @@
           <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <h2>Chatbot Inbox & Real-time Logs</h2>
             <div style="display:flex; gap:12px; align-items:center;">
-              <input type="text" id="searchChatInput" placeholder="ðŸ” Search chat logs..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+              <input type="text" id="searchChatInput" placeholder="&#x1F50D; Search chat logs..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
               <button class="action-btn" id="markAllChatReadBtn" style="font-size:12px; height:32px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; background-color:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; white-space:nowrap; flex-shrink:0; width:auto !important;"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
             </div>
           </div>
