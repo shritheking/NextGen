@@ -1553,60 +1553,60 @@
         </div>
       </div>
 
-      <!-- 6-Card Stats Summary Banner -->
-      <div class="stats-grid-8" id="statsRow">
-        <div class="stat-card green-border">
-          <div>
-            <div class="stat-label-sm">Today's Revenue</div>
-            <div class="stat-value-lg" id="statTodayRevenue">&#8377;1,20,000</div>
-            <div class="stat-change up">Live today</div>
-          </div>
-          <div class="stat-icon" style="background:rgba(74,222,128,.08); color:#4ADE80;"><i class="fa-solid fa-indian-rupee-sign"></i></div>
-        </div>
-        <div class="stat-card accent-border">
-          <div>
-            <div class="stat-label-sm">Pending Payments</div>
-            <div class="stat-value-lg" id="statPendingPayments">5</div>
-            <div class="stat-change down">Invoices outstanding</div>
-          </div>
-          <div class="stat-icon" style="background:rgba(224,255,79,.08);"><i class="fa-solid fa-clock"></i></div>
-        </div>
-        <div class="stat-card blue-border">
-          <div>
-            <div class="stat-label-sm">Projects Running</div>
-            <div class="stat-value-lg" id="statProjectsRunning">12</div>
-            <div class="stat-change up">Active builds</div>
-          </div>
-          <div class="stat-icon" style="background:rgba(59,130,246,.08); color:#3B82F6;"><i class="fa-solid fa-spinner"></i></div>
-        </div>
-        <div class="stat-card amber-border">
-          <div>
-            <div class="stat-label-sm">Unread Support</div>
-            <div class="stat-value-lg" id="statUnreadSupport">3</div>
-            <div class="stat-change">Awaiting reply</div>
-          </div>
-          <div class="stat-icon" style="background:rgba(245,158,11,.08); color:#F59E0B;"><i class="fa-solid fa-headset"></i></div>
-        </div>
-        <div class="stat-card" style="border-left: 3px solid #A78BFA;">
-          <div>
-            <div class="stat-label-sm">CRM Leads</div>
-            <div class="stat-value-lg" id="statCrmLeads">0</div>
-            <div class="stat-change up">Pipeline leads</div>
-          </div>
-          <div class="stat-icon" style="background:rgba(167,139,250,.08); color:#A78BFA;"><i class="fa-solid fa-users"></i></div>
-        </div>
-        <div class="stat-card" style="border-left: 3px solid #EF4444;">
-          <div>
-            <div class="stat-label-sm">Completed Milestones</div>
-            <div class="stat-value-lg" id="statCompletedMilestones">0</div>
-            <div class="stat-change down">Milestones achieved</div>
-          </div>
-          <div class="stat-icon" style="background:rgba(239,68,68,.08); color:#EF4444;"><i class="fa-solid fa-circle-check"></i></div>
-        </div>
-      </div>
-
       <!-- TAB SECTION: DASHBOARD HOME -->
       <div class="tab-section active" id="dashboardTab">
+        <!-- 6-Card Stats Summary Banner (Dashboard only) -->
+        <div class="stats-grid-8" id="statsRow">
+          <div class="stat-card green-border">
+            <div>
+              <div class="stat-label-sm">Today's Revenue</div>
+              <div class="stat-value-lg" id="statTodayRevenue">&#8377;1,20,000</div>
+              <div class="stat-change up">Live today</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(74,222,128,.08); color:#4ADE80;"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+          </div>
+          <div class="stat-card accent-border">
+            <div>
+              <div class="stat-label-sm">Pending Payments</div>
+              <div class="stat-value-lg" id="statPendingPayments">5</div>
+              <div class="stat-change down">Invoices outstanding</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(224,255,79,.08);"><i class="fa-solid fa-clock"></i></div>
+          </div>
+          <div class="stat-card blue-border">
+            <div>
+              <div class="stat-label-sm">Projects Running</div>
+              <div class="stat-value-lg" id="statProjectsRunning">12</div>
+              <div class="stat-change up">Active builds</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(59,130,246,.08); color:#3B82F6;"><i class="fa-solid fa-spinner"></i></div>
+          </div>
+          <div class="stat-card amber-border">
+            <div>
+              <div class="stat-label-sm">Unread Support</div>
+              <div class="stat-value-lg" id="statUnreadSupport">3</div>
+              <div class="stat-change">Awaiting reply</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(245,158,11,.08); color:#F59E0B;"><i class="fa-solid fa-headset"></i></div>
+          </div>
+          <div class="stat-card" style="border-left: 3px solid #A78BFA;">
+            <div>
+              <div class="stat-label-sm">CRM Leads</div>
+              <div class="stat-value-lg" id="statCrmLeads">0</div>
+              <div class="stat-change up">Pipeline leads</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(167,139,250,.08); color:#A78BFA;"><i class="fa-solid fa-users"></i></div>
+          </div>
+          <div class="stat-card" style="border-left: 3px solid #EF4444;">
+            <div>
+              <div class="stat-label-sm">Completed Milestones</div>
+              <div class="stat-value-lg" id="statCompletedMilestones">0</div>
+              <div class="stat-change down">Milestones achieved</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(239,68,68,.08); color:#EF4444;"><i class="fa-solid fa-circle-check"></i></div>
+          </div>
+        </div>
+
         <div class="charts-grid">
           <div class="chart-card">
             <h3>Monthly Revenue</h3>
@@ -1618,7 +1618,6 @@
             <p>Invoice status breakdown</p>
             <div class="chart-canvas-wrap"><canvas id="paymentStatusChart"></canvas></div>
           </div>
-        </div>
         </div>
       </div>
 
@@ -1679,7 +1678,6 @@
               <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('crmAddForm').style.display='none'">Cancel</button>
             </div>
           </div>
-        </div>
         </div>
       </div>
 
@@ -1950,7 +1948,6 @@
             <button class="login-btn" style="margin-top:0;" onclick="addTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
             <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('taskAddForm').style.display='none'">Cancel</button>
           </div>
-        </div>
         </div>
       </div>
 
@@ -2467,7 +2464,6 @@
           </div>
         </div>
       </div>
-    </div>
 
       <!-- 6. CHATBOT TAB SECTION -->
       <div class="tab-section" id="chatbotTab">
