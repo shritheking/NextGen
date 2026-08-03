@@ -64,8 +64,8 @@ const templates = {
       { id: "starter_price", label: "Starter Package Price", type: "text", default: "₹9,999" },
       { id: "business_price", label: "Business Package Price", type: "text", default: "₹19,999" },
       { id: "premium_price", label: "Premium Package Price", type: "text", default: "₹39,999+" },
-      { id: "contact_email", label: "Agency Email", type: "text", default: "shridharsan@nextgenwebstudio.in" },
-      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 63791 40067" },
+      { id: "contact_email", label: "Agency Email", type: "text", default: "nextgenwebstudio63@gmail.com" },
+      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 79045 44101" },
       { id: "contact_ig", label: "Instagram Handle", type: "text", default: "@nextgen_web_studio" }
     ],
     render: (data) => `
@@ -853,7 +853,7 @@ const templates = {
               <div class="invoice-bill-to">
                 <span class="invoice-meta-label" style="display:block; margin-bottom:6px;">Sent From:</span>
                 <strong style="display:block; font-size:14px; font-family:'Outfit';">NextGen Web Studio</strong>
-                <p class="doc-para" style="font-size:11.5px; margin-top:4px; line-height:1.4;">Tamil Nadu, India<br>shridharsan@nextgenwebstudio.in</p>
+                <p class="doc-para" style="font-size:11.5px; margin-top:4px; line-height:1.4;">Tamil Nadu, India<br>nextgenwebstudio63@gmail.com</p>
               </div>
             </div>
 

@@ -494,7 +494,7 @@ function openDetailsModal(id, type) {
                   <img src="logo-print.png" alt="NextGen Logo" style="height: 48px; width: auto; display: block;">
                 </div>
                 <p>Premium Web Design &amp; Full-Stack Engineering</p>
-                <p class="meta-sub">Coimbatore, Tamil Nadu, India | shridharsan@nextgenwebstudio.in</p>
+                <p class="meta-sub">Coimbatore, Tamil Nadu, India | nextgenwebstudio63@gmail.com</p>
               </div>
               <div class="invoice-meta-block">
                 <h3>INVOICE STATEMENT</h3>

@@ -242,7 +242,7 @@ function sendMailViaResend(resendConfig, email) {
   return new Promise((resolve, reject) => {
     const apiKey = resendConfig.apiKey;
     const fromName = resendConfig.fromName || 'NextGen Web Studio';
-    const fromEmail = resendConfig.fromEmail || 'shridharsan@nextgenwebstudio.in';
+    const fromEmail = resendConfig.fromEmail || 'nextgenwebstudio63@gmail.com';
     const from = email.from || `${fromName} <${fromEmail}>`;
     const to = email.to || resendConfig.to;
     const subject = email.subject || 'Notification';

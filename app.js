@@ -131,8 +131,8 @@ function initInteractiveTerminal() {
     contact: {
       cmd: './contact-info',
       output: [
-        'Email ID: shridharsan@nextgenwebstudio.in',
-        'Mobile No: +91 63791 40067',
+        'Email ID: nextgenwebstudio63@gmail.com',
+        'Mobile No: +91 79045 44101',
         'Address: Coimbatore, Tamil Nadu, India',
         'Status: Accepting projects for Q3/Q4 2026'
       ]
@@ -548,12 +548,12 @@ function initChatbot() {
 
     // Phone / Contact Keywords
     if (text.includes('phone') || text.includes('number') || text.includes('contact') || text.includes('call') || text.includes('whatsapp') || text.includes('mobile')) {
-      return "You can call or WhatsApp our developer directly at <a href='tel:6379140067' style='color:var(--accent); text-decoration:underline; font-weight:600;'>+91 63791 40067</a>. 📞 Let's discuss your project!";
+      return "You can call or WhatsApp our developer directly at <a href='tel:7904544101' style='color:var(--accent); text-decoration:underline; font-weight:600;'>+91 79045 44101</a>. 📞 Let's discuss your project!";
     }
 
     // Email Keywords
     if (text.includes('email') || text.includes('mail') || text.includes('write')) {
-      return "You can email your project requirements to shridharsan@nextgenwebstudio.in. ✉️ We respond in under 24 hours!";
+      return "You can email your project requirements to nextgenwebstudio63@gmail.com. ✉️ We respond in under 24 hours!";
     }
 
     // Budget / Pricing / Cost Keywords
@@ -573,7 +573,7 @@ function initChatbot() {
 
     // Contact Admin Keywords
     if (text.includes('admin') || text.includes('manager') || text.includes('support') || text.includes('human') || text.includes('message admin') || text.includes('tell admin') || text.includes('login') || text.includes('receipt') || text.includes('dashboard')) {
-      return "To get support or discuss project bookings, you can email us directly at shridharsan@nextgenwebstudio.in or call us at +91 63791 40067! 🚀";
+      return "To get support or discuss project bookings, you can email us directly at nextgenwebstudio63@gmail.com or call us at +91 79045 44101! 🚀";
     }
 
     // Help / Commands
@@ -582,7 +582,7 @@ function initChatbot() {
     }
 
     // Fallback
-    return "Thanks for asking! I'm a simulated AI helper. To map out your roadmap or get a formal quote, fill out our Project Scoping Form on this page or email us directly at shridharsan@nextgenwebstudio.in! 🚀";
+    return "Thanks for asking! I'm a simulated AI helper. To map out your roadmap or get a formal quote, fill out our Project Scoping Form on this page or email us directly at nextgenwebstudio63@gmail.com! 🚀";
   }
 }
 
@@ -630,7 +630,7 @@ function setupWebsiteContactModal(type = 'email') {
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
       <div style="text-align: left;">
         <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Direct Call</div>
-        <div style="font-size: 14px; font-weight: 600; color: var(--ink);">+91 63791 40067</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--ink);">+91 79045 44101</div>
       </div>
       <button type="button" class="refresh-btn" id="copyPhoneBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
     </div>
@@ -641,7 +641,7 @@ function setupWebsiteContactModal(type = 'email') {
         <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">WhatsApp Chat</div>
         <div style="font-size: 14px; font-weight: 600; color: var(--ink);">Instant Chat Link</div>
       </div>
-      <a href="https://wa.me/916379140067" target="_blank" class="login-btn" style="margin: 0; padding: 6px 16px; font-size: 12px; width: auto; background-color: #25D366; border-color: #25D366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content:center; gap: 4px; border-radius:4px; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> Message</a>
+      <a href="https://wa.me/917904544101" target="_blank" class="login-btn" style="margin: 0; padding: 6px 16px; font-size: 12px; width: auto; background-color: #25D366; border-color: #25D366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content:center; gap: 4px; border-radius:4px; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> Message</a>
     </div>
   `;
 
@@ -650,7 +650,7 @@ function setupWebsiteContactModal(type = 'email') {
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
       <div style="text-align: left;">
         <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Email Inquiry</div>
-        <div style="font-size: 14px; font-weight: 600; color: var(--ink);">shridharsan@nextgenwebstudio.in</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--ink);">nextgenwebstudio63@gmail.com</div>
       </div>
       <button type="button" class="refresh-btn" id="copyEmailBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
     </div>
@@ -704,13 +704,13 @@ function setupWebsiteContactModal(type = 'email') {
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('+916379140067');
+      navigator.clipboard.writeText('+917904544101');
       showToast('Copied', 'Phone number copied to clipboard!', 'success');
     });
   }
   if (copyEmailBtn) {
     copyEmailBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('shridharsan@nextgenwebstudio.in');
+      navigator.clipboard.writeText('nextgenwebstudio63@gmail.com');
       showToast('Copied', 'Email address copied to clipboard!', 'success');
     });
   }

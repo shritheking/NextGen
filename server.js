@@ -103,14 +103,14 @@ if (!fs.existsSync(EMAIL_TEMPLATES_FILE)) {
 }
 if (!fs.existsSync(USERS_FILE)) {
   fs.writeFileSync(USERS_FILE, JSON.stringify([
-    { email: 'shridharsanshridharsan@gmail.com', passcode: '123456' },
-    { email: 'shridharsan@nextgenwebstudio.in', passcode: '123456' },
+    { email: 'nextgenwebstudio63@gmail.com', passcode: '123456' },
+    { email: 'nextgenwebstudio63@gmail.com', passcode: '123456' },
     { email: 'manual@test.com', passcode: '123456' }
   ], null, 2));
 }
 if (!fs.existsSync(CONFIG_FILE)) {
   fs.writeFileSync(CONFIG_FILE, JSON.stringify({
-    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'shridharsan@nextgenwebstudio.in' },
+    smtp: { host: 'smtp.gmail.com', port: 465, user: '', pass: '', from: '', to: 'nextgenwebstudio63@gmail.com' },
     razorpay: { keyId: '', keySecret: '' },
     oauth: {
       googleClientId: '',
@@ -620,15 +620,15 @@ function readConfigFallback() {
       user: '', 
       pass: '', 
       fromName: 'NextGen Web Studio', 
-      fromEmail: 'shridharsan@nextgenwebstudio.in', 
-      to: 'shridharsan@nextgenwebstudio.in' 
+      fromEmail: 'nextgenwebstudio63@gmail.com', 
+      to: 'nextgenwebstudio63@gmail.com' 
     },
     razorpay: { keyId: '', keySecret: '' },
     resend: { 
       apiKey: '', 
       fromName: 'NextGen Web Studio', 
-      fromEmail: 'shridharsan@nextgenwebstudio.in', 
-      to: 'shridharsan@nextgenwebstudio.in' 
+      fromEmail: 'nextgenwebstudio63@gmail.com', 
+      to: 'nextgenwebstudio63@gmail.com' 
     },
     oauth: {
       googleClientId: '',
@@ -888,7 +888,7 @@ async function dispatchEmail(emailOptions) {
     smtp: config.smtp
   };
 
-  const toEmail = emailOptions.to || config.resend.to || config.smtp.to || 'shridharsan@nextgenwebstudio.in';
+  const toEmail = emailOptions.to || config.resend.to || config.smtp.to || 'nextgenwebstudio63@gmail.com';
   const emailPayload = {
     ...emailOptions,
     to: toEmail
@@ -2172,7 +2172,7 @@ function parseBudgetToNumber(budgetString) {
         try {
           await smtpClient.sendMail({
             templateId: 'project_update',
-            to: process.env.SMTP_TO || 'shridharsan@nextgenwebstudio.in',
+            to: process.env.SMTP_TO || 'nextgenwebstudio63@gmail.com',
             variables: {
               clientName: projects[projIdx].name,
               projectName: projects[projIdx].name,
@@ -2442,7 +2442,7 @@ function parseBudgetToNumber(budgetString) {
             pass: (payload.smtp.pass || '').replace(/\s+/g, ''),
             fromName: payload.smtp.fromName || 'NextGen Web Studio',
             fromEmail: payload.smtp.fromEmail || payload.smtp.user || '',
-            to: payload.smtp.to || 'shridharsan@nextgenwebstudio.in'
+            to: payload.smtp.to || 'nextgenwebstudio63@gmail.com'
           };
         }
 
@@ -2450,8 +2450,8 @@ function parseBudgetToNumber(budgetString) {
           config.resend = {
             apiKey: payload.resend.apiKey || '',
             fromName: payload.resend.fromName || 'NextGen Web Studio',
-            fromEmail: payload.resend.fromEmail || 'shridharsan@nextgenwebstudio.in',
-            to: payload.resend.to || 'shridharsan@nextgenwebstudio.in'
+            fromEmail: payload.resend.fromEmail || 'nextgenwebstudio63@gmail.com',
+            to: payload.resend.to || 'nextgenwebstudio63@gmail.com'
           };
         }
 
@@ -2526,7 +2526,7 @@ function parseBudgetToNumber(budgetString) {
         const provider = payload.provider || 'resend';
         const smtpConfig = payload.smtp || readConfig().smtp;
         const resendConfig = payload.resend || readConfig().resend;
-        const testRecipient = payload.to || resendConfig.to || smtpConfig.to || 'shridharsan@nextgenwebstudio.in';
+        const testRecipient = payload.to || resendConfig.to || smtpConfig.to || 'nextgenwebstudio63@gmail.com';
         
         if (smtpConfig.pass) {
           smtpConfig.pass = smtpConfig.pass.replace(/\s+/g, '');
@@ -2564,7 +2564,7 @@ function parseBudgetToNumber(budgetString) {
             let messageId = 'N/A';
 
             if (provider === 'resend') {
-              const fromEmail = resendConfig.fromEmail || 'shridharsan@nextgenwebstudio.in';
+              const fromEmail = resendConfig.fromEmail || 'nextgenwebstudio63@gmail.com';
               domain = fromEmail.substring(fromEmail.indexOf('@') + 1);
               const verification = await fetchResendDomainStatus(resendConfig.apiKey, domain);
               verified = verification.verified ? 'Verified' : 'Pending/Unverified';
@@ -2619,7 +2619,7 @@ function parseBudgetToNumber(budgetString) {
   if (pathname === '/api/resend/domain-status' && req.method === 'GET') {
     const config = readConfig();
     const apiKey = config.resend.apiKey;
-    const fromEmail = config.resend.fromEmail || 'shridharsan@nextgenwebstudio.in';
+    const fromEmail = config.resend.fromEmail || 'nextgenwebstudio63@gmail.com';
     const domain = fromEmail.substring(fromEmail.indexOf('@') + 1);
 
     if (!apiKey) {
@@ -2758,7 +2758,7 @@ function parseBudgetToNumber(budgetString) {
             return;
           }
 
-          recipient = config.resend.to || config.smtp.to || 'shridharsan@nextgenwebstudio.in';
+          recipient = config.resend.to || config.smtp.to || 'nextgenwebstudio63@gmail.com';
           subject = `Fwd Lead Brief: ${item.name} (${type.toUpperCase()})`;
           htmlBody = `
             <div style="background-color: #0b0b0a; padding: 40px 20px; font-family: 'Outfit', 'Inter', -apple-system, sans-serif; color: #f5f4f0; margin: 0 auto; max-width: 600px; border-radius: 12px;">
@@ -2959,7 +2959,7 @@ function parseBudgetToNumber(budgetString) {
   }
 
   if (pathname === '/api/auth/mock' && req.method === 'GET') {
-    const queryEmail = parsedUrl.searchParams.get('email') ? parsedUrl.searchParams.get('email').trim().toLowerCase() : 'shridharsanshridharsan@gmail.com';
+    const queryEmail = parsedUrl.searchParams.get('email') ? parsedUrl.searchParams.get('email').trim().toLowerCase() : 'nextgenwebstudio63@gmail.com';
     const users = await dbList('users');
     const clientRecord = users.find(u => u.email.toLowerCase() === queryEmail);
     
@@ -3018,7 +3018,7 @@ function parseBudgetToNumber(budgetString) {
     const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || oauth.googleClientSecret;
     if (!googleClientId || !googleClientSecret) {
       console.warn('[Google OAuth] Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET. Redirecting to mock login bypass.');
-      res.writeHead(302, { 'Location': '/api/auth/mock?email=shridharsanshridharsan@gmail.com' });
+      res.writeHead(302, { 'Location': '/api/auth/mock?email=nextgenwebstudio63@gmail.com' });
       res.end();
       return;
     }
@@ -3044,7 +3044,7 @@ function parseBudgetToNumber(budgetString) {
     const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || oauth.googleClientSecret;
     if (!googleClientSecret) {
       console.warn('[Google OAuth] Missing GOOGLE_CLIENT_SECRET in callback phase. Redirecting to mock login bypass.');
-      res.writeHead(302, { 'Location': '/api/auth/mock?email=shridharsanshridharsan@gmail.com' });
+      res.writeHead(302, { 'Location': '/api/auth/mock?email=nextgenwebstudio63@gmail.com' });
       res.end();
       return;
     }
@@ -3885,11 +3885,11 @@ function generateReceiptPdfBuffer(item) {
   linesContent.push('(Premium Web Design & Full-Stack Engineering) Tj');
   linesContent.push('ET');
 
-  // Sub-header 2: Coimbatore, Tamil Nadu, India | shridharsan@nextgenwebstudio.in
+  // Sub-header 2: Coimbatore, Tamil Nadu, India | nextgenwebstudio63@gmail.com
   linesContent.push('BT');
   linesContent.push('/F1 8 Tf'); // Helvetica 8
   linesContent.push('50 750 Td');
-  linesContent.push('(Coimbatore, Tamil Nadu, India | shridharsan@nextgenwebstudio.in) Tj');
+  linesContent.push('(Coimbatore, Tamil Nadu, India | nextgenwebstudio63@gmail.com) Tj');
   linesContent.push('ET');
 
   // ==================== RIGHT HEADER: METADATA ====================
@@ -4124,7 +4124,7 @@ function generateReceiptPdfBuffer(item) {
   linesContent.push('/F1 8 Tf');
   linesContent.push('0.4 0.4 0.4 rg'); // Light gray text
   linesContent.push('140 42 Td');
-  linesContent.push('(NextGen Web Studio • Coimbatore, Tamil Nadu, India • Support: shridharsan@nextgenwebstudio.in) Tj');
+  linesContent.push('(NextGen Web Studio • Coimbatore, Tamil Nadu, India • Support: nextgenwebstudio63@gmail.com) Tj');
   linesContent.push('ET');
   linesContent.push('0 0 0 rg'); // Restore fill color black
 
@@ -4315,7 +4315,7 @@ function generateReceiptEmailHtml(item) {
           </div>
 
           <div style="border-top: 1px solid #22211f; padding-top: 20px; font-size: 11px; text-align: center; color: #5c5b56;">
-            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:shridharsan@nextgenwebstudio.in" style="color: #a2a098; text-decoration: underline;">Support Email</a>
+            NextGen Web Studio • Coimbatore, Tamil Nadu, India • <a href="mailto:nextgenwebstudio63@gmail.com" style="color: #a2a098; text-decoration: underline;">Support Email</a>
           </div>
         </div>
       </div>

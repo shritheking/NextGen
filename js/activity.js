@@ -38,13 +38,13 @@ async function fetchSmtpConfig() {
         if (document.getElementById('smtpPass')) document.getElementById('smtpPass').value = config.smtp.pass || '';
         if (document.getElementById('smtpFromName')) document.getElementById('smtpFromName').value = config.smtp.fromName || 'NextGen Web Studio';
         if (document.getElementById('smtpFromEmail')) document.getElementById('smtpFromEmail').value = config.smtp.fromEmail || '';
-        if (document.getElementById('smtpTo')) document.getElementById('smtpTo').value = config.smtp.to || 'shridharsan@nextgenwebstudio.in';
+        if (document.getElementById('smtpTo')) document.getElementById('smtpTo').value = config.smtp.to || 'nextgenwebstudio63@gmail.com';
       }
       if (config.resend) {
         if (document.getElementById('resendApiKey')) document.getElementById('resendApiKey').value = config.resend.apiKey || '';
         if (document.getElementById('resendFromName')) document.getElementById('resendFromName').value = config.resend.fromName || 'NextGen Web Studio';
-        if (document.getElementById('resendFromEmail')) document.getElementById('resendFromEmail').value = config.resend.fromEmail || 'shridharsan@nextgenwebstudio.in';
-        if (document.getElementById('resendTo')) document.getElementById('resendTo').value = config.resend.to || 'shridharsan@nextgenwebstudio.in';
+        if (document.getElementById('resendFromEmail')) document.getElementById('resendFromEmail').value = config.resend.fromEmail || 'nextgenwebstudio63@gmail.com';
+        if (document.getElementById('resendTo')) document.getElementById('resendTo').value = config.resend.to || 'nextgenwebstudio63@gmail.com';
       }
 
       loadTemplates();
@@ -349,8 +349,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resend: {
           apiKey: document.getElementById('resendApiKey') ? document.getElementById('resendApiKey').value.trim() : '',
           fromName: document.getElementById('resendFromName') ? document.getElementById('resendFromName').value.trim() : 'NextGen Web Studio',
-          fromEmail: document.getElementById('resendFromEmail') ? document.getElementById('resendFromEmail').value.trim() : 'shridharsan@nextgenwebstudio.in',
-          to: document.getElementById('resendTo') ? document.getElementById('resendTo').value.trim() : 'shridharsan@nextgenwebstudio.in'
+          fromEmail: document.getElementById('resendFromEmail') ? document.getElementById('resendFromEmail').value.trim() : 'nextgenwebstudio63@gmail.com',
+          to: document.getElementById('resendTo') ? document.getElementById('resendTo').value.trim() : 'nextgenwebstudio63@gmail.com'
         }
       };
 
@@ -398,8 +398,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resend: {
           apiKey: document.getElementById('resendApiKey') ? document.getElementById('resendApiKey').value.trim() : '',
           fromName: document.getElementById('resendFromName') ? document.getElementById('resendFromName').value.trim() : 'NextGen Web Studio',
-          fromEmail: document.getElementById('resendFromEmail') ? document.getElementById('resendFromEmail').value.trim() : 'shridharsan@nextgenwebstudio.in',
-          to: document.getElementById('resendTo') ? document.getElementById('resendTo').value.trim() : 'shridharsan@nextgenwebstudio.in'
+          fromEmail: document.getElementById('resendFromEmail') ? document.getElementById('resendFromEmail').value.trim() : 'nextgenwebstudio63@gmail.com',
+          to: document.getElementById('resendTo') ? document.getElementById('resendTo').value.trim() : 'nextgenwebstudio63@gmail.com'
         }
       };
 
