@@ -725,6 +725,343 @@ const templates = {
       </div>
     `
   },
+  bot_agreement: {
+    name: "Telegram Bot Service Agreement",
+    fields: [
+      { id: "agr_id", label: "Agreement Reference ID", type: "text", default: "NXG-BOT-" + Math.floor(10000 + Math.random() * 90000) },
+      { id: "agr_date", label: "Agreement Date", type: "text", default: "30 / 07 / 2026" },
+      { id: "client_company", label: "Client Business Name", type: "text", default: "Client Business" },
+      { id: "client_rep", label: "Client Representative", type: "text", default: "Client Name" },
+      { id: "client_contact", label: "Client Email / Phone", type: "text", default: "client@example.com / +91 99999 88888" },
+      { id: "proj_title", label: "Project Title", type: "text", default: "Custom Telegram Bot Development" },
+      { id: "revision_rate", label: "Extra Revision Rate (?)", type: "text", default: "?1,500" },
+      { id: "payment_desc", label: "Payment Method Options", type: "text", default: "Razorpay Invoice Link, UPI, or Bank Transfer" }
+    ],
+    render: (data) => `
+      <!-- PAGE 1: Agreement Cover Page -->
+      <div class="doc-page">
+        <img class="watermark" src="assets/logo-icon.png" alt="Watermark">
+        <div class="agreement-cover-hero">
+          <div class="confidential-badge agreement-cover-badge">Confidential Document</div>
+          <div class="agreement-cover-logo">
+            <img class="hero-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="hero-text" src="assets/logo-text.png" alt="Text">
+          </div>
+          <p class="doc-hero-pre agreement-cover-pre" style="color:var(--nextgen-green);">Client Service Agreement</p>
+          <h1 class="doc-hero-title agreement-cover-title">Telegram Bot Development<br>Service Agreement</h1>
+          
+          <div class="agreement-cover-meta">
+            <div>Agreement Reference: <strong style="color:var(--nextgen-green);">${data.agr_id}</strong></div>
+            <div>Contract Version: <strong>v1.0 (Final)</strong></div>
+            <div>Effective Date: <strong>${data.agr_date}</strong></div>
+          </div>
+          
+          <div class="divider-line"></div>
+          
+          <p class="agreement-cover-desc">This legally binding Agreement is entered into by NextGen Web Studio and the Client listed below, governing custom Telegram Bot development and terms. All materials herein are strictly confidential.</p>
+        </div>
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 1 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 2: Client Details & Checklist -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Agreement Details</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">Agreement Parties Overview</h2>
+            <div class="doc-table-wrapper">
+              <table class="doc-table">
+                <tbody>
+                  <tr>
+                    <td><strong>Agreement Reference</strong></td>
+                    <td style="color:var(--nextgen-green);"><strong>${data.agr_id}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Service Provider</strong></td>
+                    <td>NextGen Web Studio (Tamil Nadu, India)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Client Business</strong></td>
+                    <td><strong>${data.client_company}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Contact Representative</strong></td>
+                    <td>${data.client_rep}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Client Contact Details</strong></td>
+                    <td>${data.client_contact}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Project Title Scope</strong></td>
+                    <td><strong>${data.proj_title}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Client Asset Checklist</h2>
+            <p class="doc-para" style="font-size: 12px; margin-bottom: 12px;">Before development commences, the client agrees to provide the following requirements:</p>
+            <div class="check-grid">
+              <div class="check-item"><span class="check-box"></span> Bot Token (BotFather)</div>
+              <div class="check-item"><span class="check-box"></span> Command List</div>
+              <div class="check-item"><span class="check-box"></span> Flow Logic</div>
+              <div class="check-item"><span class="check-box"></span> API Keys (if any)</div>
+              <div class="check-item"><span class="check-box"></span> Server Details</div>
+              <div class="check-item"><span class="check-box"></span> Database Config</div>
+              <div class="check-item"><span class="check-box"></span> Payment Gateway details</div>
+              <div class="check-item"><span class="check-box"></span> Brand/Bot Name</div>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">1. Scope of Work</h2>
+            <p class="doc-para">The Service Provider agrees to design and develop a custom Telegram Bot for the Client as per the specifications, features, and integrations agreed upon in the Selected Package. This includes bot setup, webhooks configuration, database architecture, and required API integrations. Any work outside this scope will be treated as a separate Change Request.</p>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 2 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 3: Deliverables & Timeline -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Deliverables & Schedule</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">Included Scope Deliverables</h2>
+            <div class="doc-table-wrapper">
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>Core Deliverable</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Custom Bot Logic</strong></td>
+                    <td style="color:var(--nextgen-green); font-weight:600;">Included</td>
+                    <td>Custom command handling, menus, and conversational flows.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>API Integrations</strong></td>
+                    <td style="color:var(--nextgen-green); font-weight:600;">Included</td>
+                    <td>Integration with third-party services (e.g. Payments, Google Sheets).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Database Setup</strong></td>
+                    <td style="color:var(--nextgen-green); font-weight:600;">Included</td>
+                    <td>Data persistence for users, orders, or application state.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Server Deployment</strong></td>
+                    <td style="color:var(--nextgen-green); font-weight:600;">Included</td>
+                    <td>Deploying bot script to secure cloud server with active Webhooks.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Admin Controls</strong></td>
+                    <td style="color:var(--nextgen-green); font-weight:600;">Included</td>
+                    <td>Admin-only commands for broadcasting or managing bot data.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Payment Milestones</h2>
+            <div class="flowchart-container">
+              <div class="flowchart-step">
+                <div class="flow-node">50%</div>
+                <span class="flow-label">Upfront Advance</span>
+              </div>
+              <div class="flow-arrow">?</div>
+              <div class="flowchart-step">
+                <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="bot"></i></div>
+                <span class="flow-label">Bot Logic Approval</span>
+              </div>
+              <div class="flow-arrow">?</div>
+              <div class="flowchart-step">
+                <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
+                <span class="flow-label">Integration & Testing</span>
+              </div>
+              <div class="flow-arrow">?</div>
+              <div class="flowchart-step">
+                <div class="flow-node">50%</div>
+                <span class="flow-label">Balance & Deployment</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">2. Terms & Policies</h2>
+            <p class="doc-para"><strong>Project Timeline:</strong> The project estimation timeline begins upon receiving all required API keys, Bot tokens, and flow logic from the Client. Delays in receiving client inputs will postpone milestones by an equivalent length of time.</p>
+            <p class="doc-para"><strong>Revisions Policy:</strong> The Client is entitled to 2 complete revision cycles on bot logic and conversational flows during testing phase. Extra logic updates or revisions beyond these cycles are charged at a flat rate of <strong style="color:var(--nextgen-green);">${data.revision_rate}</strong> per round, quoted beforehand.</p>
+            <p class="doc-para"><strong>Payment Schedule:</strong> The upfront advance must be paid to initiate development. Final deployment, server configurations, and source code handover will be completed once the final 50% balance has been cleared via ${data.payment_desc}.</p>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 3 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 4: Clauses & Signatures -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Acceptance & Signature</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">3. Ownership, Warranty & Law</h2>
+            <p class="doc-para" style="font-size:11.5px; margin-bottom:8px;"><strong>Copyright:</strong> Upon receipt of full and final payment, ownership of the custom bot code, scripts, and assets built specifically for this project transfers to the Client.</p>
+            <p class="doc-para" style="font-size:11.5px; margin-bottom:8px;"><strong>Warranty:</strong> Service Provider provides a 30-day bug warranty starting on deployment day, covering functional issues in the initial scope. Warranty does not cover API rate limit issues, changes to Telegram API, or server downtime outside our control.</p>
+            <p class="doc-para" style="font-size:11.5px; margin-bottom:8px;"><strong>Governing Law:</strong> This agreement is governed by the laws of India. Any legal disputes arising will be subject to the exclusive jurisdiction of the courts of Tamil Nadu, India.</p>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Acceptance Handover Checklist</h2>
+            <div class="check-grid">
+              <div class="check-item"><span class="check-box"></span> Bot Deployed</div>
+              <div class="check-item"><span class="check-box"></span> Commands Active</div>
+              <div class="check-item"><span class="check-box"></span> DB Connected</div>
+              <div class="check-item"><span class="check-box"></span> APIs Integrated</div>
+              <div class="check-item"><span class="check-box"></span> Webhooks Set</div>
+              <div class="check-item"><span class="check-box"></span> Errors Handled</div>
+              <div class="check-item"><span class="check-box"></span> Server Secured</div>
+              <div class="check-item"><span class="check-box"></span> Code Handover</div>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Acceptance Signatures</h2>
+            <div class="signature-section">
+              <div class="sig-block">
+                <div class="sig-title">For NextGen Web Studio</div>
+                <div class="stamp-box">COMPANY SEAL & SIGNATURE</div>
+                <div class="sig-line">___________________________</div>
+                <div class="sig-date">Date: ____ / ____ / 2026</div>
+              </div>
+              <div class="sig-block">
+                <div class="sig-title">For the Client (${data.client_company})</div>
+                <div class="stamp-box">CLIENT STAMP & SIGNATURE</div>
+                <div class="sig-line">___________________________</div>
+                <div class="sig-date">Date: ____ / ____ / 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 4 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 5: Change Request Rider Sheet -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Rider: Scope Changes</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section" style="margin-bottom:30px;">
+            <h2 class="doc-section-title">Scope Change Request Form (Rider A)</h2>
+            <p class="doc-para">Use this rider page to document features, additions, or integrations requested during or after development that fall outside the main Agreement's scope of work. Each line must be approved by the Client.</p>
+          </div>
+
+          <div class="doc-table-wrapper">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>Requested Feature / Modification</th>
+                  <th>Estimated Cost</th>
+                  <th>Timeline Impact</th>
+                  <th>Client Signature Approval</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="height: 60px;">
+                  <td>1. </td>
+                  <td></td>
+                  <td></td>
+                  <td style="opacity: 0.3; font-size: 10px; font-style:italic;">Sign:</td>
+                </tr>
+                <tr style="height: 60px;">
+                  <td>2. </td>
+                  <td></td>
+                  <td></td>
+                  <td style="opacity: 0.3; font-size: 10px; font-style:italic;">Sign:</td>
+                </tr>
+                <tr style="height: 60px;">
+                  <td>3. </td>
+                  <td></td>
+                  <td></td>
+                  <td style="opacity: 0.3; font-size: 10px; font-style:italic;">Sign:</td>
+                </tr>
+                <tr style="height: 60px;">
+                  <td>4. </td>
+                  <td></td>
+                  <td></td>
+                  <td style="opacity: 0.3; font-size: 10px; font-style:italic;">Sign:</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="doc-section" style="margin-top: 40px;">
+            <p class="doc-para" style="font-size: 11px;">By signing this rider sheet, both parties acknowledge and agree to add these features to the bot deliverables at the estimated costs and timelines noted above.</p>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Rider Page</span>
+        </div>
+      </div>
+    `
+  },
   proposal: {
     name: "Client Website Proposal",
     fields: [
