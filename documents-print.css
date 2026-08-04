@@ -20,15 +20,18 @@
   /* 2. Configure Print Canvas & Pages */
   @page {
     size: A4 portrait;
-    margin: 0 !important;
+    margin: 0;
   }
 
   html, body {
-    width: 210mm !important;
+    width: 100% !important;
     height: auto !important;
+    min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    background-color: transparent !important;
+    background-color: #fff !important;
+    overflow: visible !important;
+    position: static !important;
   }
 
   /* Admin Dashboard Layout Reset for Print */
@@ -36,13 +39,15 @@
     display: block !important;
     height: auto !important;
     overflow: visible !important;
+    position: static !important;
   }
 
-  main {
+  main, .main-content {
     display: block !important;
     width: 100% !important;
     height: auto !important;
     overflow: visible !important;
+    position: static !important;
     padding: 0 !important;
     margin: 0 !important;
   }
@@ -54,12 +59,14 @@
     display: block !important;
     height: auto !important;
     overflow: visible !important;
+    position: static !important;
   }
 
   .document-center-workspace {
     display: block !important;
     height: auto !important;
     overflow: visible !important;
+    position: static !important;
     gap: 0 !important;
   }
 
@@ -67,36 +74,42 @@
     display: block !important;
     height: auto !important;
     overflow: visible !important;
+    position: static !important;
     background-color: transparent !important;
     padding: 0 !important;
     margin: 0 !important;
     border: none !important;
   }
 
-  .doc-preview-scroll-container {
+  .doc-preview-scroll-container, #docPreviewContainer {
     padding: 0 !important;
     margin: 0 !important;
     overflow: visible !important;
     display: block !important;
     height: auto !important;
+    position: static !important;
     background-color: transparent !important;
   }
 
   .doc-preview-canvas {
-    width: 210mm !important;
+    width: 100% !important;
     min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
     box-shadow: none !important;
     border-radius: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     transform: none !important;
     background-color: transparent !important;
+    position: static !important;
   }
 
   /* 3. Style Individual Pages for Clean Breaks */
   .doc-page {
     width: 210mm !important;
-    height: 297mm !important; /* Exact A4 Height */
+    height: auto !important;
+    min-height: 297mm !important;
     padding: 20mm !important; /* Standard Professional Page Padding */
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -106,6 +119,7 @@
     flex-direction: column !important;
     justify-content: space-between !important;
     position: relative !important;
+    overflow: hidden !important;
   }
 
   /* Force background colors to print */
