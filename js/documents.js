@@ -126,31 +126,31 @@ const templates = {
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">Why Businesses Trust Us</h2>
+            <h2 class="doc-section-title">Our Services</h2>
             <div class="glass-grid">
               <div class="glass-card">
-                <div class="glass-card-title"><i data-lucide="layout"></i> Modern UI</div>
-                <div class="glass-card-desc">Bespoke, premium interface designs that reflect your brand identity.</div>
+                <div class="glass-card-title"><i data-lucide="layout"></i> Premium Websites</div>
+                <div class="glass-card-desc">Bespoke, premium interface designs with responsive layouts and modern UI.</div>
               </div>
               <div class="glass-card">
-                <div class="glass-card-title"><i data-lucide="zap"></i> Fast Performance</div>
-                <div class="glass-card-desc">Highly optimized codebase delivering sub-second load times.</div>
+                <div class="glass-card-title"><i data-lucide="bot"></i> Telegram Bot Development</div>
+                <div class="glass-card-desc">Custom Telegram bots for order management, notifications, and business automation.</div>
               </div>
               <div class="glass-card">
-                <div class="glass-card-title"><i data-lucide="search"></i> SEO Ready</div>
-                <div class="glass-card-desc">On-page technical SEO is built into the skeleton of every page.</div>
+                <div class="glass-card-title"><i data-lucide="credit-card"></i> Payment Gateway Integration</div>
+                <div class="glass-card-desc">Razorpay, Stripe, and UPI payment flows for seamless online transactions.</div>
               </div>
               <div class="glass-card">
-                <div class="glass-card-title"><i data-lucide="shield-check"></i> Secure</div>
-                <div class="glass-card-desc">Strict security protocols, SSL encryption, and isolated assets.</div>
+                <div class="glass-card-title"><i data-lucide="gauge"></i> Admin Dashboards</div>
+                <div class="glass-card-desc">Real-time analytics dashboards with CRM, inventory, and reporting modules.</div>
               </div>
               <div class="glass-card">
-                <div class="glass-card-title"><i data-lucide="trending-up"></i> Scalable</div>
-                <div class="glass-card-desc">Modern tech stack built to grow with your business traffic.</div>
+                <div class="glass-card-title"><i data-lucide="cog"></i> Business Automation</div>
+                <div class="glass-card-desc">Automate invoicing, notifications, and workflows to save time and reduce errors.</div>
               </div>
               <div class="glass-card">
-                <div class="glass-card-title"><i data-lucide="message-square"></i> Support</div>
-                <div class="glass-card-desc">Direct post-launch channels without ticketing delays.</div>
+                <div class="glass-card-title"><i data-lucide="brain"></i> AI Solutions</div>
+                <div class="glass-card-desc">AI-powered chatbots, smart search, and intelligent data processing tools.</div>
               </div>
             </div>
           </div>
@@ -250,10 +250,12 @@ const templates = {
               <div class="tech-item">${getTechLogo('nodejs')} Node.js</div>
               <div class="tech-item">${getTechLogo('mongodb')} MongoDB</div>
               <div class="tech-item">${getTechLogo('tailwind')} Tailwind</div>
-              <div class="tech-item">${getTechLogo('vercel')} Vercel</div>
+              <div class="tech-item"><i data-lucide="database" style="width:14px;height:14px;"></i> PostgreSQL</div>
+              <div class="tech-item"><i data-lucide="code" style="width:14px;height:14px;"></i> Python</div>
               <div class="tech-item">${getTechLogo('stripe')} Stripe</div>
-              <div class="tech-item">${getTechLogo('github')} GitHub</div>
-              <div class="tech-item">${getTechLogo('docker')} Docker</div>
+              <div class="tech-item"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Razorpay</div>
+              <div class="tech-item"><i data-lucide="send" style="width:14px;height:14px;"></i> Telegram API</div>
+              <div class="tech-item">${getTechLogo('vercel')} Vercel</div>
               <div class="tech-item">${getTechLogo('figma')} Figma</div>
             </div>
           </div>
