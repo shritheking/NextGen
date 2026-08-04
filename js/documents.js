@@ -1062,6 +1062,348 @@ const templates = {
       </div>
     `
   },
+  bot_brochure: {
+    name: "Telegram Bot Brochure",
+    fields: [
+      { id: "founder_msg", label: "CEO Message", type: "textarea", default: "Bots aren't just chat interfaces—they are automated employees that scale your operations without overhead." },
+      { id: "stat_bots", label: "Bots Deployed", type: "text", default: "15+" },
+      { id: "stat_automation", label: "Tasks Automated", type: "text", default: "2M+" },
+      { id: "stat_delivery", label: "Average Delivery", type: "text", default: "1-3 Weeks" },
+      { id: "social_proof", label: "Social Proof Callout", type: "textarea", default: "Automating workflows for e-commerce, communities, and internal agency operations." },
+      { id: "proj_name", label: "Featured Case Study Name", type: "text", default: "E-Commerce Auto-Order Bot" },
+      { id: "proj_industry", label: "Case Study Industry", type: "text", default: "Retail" },
+      { id: "proj_tech", label: "Case Study Stack", type: "text", default: "Python + PostgreSQL" },
+      { id: "proj_result", label: "Case Study Result", type: "text", default: "Zero missed WhatsApp orders" },
+      { id: "proj_desc", label: "Case Study Description", type: "textarea", default: "Fully automated Telegram storefront that takes orders, processes Razorpay links, and updates Google Sheets." },
+      { id: "starter_price", label: "Basic Bot Price", type: "text", default: "?4,999" },
+      { id: "business_price", label: "Advanced Bot Price", type: "text", default: "?12,999" },
+      { id: "premium_price", label: "Enterprise Bot Price", type: "text", default: "?24,999+" },
+      { id: "contact_email", label: "Agency Email", type: "text", default: "nextgenwebstudio63@gmail.com" },
+      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 79045 44101" },
+      { id: "contact_ig", label: "Instagram Handle", type: "text", default: "@nextgen_web_studio" }
+    ],
+    render: (data) => `
+      <!-- PAGE 1: Cover Page -->
+      <div class="doc-page">
+        <img class="watermark" src="assets/logo-icon.png" alt="Watermark">
+        <div class="doc-hero">
+          <div class="doc-hero-bg"></div>
+          <div class="doc-hero-content">
+            <div class="doc-hero-logo">
+              <img class="hero-icon" src="assets/logo-icon.png" alt="Icon">
+              <img class="hero-text" src="assets/logo-text.png" alt="Text">
+            </div>
+            <div class="doc-hero-title-group">
+              <p class="doc-hero-pre">Bot Development Services</p>
+              <h1 class="doc-hero-title">Automating Business<br>With Telegram Bots</h1>
+            </div>
+            <p class="doc-hero-desc">We build powerful, custom-coded Telegram bots that handle orders, notifications, and customer support on autopilot.</p>
+          </div>
+          <div class="doc-hero-footer">
+            <div>
+              <span class="label">Document Type</span>
+              <span>Bot Profile & Brochure — 2026</span>
+            </div>
+            <div>
+              <span class="label">Service Provider</span>
+              <span>NextGen Web Studio</span>
+            </div>
+          </div>
+        </div>
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 1 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 2: About & Trust -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Automation Focus</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">Why Telegram Bots?</h2>
+            <p class="doc-para">NextGen Web Studio develops custom Telegram bots designed to scale your operations. Unlike standard customer support interfaces, a custom bot acts as a lightweight app directly in your user's chat. From internal company alerts and CRM integrations to fully automated public e-commerce stores with payment gateways, our bots run 24/7 without overhead.</p>
+          </div>
+
+          <div class="founder-message">
+            <div class="founder-quote">"${data.founder_msg}"</div>
+            <div class="founder-author">— Founder & CEO, NextGen Web Studio</div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Bot Capabilities & Features</h2>
+            <div class="glass-grid">
+              <div class="glass-card">
+                <div class="glass-card-title"><i data-lucide="shopping-cart"></i> E-Commerce Flows</div>
+                <div class="glass-card-desc">Fully functioning storefronts, cart management, and product catalogues inside Telegram.</div>
+              </div>
+              <div class="glass-card">
+                <div class="glass-card-title"><i data-lucide="credit-card"></i> Payment Integrations</div>
+                <div class="glass-card-desc">Razorpay and Stripe integrated directly into the chat for seamless checkouts.</div>
+              </div>
+              <div class="glass-card">
+                <div class="glass-card-title"><i data-lucide="bell"></i> Smart Notifications</div>
+                <div class="glass-card-desc">Automated alerts pushing data from your servers, websites, or external APIs to your phone.</div>
+              </div>
+              <div class="glass-card">
+                <div class="glass-card-title"><i data-lucide="database"></i> CRM Sync</div>
+                <div class="glass-card-desc">Link your bot to Google Sheets, Notion, or custom databases for real-time lead tracking.</div>
+              </div>
+              <div class="glass-card">
+                <div class="glass-card-title"><i data-lucide="message-circle"></i> AI Chat Support</div>
+                <div class="glass-card-desc">OpenAI integration for intelligent conversational bots that handle FAQs.</div>
+              </div>
+              <div class="glass-card">
+                <div class="glass-card-title"><i data-lucide="lock"></i> Admin Panels</div>
+                <div class="glass-card-desc">Secure web dashboards or master admin commands to broadcast messages and manage data.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="doc-stat-card">
+              <i data-lucide="bot" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">${data.stat_bots}</div>
+              <div class="doc-stat-label">Bots Built</div>
+            </div>
+            <div class="doc-stat-card">
+              <i data-lucide="zap" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">${data.stat_automation}</div>
+              <div class="doc-stat-label">Tasks Done</div>
+            </div>
+            <div class="doc-stat-card">
+              <i data-lucide="server" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">99.9%</div>
+              <div class="doc-stat-label">Uptime</div>
+            </div>
+            <div class="doc-stat-card">
+              <i data-lucide="shield" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">100%</div>
+              <div class="doc-stat-label">Secure API</div>
+            </div>
+            <div class="doc-stat-card">
+              <i data-lucide="clock" class="doc-stat-icon"></i>
+              <div class="doc-stat-number">${data.stat_delivery}</div>
+              <div class="doc-stat-label">Timeline</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 2 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 3: Process & Tech -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Process & Portfolio</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">Bot Development Process</h2>
+            <div class="timeline-container">
+              <div class="timeline-line"></div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-week">Step 1</span>
+                  <span class="timeline-title">Flow Architecture</span>
+                  <span class="timeline-desc">Mapping out user conversational paths, commands, and required APIs.</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-week">Step 2</span>
+                  <span class="timeline-title">Core Development</span>
+                  <span class="timeline-desc">Writing scalable logic in Python/Node.js and configuring the database.</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-week">Step 3</span>
+                  <span class="timeline-title">API Integration</span>
+                  <span class="timeline-desc">Connecting Payment Gateways, external platforms, and configuring Webhooks.</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-week">Step 4</span>
+                  <span class="timeline-title">Cloud Deployment</span>
+                  <span class="timeline-desc">Deploying to secure cloud servers for uninterrupted 24/7 uptime.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Bot Technology Stack</h2>
+            <div class="tech-grid">
+              <div class="tech-item"><i data-lucide="send" style="width:14px;height:14px;"></i> Telegram API</div>
+              <div class="tech-item"><i data-lucide="code" style="width:14px;height:14px;"></i> Python</div>
+              <div class="tech-item">${getTechLogo('nodejs')} Node.js</div>
+              <div class="tech-item"><i data-lucide="database" style="width:14px;height:14px;"></i> PostgreSQL</div>
+              <div class="tech-item">${getTechLogo('mongodb')} MongoDB</div>
+              <div class="tech-item"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Razorpay</div>
+              <div class="tech-item">${getTechLogo('stripe')} Stripe</div>
+              <div class="tech-item"><i data-lucide="server" style="width:14px;height:14px;"></i> DigitalOcean</div>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Featured Bot Implementation</h2>
+            <div class="browser-mockup">
+              <div class="browser-header">
+                <div class="browser-dot red"></div>
+                <div class="browser-dot yellow"></div>
+                <div class="browser-dot green"></div>
+              </div>
+              <div style="background:#f1f5f9; padding:30px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px;">
+                <div style="width:60px; height:60px; background:var(--nextgen-blue); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">
+                  <i data-lucide="bot" style="width:30px; height:30px;"></i>
+                </div>
+                <strong style="font-size:16px;">@AutoOrder_Bot</strong>
+                <span style="font-size:11px; color:var(--ink-faint);">Active inside Telegram</span>
+              </div>
+              <div class="browser-content" style="padding: 16px;">
+                <div class="portfolio-meta">
+                  <span class="portfolio-name">${data.proj_name}</span>
+                  <span class="portfolio-result">${data.proj_result}</span>
+                </div>
+                <p class="doc-para" style="margin-top: 8px; font-size: 12px; margin-bottom: 8px;">${data.proj_desc}</p>
+                <div class="portfolio-meta" style="font-size: 10px; opacity: 0.8;">
+                  <span>Technologies: <strong>${data.proj_tech}</strong></span>
+                  <span>Industry: <strong>${data.proj_industry}</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 3 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 4: Pricing & Testimonials -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Plans & Contact</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">Bot Pricing Plans</h2>
+            <div class="doc-table-wrapper">
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>Bot Tier</th>
+                    <th>Ideal For</th>
+                    <th>Key Features</th>
+                    <th>Price Starts At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Basic Notifier</strong></td>
+                    <td>Internal Teams</td>
+                    <td>Alerts · Server Pings · Simple Menus</td>
+                    <td><strong style="color:var(--nextgen-green);">${data.starter_price}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Business Bot</strong></td>
+                    <td>Customer Service</td>
+                    <td>CRM Sync · Forms · Custom Logic Flows</td>
+                    <td><strong style="color:var(--nextgen-green);">${data.business_price}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>E-Commerce Bot</strong></td>
+                    <td>Retail / Sales</td>
+                    <td>Cart · Razorpay · Google Sheets · Admin Panel</td>
+                    <td><strong style="color:var(--nextgen-green);">${data.premium_price}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Client Support Details</h2>
+            <div class="review-grid">
+              <div class="review-card">
+                <div class="stars">${ICONS.star}${ICONS.star}${ICONS.star}${ICONS.star}${ICONS.star}</div>
+                <p class="review-text">"${data.social_proof}"</p>
+                <div class="review-user">
+                  <div class="user-avatar">NG</div>
+                  <div class="user-meta">
+                    <span class="user-name">Agency Status — 2026</span>
+                    <span class="user-company">NextGen Web Studio</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-card" style="display:flex; align-items:center; justify-content:center; gap: 16px;">
+                <div class="qr-code-box">
+                  ${QR_CODE_SVG}
+                </div>
+                <div style="font-size:11px;">
+                  <strong style="display:block; margin-bottom:4px; font-family:'Outfit';">Scan QR Code</strong>
+                  <span style="color:#a1a1aa; display:block; line-height: 1.4;">Access our online portfolio & instant WhatsApp chat support.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-section" style="margin-top: 45px;">
+            <div style="display:flex; justify-content:space-between; gap:20px; align-items:center; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.05); padding:20px; border-radius:16px;">
+              <div>
+                <strong style="display:block; font-size:14px; font-family:'Outfit';">Ready to Automate?</strong>
+                <span style="font-size:11.5px; color:#a1a1aa;">Drop us an email or phone number to set up a free consultation.</span>
+              </div>
+              <div style="text-align:right; font-size:11.5px; line-height:1.6;">
+                <div>?? <strong style="color:var(--nextgen-green);">${data.contact_email}</strong></div>
+                <div>?? <strong>${data.contact_phone}</strong></div>
+                <div>?? <strong>${data.contact_ig}</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 4 of 4</span>
+        </div>
+      </div>
+    `
+  },
   proposal: {
     name: "Client Website Proposal",
     fields: [
