@@ -58,6 +58,7 @@
   .tab-section.active, #proposalsTab {
     display: block !important;
     height: auto !important;
+    min-height: 100% !important;
     overflow: visible !important;
     position: static !important;
   }
@@ -91,7 +92,7 @@
     background-color: transparent !important;
   }
 
-  .doc-preview-canvas {
+  .preview-canvas, .doc-preview-canvas {
     width: 100% !important;
     min-height: 0 !important;
     height: auto !important;
@@ -103,11 +104,12 @@
     transform: none !important;
     background-color: transparent !important;
     position: static !important;
+    display: block !important;
   }
 
   /* 3. Style Individual Pages for Clean Breaks */
   .doc-page {
-    width: 210mm !important;
+    width: 100% !important;
     height: auto !important;
     min-height: 297mm !important;
     padding: 20mm !important; /* Standard Professional Page Padding */
@@ -115,11 +117,10 @@
     box-sizing: border-box !important;
     page-break-after: always !important;
     break-after: page !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
+    display: block !important;
     position: relative !important;
     overflow: hidden !important;
+    background-color: #fff !important;
   }
 
   /* Force background colors to print */
