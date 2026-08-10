@@ -1062,6 +1062,545 @@ const templates = {
       </div>
     `
   },
+  ea_bot_quotation: {
+    name: "EA Bot Access Proposal",
+    fields: [
+      { id: "client_name", label: "Client Name", type: "text", default: "Client Business" },
+      { id: "quote_no", label: "Quotation Number", type: "text", default: "NXG-EA-2026" },
+      { id: "quote_date", label: "Date", type: "text", default: "10 / 08 / 2026" }
+    ],
+    render: (data) => `
+      <!-- PAGE 1: Cover Page -->
+      <div class="doc-page">
+        <img class="watermark" src="assets/logo-icon.png" alt="Watermark">
+        <div class="agreement-cover-hero" style="margin-top: 100px;">
+          <div class="confidential-badge agreement-cover-badge">Premium Quotation</div>
+          <div class="agreement-cover-logo" style="margin-bottom: 40px;">
+            <img class="hero-icon" src="assets/logo-icon.png" alt="Icon" style="height: 50px;">
+            <img class="hero-text" src="assets/logo-text.png" alt="Text" style="height: 24px;">
+          </div>
+          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">EA BOT ACCESS<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">Complete MT4/MT5 License & Distribution Automation Platform</span></h1>
+          
+          <p class="doc-hero-pre agreement-cover-pre" style="color:var(--nextgen-green); margin-top: 20px; font-size: 16px;">Software Development & Full Source Code Buyout Proposal</p>
+          
+          <div class="agreement-cover-meta" style="margin-top: 60px; font-size: 14px;">
+            <div>Prepared For: <strong style="color:var(--nextgen-green);">${data.client_name}</strong></div>
+            <div>Prepared By: <strong>NextGen Web Studio</strong></div>
+            <div>Date: <strong>${data.quote_date}</strong></div>
+            <div>Quotation No: <strong>${data.quote_no}</strong></div>
+          </div>
+          
+          <div class="divider-line" style="margin: 40px 0;"></div>
+          
+          <p class="agreement-cover-desc" style="font-size: 13px;">This document outlines the professional software-development quotation for a complete EA Bot Access automation platform. All pricing and intellectual property transfer details are contained herein.</p>
+        </div>
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 1 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 2: Overview & Features -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">1. Overview & 2. Features</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">1. Project Overview</h2>
+            <p class="doc-para"><strong>EA Bot Access</strong> is an automated MT4/MT5 Expert Advisor distribution and licensing platform designed to automate customer onboarding, payment processing, license management, customer-specific EA generation, compilation, and secure Telegram delivery.</p>
+            <p class="doc-para">This system significantly reduces manual work by seamlessly connecting the customer-facing Telegram bot, secure payment gateway, central license database, automated compilation worker, and delivery workflow into one unified architecture.</p>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">2. Complete System Features</h2>
+            
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">A. TELEGRAM BOT</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Professional bot interface</li>
+              <li><i class="fa-solid fa-circle-check"></i> Welcome/home menu</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer onboarding</li>
+              <li><i class="fa-solid fa-circle-check"></i> MT4/MT5 ID collection</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer identification</li>
+              <li><i class="fa-solid fa-circle-check"></i> Product/EA purchase flow</li>
+              <li><i class="fa-solid fa-circle-check"></i> License-related options</li>
+              <li><i class="fa-solid fa-circle-check"></i> Order status tracking</li>
+              <li><i class="fa-solid fa-circle-check"></i> Download/file delivery</li>
+              <li><i class="fa-solid fa-circle-check"></i> Support option</li>
+              <li><i class="fa-solid fa-circle-check"></i> Buy EA / Buy VPS</li>
+              <li><i class="fa-solid fa-circle-check"></i> Admin-controlled menu</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">B. PAYMENT & ORDER AUTOMATION</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Razorpay payment integration</li>
+              <li><i class="fa-solid fa-circle-check"></i> Automated order creation</li>
+              <li><i class="fa-solid fa-circle-check"></i> Payment verification</li>
+              <li><i class="fa-solid fa-circle-check"></i> Payment status handling</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer/order association</li>
+              <li><i class="fa-solid fa-circle-check"></i> Automatic post-payment logic</li>
+              <li><i class="fa-solid fa-circle-check"></i> Order history logging</li>
+              <li><i class="fa-solid fa-circle-check"></i> Failed/pending payment handling</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">C. MT4/MT5 LICENSE SYSTEM</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Account ID binding</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer-specific license</li>
+              <li><i class="fa-solid fa-circle-check"></i> License activation/deactivation</li>
+              <li><i class="fa-solid fa-circle-check"></i> License expiry & renewal</li>
+              <li><i class="fa-solid fa-circle-check"></i> Manual license extension</li>
+              <li><i class="fa-solid fa-circle-check"></i> License status tracking</li>
+              <li><i class="fa-solid fa-circle-check"></i> License-based access protection</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 2 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 3: Features Continued -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">2. Features (Cont.) & 3. Trial System</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">D. CUSTOMER-SPECIFIC EA GENERATION</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Customer ID injected into EA</li>
+              <li><i class="fa-solid fa-circle-check"></i> Automated configuration</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer-specific build process</li>
+              <li><i class="fa-solid fa-circle-check"></i> EX5/EX4 generation</li>
+              <li><i class="fa-solid fa-circle-check"></i> Unique customer file generation</li>
+              <li><i class="fa-solid fa-circle-check"></i> Build/job tracking</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">E. COMPILATION WORKER</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Automated compilation worker</li>
+              <li><i class="fa-solid fa-circle-check"></i> Job queue/polling</li>
+              <li><i class="fa-solid fa-circle-check"></i> EA source configuration</li>
+              <li><i class="fa-solid fa-circle-check"></i> Compilation process execution</li>
+              <li><i class="fa-solid fa-circle-check"></i> Generated EX5/EX4 validation</li>
+              <li><i class="fa-solid fa-circle-check"></i> File-size verification</li>
+              <li><i class="fa-solid fa-circle-check"></i> SHA-256 verification</li>
+              <li><i class="fa-solid fa-circle-check"></i> Worker logging & VM support</li>
+            </ul>
+
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">F. AUTOMATIC TELEGRAM DELIVERY</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Auto-send completed EX5/EX4</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer-specific filename</li>
+              <li><i class="fa-solid fa-circle-check"></i> Delivery after compilation</li>
+              <li><i class="fa-solid fa-circle-check"></i> Delivery status handling</li>
+            </ul>
+            
+            <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px;">G. ADMIN / MANAGEMENT SYSTEM</h3>
+            <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Customer & License management</li>
+              <li><i class="fa-solid fa-circle-check"></i> Order & Trial management</li>
+              <li><i class="fa-solid fa-circle-check"></i> Activation/Deactivation control</li>
+              <li><i class="fa-solid fa-circle-check"></i> Expiry & Manual extension</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer & Order lookup</li>
+              <li><i class="fa-solid fa-circle-check"></i> License & Job/Build status</li>
+            </ul>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">3. Free Trial System</h2>
+            <p class="doc-para">The platform includes a highly configurable free trial system managed by the admin. <strong style="color: var(--nextgen-green);">Important:</strong> Trial duration and limits are strictly configurable from the admin side and are NOT hard-coded.</p>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 12px; border-radius: 6px; font-family: var(--font-mono); font-size: 11px; margin-bottom: 10px;">
+              <span style="color:#a1a1aa;">// Example Admin Configuration</span><br>
+              <span style="color:#E0FF4F;">FREE_TRIAL_ENABLED</span> = TRUE<br>
+              <span style="color:#E0FF4F;">FREE_TRIAL_DAYS</span> = 2<br>
+              <span style="color:#E0FF4F;">FREE_TRIALS_PER_MONTH</span> = 2
+            </div>
+            <p class="doc-para" style="font-size: 11px;">Administrators can toggle trials ON/OFF, define trial durations (e.g., 2 days), set maximum trials per month, set trial eligibility, and prevent repeated abuse. Settings can be updated dynamically without modifying core code.</p>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 3 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 4: Admin, Infra, Security -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">4. Admin & 5. Infrastructure</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">4. Admin Control & Configuration</h2>
+            <p class="doc-para" style="margin-bottom: 10px;">The Administrator dashboard allows full operational control over the platform. Admins can:</p>
+            <ul class="work-metrics" style="font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Enable/disable free trials</li>
+              <li><i class="fa-solid fa-circle-check"></i> Change trial duration/allowance</li>
+              <li><i class="fa-solid fa-circle-check"></i> Activate/Deactivate licenses</li>
+              <li><i class="fa-solid fa-circle-check"></i> Extend licenses & change expiry</li>
+              <li><i class="fa-solid fa-circle-check"></i> View customers & orders</li>
+              <li><i class="fa-solid fa-circle-check"></i> View active/expired licenses</li>
+              <li><i class="fa-solid fa-circle-check"></i> View trial users</li>
+              <li><i class="fa-solid fa-circle-check"></i> View compilation jobs (success/fail)</li>
+              <li><i class="fa-solid fa-circle-check"></i> Manage global system settings</li>
+            </ul>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">5. Cloud / Worker Infrastructure</h2>
+            <ul class="work-metrics" style="margin-bottom: 10px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> Windows-based compilation worker</li>
+              <li><i class="fa-solid fa-circle-check"></i> Azure VM compatibility</li>
+              <li><i class="fa-solid fa-circle-check"></i> Automated worker startup capability</li>
+              <li><i class="fa-solid fa-circle-check"></i> Windows Task Scheduler support</li>
+              <li><i class="fa-solid fa-circle-check"></i> Backend-to-worker communication</li>
+              <li><i class="fa-solid fa-circle-check"></i> Job polling/processing</li>
+              <li><i class="fa-solid fa-circle-check"></i> Automatic compilation & upload</li>
+              <li><i class="fa-solid fa-circle-check"></i> Worker logs & deployment config</li>
+            </ul>
+            <p class="doc-para" style="font-size: 11px; color: var(--ink-soft);"><em>Note: Cloud infrastructure running costs (Azure, VPS, Domains, etc.) are separate from the software buyout unless specifically agreed otherwise.</em></p>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">6. Security & Validation</h2>
+            <ul class="work-metrics" style="margin-bottom: 10px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-circle-check"></i> License-based access control</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer ID binding</li>
+              <li><i class="fa-solid fa-circle-check"></i> Customer-specific builds</li>
+              <li><i class="fa-solid fa-circle-check"></i> File integrity verification</li>
+              <li><i class="fa-solid fa-circle-check"></i> SHA-256 verification</li>
+              <li><i class="fa-solid fa-circle-check"></i> Controlled file delivery</li>
+              <li><i class="fa-solid fa-circle-check"></i> Admin-controlled licensing</li>
+              <li><i class="fa-solid fa-circle-check"></i> Secure payment verification</li>
+              <li><i class="fa-solid fa-circle-check"></i> Database-backed records</li>
+              <li><i class="fa-solid fa-circle-check"></i> Server-side validation</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 4 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 5: Handover & Pricing -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">7. Handover & 8. Ownership</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">7. Complete Source Code Handover</h2>
+            <p class="doc-para">The source-code package includes (where legally owned by the seller): Telegram bot source code, Backend/API source code, Worker/compiler source code, Admin functionality/source, Database schema, Configuration templates, Deployment scripts, Automation scripts, Integration code, Documentation, and Setup instructions.</p>
+            <p class="doc-para" style="font-size: 11px; padding: 10px; background: rgba(224,255,79,0.05); border-left: 3px solid var(--accent);"><strong>Disclaimer:</strong> Third-party services, proprietary software, MetaTrader binaries, broker software, payment-provider infrastructure, cloud infrastructure, and third-party libraries remain subject to their respective licenses and terms.</p>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">8. Ownership Options</h2>
+            
+            <div style="display:flex; gap: 16px; margin-bottom: 20px;">
+              <!-- OPTION A -->
+              <div style="flex:1; border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: rgba(255,255,255,0.01);">
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); margin-bottom: 4px;">OPTION A</div>
+                <h3 style="font-size: 15px; margin-bottom: 4px;">Full Source Code Handover</h3>
+                <div style="font-size: 20px; font-weight: 700; color: var(--nextgen-green); margin-bottom: 12px;">₹1,50,000</div>
+                <ul class="work-metrics" style="font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
+                  <li><i class="fa-solid fa-check"></i> Complete source code</li>
+                  <li><i class="fa-solid fa-check"></i> Deployment configuration</li>
+                  <li><i class="fa-solid fa-check"></i> Documentation</li>
+                  <li><i class="fa-solid fa-check"></i> Setup assistance</li>
+                  <li><i class="fa-solid fa-check"></i> Client receives the source code</li>
+                  <li><i class="fa-solid fa-check"></i> <strong>Non-exclusive</strong> software transfer</li>
+                </ul>
+              </div>
+
+              <!-- OPTION B -->
+              <div style="flex:1; border: 1px solid var(--accent); border-radius: 8px; padding: 16px; background: rgba(224,255,79,0.05);">
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">OPTION B (RECOMMENDED)</div>
+                <h3 style="font-size: 15px; margin-bottom: 4px;">Exclusive Full Buyout</h3>
+                <div style="font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 12px;">₹2,00,000</div>
+                <ul class="work-metrics" style="font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
+                  <li><i class="fa-solid fa-check"></i> <strong>Everything in Option A plus:</strong></li>
+                  <li><i class="fa-solid fa-check"></i> <strong>Exclusive commercial rights</strong> to the custom-developed platform</li>
+                  <li><i class="fa-solid fa-check"></i> Seller will not intentionally resell identical platform to another client</li>
+                  <li><i class="fa-solid fa-check"></i> Complete source-code handover</li>
+                  <li><i class="fa-solid fa-check"></i> Final Handover Guarantee</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="doc-para" style="font-size: 11px; color: var(--ink-soft);"><strong>IMPORTANT:</strong> Exclusive ownership applies only to code and materials legally owned by the seller and specifically developed for this project. Third-party components remain governed by their respective licenses.</p>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 5 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 6: Terms & Payments -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">9. Pricing & 10. Payments</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">9. Pricing Summary</h2>
+            <div class="doc-table-wrapper">
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>Package Description</th>
+                    <th style="text-align: right;">Investment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Negotiation / Alternative Package: <strong>Complete Source Code Handover</strong></td>
+                    <td style="text-align: right; font-weight: 600;">₹1,50,000</td>
+                  </tr>
+                  <tr style="background: rgba(224,255,79,0.05);">
+                    <td style="color: var(--accent);"><strong>Recommended Package: Exclusive Full Buyout</strong></td>
+                    <td style="text-align: right; font-weight: 700; color: var(--accent); font-size: 16px;">₹2,00,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">10. Payment Terms</h2>
+            
+            <h3 style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px;">For ₹2,00,000 Exclusive Buyout:</h3>
+            <div class="flowchart-container" style="margin-bottom: 20px;">
+              <div class="flowchart-step">
+                <div class="flow-node">50%</div>
+                <span class="flow-label">₹1,00,000 Advance</span>
+              </div>
+              <div class="flow-arrow">➜</div>
+              <div class="flowchart-step">
+                <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
+                <span class="flow-label">Development Phase</span>
+              </div>
+              <div class="flow-arrow">➜</div>
+              <div class="flowchart-step">
+                <div class="flow-node">50%</div>
+                <span class="flow-label">₹1,00,000 Final Payment</span>
+              </div>
+            </div>
+
+            <h3 style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px;">For ₹1,50,000 Source-Code Option:</h3>
+            <div class="flowchart-container" style="margin-bottom: 20px;">
+              <div class="flowchart-step">
+                <div class="flow-node">50%</div>
+                <span class="flow-label">₹75,000 Advance</span>
+              </div>
+              <div class="flow-arrow">➜</div>
+              <div class="flowchart-step">
+                <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
+                <span class="flow-label">Development Phase</span>
+              </div>
+              <div class="flow-arrow">➜</div>
+              <div class="flowchart-step">
+                <div class="flow-node">50%</div>
+                <span class="flow-label">₹75,000 Final Payment</span>
+              </div>
+            </div>
+
+            <p class="doc-para" style="font-size: 11.5px;">Final source-code handover occurs exclusively after receipt of the final payment. Payment milestones can be mutually adjusted in the final written agreement.</p>
+          </div>
+          
+          <div class="doc-section">
+            <h2 class="doc-section-title">11. Third-Party / Running Costs</h2>
+            <p class="doc-para">The following are NOT included in the software development/buyout price unless specifically mentioned and are payable by the client separately:</p>
+            <ul class="work-metrics" style="font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Azure VM/cloud charges</li>
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> VPS & Hosting charges</li>
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Domain charges</li>
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Razorpay transaction charges</li>
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> Telegram 3rd-party costs</li>
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> MetaTrader/broker costs</li>
+              <li><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> External paid APIs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 6 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 7: Support, Exclusions, Delivery -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">12. Support & 13. Exclusions</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">12. Support & Warranty</h2>
+            <p class="doc-para">Initial post-delivery support is included for deployment verification and fixing defects directly related to the delivered system. <strong>Recommended support period: 14 days after final handover.</strong></p>
+            <p class="doc-para">After the included support period, ongoing maintenance/support can be provided separately at <strong>₹3,000/month</strong>.</p>
+            <p class="doc-para" style="font-size: 11.5px;">Maintenance may include: Bug fixes, Minor configuration changes, Deployment assistance, Worker troubleshooting, License-system adjustments, and Minor Telegram bot changes. Major new features are quoted separately.</p>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">13. Exclusions</h2>
+            <p class="doc-para">The following scope items are explicitly excluded from this quotation:</p>
+            <ul class="work-metrics" style="font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Development of a new trading strategy</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Changes to the EA trading algorithm unless separately agreed</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Reverse engineering of third-party software</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Circumventing MetaTrader licensing/security</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Broker-side modifications</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Major UI redesign after approval</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> New payment gateways not included in scope</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> New third-party integrations & unlimited future development</li>
+              <li><i class="fa-solid fa-ban" style="color:#ef4444;"></i> Unlimited support & Cloud/VPS operating costs</li>
+            </ul>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">14. Delivery</h2>
+            <p class="doc-para" style="margin-bottom: 10px;">Expected deliverables upon project completion:</p>
+            <div class="check-grid">
+              <div class="check-item"><span class="check-box"></span> Production Telegram bot</div>
+              <div class="check-item"><span class="check-box"></span> Backend/API</div>
+              <div class="check-item"><span class="check-box"></span> Database structure</div>
+              <div class="check-item"><span class="check-box"></span> Worker/compiler system</div>
+              <div class="check-item"><span class="check-box"></span> Admin functionality</div>
+              <div class="check-item"><span class="check-box"></span> Payment integration</div>
+              <div class="check-item"><span class="check-box"></span> License system</div>
+              <div class="check-item"><span class="check-box"></span> Trial system</div>
+              <div class="check-item"><span class="check-box"></span> Deployment config</div>
+              <div class="check-item"><span class="check-box"></span> Source-code package</div>
+              <div class="check-item"><span class="check-box"></span> Documentation</div>
+              <div class="check-item"><span class="check-box"></span> Setup instructions</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 7 of 8</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 8: Legal & Signatures -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">15. Legal & Acceptance</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">15. Acceptance & 16. Legal / Intellectual Property</h2>
+            <p class="doc-para" style="font-size: 11px;">The client may review and test the agreed functionality before final handover. Functionality outside the agreed scope will be treated as a separate change request.</p>
+            
+            <p class="doc-para" style="font-size: 11px;">Upon receipt of the agreed final payment, ownership/usage rights for the custom-developed source code shall be transferred according to the selected package and final written agreement.</p>
+            
+            <p class="doc-para" style="font-size: 11px;">For the exclusive buyout, exclusivity applies only to custom-developed materials legally owned by the seller and does not transfer ownership of third-party software, services, libraries, APIs, platforms, trademarks, or proprietary technology belonging to others.</p>
+            
+            <p class="doc-para" style="font-size: 11px;">Any pre-existing tools, frameworks, reusable libraries, templates, or third-party components remain subject to their original ownership and licensing terms unless expressly agreed otherwise.</p>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">17. Quotation Validity</h2>
+            <ul class="work-metrics" style="font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px;">
+              <li><i class="fa-solid fa-clock"></i> <strong>Quotation validity:</strong> 15 days from quotation date.</li>
+              <li><i class="fa-solid fa-coins"></i> <strong>Currency:</strong> INR (₹)</li>
+              <li><i class="fa-solid fa-building-columns"></i> <strong>Taxes:</strong> Any applicable taxes shall be charged separately where legally applicable.</li>
+            </ul>
+          </div>
+          
+          <div class="doc-section" style="margin-top: 30px; text-align: center;">
+            <div style="display: inline-block; padding: 16px 30px; border: 2px solid var(--accent); border-radius: 8px; background: rgba(224,255,79,0.05);">
+              <h3 style="font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase;">FINAL CALL-TO-ACTION</h3>
+              <div style="font-size: 18px; font-weight: 700;">Recommended Package: ₹2,00,000 Exclusive Full Buyout</div>
+            </div>
+          </div>
+
+          <div class="doc-section" style="margin-top: 40px;">
+            <h2 class="doc-section-title">Signatures</h2>
+            <div class="signature-section">
+              <div class="sig-block">
+                <div class="sig-title">CLIENT ACCEPTANCE</div>
+                <div class="sig-line">Client Name: ___________________________</div>
+                <div class="sig-line">Signature: _____________________________</div>
+                <div class="sig-date">Date: ______ / ______ / 2026</div>
+              </div>
+              <div class="sig-block">
+                <div class="sig-title">SERVICE PROVIDER</div>
+                <div class="sig-line">Name: NextGen Web Studio Representative</div>
+                <div class="sig-line">Signature: _____________________________</div>
+                <div class="sig-date">Date: ______ / ______ / 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 8 of 8</span>
+        </div>
+      </div>
+    `
+  },
   bot_brochure: {
     name: "Telegram Bot Brochure",
     fields: [
