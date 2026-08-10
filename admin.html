@@ -1030,20 +1030,23 @@
     @media print {
       @page {
         size: A4;
-        margin: 0 !important; /* Zero margins hides browser header URL and footer labels automatically */
+        margin: 0 !important;
       }
       
       body {
         background: #FFFFFF !important;
         color: #000000 !important;
       }
-         /* Hide all dashboard content and modal container overlays */
-      .dashboard-container, .login-overlay, .confirm-modal {
+      
+      /* Only hide dashboard if receipt modal is actually open */
+      body:has(#receiptModal.show) .dashboard-container,
+      body:has(#receiptModal.show) .login-overlay,
+      body:has(#receiptModal.show) .confirm-modal {
         display: none !important;
       }
       
       /* Only target and display our active receipt print container */
-      #receiptModal, #receiptModal * {
+      #receiptModal.show, #receiptModal.show * {
         visibility: visible;
       }
       
