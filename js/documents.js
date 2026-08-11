@@ -2499,6 +2499,10 @@ const templates = {
             </div>
           </div>
         </div>
+        <div class="doc-footer">
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 1 of 9</span>
+        </div>
       </div>
 
       <!-- PAGE 2: Scope of Work -->
@@ -2557,8 +2561,8 @@ const templates = {
           </ul>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 2</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 2 of 9</span>
         </div>
       </div>
 
@@ -2595,8 +2599,8 @@ const templates = {
           </ul>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 3</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 3 of 9</span>
         </div>
       </div>
 
@@ -2628,8 +2632,8 @@ const templates = {
           <p>Third-party libraries, frameworks and services remain subject to their respective licenses.</p>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 4</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 4 of 9</span>
         </div>
       </div>
 
@@ -2676,8 +2680,8 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 5</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 5 of 9</span>
         </div>
       </div>
 
@@ -2712,8 +2716,8 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 6</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 6 of 9</span>
         </div>
       </div>
 
@@ -2751,8 +2755,8 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 7</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 7 of 9</span>
         </div>
       </div>
 
@@ -2799,8 +2803,8 @@ const templates = {
           <p>The developer does not provide any guarantee regarding profitability or trading results of the client-supplied EA.</p>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 8</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 8 of 9</span>
         </div>
       </div>
 
@@ -2860,8 +2864,8 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span class="confidential-badge">CONFIDENTIAL</span>
-          <span class="page-num-placeholder">Page 9</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 9 of 9</span>
         </div>
       </div>
     `
