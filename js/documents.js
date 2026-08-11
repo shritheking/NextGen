@@ -2508,13 +2508,13 @@ const templates = {
       <!-- PAGE 2: Scope of Work -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Scope of Work</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">1. SCOPE OF WORK</h2>
           
           <h3>A. Telegram Bot</h3>
@@ -2531,7 +2531,7 @@ const templates = {
           </ul>
 
           <h3>B. EA Automation</h3>
-          <p>The client will provide the original EA/software. We will build the automation around the supplied EA for:</p>
+          <p class="doc-para">The client will provide the original EA/software. We will build the automation around the supplied EA for:</p>
           <ul>
             <li>Customer-specific configuration</li>
             <li>License generation/management</li>
@@ -2551,7 +2551,7 @@ const templates = {
           </ul>
 
           <h3>D. Admin Panel</h3>
-          <p>Admin can:</p>
+          <p class="doc-para">Admin can:</p>
           <ul>
             <li>View users & View licenses</li>
             <li>Approve/reject users</li>
@@ -2569,13 +2569,13 @@ const templates = {
       <!-- PAGE 3: Deployment & Documentation -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Scope of Work</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">1. SCOPE OF WORK (CONT.)</h2>
           
           <h3>E. Deployment</h3>
@@ -2607,29 +2607,29 @@ const templates = {
       <!-- PAGE 4: Important Clauses -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Important Clauses</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">2. IMPORTANT — CLIENT-SUPPLIED EA</h2>
           <div class="review-card" style="margin-bottom: 30px;">
-            <p><strong>Client-Supplied EA</strong></p>
-            <p>The EA/trading software and its underlying trading strategy will be supplied by the client. The development scope does not include creation of the EA or development of its trading strategy.</p>
-            <p>Our responsibility is limited to the agreed automation, integration, licensing, distribution, Telegram bot, backend, database, compilation workflow and related infrastructure.</p>
+            <p class="doc-para"><strong>Client-Supplied EA</strong></p>
+            <p class="doc-para">The EA/trading software and its underlying trading strategy will be supplied by the client. The development scope does not include creation of the EA or development of its trading strategy.</p>
+            <p class="doc-para">Our responsibility is limited to the agreed automation, integration, licensing, distribution, Telegram bot, backend, database, compilation workflow and related infrastructure.</p>
           </div>
 
           <h2 class="doc-section-title">3. INTELLECTUAL PROPERTY</h2>
           
           <h3>Client-Supplied Intellectual Property</h3>
-          <p>All intellectual property, source code, trading logic, algorithms, strategies, branding and materials supplied by the client remain the property of the client or their respective owner.</p>
-          <p>The developer does not claim ownership of the client-supplied EA or its underlying trading strategy.</p>
+          <p class="doc-para">All intellectual property, source code, trading logic, algorithms, strategies, branding and materials supplied by the client remain the property of the client or their respective owner.</p>
+          <p class="doc-para">The developer does not claim ownership of the client-supplied EA or its underlying trading strategy.</p>
           
           <h3>Developer-Created Components</h3>
-          <p>Components specifically developed as part of the agreed project, including automation workflows, Telegram bot components, backend components, APIs and related configuration, will be delivered according to the agreed project and payment terms.</p>
-          <p>Third-party libraries, frameworks and services remain subject to their respective licenses.</p>
+          <p class="doc-para">Components specifically developed as part of the agreed project, including automation workflows, Telegram bot components, backend components, APIs and related configuration, will be delivered according to the agreed project and payment terms.</p>
+          <p class="doc-para">Third-party libraries, frameworks and services remain subject to their respective licenses.</p>
         </div>
         <div class="doc-footer">
           <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
@@ -2640,13 +2640,13 @@ const templates = {
       <!-- PAGE 5: Software Development Agreement -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Development Agreement</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">4. SOFTWARE DEVELOPMENT AGREEMENT</h2>
           
           <table class="doc-table">
@@ -2688,15 +2688,15 @@ const templates = {
       <!-- PAGE 6: Client Requirements & SRS -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Requirements & SRS</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">5. WHAT THE CLIENT MUST PROVIDE</h2>
-          <p>Before development begins, collect:</p>
+          <p class="doc-para">Before development begins, collect:</p>
           <ul>
             <li><strong>EA:</strong> Original EA file, EX4 / EX5, as applicable. MQ4 / MQ5 source if the automation requires source-level compilation.</li>
             <li><strong>Configuration:</strong> Required configuration files, EA settings, Installation instructions, Any existing licensing mechanism, Broker/platform requirements.</li>
@@ -2724,15 +2724,15 @@ const templates = {
       <!-- PAGE 7: Acceptance, Testing & Payment -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Acceptance & Payment</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">7. ACCEPTANCE CRITERIA</h2>
-          <p>The project is considered complete when the agreed functions work, for example:</p>
+          <p class="doc-para">The project is considered complete when the agreed functions work, for example:</p>
           <ul>
             <li><strong>Telegram:</strong> /start, Registration, User information collection, Admin notification, Approval/rejection, Automated messages, VIP/access workflow</li>
             <li><strong>License:</strong> License creation, activation, validation, expiry, disabling, Customer mapping</li>
@@ -2741,17 +2741,17 @@ const templates = {
           </ul>
 
           <h2 class="doc-section-title">8. TESTING</h2>
-          <p><strong>3–5 business days UAT</strong></p>
-          <p>During UAT: Bugs relating to the agreed scope will be corrected without additional development charges. But: New features, changes to requirements, new integrations or modifications to the client-supplied EA are outside the original scope and may require additional charges.</p>
+          <p class="doc-para"><strong>3–5 business days UAT</strong></p>
+          <p class="doc-para">During UAT: Bugs relating to the agreed scope will be corrected without additional development charges. But: New features, changes to requirements, new integrations or modifications to the client-supplied EA are outside the original scope and may require additional charges.</p>
 
           <h2 class="doc-section-title">9. FINAL PAYMENT</h2>
-          <p>Once the agreed system passes testing:</p>
+          <p class="doc-para">Once the agreed system passes testing:</p>
           <div class="review-card" style="margin-top: 15px;">
-            <p><strong>PROJECT: EA AUTOMATION SYSTEM</strong></p>
-            <p>Total Project Cost: ₹1,50,000</p>
-            <p>Advance Received: ₹75,000</p>
-            <p><strong>Final Balance: ₹75,000</strong></p>
-            <p>Status: Final Delivery Pending</p>
+            <p class="doc-para"><strong>PROJECT: EA AUTOMATION SYSTEM</strong></p>
+            <p class="doc-para">Total Project Cost: ₹1,50,000</p>
+            <p class="doc-para">Advance Received: ₹75,000</p>
+            <p class="doc-para"><strong>Final Balance: ₹75,000</strong></p>
+            <p class="doc-para">Status: Final Delivery Pending</p>
           </div>
         </div>
         <div class="doc-footer">
@@ -2763,15 +2763,15 @@ const templates = {
       <!-- PAGE 8: Handover, Support & Disclaimer -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Handover & Disclaimer</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title">10. FINAL HANDOVER</h2>
-          <p>Your delivery folder can look like:</p>
+          <p class="doc-para">Your delivery folder can look like:</p>
           <pre style="background: var(--bg-alt); padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px;">EA-AUTOMATION-PROJECT/
 ├── Telegram-Bot/
 ├── Backend/
@@ -2788,19 +2788,19 @@ const templates = {
 │   ├── Deployment-Guide.pdf
 │   └── Troubleshooting.pdf
 └── README.md</pre>
-          <p><em>Do not include private API keys, passwords, bot tokens or server credentials inside the ZIP.</em></p>
+          <p class="doc-para"><em>Do not include private API keys, passwords, bot tokens or server credentials inside the ZIP.</em></p>
 
           <h2 class="doc-section-title">11. SUPPORT & MAINTENANCE</h2>
-          <p><strong>Included:</strong> 14 days post-delivery support (Bug fixes, Installation assistance, Configuration assistance, Assistance with the delivered system).</p>
-          <p><strong>Not included:</strong> New features, New Telegram workflows, New EA strategy, EA strategy modifications, New broker integration, New payment gateway, Major UI redesign, Major architectural changes. These should be separately quoted.</p>
-          <p><strong>Optional Maintenance:</strong> ₹3,000/month (Includes agreed routine maintenance and technical assistance. Major feature development is charged separately).</p>
+          <p class="doc-para"><strong>Included:</strong> 14 days post-delivery support (Bug fixes, Installation assistance, Configuration assistance, Assistance with the delivered system).</p>
+          <p class="doc-para"><strong>Not included:</strong> New features, New Telegram workflows, New EA strategy, EA strategy modifications, New broker integration, New payment gateway, Major UI redesign, Major architectural changes. These should be separately quoted.</p>
+          <p class="doc-para"><strong>Optional Maintenance:</strong> ₹3,000/month (Includes agreed routine maintenance and technical assistance. Major feature development is charged separately).</p>
 
           <h2 class="doc-section-title">13. THIRD-PARTY COSTS</h2>
-          <p>Hosting, VPS, domain, API services, payment gateway charges, broker/platform charges, Telegram-related third-party services and other external service costs are not included in the ₹1,50,000 development fee unless explicitly mentioned in the quotation.</p>
+          <p class="doc-para">Hosting, VPS, domain, API services, payment gateway charges, broker/platform charges, Telegram-related third-party services and other external service costs are not included in the ₹1,50,000 development fee unless explicitly mentioned in the quotation.</p>
           
           <h2 class="doc-section-title">14. TRADING DISCLAIMER</h2>
-          <p>The system is an automation and software-management solution. It does not guarantee trading profits, returns, accuracy or performance. The client is responsible for the trading strategy, EA performance, broker relationship and compliance with applicable laws, regulations and platform terms.</p>
-          <p>The developer does not provide any guarantee regarding profitability or trading results of the client-supplied EA.</p>
+          <p class="doc-para">The system is an automation and software-management solution. It does not guarantee trading profits, returns, accuracy or performance. The client is responsible for the trading strategy, EA performance, broker relationship and compliance with applicable laws, regulations and platform terms.</p>
+          <p class="doc-para">The developer does not provide any guarantee regarding profitability or trading results of the client-supplied EA.</p>
         </div>
         <div class="doc-footer">
           <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
@@ -2811,16 +2811,16 @@ const templates = {
       <!-- PAGE 9: Final Acceptance Certificate -->
       <div class="doc-page">
         <div class="doc-header">
-          <div class="doc-header-brand">
-            <img class="doc-mini-icon" src="assets/logo-icon.png" alt="Icon">
-            <span>NextGen Studio</span>
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Acceptance Certificate</div>
         </div>
-        <div class="doc-content">
+        <div class="doc-page-content">
           <h2 class="doc-section-title" style="text-align: center; margin-top: 40px; margin-bottom: 40px;">PROJECT ACCEPTANCE CERTIFICATE</h2>
           
-          <p style="font-size: 16px; line-height: 1.8; margin-bottom: 40px;">
+          <p class="doc-para" style="font-size: 16px; line-height: 1.8; margin-bottom: 40px;">
             I, <strong><span class="live-val" data-field="client_name">\${data.client_name}</span></strong>, confirm that the agreed <strong>Automated EA Distribution & Telegram Management System</strong> has been delivered according to the approved project scope.
           </p>
 
@@ -2841,7 +2841,7 @@ const templates = {
             </tbody>
           </table>
 
-          <p style="font-size: 16px; line-height: 1.8; margin-bottom: 60px;">
+          <p class="doc-para" style="font-size: 16px; line-height: 1.8; margin-bottom: 60px;">
             The client confirms acceptance of the agreed deliverables and understands that future feature additions or scope changes may be charged separately.
           </p>
 
@@ -2850,17 +2850,17 @@ const templates = {
               <div style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 10px; min-height: 30px;">
                 <span class="live-val" data-field="client_name" style="font-weight: 600;">\${data.client_name}</span>
               </div>
-              <p style="color: var(--ink-soft); font-size: 14px;">Client Name</p>
+              <p class="doc-para" style="color: var(--ink-soft); font-size: 14px;">Client Name</p>
             </div>
             <div style="width: 45%;">
               <div style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 10px; min-height: 30px;"></div>
-              <p style="color: var(--ink-soft); font-size: 14px;">Date</p>
+              <p class="doc-para" style="color: var(--ink-soft); font-size: 14px;">Date</p>
             </div>
           </div>
           
           <div style="margin-top: 60px; width: 45%;">
              <div style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 10px; min-height: 50px;"></div>
-             <p style="color: var(--ink-soft); font-size: 14px;">Signature / Confirmation</p>
+             <p class="doc-para" style="color: var(--ink-soft); font-size: 14px;">Signature / Confirmation</p>
           </div>
         </div>
         <div class="doc-footer">
