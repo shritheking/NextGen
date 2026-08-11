@@ -2515,49 +2515,49 @@ const templates = {
           <div class="doc-header-meta">Scope of Work</div>
         </div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">1. SCOPE OF WORK</h2>
+          <div class="doc-section"><h2 class="doc-section-title">1. SCOPE OF WORK</h2>
           
-          <h3>A. Telegram Bot</h3>
-          <ul>
-            <li>User registration/onboarding</li>
-            <li>Automated welcome messages</li>
-            <li>Customer information collection</li>
-            <li>License/application workflow</li>
-            <li>Admin approval/rejection</li>
-            <li>Automated notifications</li>
-            <li>User status management</li>
-            <li>Broadcast functionality</li>
-            <li>Custom buttons and menus</li>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">A. Telegram Bot</h3>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> User registration/onboarding</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Automated welcome messages</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Customer information collection</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> License/application workflow</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Admin approval/rejection</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Automated notifications</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> User status management</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Broadcast functionality</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Custom buttons and menus</li>
           </ul>
 
-          <h3>B. EA Automation</h3>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">B. EA Automation</h3>
           <p class="doc-para">The client will provide the original EA/software. We will build the automation around the supplied EA for:</p>
-          <ul>
-            <li>Customer-specific configuration</li>
-            <li>License generation/management</li>
-            <li>Automated processing</li>
-            <li>Customer-specific compilation where applicable</li>
-            <li>Automated EA file generation</li>
-            <li>EA delivery workflow</li>
-            <li>License validation integration</li>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Customer-specific configuration</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> License generation/management</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Automated processing</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Customer-specific compilation where applicable</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Automated EA file generation</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> EA delivery workflow</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> License validation integration</li>
           </ul>
 
-          <h3>C. Backend & Database</h3>
-          <ul>
-            <li>REST API & Database</li>
-            <li>User management & License management</li>
-            <li>Customer records</li>
-            <li>Admin functionality & Activity/log management</li>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">C. Backend & Database</h3>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> REST API & Database</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> User management & License management</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Customer records</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Admin functionality & Activity/log management</li>
           </ul>
 
-          <h3>D. Admin Panel</h3>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">D. Admin Panel</h3>
           <p class="doc-para">Admin can:</p>
-          <ul>
-            <li>View users & View licenses</li>
-            <li>Approve/reject users</li>
-            <li>Create/disable licenses</li>
-            <li>Manage customers & View activity</li>
-            <li>Manage bot settings & Manage EA distribution</li>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> View users & View licenses</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Approve/reject users</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Create/disable licenses</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Manage customers & View activity</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Manage bot settings & Manage EA distribution</li>
           </ul>
         </div>
         <div class="doc-footer">
@@ -2574,28 +2574,28 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Scope of Work</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">1. SCOPE OF WORK (CONT.)</h2>
+          <div class="doc-section"><h2 class="doc-section-title">1. SCOPE OF WORK (CONT.)</h2>
           
-          <h3>E. Deployment</h3>
-          <ul>
-            <li>Backend deployment</li>
-            <li>Telegram bot deployment</li>
-            <li>Worker/automation deployment</li>
-            <li>Database configuration</li>
-            <li>Environment configuration</li>
-            <li>Production setup</li>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">E. Deployment</h3>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Backend deployment</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Telegram bot deployment</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Worker/automation deployment</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Database configuration</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Environment configuration</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Production setup</li>
           </ul>
 
-          <h3>F. Documentation</h3>
-          <ul>
-            <li>Installation guide</li>
-            <li>Admin guide</li>
-            <li>User guide</li>
-            <li>License management guide</li>
-            <li>Deployment guide</li>
-            <li>Troubleshooting guide</li>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">F. Documentation</h3>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Installation guide</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Admin guide</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> User guide</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> License management guide</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Deployment guide</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Troubleshooting guide</li>
           </ul>
         </div>
         <div class="doc-footer">
@@ -2612,22 +2612,22 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Important Clauses</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">2. IMPORTANT — CLIENT-SUPPLIED EA</h2>
+          <div class="doc-section"><h2 class="doc-section-title">2. IMPORTANT — CLIENT-SUPPLIED EA</h2>
           <div class="review-card" style="margin-bottom: 30px;">
             <p class="doc-para"><strong>Client-Supplied EA</strong></p>
             <p class="doc-para">The EA/trading software and its underlying trading strategy will be supplied by the client. The development scope does not include creation of the EA or development of its trading strategy.</p>
             <p class="doc-para">Our responsibility is limited to the agreed automation, integration, licensing, distribution, Telegram bot, backend, database, compilation workflow and related infrastructure.</p>
           </div>
 
-          <h2 class="doc-section-title">3. INTELLECTUAL PROPERTY</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">3. INTELLECTUAL PROPERTY</h2>
           
-          <h3>Client-Supplied Intellectual Property</h3>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">Client-Supplied Intellectual Property</h3>
           <p class="doc-para">All intellectual property, source code, trading logic, algorithms, strategies, branding and materials supplied by the client remain the property of the client or their respective owner.</p>
           <p class="doc-para">The developer does not claim ownership of the client-supplied EA or its underlying trading strategy.</p>
           
-          <h3>Developer-Created Components</h3>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">Developer-Created Components</h3>
           <p class="doc-para">Components specifically developed as part of the agreed project, including automation workflows, Telegram bot components, backend components, APIs and related configuration, will be delivered according to the agreed project and payment terms.</p>
           <p class="doc-para">Third-party libraries, frameworks and services remain subject to their respective licenses.</p>
         </div>
@@ -2645,9 +2645,9 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Development Agreement</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">4. SOFTWARE DEVELOPMENT AGREEMENT</h2>
+          <div class="doc-section"><h2 class="doc-section-title">4. SOFTWARE DEVELOPMENT AGREEMENT</h2>
           
           <table class="doc-table">
             <tbody>
@@ -2674,7 +2674,7 @@ const templates = {
             </tbody>
           </table>
 
-          <h3>Development Process</h3>
+          <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">Development Process</h3>
           <div style="background: var(--bg-alt); padding: 20px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 13px; text-align: center;">
             Client provides EA<br>↓<br>Requirements finalized<br>↓<br>50% advance<br>↓<br>Automation development<br>↓<br>Telegram bot<br>↓<br>Backend + database<br>↓<br>License system<br>↓<br>Compilation/distribution workflow<br>↓<br>Integration testing<br>↓<br>Client testing<br>↓<br>Final payment<br>↓<br>Final handover
           </div>
@@ -2693,18 +2693,18 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Requirements & SRS</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">5. WHAT THE CLIENT MUST PROVIDE</h2>
+          <div class="doc-section"><h2 class="doc-section-title">5. WHAT THE CLIENT MUST PROVIDE</h2>
           <p class="doc-para">Before development begins, collect:</p>
-          <ul>
-            <li><strong>EA:</strong> Original EA file, EX4 / EX5, as applicable. MQ4 / MQ5 source if the automation requires source-level compilation.</li>
-            <li><strong>Configuration:</strong> Required configuration files, EA settings, Installation instructions, Any existing licensing mechanism, Broker/platform requirements.</li>
-            <li><strong>Telegram:</strong> Bot requirements, Public channel/group information, VIP group information, Admin Telegram account, Required bot messages, Required buttons, User workflow.</li>
-            <li><strong>Licensing:</strong> How should a customer\'s EA license be linked? (MT4/MT5 account number, License key, Customer ID, Expiry date, Account + license key)</li>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>EA:</strong> Original EA file, EX4 / EX5, as applicable. MQ4 / MQ5 source if the automation requires source-level compilation.</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Configuration:</strong> Required configuration files, EA settings, Installation instructions, Any existing licensing mechanism, Broker/platform requirements.</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Telegram:</strong> Bot requirements, Public channel/group information, VIP group information, Admin Telegram account, Required bot messages, Required buttons, User workflow.</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Licensing:</strong> How should a customer\'s EA license be linked? (MT4/MT5 account number, License key, Customer ID, Expiry date, Account + license key)</li>
           </ul>
 
-          <h2 class="doc-section-title">6. SOFTWARE REQUIREMENTS SPECIFICATION — SRS</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">6. SOFTWARE REQUIREMENTS SPECIFICATION — SRS</h2>
           
           <div style="display: flex; gap: 20px;">
             <div style="flex: 1; background: var(--bg-alt); padding: 20px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; text-align: center;">
@@ -2729,22 +2729,22 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Acceptance & Payment</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">7. ACCEPTANCE CRITERIA</h2>
+          <div class="doc-section"><h2 class="doc-section-title">7. ACCEPTANCE CRITERIA</h2>
           <p class="doc-para">The project is considered complete when the agreed functions work, for example:</p>
-          <ul>
-            <li><strong>Telegram:</strong> /start, Registration, User information collection, Admin notification, Approval/rejection, Automated messages, VIP/access workflow</li>
-            <li><strong>License:</strong> License creation, activation, validation, expiry, disabling, Customer mapping</li>
-            <li><strong>EA Integration:</strong> Supplied EA successfully integrated, Required configuration works, Customer-specific process works, EA delivery works</li>
-            <li><strong>Backend:</strong> API works, Database works, Admin functions work, Logs work</li>
+          <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; list-style: none; padding-left: 0;">
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Telegram:</strong> /start, Registration, User information collection, Admin notification, Approval/rejection, Automated messages, VIP/access workflow</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>License:</strong> License creation, activation, validation, expiry, disabling, Customer mapping</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>EA Integration:</strong> Supplied EA successfully integrated, Required configuration works, Customer-specific process works, EA delivery works</li>
+            <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Backend:</strong> API works, Database works, Admin functions work, Logs work</li>
           </ul>
 
-          <h2 class="doc-section-title">8. TESTING</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">8. TESTING</h2>
           <p class="doc-para"><strong>3–5 business days UAT</strong></p>
           <p class="doc-para">During UAT: Bugs relating to the agreed scope will be corrected without additional development charges. But: New features, changes to requirements, new integrations or modifications to the client-supplied EA are outside the original scope and may require additional charges.</p>
 
-          <h2 class="doc-section-title">9. FINAL PAYMENT</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">9. FINAL PAYMENT</h2>
           <p class="doc-para">Once the agreed system passes testing:</p>
           <div class="review-card" style="margin-top: 15px;">
             <p class="doc-para"><strong>PROJECT: EA AUTOMATION SYSTEM</strong></p>
@@ -2768,9 +2768,9 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Handover & Disclaimer</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
-          <h2 class="doc-section-title">10. FINAL HANDOVER</h2>
+          <div class="doc-section"><h2 class="doc-section-title">10. FINAL HANDOVER</h2>
           <p class="doc-para">Your delivery folder can look like:</p>
           <pre style="background: var(--bg-alt); padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px;">EA-AUTOMATION-PROJECT/
 ├── Telegram-Bot/
@@ -2790,15 +2790,15 @@ const templates = {
 └── README.md</pre>
           <p class="doc-para"><em>Do not include private API keys, passwords, bot tokens or server credentials inside the ZIP.</em></p>
 
-          <h2 class="doc-section-title">11. SUPPORT & MAINTENANCE</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">11. SUPPORT & MAINTENANCE</h2>
           <p class="doc-para"><strong>Included:</strong> 14 days post-delivery support (Bug fixes, Installation assistance, Configuration assistance, Assistance with the delivered system).</p>
           <p class="doc-para"><strong>Not included:</strong> New features, New Telegram workflows, New EA strategy, EA strategy modifications, New broker integration, New payment gateway, Major UI redesign, Major architectural changes. These should be separately quoted.</p>
           <p class="doc-para"><strong>Optional Maintenance:</strong> ₹3,000/month (Includes agreed routine maintenance and technical assistance. Major feature development is charged separately).</p>
 
-          <h2 class="doc-section-title">13. THIRD-PARTY COSTS</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">13. THIRD-PARTY COSTS</h2>
           <p class="doc-para">Hosting, VPS, domain, API services, payment gateway charges, broker/platform charges, Telegram-related third-party services and other external service costs are not included in the ₹1,50,000 development fee unless explicitly mentioned in the quotation.</p>
           
-          <h2 class="doc-section-title">14. TRADING DISCLAIMER</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">14. TRADING DISCLAIMER</h2>
           <p class="doc-para">The system is an automation and software-management solution. It does not guarantee trading profits, returns, accuracy or performance. The client is responsible for the trading strategy, EA performance, broker relationship and compliance with applicable laws, regulations and platform terms.</p>
           <p class="doc-para">The developer does not provide any guarantee regarding profitability or trading results of the client-supplied EA.</p>
         </div>
@@ -2816,7 +2816,7 @@ const templates = {
             <img class="header-text" src="assets/logo-text.png" alt="NextGen">
           </div>
           <div class="doc-header-meta">Acceptance Certificate</div>
-        </div>
+        </div></div>
         <div class="doc-page-content">
           <h2 class="doc-section-title" style="text-align: center; margin-top: 40px; margin-bottom: 40px;">PROJECT ACCEPTANCE CERTIFICATE</h2>
           
