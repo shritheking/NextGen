@@ -29,8 +29,6 @@
     min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    background-color: #fff !important;
-    color: #000 !important;
     overflow: visible !important;
     position: static !important;
   }
@@ -108,12 +106,12 @@
     display: block !important;
   }
 
-  /* 3. Style Individual Pages for Clean Breaks */
+  /* Allow pages to print exactly as they look on screen (Dark Theme) */
   .doc-page {
     width: 100% !important;
     height: auto !important;
     min-height: 297mm !important;
-    padding: 20mm !important; /* Standard Professional Page Padding */
+    padding: 20mm !important; 
     margin: 0 !important;
     box-sizing: border-box !important;
     page-break-after: always !important;
@@ -121,20 +119,6 @@
     display: block !important;
     position: relative !important;
     overflow: visible !important;
-    background-color: #fff !important;
-  }
-
-  /* Force ALL printing to be black on white to save toner and prevent white-on-white text */
-  .preview-dark, .preview-light, .doc-page {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  .preview-dark .doc-page, .preview-light .doc-page {
-    background-color: #ffffff !important;
-    color: #000000 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
