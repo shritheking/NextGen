@@ -1,4 +1,4 @@
-﻿// NextGen Document Center - Application Script
+// NextGen Document Center - Application Script
 
 // SVG icons
 const ICONS = {
@@ -51,7 +51,7 @@ const templates = {
   brochure: {
     name: "Company Profile & Brochure",
     fields: [
-      { id: "founder_msg", label: "CEO Message", type: "textarea", default: "At NextGen, we don't just build websitesâ€”we build digital experiences that help businesses grow." },
+      { id: "founder_msg", label: "CEO Message", type: "textarea", default: "At NextGen, we don't just build websites—we build digital experiences that help businesses grow." },
       { id: "stat_projects", label: "Projects Delivered", type: "text", default: "25+" },
       { id: "stat_uptime", label: "Uptime Rating", type: "text", default: "99.9%" },
       { id: "stat_delivery", label: "Average Delivery", type: "text", default: "3-5 Weeks" },
@@ -61,9 +61,9 @@ const templates = {
       { id: "proj_tech", label: "Case Study Stack", type: "text", default: "React + Node.js" },
       { id: "proj_result", label: "Case Study Result", type: "text", default: "+42% online bookings" },
       { id: "proj_desc", label: "Case Study Description", type: "textarea", default: "Complete custom e-commerce booking portal and marketing website." },
-      { id: "starter_price", label: "Starter Package Price", type: "text", default: "â‚¹9,999" },
-      { id: "business_price", label: "Business Package Price", type: "text", default: "â‚¹19,999" },
-      { id: "premium_price", label: "Premium Package Price", type: "text", default: "â‚¹39,999+" },
+      { id: "starter_price", label: "Starter Package Price", type: "text", default: "₹9,999" },
+      { id: "business_price", label: "Business Package Price", type: "text", default: "₹19,999" },
+      { id: "premium_price", label: "Premium Package Price", type: "text", default: "₹39,999+" },
       { id: "contact_email", label: "Agency Email", type: "text", default: "nextgenwebstudio63@gmail.com" },
       { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 79045 44101" },
       { id: "contact_ig", label: "Instagram Handle", type: "text", default: "@nextgen_web_studio" }
@@ -88,7 +88,7 @@ const templates = {
           <div class="doc-hero-footer">
             <div>
               <span class="label">Document Type</span>
-              <span>Agency Brochure â€” 2026</span>
+              <span>Agency Brochure — 2026</span>
             </div>
             <div>
               <span class="label">Service Provider</span>
@@ -97,7 +97,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 4</span>
         </div>
       </div>
@@ -117,12 +117,12 @@ const templates = {
         <div class="doc-page-content">
           <div class="doc-section">
             <h2 class="doc-section-title">About NextGen</h2>
-            <p class="doc-para">NextGen Web Studio is a web design and development studio building fast, modern, conversion-focused websites for small businesses, startups, and personal brands. We combine clean design with reliable engineering â€” every project is built mobile-first, optimized for speed, and designed to represent your business online the way it deserves to be represented.</p>
+            <p class="doc-para">NextGen Web Studio is a web design and development studio building fast, modern, conversion-focused websites for small businesses, startups, and personal brands. We combine clean design with reliable engineering — every project is built mobile-first, optimized for speed, and designed to represent your business online the way it deserves to be represented.</p>
           </div>
 
           <div class="founder-message">
             <div class="founder-quote">"${data.founder_msg}"</div>
-            <div class="founder-author">â€” Founder & CEO, NextGen Web Studio</div>
+            <div class="founder-author">— Founder & CEO, NextGen Web Studio</div>
           </div>
 
           <div class="doc-section">
@@ -185,7 +185,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 2 of 4</span>
         </div>
       </div>
@@ -285,7 +285,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 3 of 4</span>
         </div>
       </div>
@@ -319,19 +319,19 @@ const templates = {
                   <tr>
                     <td><strong>Starter Pack</strong></td>
                     <td>SMEs & Brands</td>
-                    <td>5 Pages Â· Responsive UI Â· Contact Form</td>
+                    <td>5 Pages · Responsive UI · Contact Form</td>
                     <td><strong style="color:var(--nextgen-green);">${data.starter_price}</strong></td>
                   </tr>
                   <tr>
                     <td><strong>Business Pack</strong></td>
                     <td>Growth Startups</td>
-                    <td>10 Pages Â· Custom CMS Â· Basic On-Page SEO</td>
+                    <td>10 Pages · Custom CMS · Basic On-Page SEO</td>
                     <td><strong style="color:var(--nextgen-green);">${data.business_price}</strong></td>
                   </tr>
                   <tr>
                     <td><strong>Premium Pack</strong></td>
                     <td>Full Enterprises</td>
-                    <td>Unlimited Pages Â· E-Commerce Â· Stripe Gateway</td>
+                    <td>Unlimited Pages · E-Commerce · Stripe Gateway</td>
                     <td><strong style="color:var(--nextgen-green);">${data.premium_price}</strong></td>
                   </tr>
                 </tbody>
@@ -348,7 +348,7 @@ const templates = {
                 <div class="review-user">
                   <div class="user-avatar">NG</div>
                   <div class="user-meta">
-                    <span class="user-name">Agency Status â€” 2026</span>
+                    <span class="user-name">Agency Status — 2026</span>
                     <span class="user-company">NextGen Web Studio</span>
                   </div>
                 </div>
@@ -373,16 +373,16 @@ const templates = {
                 <span style="font-size:11.5px; color:#a1a1aa;">Drop us an email or phone number to set up a free consultation.</span>
               </div>
               <div style="text-align:right; font-size:11.5px; line-height:1.6;">
-                <div>ðŸ“§ <strong style="color:var(--nextgen-green);">${data.contact_email}</strong></div>
-                <div>ðŸ“ž <strong>${data.contact_phone}</strong></div>
-                <div>ðŸ“¸ <strong>${data.contact_ig}</strong></div>
+                <div>📧 <strong style="color:var(--nextgen-green);">${data.contact_email}</strong></div>
+                <div>📞 <strong>${data.contact_phone}</strong></div>
+                <div>📸 <strong>${data.contact_ig}</strong></div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 4 of 4</span>
         </div>
       </div>
@@ -397,7 +397,7 @@ const templates = {
       { id: "client_rep", label: "Client Representative", type: "text", default: "Vikram Sen" },
       { id: "client_contact", label: "Client Email / Phone", type: "text", default: "vikram@boomerscafe.com / +91 99999 88888" },
       { id: "proj_title", label: "Project Title", type: "text", default: "E-Commerce Booking Website" },
-      { id: "revision_rate", label: "Extra Revision Rate (â‚¹)", type: "text", default: "â‚¹1,500" },
+      { id: "revision_rate", label: "Extra Revision Rate (₹)", type: "text", default: "₹1,500" },
       { id: "payment_desc", label: "Payment Method Options", type: "text", default: "Razorpay Invoice Link, UPI, or Bank Transfer" }
     ],
     render: (data) => `
@@ -424,7 +424,7 @@ const templates = {
           <p class="agreement-cover-desc">This legally binding Agreement is entered into by NextGen Web Studio and the Client listed below, governing custom web services and terms. All materials herein are strictly confidential.</p>
         </div>
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 4</span>
         </div>
       </div>
@@ -498,7 +498,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 2 of 4</span>
         </div>
       </div>
@@ -565,17 +565,17 @@ const templates = {
                 <div class="flow-node">50%</div>
                 <span class="flow-label">Upfront Advance</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="layout"></i></div>
                 <span class="flow-label">UI Design Approval</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
                 <span class="flow-label">Development Code</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node">50%</div>
                 <span class="flow-label">Balance & Launch</span>
@@ -592,7 +592,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 3 of 4</span>
         </div>
       </div>
@@ -651,7 +651,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 4 of 4</span>
         </div>
       </div>
@@ -719,7 +719,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Rider Page</span>
         </div>
       </div>
@@ -734,7 +734,7 @@ const templates = {
       { id: "client_rep", label: "Client Representative", type: "text", default: "Client Name" },
       { id: "client_contact", label: "Client Email / Phone", type: "text", default: "client@example.com / +91 99999 88888" },
       { id: "proj_title", label: "Project Title", type: "text", default: "Custom Telegram Bot Development" },
-      { id: "revision_rate", label: "Extra Revision Rate (â‚¹)", type: "text", default: "â‚¹1,500" },
+      { id: "revision_rate", label: "Extra Revision Rate (₹)", type: "text", default: "₹1,500" },
       { id: "payment_desc", label: "Payment Method Options", type: "text", default: "Razorpay Invoice Link, UPI, or Bank Transfer" }
     ],
     render: (data) => `
@@ -761,7 +761,7 @@ const templates = {
           <p class="agreement-cover-desc">This legally binding Agreement is entered into by NextGen Web Studio and the Client listed below, governing custom Telegram Bot development and terms. All materials herein are strictly confidential.</p>
         </div>
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 4</span>
         </div>
       </div>
@@ -835,7 +835,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 2 of 4</span>
         </div>
       </div>
@@ -902,17 +902,17 @@ const templates = {
                 <div class="flow-node">50%</div>
                 <span class="flow-label">Upfront Advance</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="bot"></i></div>
                 <span class="flow-label">Bot Logic Approval</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
                 <span class="flow-label">Integration & Testing</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node">50%</div>
                 <span class="flow-label">Balance & Deployment</span>
@@ -929,7 +929,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 3 of 4</span>
         </div>
       </div>
@@ -988,7 +988,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 4 of 4</span>
         </div>
       </div>
@@ -1056,7 +1056,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Rider Page</span>
         </div>
       </div>
@@ -1095,7 +1095,7 @@ const templates = {
           <p class="agreement-cover-desc" style="font-size: 13px;">This document outlines the professional software-development quotation for a complete EA Bot Access automation platform. All pricing and intellectual property transfer details are contained herein.</p>
         </div>
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 8</span>
         </div>
       </div>
@@ -1164,7 +1164,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 2 of 8</span>
         </div>
       </div>
@@ -1238,7 +1238,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 3 of 8</span>
         </div>
       </div>
@@ -1305,7 +1305,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 4 of 8</span>
         </div>
       </div>
@@ -1337,7 +1337,7 @@ const templates = {
               <div style="flex:1; border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: rgba(255,255,255,0.01);">
                 <div style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); margin-bottom: 4px;">OPTION A</div>
                 <h3 style="font-size: 15px; margin-bottom: 4px;">Full Source Code Handover</h3>
-                <div style="font-size: 20px; font-weight: 700; color: var(--nextgen-green); margin-bottom: 12px;">â‚¹1,50,000</div>
+                <div style="font-size: 20px; font-weight: 700; color: var(--nextgen-green); margin-bottom: 12px;">₹1,50,000</div>
                 <ul class="work-metrics" style="font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
                   <li><i class="fa-solid fa-check"></i> Complete source code</li>
                   <li><i class="fa-solid fa-check"></i> Deployment configuration</li>
@@ -1352,7 +1352,7 @@ const templates = {
               <div style="flex:1; border: 1px solid var(--accent); border-radius: 8px; padding: 16px; background: rgba(224,255,79,0.05);">
                 <div style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">OPTION B (RECOMMENDED)</div>
                 <h3 style="font-size: 15px; margin-bottom: 4px;">Exclusive Full Buyout</h3>
-                <div style="font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 12px;">â‚¹2,00,000</div>
+                <div style="font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 12px;">₹2,00,000</div>
                 <ul class="work-metrics" style="font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
                   <li><i class="fa-solid fa-check"></i> <strong>Everything in Option A plus:</strong></li>
                   <li><i class="fa-solid fa-check"></i> <strong>Exclusive commercial rights</strong> to the custom-developed platform</li>
@@ -1368,7 +1368,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 5 of 8</span>
         </div>
       </div>
@@ -1399,11 +1399,11 @@ const templates = {
                 <tbody>
                   <tr>
                     <td>Negotiation / Alternative Package: <strong>Complete Source Code Handover</strong></td>
-                    <td style="text-align: right; font-weight: 600;">â‚¹1,50,000</td>
+                    <td style="text-align: right; font-weight: 600;">₹1,50,000</td>
                   </tr>
                   <tr style="background: rgba(224,255,79,0.05);">
                     <td style="color: var(--accent);"><strong>Recommended Package: Exclusive Full Buyout</strong></td>
-                    <td style="text-align: right; font-weight: 700; color: var(--accent); font-size: 16px;">â‚¹2,00,000</td>
+                    <td style="text-align: right; font-weight: 700; color: var(--accent); font-size: 16px;">₹2,00,000</td>
                   </tr>
                 </tbody>
               </table>
@@ -1413,39 +1413,39 @@ const templates = {
           <div class="doc-section">
             <h2 class="doc-section-title">10. Payment Terms</h2>
             
-            <h3 style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px;">For â‚¹2,00,000 Exclusive Buyout:</h3>
+            <h3 style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px;">For ₹2,00,000 Exclusive Buyout:</h3>
             <div class="flowchart-container" style="margin-bottom: 20px;">
               <div class="flowchart-step">
                 <div class="flow-node">50%</div>
-                <span class="flow-label">â‚¹1,00,000 Advance</span>
+                <span class="flow-label">₹1,00,000 Advance</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
                 <span class="flow-label">Development Phase</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node">50%</div>
-                <span class="flow-label">â‚¹1,00,000 Final Payment</span>
+                <span class="flow-label">₹1,00,000 Final Payment</span>
               </div>
             </div>
 
-            <h3 style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px;">For â‚¹1,50,000 Source-Code Option:</h3>
+            <h3 style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px;">For ₹1,50,000 Source-Code Option:</h3>
             <div class="flowchart-container" style="margin-bottom: 20px;">
               <div class="flowchart-step">
                 <div class="flow-node">50%</div>
-                <span class="flow-label">â‚¹75,000 Advance</span>
+                <span class="flow-label">₹75,000 Advance</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node" style="background:var(--nextgen-blue); color:#fff;"><i data-lucide="code"></i></div>
                 <span class="flow-label">Development Phase</span>
               </div>
-              <div class="flow-arrow">âžœ</div>
+              <div class="flow-arrow">➜</div>
               <div class="flowchart-step">
                 <div class="flow-node">50%</div>
-                <span class="flow-label">â‚¹75,000 Final Payment</span>
+                <span class="flow-label">₹75,000 Final Payment</span>
               </div>
             </div>
 
@@ -1468,7 +1468,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 6 of 8</span>
         </div>
       </div>
@@ -1489,7 +1489,7 @@ const templates = {
           <div class="doc-section">
             <h2 class="doc-section-title">12. Support & Warranty</h2>
             <p class="doc-para">Initial post-delivery support is included for deployment verification and fixing defects directly related to the delivered system. <strong>Recommended support period: 14 days after final handover.</strong></p>
-            <p class="doc-para">After the included support period, ongoing maintenance/support can be provided separately at <strong>â‚¹3,000/month</strong>.</p>
+            <p class="doc-para">After the included support period, ongoing maintenance/support can be provided separately at <strong>₹3,000/month</strong>.</p>
             <p class="doc-para" style="font-size: 11.5px;">Maintenance may include: Bug fixes, Minor configuration changes, Deployment assistance, Worker troubleshooting, License-system adjustments, and Minor Telegram bot changes. Major new features are quoted separately.</p>
           </div>
 
@@ -1530,7 +1530,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 7 of 8</span>
         </div>
       </div>
@@ -1563,7 +1563,7 @@ const templates = {
             <h2 class="doc-section-title">17. Quotation Validity</h2>
             <ul class="work-metrics" style="font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px;">
               <li><i class="fa-solid fa-clock"></i> <strong>Quotation validity:</strong> 15 days from quotation date.</li>
-              <li><i class="fa-solid fa-coins"></i> <strong>Currency:</strong> INR (â‚¹)</li>
+              <li><i class="fa-solid fa-coins"></i> <strong>Currency:</strong> INR (₹)</li>
               <li><i class="fa-solid fa-building-columns"></i> <strong>Taxes:</strong> Any applicable taxes shall be charged separately where legally applicable.</li>
             </ul>
           </div>
@@ -1571,7 +1571,7 @@ const templates = {
           <div class="doc-section" style="margin-top: 30px; text-align: center;">
             <div style="display: inline-block; padding: 16px 30px; border: 2px solid var(--accent); border-radius: 8px; background: rgba(224,255,79,0.05);">
               <h3 style="font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase;">FINAL CALL-TO-ACTION</h3>
-              <div style="font-size: 18px; font-weight: 700;">Recommended Package: â‚¹2,00,000 Exclusive Full Buyout</div>
+              <div style="font-size: 18px; font-weight: 700;">Recommended Package: ₹2,00,000 Exclusive Full Buyout</div>
             </div>
           </div>
 
@@ -1595,7 +1595,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 8 of 8</span>
         </div>
       </div>
@@ -1604,7 +1604,7 @@ const templates = {
   bot_brochure: {
     name: "Telegram Bot Brochure",
     fields: [
-      { id: "founder_msg", label: "CEO Message", type: "textarea", default: "Bots aren't just chat interfacesâ€”they are automated employees that scale your operations without overhead." },
+      { id: "founder_msg", label: "CEO Message", type: "textarea", default: "Bots aren't just chat interfaces—they are automated employees that scale your operations without overhead." },
       { id: "stat_bots", label: "Bots Deployed", type: "text", default: "15+" },
       { id: "stat_automation", label: "Tasks Automated", type: "text", default: "2M+" },
       { id: "stat_delivery", label: "Average Delivery", type: "text", default: "1-3 Weeks" },
@@ -1614,9 +1614,9 @@ const templates = {
       { id: "proj_tech", label: "Case Study Stack", type: "text", default: "Python + PostgreSQL" },
       { id: "proj_result", label: "Case Study Result", type: "text", default: "Zero missed WhatsApp orders" },
       { id: "proj_desc", label: "Case Study Description", type: "textarea", default: "Fully automated Telegram storefront that takes orders, processes Razorpay links, and updates Google Sheets." },
-      { id: "starter_price", label: "Basic Bot Price", type: "text", default: "â‚¹4,999" },
-      { id: "business_price", label: "Advanced Bot Price", type: "text", default: "â‚¹12,999" },
-      { id: "premium_price", label: "Enterprise Bot Price", type: "text", default: "â‚¹24,999+" },
+      { id: "starter_price", label: "Basic Bot Price", type: "text", default: "₹4,999" },
+      { id: "business_price", label: "Advanced Bot Price", type: "text", default: "₹12,999" },
+      { id: "premium_price", label: "Enterprise Bot Price", type: "text", default: "₹24,999+" },
       { id: "contact_email", label: "Agency Email", type: "text", default: "nextgenwebstudio63@gmail.com" },
       { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 79045 44101" },
       { id: "contact_ig", label: "Instagram Handle", type: "text", default: "@nextgen_web_studio" }
@@ -1641,7 +1641,7 @@ const templates = {
           <div class="doc-hero-footer">
             <div>
               <span class="label">Document Type</span>
-              <span>Bot Profile & Brochure â€” 2026</span>
+              <span>Bot Profile & Brochure — 2026</span>
             </div>
             <div>
               <span class="label">Service Provider</span>
@@ -1650,7 +1650,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 4</span>
         </div>
       </div>
@@ -1675,7 +1675,7 @@ const templates = {
 
           <div class="founder-message">
             <div class="founder-quote">"${data.founder_msg}"</div>
-            <div class="founder-author">â€” Founder & CEO, NextGen Web Studio</div>
+            <div class="founder-author">— Founder & CEO, NextGen Web Studio</div>
           </div>
 
           <div class="doc-section">
@@ -1738,7 +1738,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 2 of 4</span>
         </div>
       </div>
@@ -1840,7 +1840,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 3 of 4</span>
         </div>
       </div>
@@ -1874,19 +1874,19 @@ const templates = {
                   <tr>
                     <td><strong>Basic Notifier</strong></td>
                     <td>Internal Teams</td>
-                    <td>Alerts Â· Server Pings Â· Simple Menus</td>
+                    <td>Alerts · Server Pings · Simple Menus</td>
                     <td><strong style="color:var(--nextgen-green);">${data.starter_price}</strong></td>
                   </tr>
                   <tr>
                     <td><strong>Business Bot</strong></td>
                     <td>Customer Service</td>
-                    <td>CRM Sync Â· Forms Â· Custom Logic Flows</td>
+                    <td>CRM Sync · Forms · Custom Logic Flows</td>
                     <td><strong style="color:var(--nextgen-green);">${data.business_price}</strong></td>
                   </tr>
                   <tr>
                     <td><strong>E-Commerce Bot</strong></td>
                     <td>Retail / Sales</td>
-                    <td>Cart Â· Razorpay Â· Google Sheets Â· Admin Panel</td>
+                    <td>Cart · Razorpay · Google Sheets · Admin Panel</td>
                     <td><strong style="color:var(--nextgen-green);">${data.premium_price}</strong></td>
                   </tr>
                 </tbody>
@@ -1903,7 +1903,7 @@ const templates = {
                 <div class="review-user">
                   <div class="user-avatar">NG</div>
                   <div class="user-meta">
-                    <span class="user-name">Agency Status â€” 2026</span>
+                    <span class="user-name">Agency Status — 2026</span>
                     <span class="user-company">NextGen Web Studio</span>
                   </div>
                 </div>
@@ -1928,16 +1928,16 @@ const templates = {
                 <span style="font-size:11.5px; color:#a1a1aa;">Drop us an email or phone number to set up a free consultation.</span>
               </div>
               <div style="text-align:right; font-size:11.5px; line-height:1.6;">
-                <div>ðŸ“§ <strong style="color:var(--nextgen-green);">${data.contact_email}</strong></div>
-                <div>ðŸ“ž <strong>${data.contact_phone}</strong></div>
-                <div>ðŸ“¸ <strong>${data.contact_ig}</strong></div>
+                <div>📧 <strong style="color:var(--nextgen-green);">${data.contact_email}</strong></div>
+                <div>📞 <strong>${data.contact_phone}</strong></div>
+                <div>📸 <strong>${data.contact_ig}</strong></div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 4 of 4</span>
         </div>
       </div>
@@ -1950,7 +1950,7 @@ const templates = {
       { id: "prop_date", label: "Proposal Date", type: "text", default: "30 July 2026" },
       { id: "prop_problem", label: "Client Business Goal", type: "textarea", default: "Replacing the manual offline spreadsheet booking system with a conversion-optimized web portal to drive 40%+ online reservation growth." },
       { id: "prop_scope", label: "Scope Deliverables Detail", type: "textarea", default: "Custom high-fidelity UI layout designed in Figma; Next.js frontend code; integrated interactive reservation calendars; automatic Razorpay payment checkout; Google Map APIs; SEO tags." },
-      { id: "prop_cost", label: "Estimated Cost (â‚¹)", type: "text", default: "â‚¹24,999" },
+      { id: "prop_cost", label: "Estimated Cost (₹)", type: "text", default: "₹24,999" },
       { id: "prop_timeline", label: "Estimated Duration", type: "text", default: "4 Weeks" }
     ],
     render: (data) => `
@@ -2015,7 +2015,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 1</span>
         </div>
       </div>
@@ -2029,9 +2029,9 @@ const templates = {
       { id: "inv_client", label: "Client Business Name", type: "text", default: "Boomers Gaming Cafe" },
       { id: "inv_client_addr", label: "Client Address/Details", type: "text", default: "Anna Nagar, Chennai, Tamil Nadu" },
       { id: "inv_item1", label: "Item 1 Description", type: "text", default: "Website Design & Front-End React Development" },
-      { id: "inv_item1_val", label: "Item 1 Price (â‚¹)", type: "text", default: "19,999" },
+      { id: "inv_item1_val", label: "Item 1 Price (₹)", type: "text", default: "19,999" },
       { id: "inv_item2", label: "Item 2 Description", type: "text", default: "CMS Portal & Payment Integration" },
-      { id: "inv_item2_val", label: "Item 2 Price (â‚¹)", type: "text", default: "5,000" }
+      { id: "inv_item2_val", label: "Item 2 Price (₹)", type: "text", default: "5,000" }
     ],
     render: (data) => {
       const v1 = parseFloat(data.inv_item1_val.replace(/,/g, '')) || 0;
@@ -2088,11 +2088,11 @@ const templates = {
                 <tbody>
                   <tr>
                     <td>${data.inv_item1}</td>
-                    <td style="text-align:right; font-weight:600;">â‚¹${v1.toLocaleString('en-IN')}</td>
+                    <td style="text-align:right; font-weight:600;">₹${v1.toLocaleString('en-IN')}</td>
                   </tr>
                   <tr>
                     <td>${data.inv_item2}</td>
-                    <td style="text-align:right; font-weight:600;">â‚¹${v2.toLocaleString('en-IN')}</td>
+                    <td style="text-align:right; font-weight:600;">₹${v2.toLocaleString('en-IN')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -2101,15 +2101,15 @@ const templates = {
             <div class="invoice-totals">
               <div class="invoice-total-row">
                 <span>Subtotal</span>
-                <span>â‚¹${subtotal.toLocaleString('en-IN')}</span>
+                <span>₹${subtotal.toLocaleString('en-IN')}</span>
               </div>
               <div class="invoice-total-row">
                 <span>GST (18%)</span>
-                <span>â‚¹${tax.toLocaleString('en-IN')}</span>
+                <span>₹${tax.toLocaleString('en-IN')}</span>
               </div>
               <div class="invoice-total-row grand-total">
                 <span>Grand Total</span>
-                <span>â‚¹${grandTotal.toLocaleString('en-IN')}</span>
+                <span>₹${grandTotal.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
@@ -2120,7 +2120,7 @@ const templates = {
           </div>
 
           <div class="doc-footer">
-            <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+            <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
             <span class="page-num-placeholder">Page 1 of 1</span>
           </div>
         </div>
@@ -2135,7 +2135,7 @@ const templates = {
       { id: "rcp_client", label: "Received From (Client)", type: "text", default: "Boomers Gaming Cafe" },
       { id: "rcp_invoice", label: "Linked Invoice No", type: "text", default: "NG-2026-081" },
       { id: "rcp_method", label: "Payment Channel", type: "text", default: "Razorpay / UPI" },
-      { id: "rcp_val", label: "Amount Received (â‚¹)", type: "text", default: "29,499" }
+      { id: "rcp_val", label: "Amount Received (₹)", type: "text", default: "29,499" }
     ],
     render: (data) => `
       <div class="doc-page">
@@ -2163,8 +2163,8 @@ const templates = {
 
           <div style="border:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.015); border-radius:16px; padding:30px; margin-bottom:40px; text-align:center;">
             <div style="font-size:13px; color:#a1a1aa; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Total Amount Received</div>
-            <div style="font-size:42px; font-family:'Outfit'; font-weight:800; color:var(--nextgen-green); margin-bottom:12px;">â‚¹${data.rcp_val}</div>
-            <div class="table-icon-check" style="font-size:13px; font-weight:700;">âœ… Transaction Completed Successfully</div>
+            <div style="font-size:42px; font-family:'Outfit'; font-weight:800; color:var(--nextgen-green); margin-bottom:12px;">₹${data.rcp_val}</div>
+            <div class="table-icon-check" style="font-size:13px; font-weight:700;">✅ Transaction Completed Successfully</div>
           </div>
 
           <div class="doc-section">
@@ -2204,7 +2204,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 1</span>
         </div>
       </div>
@@ -2213,9 +2213,9 @@ const templates = {
   maintenance: {
     name: "Maintenance Plans",
     fields: [
-      { id: "mn_starter", label: "Starter Monthly Cost (â‚¹)", type: "text", default: "â‚¹1,999" },
-      { id: "mn_business", label: "Business Monthly Cost (â‚¹)", type: "text", default: "â‚¹4,999" },
-      { id: "mn_premium", label: "Premium Monthly Cost (â‚¹)", type: "text", default: "â‚¹9,999" }
+      { id: "mn_starter", label: "Starter Monthly Cost (₹)", type: "text", default: "₹1,999" },
+      { id: "mn_business", label: "Business Monthly Cost (₹)", type: "text", default: "₹4,999" },
+      { id: "mn_premium", label: "Premium Monthly Cost (₹)", type: "text", default: "₹9,999" }
     ],
     render: (data) => `
       <div class="doc-page">
@@ -2296,7 +2296,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 1</span>
         </div>
       </div>
@@ -2361,7 +2361,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 1</span>
         </div>
       </div>
@@ -2448,7 +2448,7 @@ const templates = {
         </div>
 
         <div class="doc-footer">
-          <span>Confidential  Â·  NextGen Web Studio  Â·  nextgenwebstudio.in</span>
+          <span>Confidential  ·  NextGen Web Studio  ·  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 1</span>
         </div>
       </div>
@@ -2483,7 +2483,7 @@ const templates = {
             </div>
             <div class="meta-row">
               <span class="meta-label">Total Project Cost:</span>
-              <span class="meta-value" style="font-size: 20px; color: var(--nextgen-green);">â‚¹1,50,000</span>
+              <span class="meta-value" style="font-size: 20px; color: var(--nextgen-green);">₹1,50,000</span>
             </div>
             <div class="meta-row">
               <span class="meta-label">Reference No:</span>
@@ -2500,7 +2500,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 1 of 9</span>
         </div>
       </div>
@@ -2561,7 +2561,7 @@ const templates = {
           </ul>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 2 of 9</span>
         </div>
       </div>
@@ -2599,7 +2599,7 @@ const templates = {
           </ul>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 3 of 9</span>
         </div>
       </div>
@@ -2614,7 +2614,7 @@ const templates = {
           <div class="doc-header-meta">Important Clauses</div>
         </div></div>
         <div class="doc-page-content">
-          <div class="doc-section"><h2 class="doc-section-title">2. IMPORTANT â€” CLIENT-SUPPLIED EA</h2>
+          <div class="doc-section"><h2 class="doc-section-title">2. IMPORTANT — CLIENT-SUPPLIED EA</h2>
           <div class="review-card" style="margin-bottom: 30px;">
             <p class="doc-para"><strong>Client-Supplied EA</strong></p>
             <p class="doc-para">The EA/trading software and its underlying trading strategy will be supplied by the client. The development scope does not include creation of the EA or development of its trading strategy.</p>
@@ -2632,7 +2632,7 @@ const templates = {
           <p class="doc-para">Third-party libraries, frameworks and services remain subject to their respective licenses.</p>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 4 of 9</span>
         </div>
       </div>
@@ -2665,22 +2665,22 @@ const templates = {
               </tr>
               <tr>
                 <td><strong>Project Value:</strong></td>
-                <td><strong>â‚¹1,50,000</strong></td>
+                <td><strong>₹1,50,000</strong></td>
               </tr>
               <tr>
                 <td><strong>Payment:</strong></td>
-                <td>â‚¹75,000 advance + â‚¹75,000 final payment</td>
+                <td>₹75,000 advance + ₹75,000 final payment</td>
               </tr>
             </tbody>
           </table>
 
           <h3 style="font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; margin-top: 20px;">Development Process</h3>
           <div style="background: var(--bg-alt); padding: 20px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 13px; text-align: center;">
-            Client provides EA<br>â†“<br>Requirements finalized<br>â†“<br>50% advance<br>â†“<br>Automation development<br>â†“<br>Telegram bot<br>â†“<br>Backend + database<br>â†“<br>License system<br>â†“<br>Compilation/distribution workflow<br>â†“<br>Integration testing<br>â†“<br>Client testing<br>â†“<br>Final payment<br>â†“<br>Final handover
+            Client provides EA<br>↓<br>Requirements finalized<br>↓<br>50% advance<br>↓<br>Automation development<br>↓<br>Telegram bot<br>↓<br>Backend + database<br>↓<br>License system<br>↓<br>Compilation/distribution workflow<br>↓<br>Integration testing<br>↓<br>Client testing<br>↓<br>Final payment<br>↓<br>Final handover
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 5 of 9</span>
         </div>
       </div>
@@ -2704,19 +2704,19 @@ const templates = {
             <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Licensing:</strong> How should a customer\'s EA license be linked? (MT4/MT5 account number, License key, Customer ID, Expiry date, Account + license key)</li>
           </ul>
 
-          </div><div class="doc-section"><h2 class="doc-section-title">6. SOFTWARE REQUIREMENTS SPECIFICATION â€” SRS</h2>
+          </div><div class="doc-section"><h2 class="doc-section-title">6. SOFTWARE REQUIREMENTS SPECIFICATION — SRS</h2>
           
           <div style="display: flex; gap: 20px;">
             <div style="flex: 1; background: var(--bg-alt); padding: 20px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; text-align: center;">
-              <strong>User Flow</strong><br><br>User<br>â†“<br>Telegram Bot<br>â†“<br>Registration<br>â†“<br>Required information<br>â†“<br>Verification<br>â†“<br>License approval<br>â†“<br>EA generated/configured<br>â†“<br>EA delivered<br>â†“<br>Customer installs EA<br>â†“<br>License server validates<br>â†“<br>EA operates according to agreed licensing rules
+              <strong>User Flow</strong><br><br>User<br>↓<br>Telegram Bot<br>↓<br>Registration<br>↓<br>Required information<br>↓<br>Verification<br>↓<br>License approval<br>↓<br>EA generated/configured<br>↓<br>EA delivered<br>↓<br>Customer installs EA<br>↓<br>License server validates<br>↓<br>EA operates according to agreed licensing rules
             </div>
             <div style="flex: 1; background: var(--bg-alt); padding: 20px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; text-align: center;">
-              <strong>Admin Flow</strong><br><br>Admin<br>â†“<br>Admin Panel<br>â†“<br>Users<br>Licenses<br>EA Requests<br>Logs<br>Settings
+              <strong>Admin Flow</strong><br><br>Admin<br>↓<br>Admin Panel<br>↓<br>Users<br>Licenses<br>EA Requests<br>Logs<br>Settings
             </div>
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 6 of 9</span>
         </div>
       </div>
@@ -2741,21 +2741,21 @@ const templates = {
           </ul>
 
           </div><div class="doc-section"><h2 class="doc-section-title">8. TESTING</h2>
-          <p class="doc-para"><strong>3â€“5 business days UAT</strong></p>
+          <p class="doc-para"><strong>3–5 business days UAT</strong></p>
           <p class="doc-para">During UAT: Bugs relating to the agreed scope will be corrected without additional development charges. But: New features, changes to requirements, new integrations or modifications to the client-supplied EA are outside the original scope and may require additional charges.</p>
 
           </div><div class="doc-section"><h2 class="doc-section-title">9. FINAL PAYMENT</h2>
           <p class="doc-para">Once the agreed system passes testing:</p>
           <div class="review-card" style="margin-top: 15px;">
             <p class="doc-para"><strong>PROJECT: EA AUTOMATION SYSTEM</strong></p>
-            <p class="doc-para">Total Project Cost: â‚¹1,50,000</p>
-            <p class="doc-para">Advance Received: â‚¹75,000</p>
-            <p class="doc-para"><strong>Final Balance: â‚¹75,000</strong></p>
+            <p class="doc-para">Total Project Cost: ₹1,50,000</p>
+            <p class="doc-para">Advance Received: ₹75,000</p>
+            <p class="doc-para"><strong>Final Balance: ₹75,000</strong></p>
             <p class="doc-para">Status: Final Delivery Pending</p>
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 7 of 9</span>
         </div>
       </div>
@@ -2773,37 +2773,37 @@ const templates = {
           <div class="doc-section"><h2 class="doc-section-title">10. FINAL HANDOVER</h2>
           <p class="doc-para">Your delivery folder can look like:</p>
           <pre style="background: var(--bg-alt); padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px;">EA-AUTOMATION-PROJECT/
-â”œâ”€â”€ Telegram-Bot/
-â”œâ”€â”€ Backend/
-â”œâ”€â”€ Admin-Panel/
-â”œâ”€â”€ License-System/
-â”œâ”€â”€ Compiler-Automation/
-â”œâ”€â”€ Database/
-â”œâ”€â”€ Deployment/
-â”œâ”€â”€ Documentation/
-â”‚   â”œâ”€â”€ Installation-Guide.pdf
-â”‚   â”œâ”€â”€ Admin-Guide.pdf
-â”‚   â”œâ”€â”€ User-Guide.pdf
-â”‚   â”œâ”€â”€ License-Guide.pdf
-â”‚   â”œâ”€â”€ Deployment-Guide.pdf
-â”‚   â””â”€â”€ Troubleshooting.pdf
-â””â”€â”€ README.md</pre>
+├── Telegram-Bot/
+├── Backend/
+├── Admin-Panel/
+├── License-System/
+├── Compiler-Automation/
+├── Database/
+├── Deployment/
+├── Documentation/
+│   ├── Installation-Guide.pdf
+│   ├── Admin-Guide.pdf
+│   ├── User-Guide.pdf
+│   ├── License-Guide.pdf
+│   ├── Deployment-Guide.pdf
+│   └── Troubleshooting.pdf
+└── README.md</pre>
           <p class="doc-para"><em>Do not include private API keys, passwords, bot tokens or server credentials inside the ZIP.</em></p>
 
           </div><div class="doc-section"><h2 class="doc-section-title">11. SUPPORT & MAINTENANCE</h2>
           <p class="doc-para"><strong>Included:</strong> 14 days post-delivery support (Bug fixes, Installation assistance, Configuration assistance, Assistance with the delivered system).</p>
           <p class="doc-para"><strong>Not included:</strong> New features, New Telegram workflows, New EA strategy, EA strategy modifications, New broker integration, New payment gateway, Major UI redesign, Major architectural changes. These should be separately quoted.</p>
-          <p class="doc-para"><strong>Optional Maintenance:</strong> â‚¹3,000/month (Includes agreed routine maintenance and technical assistance. Major feature development is charged separately).</p>
+          <p class="doc-para"><strong>Optional Maintenance:</strong> ₹3,000/month (Includes agreed routine maintenance and technical assistance. Major feature development is charged separately).</p>
 
           </div><div class="doc-section"><h2 class="doc-section-title">13. THIRD-PARTY COSTS</h2>
-          <p class="doc-para">Hosting, VPS, domain, API services, payment gateway charges, broker/platform charges, Telegram-related third-party services and other external service costs are not included in the â‚¹1,50,000 development fee unless explicitly mentioned in the quotation.</p>
+          <p class="doc-para">Hosting, VPS, domain, API services, payment gateway charges, broker/platform charges, Telegram-related third-party services and other external service costs are not included in the ₹1,50,000 development fee unless explicitly mentioned in the quotation.</p>
           
           </div><div class="doc-section"><h2 class="doc-section-title">14. TRADING DISCLAIMER</h2>
           <p class="doc-para">The system is an automation and software-management solution. It does not guarantee trading profits, returns, accuracy or performance. The client is responsible for the trading strategy, EA performance, broker relationship and compliance with applicable laws, regulations and platform terms.</p>
           <p class="doc-para">The developer does not provide any guarantee regarding profitability or trading results of the client-supplied EA.</p>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 8 of 9</span>
         </div>
       </div>
@@ -2828,15 +2828,15 @@ const templates = {
             <tbody>
               <tr>
                 <td><strong>Total Project Value:</strong></td>
-                <td>â‚¹1,50,000</td>
+                <td>₹1,50,000</td>
               </tr>
               <tr>
                 <td><strong>Advance Paid:</strong></td>
-                <td>â‚¹75,000</td>
+                <td>₹75,000</td>
               </tr>
               <tr>
                 <td><strong>Final Payment:</strong></td>
-                <td>â‚¹75,000</td>
+                <td>₹75,000</td>
               </tr>
             </tbody>
           </table>
@@ -2864,7 +2864,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Confidential  â€¢  NextGen Web Studio  â€¢  nextgenwebstudio.in</span>
+          <span>Confidential  •  NextGen Web Studio  •  nextgenwebstudio.in</span>
           <span class="page-num-placeholder">Page 9 of 9</span>
         </div>
       </div>
@@ -2902,7 +2902,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 1 of 3</span>
         </div>
       </div>
@@ -2944,8 +2944,8 @@ const templates = {
             <h2 class="doc-section-title">4. INSTALLATION (MT5)</h2>
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 1:</strong> Open MetaTrader 5</li>
-              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 2:</strong> Click File â†’ Open Data Folder</li>
-              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 3:</strong> Navigate to MQL5 â†’ Experts</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 2:</strong> Click File → Open Data Folder</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 3:</strong> Navigate to MQL5 → Experts</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 4:</strong> Copy the .ex5 file you received into this folder</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 5:</strong> Restart MetaTrader 5</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>Step 6:</strong> Find the EA in the Navigator panel and drag it onto your chart</li>
@@ -2954,7 +2954,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 2 of 3</span>
         </div>
       </div>
@@ -2985,7 +2985,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 3 of 3</span>
         </div>
       </div>
@@ -3022,7 +3022,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 1 of 4</span>
         </div>
       </div>
@@ -3049,7 +3049,7 @@ const templates = {
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 1 â€” SUPABASE SETUP</h2>
+            <h2 class="doc-section-title">SECTION 1 — SUPABASE SETUP</h2>
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Create a new Supabase project</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Copy the Project URL and service_role key</li>
@@ -3059,7 +3059,7 @@ const templates = {
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 2 â€” TELEGRAM BOT SETUP</h2>
+            <h2 class="doc-section-title">SECTION 2 — TELEGRAM BOT SETUP</h2>
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Create a new bot via BotFather (/newbot)</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Copy the bot token</li>
@@ -3068,7 +3068,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 2 of 4</span>
         </div>
       </div>
@@ -3084,8 +3084,8 @@ const templates = {
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 3 â€” RENDER BACKEND (DOCKER)</h2>
-            <p class="doc-para">Create a Render Web Service â†’ Deploy from GitHub (Environment: Docker, Root Directory: backend). Variables:</p>
+            <h2 class="doc-section-title">SECTION 3 — RENDER BACKEND (DOCKER)</h2>
+            <p class="doc-para">Create a Render Web Service → Deploy from GitHub (Environment: Docker, Root Directory: backend). Variables:</p>
             <div style="background: #111; color: #fff; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 11px; margin-bottom: 20px;">
               DATABASE_URL = your Supabase asyncpg connection string<br>
               SUPABASE_URL = your Supabase project URL<br>
@@ -3096,8 +3096,8 @@ const templates = {
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 4 â€” RENDER TELEGRAM BOT (PYTHON)</h2>
-            <p class="doc-para">Create a Render Web Service â†’ Deploy from GitHub (Environment: Python, Root Directory: telegram_bot, Start Cmd: python bot.py). Variables:</p>
+            <h2 class="doc-section-title">SECTION 4 — RENDER TELEGRAM BOT (PYTHON)</h2>
+            <p class="doc-para">Create a Render Web Service → Deploy from GitHub (Environment: Python, Root Directory: telegram_bot, Start Cmd: python bot.py). Variables:</p>
             <div style="background: #111; color: #fff; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 11px; margin-bottom: 20px;">
               TELEGRAM_BOT_TOKEN = your BotFather token<br>
               API_BASE_URL = https://your-backend-url.onrender.com/api/v1<br>
@@ -3107,7 +3107,7 @@ const templates = {
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 5 â€” VERCEL FRONTEND</h2>
+            <h2 class="doc-section-title">SECTION 5 — VERCEL FRONTEND</h2>
             <p class="doc-para">Import repo into Vercel (Root Directory: frontend). Environment Variable:</p>
             <div style="background: #111; color: #fff; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 11px; margin-bottom: 20px;">
               NEXT_PUBLIC_API_URL = https://your-backend-url.onrender.com (Do NOT add /api/v1)
@@ -3115,7 +3115,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 3 of 4</span>
         </div>
       </div>
@@ -3131,7 +3131,7 @@ const templates = {
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 6 â€” FIRST TIME SETUP</h2>
+            <h2 class="doc-section-title">SECTION 6 — FIRST TIME SETUP</h2>
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Log into Admin Web Portal using your ADMIN_API_KEY as password</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Go to EA Templates and upload your .mq5 source file</li>
@@ -3141,14 +3141,14 @@ const templates = {
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 7 â€” BRANDING CUSTOMIZATIONS</h2>
+            <h2 class="doc-section-title">SECTION 7 — BRANDING CUSTOMIZATIONS</h2>
             <p class="doc-para"><strong>telegram_bot/bot.py:</strong> Replace "InfinityTrader", "NextGen Web Studio", "@shridharsan1".<br>
             <strong>frontend/src/:</strong> Replace "Infinity Trader" with your brand, swap logo/favicon.<br>
             <strong>backend/app/main.py:</strong> Replace "Infinity Trader API" with your brand.</p>
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 8 â€” TESTING CHECKLIST</h2>
+            <h2 class="doc-section-title">SECTION 8 — TESTING CHECKLIST</h2>
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 6px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Send /start to your bot on Telegram & Register</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> Request a Free Trial</li>
@@ -3163,7 +3163,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1</span>
+          <span>© NextGen Web Studio  •  @shridharsan1</span>
           <span class="page-num-placeholder">Page 4 of 4</span>
         </div>
       </div>
@@ -3200,7 +3200,7 @@ const templates = {
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Confidential</span>
           <span class="page-num-placeholder">Page 1 of 5</span>
         </div>
       </div>
@@ -3216,19 +3216,19 @@ const templates = {
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 1 â€” THE TWO REQUIRED LINES</h2>
+            <h2 class="doc-section-title">SECTION 1 — THE TWO REQUIRED LINES</h2>
             <p class="doc-para">The licensing system automatically injects the buyer's MT5 Account ID and license expiry date at compile time.</p>
             <p class="doc-para">These exact two lines must exist somewhere in your .mq5 file (usually near the top with other variable declarations):</p>
             
             <div class="review-card" style="margin-top: 15px; border-left: 4px solid var(--nextgen-green);">
-              <p class="doc-para" style="margin-bottom: 5px;"><strong>Line 1 â€” MT5 ID Lock:</strong></p>
+              <p class="doc-para" style="margin-bottom: 5px;"><strong>Line 1 — MT5 ID Lock:</strong></p>
               <div style="background: #111; color: #fff; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 12px; color: var(--nextgen-green);">
                 int ALLOWED_MT5_ID = 0;
               </div>
             </div>
 
             <div class="review-card" style="margin-top: 15px; border-left: 4px solid var(--nextgen-green);">
-              <p class="doc-para" style="margin-bottom: 5px;"><strong>Line 2 â€” Expiry Date Lock:</strong></p>
+              <p class="doc-para" style="margin-bottom: 5px;"><strong>Line 2 — Expiry Date Lock:</strong></p>
               <div style="background: #111; color: #fff; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 12px; color: var(--nextgen-green);">
                 datetime LICENSE_EXPIRY = D'2099.01.01';
               </div>
@@ -3238,13 +3238,13 @@ const templates = {
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 8px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> These are the ONLY two lines the licensing system touches.</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> The system automatically replaces the <code>0</code> and the date at compile time.</li>
-              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> You must <strong>NOT</strong> rename these variables â€” the names must be exactly as shown.</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> You must <strong>NOT</strong> rename these variables — the names must be exactly as shown.</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> The values (<code>0</code> and <code>2099.01.01</code>) are just placeholders.</li>
             </ul>
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Confidential</span>
           <span class="page-num-placeholder">Page 2 of 5</span>
         </div>
       </div>
@@ -3260,27 +3260,27 @@ const templates = {
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 2 â€” THE REQUIRED LICENSE CHECK CODE</h2>
+            <h2 class="doc-section-title">SECTION 2 — THE REQUIRED LICENSE CHECK CODE</h2>
             <p class="doc-para">You must add this license validation block inside your EA's <code>OnInit()</code> or <code>OnTick()</code> function:</p>
             
             <div class="review-card" style="margin-top: 15px; border-left: 4px solid var(--nextgen-green);">
               <div style="background: #111; color: #fff; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 11px; white-space: pre; overflow-x: hidden;">
-// â”€â”€ License Check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── License Check ──────────────────────────────────────────
 int currentAccount = (int)AccountInfoInteger(ACCOUNT_LOGIN);
 if(currentAccount != ALLOWED_MT5_ID)
   {
-   Print("âŒ Invalid MT5 ID. This EA is not licensed for this account.");
+   Print("❌ Invalid MT5 ID. This EA is not licensed for this account.");
    ExpertRemove();
    return INIT_FAILED;
   }
 if(TimeCurrent() > LICENSE_EXPIRY)
   {
-   Print("âŒ License Expired. Please renew via the bot.");
+   Print("❌ License Expired. Please renew via the bot.");
    ExpertRemove();
    return INIT_FAILED;
   }
-Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICENSE_EXPIRY);
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Print("✅ License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICENSE_EXPIRY);
+// ──────────────────────────────────────────────────────────
               </div>
             </div>
 
@@ -3293,7 +3293,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Confidential</span>
           <span class="page-num-placeholder">Page 3 of 5</span>
         </div>
       </div>
@@ -3309,11 +3309,11 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 3 â€” WHERE TO PLACE THE CODE</h2>
+            <h2 class="doc-section-title">SECTION 3 — WHERE TO PLACE THE CODE</h2>
             <p class="doc-para">In your uploaded .mq5 file, ensure the components are correctly placed:</p>
             
             <div class="review-card" style="margin-top: 15px; border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.05);">
-              <p class="doc-para" style="margin-bottom: 5px;"><strong style="color: #ef4444;">WARNING â€” IF MISSING:</strong></p>
+              <p class="doc-para" style="margin-bottom: 5px;"><strong style="color: #ef4444;">WARNING — IF MISSING:</strong></p>
               <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 8px; list-style: none; padding-left: 0;">
                 <li><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; margin-right: 6px;"></i> Add <code>ALLOWED_MT5_ID</code> at the top of your file (Global Scope).</li>
                 <li><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; margin-right: 6px;"></i> Add <code>LICENSE_EXPIRY</code> at the top of your file (Global Scope).</li>
@@ -3323,19 +3323,19 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
 
           <div class="doc-section" style="margin-top: 30px;">
-            <h2 class="doc-section-title">SECTION 4 â€” WHAT NOT TO CHANGE</h2>
+            <h2 class="doc-section-title">SECTION 4 — WHAT NOT TO CHANGE</h2>
             
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 8px; list-style: none; padding-left: 0;">
               <li><i class="fa-solid fa-xmark" style="color: #ef4444; margin-right: 6px;"></i> Do <strong>NOT</strong> rename <code>ALLOWED_MT5_ID</code></li>
               <li><i class="fa-solid fa-xmark" style="color: #ef4444; margin-right: 6px;"></i> Do <strong>NOT</strong> rename <code>LICENSE_EXPIRY</code></li>
               <li><i class="fa-solid fa-xmark" style="color: #ef4444; margin-right: 6px;"></i> Do <strong>NOT</strong> remove the license check block</li>
               <li><i class="fa-solid fa-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> You <strong>CAN</strong> freely change everything else in your EA (strategy logic, indicators, etc.)</li>
-              <li><i class="fa-solid fa-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> You <strong>CAN</strong> change the <code>Print()</code> messages text â€” only the variable names must stay the same</li>
+              <li><i class="fa-solid fa-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> You <strong>CAN</strong> change the <code>Print()</code> messages text — only the variable names must stay the same</li>
             </ul>
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Confidential</span>
           <span class="page-num-placeholder">Page 4 of 5</span>
         </div>
       </div>
@@ -3351,7 +3351,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 5 â€” QUICK CHECKLIST</h2>
+            <h2 class="doc-section-title">SECTION 5 — QUICK CHECKLIST</h2>
             <p class="doc-para">Complete this checklist before uploading to the Admin Portal:</p>
             
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 12px; list-style: none; padding-left: 0;">
@@ -3359,12 +3359,12 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>2.</strong> Confirm <code>LICENSE_EXPIRY</code> is declared as: <code style="color:var(--nextgen-green);">datetime LICENSE_EXPIRY = D'2099.01.01';</code></li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>3.</strong> Confirm the license check block exists inside <code>OnInit()</code> or <code>OnTick()</code></li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>4.</strong> Save the file as <code>bot.mq5</code></li>
-              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>5.</strong> Upload the file in the Admin Web Portal under EA Templates â†’ Upload New Version</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>5.</strong> Upload the file in the Admin Web Portal under EA Templates → Upload New Version</li>
             </ul>
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Confidential</span>
           <span class="page-num-placeholder">Page 5 of 5</span>
         </div>
       </div>
@@ -3407,7 +3407,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Admin Manual  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Admin Manual  •  Confidential</span>
           <span class="page-num-placeholder">Page 1 of 6</span>
         </div>
       </div>
@@ -3426,23 +3426,23 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
             <h2 class="doc-section-title">TABLE OF CONTENTS</h2>
             
             <ul class="work-metrics" style="margin-top: 30px; font-size: 14px; display: grid; grid-template-columns: 1fr; gap: 16px; list-style: none; padding-left: 0;">
-              <li><strong style="color:var(--accent);">SECTION 1</strong> â€” Logging into the Admin Web Portal</li>
-              <li><strong style="color:var(--accent);">SECTION 2</strong> â€” Dashboard</li>
-              <li><strong style="color:var(--accent);">SECTION 3</strong> â€” Managing Orders</li>
-              <li><strong style="color:var(--accent);">SECTION 4</strong> â€” Managing Licenses</li>
-              <li><strong style="color:var(--accent);">SECTION 5</strong> â€” Managing Products</li>
-              <li><strong style="color:var(--accent);">SECTION 6</strong> â€” EA Templates</li>
-              <li><strong style="color:var(--accent);">SECTION 7</strong> â€” Compiler Workers</li>
-              <li><strong style="color:var(--accent);">SECTION 8</strong> â€” VPS Orders</li>
-              <li><strong style="color:var(--accent);">SECTION 9</strong> â€” Settings</li>
-              <li><strong style="color:var(--accent);">SECTION 10</strong> â€” Telegram Admin Commands</li>
-              <li><strong style="color:var(--accent);">SECTION 11</strong> â€” Common Admin Tasks</li>
-              <li><strong style="color:var(--accent);">SECTION 12</strong> â€” Before Going Live Checklist</li>
+              <li><strong style="color:var(--accent);">SECTION 1</strong> — Logging into the Admin Web Portal</li>
+              <li><strong style="color:var(--accent);">SECTION 2</strong> — Dashboard</li>
+              <li><strong style="color:var(--accent);">SECTION 3</strong> — Managing Orders</li>
+              <li><strong style="color:var(--accent);">SECTION 4</strong> — Managing Licenses</li>
+              <li><strong style="color:var(--accent);">SECTION 5</strong> — Managing Products</li>
+              <li><strong style="color:var(--accent);">SECTION 6</strong> — EA Templates</li>
+              <li><strong style="color:var(--accent);">SECTION 7</strong> — Compiler Workers</li>
+              <li><strong style="color:var(--accent);">SECTION 8</strong> — VPS Orders</li>
+              <li><strong style="color:var(--accent);">SECTION 9</strong> — Settings</li>
+              <li><strong style="color:var(--accent);">SECTION 10</strong> — Telegram Admin Commands</li>
+              <li><strong style="color:var(--accent);">SECTION 11</strong> — Common Admin Tasks</li>
+              <li><strong style="color:var(--accent);">SECTION 12</strong> — Before Going Live Checklist</li>
             </ul>
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Admin Manual  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Admin Manual  •  Confidential</span>
           <span class="page-num-placeholder">Page 2 of 6</span>
         </div>
       </div>
@@ -3459,7 +3459,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
         <div class="doc-page-content">
           
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 1 â€” LOGGING INTO THE ADMIN WEB PORTAL</h2>
+            <h2 class="doc-section-title">SECTION 1 — LOGGING INTO THE ADMIN WEB PORTAL</h2>
             <p class="doc-para"><strong>Link:</strong> <a href="https://mt5-license-system.vercel.app/admin" style="color:var(--accent);">https://mt5-license-system.vercel.app/admin</a><br><strong>Pass:</strong> <code style="color:var(--nextgen-green);">infinity trader</code></p>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 20px;">
               <li>Open your Admin Web Portal URL in a browser</li>
@@ -3469,7 +3469,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 2 â€” DASHBOARD</h2>
+            <h2 class="doc-section-title">SECTION 2 — DASHBOARD</h2>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 20px;">
               <li>Shows live stats: total users, total orders, active licenses, revenue</li>
               <li>Shows recent orders list</li>
@@ -3478,11 +3478,11 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 3 â€” MANAGING ORDERS</h2>
-            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal â†’ Orders</p>
+            <h2 class="doc-section-title">SECTION 3 — MANAGING ORDERS</h2>
+            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal → Orders</p>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 20px;">
               <li>View all customer orders with status: <code>Pending</code> / <code>Compiling</code> / <code>Completed</code> / <code>Failed</code></li>
-              <li>Click <strong>"Approve"</strong> on a pending order â†’ EA will automatically start compiling</li>
+              <li>Click <strong>"Approve"</strong> on a pending order → EA will automatically start compiling</li>
               <li>Click <strong>"Reject"</strong> to reject an order</li>
               <li>Click <strong>"Recompile"</strong> if a compile failed to try again</li>
               <li>Filter orders by status using the dropdown</li>
@@ -3491,8 +3491,8 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 4 â€” MANAGING LICENSES</h2>
-            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal â†’ Licenses</p>
+            <h2 class="doc-section-title">SECTION 4 — MANAGING LICENSES</h2>
+            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal → Licenses</p>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 20px;">
               <li>View all active and expired licenses</li>
               <li>Each license shows: License ID, MT5 ID, Expiry Date, Status, File Name</li>
@@ -3505,7 +3505,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
 
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Admin Manual  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Admin Manual  •  Confidential</span>
           <span class="page-num-placeholder">Page 3 of 6</span>
         </div>
       </div>
@@ -3522,8 +3522,8 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
         <div class="doc-page-content">
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 5 â€” MANAGING PRODUCTS</h2>
-            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal â†’ Products</p>
+            <h2 class="doc-section-title">SECTION 5 — MANAGING PRODUCTS</h2>
+            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal → Products</p>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 20px;">
               <li>View all your pricing plans</li>
               <li>Click <strong>"Add Product"</strong> to create a new plan:
@@ -3540,8 +3540,8 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 6 â€” EA TEMPLATES</h2>
-            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal â†’ EA Templates</p>
+            <h2 class="doc-section-title">SECTION 6 — EA TEMPLATES</h2>
+            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal → EA Templates</p>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 15px;">
               <li>This is where you upload your MQ5 source code</li>
               <li>Click <strong>"Upload New Version"</strong> and select your <code>.mq5</code> file</li>
@@ -3559,8 +3559,8 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 7 â€” COMPILER WORKERS & SECTION 8 â€” VPS ORDERS</h2>
-            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal â†’ Compiler Workers | VPS</p>
+            <h2 class="doc-section-title">SECTION 7 — COMPILER WORKERS & SECTION 8 — VPS ORDERS</h2>
+            <p class="doc-para" style="font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);">Location: Admin Web Portal → Compiler Workers | VPS</p>
             <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 20px;">
               <li><strong>Compiler Workers:</strong> Shows all compile jobs (pending / processing / completed / failed). If a job shows "failed", check the Error Message column. Click "Retry" to try again. Processes one job at a time.</li>
               <li><strong>VPS Orders:</strong> View customer VPS requests (Pending / Contacted / Paid / Provisioned). Click the status dropdown to update. Click the message icon to send a custom message via Telegram. Click "Provision" to send server details (IP, Username, Password) automatically.</li>
@@ -3569,7 +3569,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
 
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Admin Manual  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Admin Manual  •  Confidential</span>
           <span class="page-num-placeholder">Page 4 of 6</span>
         </div>
       </div>
@@ -3586,14 +3586,14 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
         <div class="doc-page-content">
 
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 9 â€” SETTINGS & SECTION 10 â€” TELEGRAM ADMIN COMMANDS</h2>
+            <h2 class="doc-section-title">SECTION 9 — SETTINGS & SECTION 10 — TELEGRAM ADMIN COMMANDS</h2>
             <p class="doc-para">View and edit all system settings inside the Web Portal Settings tab. Or, use Telegram Commands directly (only works for <code>ADMIN_CHAT_ID</code>):</p>
             
             <div class="review-card" style="margin-top: 15px; border-left: 4px solid var(--accent); background: rgba(212, 175, 55, 0.05);">
               <p class="doc-para" style="margin-bottom: 5px;"><strong style="color: var(--accent);">TELEGRAM COMMANDS:</strong></p>
               <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 0;">
-                <li><code>/admin</code> â†’ Opens the Admin Configuration Panel inside Telegram (Edit Trial Status, Trial Duration, Max Trials, Broker Change Fee, Support Username)</li>
-                <li><code>/admintest</code> â†’ Sends a test notification to confirm the admin alert system is working</li>
+                <li><code>/admin</code> → Opens the Admin Configuration Panel inside Telegram (Edit Trial Status, Trial Duration, Max Trials, Broker Change Fee, Support Username)</li>
+                <li><code>/admintest</code> → Sends a test notification to confirm the admin alert system is working</li>
               </ul>
             </div>
             
@@ -3601,15 +3601,15 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
               <p class="doc-para" style="margin-bottom: 5px;"><strong style="color: #3B82F6;">HOW TO APPROVE AN ORDER FROM TELEGRAM:</strong></p>
               <ul style="font-size:11.5px; padding-left: 20px; line-height: 1.6; margin-bottom: 0;">
                 <li>When a customer places an order, you receive an automatic notification</li>
-                <li>The notification has two buttons: <strong>"âœ… Approve"</strong> and <strong>"âŒ Reject"</strong></li>
-                <li>Click <strong>"âœ… Approve"</strong> â†’ the EA compiles automatically and is sent to the customer</li>
-                <li>Click <strong>"âŒ Reject"</strong> â†’ the customer is notified that their order was not approved</li>
+                <li>The notification has two buttons: <strong>"✅ Approve"</strong> and <strong>"❌ Reject"</strong></li>
+                <li>Click <strong>"✅ Approve"</strong> → the EA compiles automatically and is sent to the customer</li>
+                <li>Click <strong>"❌ Reject"</strong> → the customer is notified that their order was not approved</li>
               </ul>
             </div>
           </div>
 
           <div class="doc-section" style="margin-top: 30px;">
-            <h2 class="doc-section-title">SECTION 11 â€” COMMON ADMIN TASKS</h2>
+            <h2 class="doc-section-title">SECTION 11 — COMMON ADMIN TASKS</h2>
             
             <table class="doc-table" style="margin-top: 15px;">
               <thead>
@@ -3621,19 +3621,19 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
               <tbody>
                 <tr>
                   <td><strong>Recompile failed EA</strong></td>
-                  <td>1. Admin Portal â†’ Licenses<br>2. Find license and click "Recompile"</td>
+                  <td>1. Admin Portal → Licenses<br>2. Find license and click "Recompile"</td>
                 </tr>
                 <tr>
                   <td><strong>Extend license expiry</strong></td>
-                  <td>1. Admin Portal â†’ Licenses â†’ Edit<br>2. Update Expiry Date & Save<br>3. <em>Note: Recompile needed to update EA file</em></td>
+                  <td>1. Admin Portal → Licenses → Edit<br>2. Update Expiry Date & Save<br>3. <em>Note: Recompile needed to update EA file</em></td>
                 </tr>
                 <tr>
                   <td><strong>Change customer MT5 ID</strong></td>
-                  <td>1. Admin Portal â†’ Licenses â†’ Edit<br>2. Update MT5 ID & Save<br>3. Click "Recompile" to send new EA</td>
+                  <td>1. Admin Portal → Licenses → Edit<br>2. Update MT5 ID & Save<br>3. Click "Recompile" to send new EA</td>
                 </tr>
                 <tr>
                   <td><strong>Add new pricing plan</strong></td>
-                  <td>1. Admin Portal â†’ Products â†’ Add Product<br>2. Fill in details and set Is Active = Yes<br>3. Immediately appears in Telegram bot menu</td>
+                  <td>1. Admin Portal → Products → Add Product<br>2. Fill in details and set Is Active = Yes<br>3. Immediately appears in Telegram bot menu</td>
                 </tr>
               </tbody>
             </table>
@@ -3641,7 +3641,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
 
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Admin Manual  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Admin Manual  •  Confidential</span>
           <span class="page-num-placeholder">Page 5 of 6</span>
         </div>
       </div>
@@ -3657,7 +3657,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
         </div>
         <div class="doc-page-content">
           <div class="doc-section">
-            <h2 class="doc-section-title">SECTION 12 â€” BEFORE GOING LIVE CHECKLIST</h2>
+            <h2 class="doc-section-title">SECTION 12 — BEFORE GOING LIVE CHECKLIST</h2>
             <p class="doc-para">Complete all 8 steps before officially launching your bot to the public:</p>
             
             <ul class="work-metrics" style="margin-bottom: 16px; font-size: 11.5px; display: grid; grid-template-columns: 1fr; gap: 12px; list-style: none; padding-left: 0;">
@@ -3665,7 +3665,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>2.</strong> Create your pricing plans in Products</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>3.</strong> Set your Support Username in Settings</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>4.</strong> Configure Trial Duration and Max Trials</li>
-              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>5.</strong> Test the full flow: register â†’ trial â†’ approve â†’ receive file â†’ verify in MT5</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>5.</strong> Test the full flow: register → trial → approve → receive file → verify in MT5</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>6.</strong> Wipe all test data from Supabase (DELETE all rows from test tables)</li>
               <li><i class="fa-solid fa-circle-check" style="color: var(--nextgen-green); margin-right: 6px;"></i> <strong>7.</strong> Reset all ID sequences in Supabase SQL Editor</li>
               <li><i class="fa-solid fa-rocket" style="color: var(--accent); margin-right: 6px;"></i> <strong>8.</strong> You are live!</li>
@@ -3673,7 +3673,7 @@ Print("âœ… License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICE
           </div>
         </div>
         <div class="doc-footer">
-          <span>Â© NextGen Web Studio  â€¢  @shridharsan1  â€¢  Admin Manual  â€¢  Confidential</span>
+          <span>© NextGen Web Studio  •  @shridharsan1  •  Admin Manual  •  Confidential</span>
           <span class="page-num-placeholder">Page 6 of 6</span>
         </div>
       </div>
