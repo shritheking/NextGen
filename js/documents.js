@@ -2870,8 +2870,6 @@ const templates = {
       </div>
     `
   },
-,
-
   ea_user_manual: {
     name: "EA Bot User Manual",
     fields: [
