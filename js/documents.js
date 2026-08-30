@@ -3168,9 +3168,7 @@ const templates = {
         </div>
       </div>
     `
-  }
-,
-
+  },
   ea_mq5_guide: {
     name: "MQ5 Code Integration Guide",
     fields: [
@@ -3371,6 +3369,169 @@ Print("✅ License Validated! MT5 ID: ", currentAccount, " | Expiry: ", LICENSE_
         </div>
       </div>
     `
-  },
+  }
 };
 
+let activeTemplate = "agreement"; // Default to Website Design Agreement as requested by user
+
+function initDocumentCenter() {
+  const templateSelector = document.getElementById("docTemplateSelector");
+  const themeToggle = document.getElementById("docThemeToggle");
+  const logoToggle = document.getElementById("docLogoToggle");
+  const marginToggle = document.getElementById("docMarginToggle");
+  const printBtn = document.getElementById("docPrintBtn");
+
+  if (!templateSelector) return; // Only init if tab exists on page
+
+  loadTemplate(activeTemplate);
+
+  templateSelector.addEventListener("change", (e) => {
+    activeTemplate = e.target.value;
+    loadTemplate(activeTemplate);
+  });
+
+  themeToggle.addEventListener("change", (e) => {
+    const previewContainer = document.getElementById("docPreviewContainer");
+    if (!previewContainer) return;
+    if (e.target.checked) {
+      previewContainer.classList.add("preview-dark");
+      previewContainer.classList.remove("preview-light");
+    } else {
+      previewContainer.classList.add("preview-light");
+      previewContainer.classList.remove("preview-dark");
+    }
+  });
+
+  logoToggle.addEventListener("change", (e) => {
+    const logos = document.querySelectorAll(".doc-header-logo, .doc-hero-logo");
+    logos.forEach(logo => {
+      logo.style.visibility = e.target.checked ? "visible" : "hidden";
+    });
+  });
+
+  marginToggle.addEventListener("change", (e) => {
+    const pages = document.querySelectorAll(".doc-page");
+    pages.forEach(page => {
+      if (e.target.checked) {
+        page.style.padding = "30px 40px";
+      } else {
+        page.style.padding = "10px";
+      }
+    });
+  });
+
+  printBtn.addEventListener("click", () => {
+    window.print();
+  });
+}
+
+function loadTemplate(templateId) {
+  const template = templates[templateId];
+  if (!template) return;
+
+  const container = document.getElementById("docDynamicFields");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const state = {};
+  template.fields.forEach(field => {
+    state[field.id] = field.default;
+
+    const fieldWrapper = document.createElement("div");
+    fieldWrapper.className = "field-wrapper";
+
+    const label = document.createElement("label");
+    label.innerText = field.label;
+    fieldWrapper.appendChild(label);
+
+    let input;
+    if (field.type === "textarea") {
+      input = document.createElement("textarea");
+      input.className = "sidebar-textarea";
+      input.rows = 3;
+    } else {
+      input = document.createElement("input");
+      input.type = "text";
+      input.className = "sidebar-input";
+    }
+
+    input.id = `input-${field.id}`;
+    input.value = field.default;
+    
+    input.addEventListener("input", (e) => {
+      state[field.id] = e.target.value;
+      updatePreview(templateId, state, field.id);
+    });
+
+    fieldWrapper.appendChild(input);
+    container.appendChild(fieldWrapper);
+  });
+
+  updatePreview(templateId, state);
+}
+
+function updatePreview(templateId, data, updatedFieldId = null) {
+  const previewContainer = document.getElementById("docPreviewContainer");
+  if (!previewContainer) return;
+  const template = templates[templateId];
+  if (!template) return;
+
+  // Render main template HTML
+  previewContainer.innerHTML = template.render(data);
+
+  // Compute and inject dynamic page numbering (e.g. Page 1 of 4)
+  const pages = previewContainer.querySelectorAll(".doc-page");
+  const totalPages = pages.length;
+  pages.forEach((page, index) => {
+    const pageNumPlaceholder = page.querySelector(".page-num-placeholder");
+    if (pageNumPlaceholder) {
+      pageNumPlaceholder.innerText = `Page ${index + 1} of ${totalPages}`;
+    }
+  });
+
+  try {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  } catch (err) {
+    console.warn("Lucide icons failed to render:", err);
+  }
+
+  // Highlight edited input fields temporarily
+  if (updatedFieldId) {
+    const highlights = previewContainer.querySelectorAll(`[data-var="${updatedFieldId}"]`);
+    highlights.forEach(el => {
+      el.classList.add("live-val-highlight");
+      setTimeout(() => {
+        el.classList.remove("live-val-highlight");
+      }, 1000);
+    });
+  }
+
+  // Handle headers state
+  const logoToggle = document.getElementById("docLogoToggle");
+  if (logoToggle) {
+    const logoChecked = logoToggle.checked;
+    const logos = document.querySelectorAll(".doc-header-logo, .doc-hero-logo");
+    logos.forEach(logo => {
+      logo.style.visibility = logoChecked ? "visible" : "hidden";
+    });
+  }
+
+  // Handle page padding margins state
+  const marginToggle = document.getElementById("docMarginToggle");
+  if (marginToggle) {
+    const marginChecked = marginToggle.checked;
+    const pagesElements = document.querySelectorAll(".doc-page");
+    pagesElements.forEach(page => {
+      if (marginChecked) {
+        page.style.padding = "30px 40px";
+      } else {
+        page.style.padding = "10px";
+      }
+    });
+  }
+}
+
+// Bind load listener on dashboard navigation
+document.addEventListener("DOMContentLoaded", initDocumentCenter);
