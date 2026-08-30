@@ -2479,7 +2479,7 @@ const templates = {
           <div class="cover-meta" style="margin-top: 60px;">
             <div class="meta-row">
               <span class="meta-label">Prepared For:</span>
-              <span class="meta-value live-val" data-field="client_name" style="font-size: 20px;">\${data.client_name}</span>
+              <span class="meta-value live-val" data-field="client_name" style="font-size: 20px;">${data.client_name}</span>
             </div>
             <div class="meta-row">
               <span class="meta-label">Total Project Cost:</span>
@@ -2487,11 +2487,11 @@ const templates = {
             </div>
             <div class="meta-row">
               <span class="meta-label">Reference No:</span>
-              <span class="meta-value live-val" data-field="quote_no">\${data.quote_no}</span>
+              <span class="meta-value live-val" data-field="quote_no">${data.quote_no}</span>
             </div>
             <div class="meta-row">
               <span class="meta-label">Date:</span>
-              <span class="meta-value live-val" data-field="quote_date">\${data.quote_date}</span>
+              <span class="meta-value live-val" data-field="quote_date">${data.quote_date}</span>
             </div>
             <div class="meta-row">
               <span class="meta-label">Prepared By:</span>
@@ -2657,7 +2657,7 @@ const templates = {
               </tr>
               <tr>
                 <td><strong>Client:</strong></td>
-                <td><span class="live-val" data-field="client_name">\${data.client_name}</span></td>
+                <td><span class="live-val" data-field="client_name">${data.client_name}</span></td>
               </tr>
               <tr>
                 <td><strong>Project:</strong></td>
@@ -2821,7 +2821,7 @@ const templates = {
           <h2 class="doc-section-title" style="text-align: center; margin-top: 40px; margin-bottom: 40px;">PROJECT ACCEPTANCE CERTIFICATE</h2>
           
           <p class="doc-para" style="font-size: 16px; line-height: 1.8; margin-bottom: 40px;">
-            I, <strong><span class="live-val" data-field="client_name">\${data.client_name}</span></strong>, confirm that the agreed <strong>Automated EA Distribution & Telegram Management System</strong> has been delivered according to the approved project scope.
+            I, <strong><span class="live-val" data-field="client_name">${data.client_name}</span></strong>, confirm that the agreed <strong>Automated EA Distribution & Telegram Management System</strong> has been delivered according to the approved project scope.
           </p>
 
           <table class="doc-table" style="width: 80%; margin: 0 auto 40px auto;">
@@ -2848,7 +2848,7 @@ const templates = {
           <div style="display: flex; justify-content: space-between; margin-top: 60px;">
             <div style="width: 45%;">
               <div style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 10px; min-height: 30px;">
-                <span class="live-val" data-field="client_name" style="font-weight: 600;">\${data.client_name}</span>
+                <span class="live-val" data-field="client_name" style="font-weight: 600;">${data.client_name}</span>
               </div>
               <p class="doc-para" style="color: var(--ink-soft); font-size: 14px;">Client Name</p>
             </div>
@@ -2886,7 +2886,7 @@ const templates = {
             <img class="hero-icon" src="assets/logo-icon.png" alt="Icon" style="height: 50px;">
             <img class="hero-text" src="assets/logo-text.png" alt="Text" style="height: 24px;">
           </div>
-          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">\${data.bot_name}<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">Automated EA Licensing & Delivery Manual</span></h1>
+          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">${data.bot_name}<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">Automated EA Licensing & Delivery Manual</span></h1>
           
           <p class="doc-hero-pre agreement-cover-pre" style="color:var(--nextgen-green); margin-top: 20px; font-size: 16px;">NextGen Web Studio</p>
           
@@ -2919,7 +2919,7 @@ const templates = {
         <div class="doc-page-content">
           <div class="doc-section">
             <h2 class="doc-section-title">1. INTRODUCTION</h2>
-            <p class="doc-para"><strong>What is \${data.bot_name}?</strong><br>An automated EA licensing system for MetaTrader 5 that securely delivers and locks compiled .ex5 Expert Advisors to your personal MT5 Account ID.</p>
+            <p class="doc-para"><strong>What is ${data.bot_name}?</strong><br>An automated EA licensing system for MetaTrader 5 that securely delivers and locks compiled .ex5 Expert Advisors to your personal MT5 Account ID.</p>
           </div>
 
           <div class="doc-section">
@@ -3006,7 +3006,7 @@ const templates = {
             <img class="hero-icon" src="assets/logo-icon.png" alt="Icon" style="height: 50px;">
             <img class="hero-text" src="assets/logo-text.png" alt="Text" style="height: 24px;">
           </div>
-          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">\${data.bot_name}<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">Source Code Technical Setup Guide</span></h1>
+          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">${data.bot_name}<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">Source Code Technical Setup Guide</span></h1>
           
           <p class="doc-hero-pre agreement-cover-pre" style="color:var(--nextgen-green); margin-top: 20px; font-size: 16px;">NextGen Web Studio</p>
           
