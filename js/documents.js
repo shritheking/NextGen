@@ -2874,7 +2874,7 @@ const templates = {
     name: "EA Bot User Manual",
     fields: [
       { id: "client_name", label: "Client Name", type: "text", default: "User" },
-      { id: "bot_name", label: "Bot Name", type: "text", default: "InfinityTrader Bot" }
+      { id: "bot_name", label: "Bot Name", type: "text", default: "Infinity Trader EA Bot" }
     ],
     render: (data) => `
       <!-- PAGE 1: Cover Page -->
@@ -2994,7 +2994,7 @@ const templates = {
   ea_setup_guide: {
     name: "Bot Code Setup Guide",
     fields: [
-      { id: "bot_name", label: "Bot Name", type: "text", default: "InfinityTrader Bot" }
+      { id: "bot_name", label: "Bot Name", type: "text", default: "Infinity Trader EA Bot" }
     ],
     render: (data) => `
       <!-- PAGE 1: Cover Page -->
