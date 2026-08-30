@@ -3186,7 +3186,7 @@ const templates = {
             <img class="hero-icon" src="assets/logo-icon.png" alt="Icon" style="height: 50px;">
             <img class="hero-text" src="assets/logo-text.png" alt="Text" style="height: 24px;">
           </div>
-          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">\${data.bot_name}<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">MQ5 Code Integration Guide</span></h1>
+          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 38px; line-height: 1.2;">${data.bot_name}<br><span style="font-size: 24px; color: var(--ink-soft); font-weight: 500;">MQ5 Code Integration Guide</span></h1>
           
           <p class="doc-hero-pre agreement-cover-pre" style="color:var(--nextgen-green); margin-top: 20px; font-size: 16px;">NextGen Web Studio</p>
           
