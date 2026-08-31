@@ -284,6 +284,8 @@
                 <div class="term-line output">DATABASE ............ <span style="color: #4ADE80;">CONNECTED</span></div>
                 <div class="term-line output">PAYMENTS ............ <span style="color: #4ADE80;">CONNECTED</span></div>
                 <div class="term-line output">WEBHOOK ............. <span style="color: #4ADE80;">ACTIVE</span></div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line output"><span style="color: var(--accent);">nextgen@server:~$</span> <span class="term-blink" style="background: var(--ink); width: 8px; height: 15px; display: inline-block; vertical-align: middle;"></span></div>
               </div>
             </div>
           </div>
@@ -298,57 +300,141 @@
         <h2>What We Build</h2>
         <p class="section-note">Custom Telegram integrations designed around your exact business workflow.</p>
       </div>
+      <style>
+        .service-card {
+          height: 100%;
+          border: 1px solid var(--border);
+          transition: all 0.3s ease;
+        }
+        .service-card:hover {
+          border-color: var(--accent);
+          box-shadow: 0 8px 30px rgba(224, 255, 79, 0.05);
+          transform: translateY(-4px);
+        }
+      </style>
       <div class="services-grid">
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">01</div>
-          <h3>Custom Telegram Bots</h3>
-          <p>Bots designed around your exact business workflow.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">01</div>
+            <i class="fa-solid fa-robot" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Custom Telegram Bots</h3>
+          <p style="margin-bottom: 0;">Bots designed around your exact business workflow and specific industry needs.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">02</div>
-          <h3>Business Automation</h3>
-          <p>Automate repetitive tasks, notifications and workflows.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">02</div>
+            <i class="fa-solid fa-gears" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Business Automation</h3>
+          <p style="margin-bottom: 0;">Automate repetitive tasks, team notifications, and internal company workflows.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">03</div>
-          <h3>Payment Bots</h3>
-          <p>Payments, order confirmation and automated notifications.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">03</div>
+            <i class="fa-solid fa-credit-card" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Payment Bots</h3>
+          <p style="margin-bottom: 0;">Accept Razorpay/Stripe payments, handle order confirmation, and automated receipts.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">04</div>
-          <h3>API Integrations</h3>
-          <p>Connect Telegram with existing websites, APIs and services.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">04</div>
+            <i class="fa-solid fa-plug" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">API Integrations</h3>
+          <p style="margin-bottom: 0;">Connect Telegram directly with your existing websites, CRMs, APIs and SaaS tools.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">05</div>
-          <h3>Database Systems</h3>
-          <p>User, order, license and application data management.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">05</div>
+            <i class="fa-solid fa-database" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Database Systems</h3>
+          <p style="margin-bottom: 0;">Robust PostgreSQL data structures for user, order, license and application state management.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">06</div>
-          <h3>Admin Bots</h3>
-          <p>Manage users, orders, licenses and operations directly through Telegram.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">06</div>
+            <i class="fa-solid fa-shield-halved" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Admin Bots</h3>
+          <p style="margin-bottom: 0;">Securely manage users, ban accounts, review orders, and monitor operations directly via Telegram.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">07</div>
-          <h3>Customer Support</h3>
-          <p>Menus, FAQs, ticket systems and automated responses.</p>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">07</div>
+            <i class="fa-solid fa-headset" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Customer Support</h3>
+          <p style="margin-bottom: 0;">Interactive navigation menus, dynamic FAQs, ticket routing systems and automated responses.</p>
         </div>
         <div class="service-card" style="grid-column: span 6;">
-          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">08</div>
-          <h3>Trading Integrations</h3>
-          <p>Telegram notifications, license systems and MT5-related automation.</p>
-        </div>
-      </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">08</div>
+            <i class="fa-solid fa-chart-line" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Trading Integrations</h3>
+          <p style="margin-bottom: 0;">Real-time Telegram notifications, secure license delivery, and MT5-related backend automation.</p>
+        </div>      </div>
     </section>
 
         <!-- HOW IT WORKS -->
-    <section class="block" id="workflow">
+    <section class="block" id="workflow" style="background-color: var(--bg-alt);">
       <div class="path-label">~/workflow</div>
       <div class="section-head">
         <h2>How We Build It</h2>
         <p class="section-note">From command to deployment.</p>
       </div>
+      <style>
+      .process-list {
+        position: relative;
+      }
+      .process-list::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        bottom: 20px;
+        left: 17px;
+        width: 2px;
+        background: var(--border);
+        z-index: 0;
+      }
+      .process-item {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 30px;
+      }
+      .process-node {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--bg-card);
+        border: 2px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+        z-index: 2;
+      }
+      .process-content {
+        margin-left: 60px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+      .process-item:hover .process-content {
+        border-color: var(--accent);
+      }
+      </style>
       <div class="process-list">
         
         <div class="process-item">
@@ -439,7 +525,7 @@
     </section>
 
     <!-- TECH STACK -->
-    <section class="block" id="tech-stack" style="padding-bottom: 30px; border-bottom: none;">
+    <section class="block" id="tech-stack" style="padding-bottom: 60px; border-bottom: none;">
       <div class="path-label">~/tech-stack</div>
       <div class="section-head">
         <h2>Telegram Bot Stack</h2>
@@ -462,7 +548,7 @@
     </section>
 
     <!-- CASE STUDY -->
-    <section class="block" id="case-study" style="padding-top: 30px; border-top: none;">
+    <section class="block" id="case-study" style="padding-top: 40px; padding-bottom: 80px; border-top: 1px dashed var(--border); background-color: var(--bg-alt);">
       <div class="path-label">~/case-study</div>
       
       <div class="section-head" style="margin-bottom: 40px;">
@@ -588,19 +674,14 @@
 
     <!-- CTA SECTION -->
 
-    <section class="block" id="telegram-cta" style="text-align: center; padding: 100px 0;">
-      <h2 style="font-size: 36px; margin-bottom: 20px;">HAVE A BOT IDEA?</h2>
-      <p style="color: var(--ink-soft); margin-bottom: 40px; font-size: 18px;">Tell us what you want to automate.</p>
-      <a href="#contact" class="btn-primary" onclick="document.querySelector('[data-value=\'Telegram Bot\']').click();" style="display: inline-block; margin-bottom: 20px;">START A TELEGRAM PROJECT</a>
-      <div style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-faint);">
-        > ./deploy --telegram
-      </div>
-    </section>
+    
 
 
 
     <!-- PRICING -->
-    <section class="block" id="pricing" style="background-color: var(--bg-alt); padding: 80px 0;">
+    
+
+<section class="block" id="pricing" style="background-color: var(--bg-alt); padding: 80px 0;">
       <div class="path-label" style="margin-bottom: 24px;">~/pricing</div>
       <div class="section-head">
         <h2>Bot Packages</h2>
@@ -652,9 +733,16 @@
         </div>
       </div>
     </section>
-
+<section class="block" id="telegram-cta" style="text-align: center; padding: 100px 0;">
+      <h2 style="font-size: 36px; margin-bottom: 20px;">HAVE A BOT IDEA?</h2>
+      <p style="color: var(--ink-soft); margin-bottom: 40px; font-size: 18px;">Tell us what you want to automate.</p>
+      <a href="#contact" class="btn-primary" onclick="document.querySelector('[data-value=\'Telegram Bot\']').click();" style="display: inline-block; margin-bottom: 20px;">START A TELEGRAM PROJECT</a>
+      <div style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-faint);">
+        > ./deploy --telegram
+      </div>
+    </section>
     <!-- Contact Form Section -->
-    <section class="block" id="contact" style="border-top:none; padding-top:0;">
+<section class="block" id="contact" style="border-top:none; padding-top:0;">
       <div class="contact-section-grid">
         <div class="contact-info-panel">
           <h2>Have a site<br>to build?</h2>
@@ -798,6 +886,7 @@
         </div>
       </div>
     </section>
+    
   </main>
 
   <!-- Footer -->
@@ -907,5 +996,27 @@
 
   <!-- Scripts -->
   <script src="app.js"></script>
+  <!-- Scroll Animation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.block').forEach(block => {
+        if(block.id !== 'home') { // Don't animate hero
+          block.style.opacity = '0';
+          block.style.transform = 'translateY(20px)';
+          block.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+          observer.observe(block);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
