@@ -2076,7 +2076,7 @@ form {
 .footer {
   background-color: var(--bg-alt);
   border-top: 1px solid var(--border);
-  padding: 80px 0 110px; /* Increased bottom padding to 110px to prevent floating buttons overlap */
+  padding: 80px 0 60px; /* Reduced to avoid huge empty space at bottom */
   transition: background-color var(--transition-normal), border-color var(--transition-normal);
 }
 
@@ -3571,7 +3571,7 @@ body.dark-theme .work-view-link:hover {
   }
   
   .footer {
-    padding: 60px 0 100px !important; /* Raise footer bottom padding on mobile */
+    padding: 60px 0 80px !important; /* Reduced mobile bottom padding */
   }
   
   /* Drawer adjustments */
