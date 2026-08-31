@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+
+    
+    </section>
+
+
+
+    
+
+    
+
+    <!-- Script to power the accordion interaction -->
+    <script>
+      document.querySelectorAll('.faq-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const item = trigger.closest('.faq-item');
+          const content = item.querySelector('.faq-content');
+          
+          if (item.classList.contains('active')) {
+            item.classList.remove('active');
+            content.style.maxHeight = '0';
+          } else {
+            document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+              activeItem.classList.remove('active');
+              activeItem.querySelector('.faq-content').style.maxHeight = '0';
+            });
+
+            item.classList.add('active');
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      });
+    </script>
+
+    <!-- Contact Form Section -->
+    <section class="block" id="contact" style="border-top:none; padding-top:0;">
+      <div class="contact-section-grid">
+        <div class="contact-info-panel">
+          <h2>Have a site<br>to build?</h2>
+          <p>Let's map out your project together. Drop us details about your product roadmap, and we will get back to you within one business day.</p>
+          
+          <div class="direct-contact-details">
+            <a href="mailto:nextgenwebstudio63@gmail.com" class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-envelope"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Email Us</span>
+                <span class="detail-value">nextgenwebstudio63@gmail.com</span>
+              </div>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-phone"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Call / WhatsApp</span>
+                <span class="detail-value">+91 63791 40067</span>
+              </div>
+            </a>
+            <div class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-location-dot"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">Coimbatore, Tamil Nadu</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <div class="form-header">
+            <h3>Project Scoping Form</h3>
+            <span>Fill out the fields to launch custom estimation</span>
+          </div>
+          
+          <form id="projectContactForm" novalidate>
+            <!-- Project Type Selection -->
+            <div class="form-group full-width">
+              <label class="section-label">I'm looking for:</label>
+              <div class="project-tags-selector">
+                <button type="button" class="tag-chip" data-value="Web Design">Web Design</button>
+                <button type="button" class="tag-chip" data-value="Full Stack">Full Stack App</button>
+                <button type="button" class="tag-chip" data-value="E-Commerce">E-Commerce</button>
+                <button type="button" class="tag-chip" data-value="Consulting">Consulting / MVP</button>
+                <input type="hidden" name="projectType" id="projectTypeInput" value="">
+              </div>
+            </div>
+
+            <!-- Name Input -->
+            <div class="form-group">
+              <div class="input-wrapper">
+                <input type="text" id="contactName" name="name" required placeholder=" ">
+                <label for="contactName">Your Name</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please enter your name</span>
+            </div>
+
+            <!-- Email Input -->
+            <div class="form-group">
+              <div class="input-wrapper">
+                <input type="email" id="contactEmail" name="email" required placeholder=" ">
+                <label for="contactEmail">Email Address</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please enter a valid email</span>
+            </div>
+
+            <!-- Phone Input -->
+            <div class="form-group">
+              <div class="input-wrapper">
+                <input type="tel" id="contactPhone" name="phone" placeholder=" ">
+                <label for="contactPhone">Phone Number (Optional)</label>
+                <span class="focus-border"></span>
+              </div>
+            </div>
+
+            <!-- Budget Picker -->
+            <div class="form-group">
+              <div class="input-wrapper select-wrapper">
+                <select id="contactBudget" name="budget" required>
+                  <option value="" disabled selected hidden></option>
+                  <option value="Under ₹50k">Under ₹50k</option>
+                  <option value="₹50k - ₹1.5L">₹50k - ₹1.5L</option>
+                  <option value="₹1.5L - ₹3L">₹1.5L - ₹3L</option>
+                  <option value="₹3L+">₹3L+ (Enterprise)</option>
+                </select>
+                <label for="contactBudget" class="select-label">Estimated Budget</label>
+                <i class="fa-solid fa-chevron-down select-icon"></i>
+              </div>
+              <span class="error-msg">Please select a budget range</span>
+            </div>
+
+            <!-- Message Input -->
+            <div class="form-group full-width">
+              <div class="input-wrapper">
+                <textarea id="contactMessage" name="message" required placeholder=" " rows="4"></textarea>
+                <label for="contactMessage">Tell us about your project requirements...</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please tell us about your project</span>
+            </div>
+
+            <!-- Submit Button / Loader -->
+            <div class="form-actions full-width">
+              <button type="submit" class="submit-btn" id="submitFormBtn">
+                <span class="btn-text">Submit Request</span>
+                <span class="btn-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Success State Terminal Overlay -->
+          <div class="form-success-overlay" id="formSuccessOverlay">
+            <div class="success-terminal">
+              <div class="success-terminal-bar">
+                <div class="term-dot close"></div>
+                <div class="term-dot minimize"></div>
+                <div class="term-dot expand"></div>
+                <span>deployment-success.log</span>
+              </div>
+              <div class="success-terminal-body">
+                <div class="s-line"><span class="s-prompt">$</span> ./send_inquiry.sh --to "NextGen"</div>
+                <div class="s-line info">Establishing secure handshake... [OK]</div>
+                <div class="s-line info">Encrypting payload data... [OK]</div>
+                <div class="s-line info">Uploading to Coimbatore DB... [OK]</div>
+                <div class="s-line success"><span class="s-prompt">$</span> status code: 200 OK</div>
+                <div class="s-line text-center highlight">
+                  <div class="success-icon-badge"><i class="fa-solid fa-circle-check"></i></div>
+                  <h4>Message Sent Successfully!</h4>
+                  <p>Thanks for reaching out! We'll review your project details and contact you via email shortly.</p>
+                </div>
+                <div class="s-line text-center">
+                  <button type="button" class="btn-ghost btn-sm" id="closeSuccessBtn">Send Another Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">High-performance full-stack web applications and custom digital tools built from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Web Design</a></li>
+            <li><a href="#services">Full-stack builds</a></li>
+            <li><a href="#services">E-Commerce</a></li>
+            <li><a href="#services">Product scoping</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms &amp; Conditions</a>
+          <a href="/refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div id="aiChatbotWidget" class="chatbot-closed">
+    <!-- Chat Button -->
+    <button id="chatbotToggleBtn" aria-label="Open AI Assistant" title="Chat with AI">
+      <i class="fa-solid fa-comments"></i>
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    
+    <!-- Chat Panel -->
+    <div class="chatbot-panel">
+      <div class="chat-header">
+        <div class="bot-info">
+          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div class="bot-text-meta">
+            <h4>nextgen_assistant</h4>
+            <span>online • instant response</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+          Hi! I'm your NextGen AI Assistant. 🤖
+          <br><br>
+          Ask me anything about our services, pricing, timeline, contact details, or location in Coimbatore!
+        </div>
+      </div>
+      <form class="chat-input-area" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off" required>
+        <button type="submit" id="chatSubmitBtn"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+
+
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
