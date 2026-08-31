@@ -65,7 +65,7 @@ const templates = {
       { id: "business_price", label: "Business Package Price", type: "text", default: "₹19,999" },
       { id: "premium_price", label: "Premium Package Price", type: "text", default: "₹39,999+" },
       { id: "contact_email", label: "Agency Email", type: "text", default: "nextgenwebstudio63@gmail.com" },
-      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 79045 44101" },
+      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 63791 40067" },
       { id: "contact_ig", label: "Instagram Handle", type: "text", default: "@nextgen_web_studio" }
     ],
     render: (data) => `
@@ -1618,7 +1618,7 @@ const templates = {
       { id: "business_price", label: "Advanced Bot Price", type: "text", default: "₹12,999" },
       { id: "premium_price", label: "Enterprise Bot Price", type: "text", default: "₹24,999+" },
       { id: "contact_email", label: "Agency Email", type: "text", default: "nextgenwebstudio63@gmail.com" },
-      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 79045 44101" },
+      { id: "contact_phone", label: "Agency Phone", type: "text", default: "+91 63791 40067" },
       { id: "contact_ig", label: "Instagram Handle", type: "text", default: "@nextgen_web_studio" }
     ],
     render: (data) => `
