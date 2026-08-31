@@ -188,12 +188,12 @@
       
       <nav class="desktop-nav">
         <div class="nav-links">
-          <a href="#services">services</a>
-          <a href="#work">work</a>
-          <a href="/telegram-bot-development.html">telegram bots</a>
-          <a href="#process">process</a>
+          <a href="index.html#services">services</a>
+          <a href="index.html#work">work</a>
+          <a href="telegram-bot-development.html">telegram bots</a>
+          <a href="index.html#process">process</a>
           <a href="#contact">contact</a>
-          <a href="/client.html">client portal</a>
+          <a href="client.html">client portal</a>
         </div>
         <button id="themeToggleBtn" aria-label="Toggle light/dark theme" title="Switch Theme">
           <i class="fa-solid fa-sun"></i>
@@ -222,13 +222,13 @@
       <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
     </div>
     <div class="drawer-links">
-      <a href="#home">home</a>
-      <a href="#services">services</a>
-      <a href="#work">work</a>
-      <a href="/telegram-bot-development.html">telegram bots</a>
-      <a href="#process">process</a>
+      <a href="index.html#home">home</a>
+      <a href="index.html#services">services</a>
+      <a href="index.html#work">work</a>
+      <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="index.html#process">process</a>
       <a href="#contact">contact</a>
-      <a href="/client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
+      <a href="client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
       <a href="#contact" class="drawer-cta btn-primary">start a project</a>
     </div>
     <div class="drawer-theme-section" style="margin-top: auto; padding-top: 16px; margin-bottom: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
@@ -247,428 +247,211 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
   <main class="wrap">
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-      <div class="eyebrow-cli">
-        <span class="eb-path"><i class="fa-solid fa-folder-open"></i> ~/coimbatore-tn</span>
-        <span class="eb-branch"><i class="fa-solid fa-code-branch"></i> git:(main)</span>
-        <span class="eb-status"><i class="fa-solid fa-circle-check"></i> status: active</span>
-      </div>
+    <!-- TELEGRAM HERO -->
+    <section id="home" class="hero-section" style="padding-top: 140px; padding-bottom: 80px; position: relative;">
+      <div class="path-label">~/telegram-bot-development</div>
       
-      <div class="hero-grid">
+      <div class="hero-grid" style="grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 40px; display: grid; max-width: 1200px; margin: 0 auto; padding: 0 5%;">
         <div class="hero-text-content">
-          <h1>We build websites<br>that <span class="gradient-text">ship fast</span><br>and work hard.</h1>
-          <p class="hero-sub">NextGen Web Studio designs and builds high-performance full-stack web applications, custom booking engines, and D2C storefronts — tailored specifically for modern businesses and founders.</p>
-          <div class="hero-actions">
-            <a href="#contact" class="btn-primary">start a project <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#work" class="btn-ghost">see the work</a>
+          <h1 style="font-size: clamp(36px, 5vw, 64px); line-height: 1.1; margin-bottom: 24px;">BUILD → AUTOMATE → SCALE<br><span class="gradient-text">Telegram Bots</span><br>That Actually Do Work.</h1>
+          <p class="hero-sub" style="font-size: 18px; color: var(--ink-soft); margin-bottom: 32px; line-height: 1.6;">Custom Telegram bots built for automation, payments, notifications, APIs and business workflows. Your bot. Your workflow. Your infrastructure.</p>
+          <div class="hero-actions" style="display: flex; gap: 16px;">
+            <a href="#contact?service=Telegram+Bot" class="btn-primary" onclick="document.querySelector('[data-value=\'Telegram Bot\']').click();">start a project <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#capabilities" class="btn-ghost">view capabilities</a>
           </div>
         </div>
 
         <div class="terminal-container">
-          <div class="terminal" aria-hidden="true">
+          <div class="terminal" aria-hidden="true" style="transform: none; animation: none;">
             <div class="term-bar">
               <div class="term-dot close"></div>
               <div class="term-dot minimize"></div>
               <div class="term-dot expand"></div>
-              <span class="term-title">bash — nextgen-studio</span>
+              <span class="term-title">bash — telegram_bot.init()</span>
             </div>
-            <div class="term-body" id="termBody">
+            <div class="term-body" id="termBody" style="min-height: 280px; font-size: 13px;">
               <div class="term-history">
-                <div class="term-line"><span class="term-prompt">$</span> whoami</div>
-                <div class="term-line output">NextGen Web Studio (Coimbatore, IN)</div>
+                <div class="term-line output" style="color: var(--accent);">BOT STATUS</div>
+                <div class="term-line output">● ONLINE</div>
                 <div class="term-line">&nbsp;</div>
-                <div class="term-line"><span class="term-prompt">$</span> ls services/</div>
-                <div class="term-line output">web-design/  full-stack/  booking-systems/  e-commerce/  seo-performance/</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/start</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/order</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/status</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/support</div>
                 <div class="term-line">&nbsp;</div>
+                <div class="term-line output">API ................. <span style="color: #4ADE80;">CONNECTED</span></div>
+                <div class="term-line output">DATABASE ............ <span style="color: #4ADE80;">CONNECTED</span></div>
+                <div class="term-line output">PAYMENTS ............ <span style="color: #4ADE80;">CONNECTED</span></div>
+                <div class="term-line output">WEBHOOK ............. <span style="color: #4ADE80;">ACTIVE</span></div>
               </div>
-              <div class="term-input-line">
-                <span class="term-prompt">$</span> 
-                <span id="termTyped"></span><span class="term-cursor"></span>
-              </div>
-            </div>
-            <div class="term-shortcuts">
-              <span class="shortcut-label">Quick Commands:</span>
-              <button class="term-btn" data-cmd="about">./about</button>
-              <button class="term-btn" data-cmd="skills">./skills</button>
-              <button class="term-btn" data-cmd="telegram">./telegram</button>
-              <button class="term-btn" data-cmd="contact">./contact-info</button>
-              <button class="term-btn" data-cmd="clear">clear</button>
             </div>
           </div>
         </div>
       </div>
-      
-      <!-- Scroll Down Indicator -->
-      <div class="scroll-down-container">
-        <a href="#services" class="scroll-down-arrow" aria-label="Scroll down to services">
-          <span class="scroll-text">Scroll Down</span>
-          <div class="scroll-icon-wrap">
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-        </a>
-      </div>
     </section>
-
-
-
-    <!-- Capabilities Section -->
+    
+    <!-- CAPABILITIES SECTION -->
     <section class="block" id="capabilities">
       <div class="path-label">~/capabilities</div>
       <div class="section-head">
-        <h2>Why Businesses Choose NextGen</h2>
-        <p class="section-note">We focus on real metrics that drive business growth. From fast page load speeds to secure payment checkouts, every detail is engineered to scale.</p>
+        <h2>What We Build</h2>
+        <p class="section-note">Custom Telegram integrations designed around your exact business workflow.</p>
       </div>
-      <div class="capabilities-list">
-        <!-- Row 1: UI/UX Design -->
-        <div class="capability-row">
-          <div class="capability-left">
-            <span class="capability-icon"><i class="fa-solid fa-palette"></i></span>
-            <div class="capability-info">
-              <div class="capability-title-row">
-                <h3>Mobile-First UI/UX Design</h3>
-                <span class="capability-badge popular"><i class="fa-solid fa-fire"></i> Most Popular</span>
-              </div>
-              <p>Beautiful, pixel-perfect interfaces custom-built to capture attention and convert visitors into clients.</p>
-            </div>
-          </div>
-          <div class="capability-right">
-            <span class="capability-metric">3x Conversion</span>
-            <span class="capability-arrow">→</span>
-          </div>
+      <div class="services-grid">
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">01</div>
+          <h3>Custom Telegram Bots</h3>
+          <p>Bots designed around your exact business workflow.</p>
         </div>
-
-        <!-- Row 2: Performance -->
-        <div class="capability-row">
-          <div class="capability-left">
-            <span class="capability-icon"><i class="fa-solid fa-gauge-high"></i></span>
-            <div class="capability-info">
-              <div class="capability-title-row">
-                <h3>Fast &amp; High-Performance Pages</h3>
-                <span class="capability-badge featured"><i class="fa-solid fa-star"></i> Featured</span>
-              </div>
-              <p>Built for speed and Core Web Vitals to prevent user drop-off and optimize mobile performance.</p>
-            </div>
-          </div>
-          <div class="capability-right">
-            <span class="capability-metric">&lt;1.2s Load Time</span>
-            <span class="capability-arrow">→</span>
-          </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">02</div>
+          <h3>Business Automation</h3>
+          <p>Automate repetitive tasks, notifications and workflows.</p>
         </div>
-
-        <!-- Row 3: SEO -->
-        <div class="capability-row">
-          <div class="capability-left">
-            <span class="capability-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
-            <div class="capability-info">
-              <h3>SEO-Ready from Day One</h3>
-              <p>Semantic clean HTML structure and optimized meta configurations built for higher Google Search rankings.</p>
-            </div>
-          </div>
-          <div class="capability-right">
-            <span class="capability-metric">98+ Lighthouse</span>
-            <span class="capability-arrow">→</span>
-          </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">03</div>
+          <h3>Payment Bots</h3>
+          <p>Payments, order confirmation and automated notifications.</p>
         </div>
-
-        <!-- Row 4: Payments -->
-        <div class="capability-row">
-          <div class="capability-left">
-            <span class="capability-icon"><i class="fa-solid fa-credit-card"></i></span>
-            <div class="capability-info">
-              <h3>Secure Payments &amp; Checkout</h3>
-              <p>Seamless integration of secure payment gateways, checkout portals, and custom reservation calendars.</p>
-            </div>
-          </div>
-          <div class="capability-right">
-            <span class="capability-metric">Razorpay &amp; Stripe</span>
-            <span class="capability-arrow">→</span>
-          </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">04</div>
+          <h3>API Integrations</h3>
+          <p>Connect Telegram with existing websites, APIs and services.</p>
         </div>
-
-        <!-- Row 5: Dashboards -->
-        <div class="capability-row">
-          <div class="capability-left">
-            <span class="capability-icon"><i class="fa-solid fa-chart-line"></i></span>
-            <div class="capability-info">
-              <h3>Scalable Admin Dashboards</h3>
-              <p>Custom metrics boards, real-time client databases, and intuitive admin panels to manage your business operations.</p>
-            </div>
-          </div>
-          <div class="capability-right">
-            <span class="capability-metric">Real-time Analytics</span>
-            <span class="capability-arrow">→</span>
-          </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">05</div>
+          <h3>Database Systems</h3>
+          <p>User, order, license and application data management.</p>
         </div>
-
-        <!-- Row 6: Dedicated Support -->
-        <div class="capability-row">
-          <div class="capability-left">
-            <span class="capability-icon"><i class="fa-solid fa-shield-halved"></i></span>
-            <div class="capability-info">
-              <h3>Post-Launch Maintenance Plans</h3>
-              <p>Reliable code updates, server security configuration audits, and active performance checks under solid support retainers.</p>
-            </div>
-          </div>
-          <div class="capability-right">
-            <span class="capability-metric">Dedicated Support</span>
-            <span class="capability-arrow">→</span>
-          </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">06</div>
+          <h3>Admin Bots</h3>
+          <p>Manage users, orders, licenses and operations directly through Telegram.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">07</div>
+          <h3>Customer Support</h3>
+          <p>Menus, FAQs, ticket systems and automated responses.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="font-family: var(--font-mono); color: var(--accent); margin-bottom: 12px;">08</div>
+          <h3>Trading Integrations</h3>
+          <p>Telegram notifications, license systems and MT5-related automation.</p>
         </div>
       </div>
     </section>
 
-    
-    <section class="block" id="work">
-      <div class="path-label">~/work</div>
+    <!-- HOW IT WORKS -->
+    <section class="block" id="workflow">
+      <div class="path-label">~/workflow</div>
       <div class="section-head">
-        <h2>Selected projects</h2>
-        <p class="section-note">A curated preview of platforms engineered from initial concept to live production.</p>
+        <h2>How We Build It</h2>
+        <p class="section-note">From command to deployment.</p>
       </div>
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-square"></i> All Projects (4)</button>
-        <button class="filter-btn" data-filter="fullstack"><i class="fa-solid fa-server"></i> Full-Stack (4)</button>
-      </div>
-
-      <div class="work-grid" id="workGrid">
-
-        <!-- Project 1: Boomers Gaming -->
-        <div class="work-card" data-cat="fullstack">
-          <div class="browser-frame">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="work-image-container">
-              <img src="/images/boomers_cafe_new.png" alt="Boomers Gaming Website Mockup" loading="lazy">
-            </div>
-          </div>
-          <div class="work-info">
-            <div class="work-meta">
-              <span class="work-badge featured"><i class="fa-solid fa-star"></i> Featured</span>
-              <span class="work-badge live">Live</span>
-              <span class="work-tag">Gaming &amp; Cafe</span>
-            </div>
-            <h3>Boomers Gaming</h3>
-            <p>A full-stack gaming cafe website with online menu, event booking, and a bold vibrant visual identity built for the gaming community.</p>
-            <ul class="work-metrics">
-              <li><i class="fa-solid fa-circle-check"></i> Event &amp; Slot Booking</li>
-              <li><i class="fa-solid fa-circle-check"></i> Mobile-First Design</li>
-              <li><i class="fa-solid fa-circle-check"></i> Custom Admin Panel</li>
-            </ul>
-            <div class="work-stack">
-              <span class="tech-htmlcss"><i class="fa-brands fa-html5"></i> HTML/CSS</span>
-              <span class="tech-node"><i class="fa-brands fa-node-js"></i> Node.js</span>
-              <span class="tech-mongo"><i class="fa-solid fa-database"></i> MongoDB</span>
-            </div>
-            <a href="https://boomersgaming.netlify.app/" target="_blank" rel="noopener" class="work-view-link">View Live Site <i class="fa-solid fa-arrow-right-long"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 2: GoatTurf -->
-        <div class="work-card" data-cat="fullstack">
-          <div class="browser-frame">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="work-image-container">
-              <img src="/images/turf_dashboard_new.png" alt="GoatTurf Booking Platform Mockup" loading="lazy">
-            </div>
-          </div>
-          <div class="work-info">
-            <div class="work-meta">
-              <span class="work-badge featured"><i class="fa-solid fa-star"></i> Featured</span>
-              <span class="work-badge live">Live</span>
-              <span class="work-tag">Sports Booking</span>
-            </div>
-            <h3>GoatTurf — Madurai</h3>
-            <p>Real-time football &amp; cricket turf booking platform with night floodlight scheduling, live slot availability, and instant confirmation.</p>
-            <ul class="work-metrics">
-              <li><i class="fa-solid fa-circle-check"></i> Real-Time Slot Booking</li>
-              <li><i class="fa-solid fa-circle-check"></i> Live Availability Calendar</li>
-              <li><i class="fa-solid fa-circle-check"></i> Admin Dashboard</li>
-            </ul>
-            <div class="work-stack">
-              <span class="tech-react"><i class="fa-brands fa-react"></i> React</span>
-              <span class="tech-node"><i class="fa-brands fa-node-js"></i> Node.js</span>
-              <span class="tech-mongo"><i class="fa-solid fa-database"></i> MongoDB</span>
-              <span class="tech-razorpay"><i class="fa-solid fa-credit-card"></i> Razorpay</span>
-            </div>
-            <a href="https://turf-booking-dti4.onrender.com" target="_blank" rel="noopener" class="work-view-link">View Live Site <i class="fa-solid fa-arrow-right-long"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 3: Neimozhi -->
-        <div class="work-card" data-cat="fullstack">
-          <div class="browser-frame">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="work-image-container">
-              <img src="/images/neimozhi_new.png" alt="Neimozhi Traditional Ghee E-commerce Mockup" loading="lazy">
-            </div>
-          </div>
-          <div class="work-info">
-            <div class="work-meta">
-              <span class="work-badge live">Live</span>
-              <span class="work-tag">E-commerce</span>
-            </div>
-            <h3>NeiMozhi by Uthukuli</h3>
-            <p>A premium e-commerce platform for traditional Bilona-churned ghee — with shop collection, WhatsApp ordering, and pan-India delivery.</p>
-            <ul class="work-metrics">
-              <li><i class="fa-solid fa-circle-check"></i> Product Shop &amp; Cart</li>
-              <li><i class="fa-solid fa-circle-check"></i> WhatsApp Order Flow</li>
-              <li><i class="fa-solid fa-circle-check"></i> Pan-India Delivery</li>
-            </ul>
-            <div class="work-stack">
-              <span class="tech-htmlcss"><i class="fa-brands fa-html5"></i> HTML/CSS</span>
-              <span class="tech-node"><i class="fa-brands fa-node-js"></i> Node.js</span>
-              <span class="tech-mongo"><i class="fa-solid fa-database"></i> MongoDB</span>
-            </div>
-            <a href="https://nextgen-web-studio.github.io/neimozli/" target="_blank" rel="noopener" class="work-view-link">View Live Site <i class="fa-solid fa-arrow-right-long"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 4: NextGen Billing System -->
-        <div class="work-card" data-cat="fullstack">
-          <div class="browser-frame">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="work-image-container">
-              <img src="/images/billing_software_new.png" alt="NextGen Billing System POS Dashboard" loading="lazy">
-            </div>
-          </div>
-          <div class="work-info">
-            <div class="work-meta">
-              <span class="work-badge featured"><i class="fa-solid fa-star"></i> Featured</span>
-              <span class="work-badge case-study"><i class="fa-solid fa-book-open"></i> Live Software</span>
-              <span class="work-tag">POS & Billing</span>
-            </div>
-            <h3>NextGen Billing System</h3>
-            <p>A full-stack POS billing platform with product management, barcode scanning, inventory tracking, and real-time sales reporting.</p>
-            <ul class="work-metrics">
-              <li><i class="fa-solid fa-circle-check"></i> POS & Invoice Generation</li>
-              <li><i class="fa-solid fa-circle-check"></i> Barcode Scanning</li>
-              <li><i class="fa-solid fa-circle-check"></i> Product & Inventory Management</li>
-            </ul>
-            <div class="work-stack">
-              <span class="tech-react"><i class="fa-brands fa-react"></i> React</span>
-              <span class="tech-node"><i class="fa-brands fa-node-js"></i> Node.js</span>
-              <span class="tech-mongo"><i class="fa-solid fa-database"></i> MongoDB</span>
-            </div>
-            <a href="https://billing-two-lovat.vercel.app/" target="_blank" rel="noopener noreferrer" class="work-view-link">View Live App <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:12px; margin-left:6px;"></i></a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-    </section>
-
-
-
-    <!-- Process Section -->
-    <section class="block" id="process">
-      <div class="path-label">~/process</div>
-      <div class="section-head">
-        <h2>From Idea to Launch</h2>
-        <p class="section-note">Clear, transparent progression from concept to live production. No black box development.</p>
-      </div>
-      <div class="process-list">
-        <!-- Step 1: Discovery -->
+      <div class="process-timeline">
         <div class="process-item">
           <div class="process-node">01</div>
           <div class="process-content">
-            <div class="process-content-header">
-              <h3><i class="fa-solid fa-magnifying-glass"></i> Discovery</h3>
-              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1–2 Days</span>
-            </div>
-            <p>A technical brainstorming call to define the feature set, budget alignment, and scoping requirements.</p>
-            <span class="process-accent-cmd">$ run discovery</span>
-            <ul class="process-deliverables">
-              <li><i class="fa-solid fa-check"></i> Requirement Analysis</li>
-              <li><i class="fa-solid fa-check"></i> Scoping Document</li>
-              <li><i class="fa-solid fa-check"></i> Timeline Proposal</li>
-            </ul>
+            <div class="process-content-header"><h3>DEFINE</h3></div>
+            <p>Understand the workflow and requirements.</p>
           </div>
         </div>
-
-        <!-- Step 2: Design -->
         <div class="process-item">
           <div class="process-node">02</div>
           <div class="process-content">
-            <div class="process-content-header">
-              <h3><i class="fa-solid fa-palette"></i> Design</h3>
-              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 3–5 Days</span>
-            </div>
-            <p>Interactive wireframes and high-fidelity mockups are reviewed for approval prior to writing clean backend code.</p>
-            <span class="process-accent-cmd">$ run design-system</span>
-            <ul class="process-deliverables">
-              <li><i class="fa-solid fa-check"></i> Figma Wireframes</li>
-              <li><i class="fa-solid fa-check"></i> UI Styleguide &amp; Branding</li>
-              <li><i class="fa-solid fa-check"></i> Interactive Prototypes</li>
-            </ul>
+            <div class="process-content-header"><h3>DESIGN</h3></div>
+            <p>Design commands, menus and interaction flow.</p>
           </div>
         </div>
-
-        <!-- Step 3: Development -->
         <div class="process-item">
           <div class="process-node">03</div>
           <div class="process-content">
-            <div class="process-content-header">
-              <h3><i class="fa-solid fa-code"></i> Development</h3>
-              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1–3 Weeks</span>
-            </div>
-            <p>Incremental code releases pushed to staging URL environments. Watch your website update in real-time as milestones land.</p>
-            <span class="process-accent-cmd">$ run build --prod</span>
-            <ul class="process-deliverables">
-              <li><i class="fa-solid fa-check"></i> Responsive Frontends</li>
-              <li><i class="fa-solid fa-check"></i> Custom Admin Dashboards</li>
-              <li><i class="fa-solid fa-check"></i> Payment/Order APIs</li>
-            </ul>
+            <div class="process-content-header"><h3>CONNECT</h3></div>
+            <p>Integrate APIs, databases, payments and services.</p>
           </div>
         </div>
-
-        <!-- Step 4: Launch -->
         <div class="process-item">
           <div class="process-node">04</div>
           <div class="process-content">
-            <div class="process-content-header">
-              <h3><i class="fa-solid fa-rocket"></i> Launch</h3>
-              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1 Day</span>
-            </div>
-            <p>Custom server configuration, SSL activation, domain linking, and database optimization, followed by post-launch support.</p>
-            <span class="process-accent-cmd">$ run deploy --target=main</span>
-            <ul class="process-deliverables">
-              <li><i class="fa-solid fa-check"></i> Live Production Release</li>
-              <li><i class="fa-solid fa-check"></i> SEO Indexing Setup</li>
-              <li><i class="fa-solid fa-check"></i> 30-Day Retainer Support</li>
-            </ul>
+            <div class="process-content-header"><h3>DEPLOY</h3></div>
+            <p>Deploy the bot to reliable cloud infrastructure.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-node">05</div>
+          <div class="process-content">
+            <div class="process-content-header"><h3>AUTOMATE</h3></div>
+            <p>The bot handles the repetitive work automatically.</p>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Process CTA Closing Block -->
-      <div class="process-cta-box">
-        <h3>Ready to start your project?</h3>
-        <p>Let's map out your project scoping and build a tailored plan for your business.</p>
-        <a href="#contact" class="btn-primary">Book Free Consultation <i class="fa-solid fa-calendar-days"></i></a>
+    <!-- TECH STACK -->
+    <section class="block" id="tech-stack">
+      <div class="path-label">~/tech-stack</div>
+      <div class="section-head">
+        <h2>Telegram Bot Stack</h2>
+      </div>
+      <div class="filters" style="justify-content: center; margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px;">
+        <span class="filter-btn">Telegram Bot API</span>
+        <span class="filter-btn">Python</span>
+        <span class="filter-btn">Node.js</span>
+        <span class="filter-btn">FastAPI</span>
+        <span class="filter-btn">Express</span>
+        <span class="filter-btn">PostgreSQL</span>
+        <span class="filter-btn">Supabase</span>
+        <span class="filter-btn">REST APIs</span>
+        <span class="filter-btn">Webhooks</span>
+        <span class="filter-btn">Docker</span>
+        <span class="filter-btn">Render</span>
+        <span class="filter-btn">Vercel</span>
+        <span class="filter-btn">Razorpay</span>
       </div>
     </section>
 
+    <!-- CASE STUDY -->
+    <section class="block" id="case-study">
+      <div class="path-label">~/case-study</div>
+      <div class="section-head">
+        <h2>CASE STUDY // TELEGRAM AUTOMATION</h2>
+        <p class="section-note">Infinity Trader — MT5 License & Delivery System</p>
+      </div>
+      <div class="glass-panel" style="padding: 40px; margin-top: 30px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card);">
+        <p style="margin-bottom: 30px; font-size: 16px; color: var(--ink-soft); line-height: 1.6;">A Telegram-based license automation system that handles customer information, license generation, automated MQ5 → EX5 compilation and secure file delivery. <em>(Note: Trading EA logic is supplied separately).</em></p>
+        
+        <div style="font-family: var(--font-mono); font-size: 14px; color: var(--ink); display: flex; flex-direction: column; gap: 15px; align-items: center; text-align: center;">
+          <div style="padding: 10px 20px; border: 1px solid var(--accent); border-radius: 8px; background: rgba(22,163,74,0.1);">Telegram Client</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">FastAPI Backend</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">License System</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">Compile Queue</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">Docker + Wine</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">MetaEditor</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">EX5 Binary</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;">Storage</div>
+          <div style="color: var(--ink-faint);">↓</div>
+          <div style="padding: 10px 20px; border: 1px solid var(--accent); border-radius: 8px; background: rgba(22,163,74,0.1);">Telegram Delivery</div>
+        </div>
+      </div>
+    </section>
 
-    <script>
-      document.querySelectorAll('.faq-trigger').forEach(trigger => {
-        trigger.addEventListener('click', () => {
-          const item = trigger.closest('.faq-item');
-          const content = item.querySelector('.faq-content');
-          
-          if (item.classList.contains('active')) {
-            item.classList.remove('active');
-            content.style.maxHeight = '0';
-          } else {
-            document.querySelectorAll('.faq-item.active').forEach(activeItem => {
-              activeItem.classList.remove('active');
-              activeItem.querySelector('.faq-content').style.maxHeight = '0';
-            });
+    <!-- CTA SECTION -->
+    <section class="block" id="telegram-cta" style="text-align: center; padding: 100px 0;">
+      <h2 style="font-size: 36px; margin-bottom: 20px;">HAVE A BOT IDEA?</h2>
+      <p style="color: var(--ink-soft); margin-bottom: 40px; font-size: 18px;">Tell us what you want to automate.</p>
+      <a href="#contact" class="btn-primary" onclick="document.querySelector('[data-value=\'Telegram Bot\']').click();" style="display: inline-block; margin-bottom: 20px;">START A TELEGRAM PROJECT</a>
+      <div style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-faint);">
+        > ./deploy --telegram
+      </div>
+    </section>
 
-            item.classList.add('active');
-            content.style.maxHeight = content.scrollHeight + 'px';
-          }
-        });
-      });
-    </script>
 
     <!-- Contact Form Section -->
     <section class="block" id="contact" style="border-top:none; padding-top:0;">
@@ -837,9 +620,9 @@
         <div class="footer-links-col">
           <h4>Navigation</h4>
           <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#work">Work</a></li>
-            <li><a href="#process">Process</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
@@ -847,10 +630,10 @@
         <div class="footer-links-col">
           <h4>Services</h4>
           <ul>
-            <li><a href="#services">Web Design</a></li>
-            <li><a href="#services">Full-stack builds</a></li>
-            <li><a href="#services">E-Commerce</a></li>
-            <li><a href="#services">Product scoping</a></li>
+            <li><a href="index.html#services">Web Design</a></li>
+            <li><a href="index.html#services">Full-stack builds</a></li>
+            <li><a href="index.html#services">E-Commerce</a></li>
+            <li><a href="index.html#services">Product scoping</a></li>
           </ul>
         </div>
         
@@ -869,9 +652,9 @@
       <div class="footer-bottom-row">
         <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
         <div class="footer-legal-links">
-          <a href="/privacy.html">Privacy Policy</a>
-          <a href="/terms.html">Terms &amp; Conditions</a>
-          <a href="/refunds.html">Refund Policy</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
         </div>
         <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
       </div>
