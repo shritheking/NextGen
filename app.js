@@ -41,35 +41,13 @@ function initLoader() {
   });
 }
 
-/* ---------- Theme Manager (Light / Dark) ---------- */
+/* ---------- Theme Manager (Signature Dark Theme) ---------- */
 function initTheme() {
   const body = document.body;
-  const themeBtn = document.getElementById('themeToggleBtn');
-  const drawerThemeBtn = document.getElementById('drawerThemeToggleBtn');
-  
-  // Retrieve saved theme or default to dark
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  
-  if (savedTheme === 'light') {
-    body.classList.remove('dark-theme');
-    body.classList.add('light-theme');
-  } else {
-    body.classList.remove('light-theme');
-    body.classList.add('dark-theme');
-  }
-
-  const toggleTheme = () => {
-    if (body.classList.contains('dark-theme')) {
-      body.classList.replace('dark-theme', 'light-theme');
-      localStorage.setItem('theme', 'light');
-    } else {
-      body.classList.replace('light-theme', 'dark-theme');
-      localStorage.setItem('theme', 'dark');
-    }
-  };
-
-  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
-  if (drawerThemeBtn) drawerThemeBtn.addEventListener('click', toggleTheme);
+  // Enforce signature Matte Black #0B0B0B dark theme
+  try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+  body.classList.remove('light-theme');
+  body.classList.add('dark-theme');
 }
 
 /* ---------- Mobile Menu Drawer Toggle ---------- */
@@ -115,8 +93,21 @@ function initInteractiveTerminal() {
       output: [
         'Studio Name: NextGen Web Studio',
         'Headquarters: Coimbatore, Tamil Nadu, IN',
-        'Specialty: High-performance React, Node, and customized storefront web builds.',
-        'Tagline: "We build websites that ship fast and work hard."'
+        'Specialty: Agentic AI Systems, High-Performance Web & Telegram Bot Engineering.',
+        'Tagline: "Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures."'
+      ]
+    },
+    agents: {
+      cmd: './ai-agents',
+      output: [
+        'Agentic AI Engineering',
+        '----------------------',
+        'Multi-Agent Swarms ... [READY]',
+        'LangGraph Pipelines .. [READY]',
+        'Supabase pgvector RAG  [READY]',
+        'Document Intelligence  [READY]',
+        'Autonomous Triage .... [READY]',
+        'Zero Data Retention .. [VERIFIED]'
       ]
     },
     skills: {
@@ -926,18 +917,7 @@ function initScrollHighlight() {
   });
 }
 
-
-/* ==========================================================================
-   NextGen Interactive AI Workflow Simulator & Telegram Bot Demo Handlers
-   Emil Kowalski Physics & Interaction Principles (Sub-300ms, Spring, No Flash)
-   ========================================================================== */
-
-document.addEventListener('DOMContentLoaded', () => {
-  initAIWorkflowStepper();
-  initTelegramBotDemo();
-});
-
-/* ---------- 1. Interactive AI Workflow Stepper ---------- */
+/* ---------- AI Workflow Stepper Interactive Simulator ---------- */
 function initAIWorkflowStepper() {
   const tabs = document.querySelectorAll('.workflow-tab');
   const pipeline = document.getElementById('workflowPipeline');
@@ -996,22 +976,6 @@ function initAIWorkflowStepper() {
         { time: '00:01.820', tag: '[METAEDITOR]', msg: 'MQL5 compiler exited with code 0. Binary: 482 KB.' },
         { time: '00:02.140', tag: '[DELIVER]', msg: 'Document dispatched to Telegram chat. License active.' }
       ]
-    },
-    document: {
-      name: 'Contract & Invoice Parser',
-      steps: [
-        { title: 'FILE UPLOAD', desc: 'Scanned 14-page multi-vendor logistics contract (PDF/TIFF).' },
-        { title: 'VISION AGENT', desc: 'High-resolution OCR segmentation and structural layout bounding.' },
-        { title: 'REASONING ENGINE', desc: 'Extracts line items, tax rates, payment milestones, and penalty clauses.' },
-        { title: 'SCHEMA VALIDATION', desc: 'Zod schema verification: verifies line-item math and totals.' },
-        { title: 'API DISPATCH', desc: 'Streams structured JSON payloads into client ERP & database.' },
-        { title: 'FINAL RESULT', desc: '100% verified structured record created in under 4 seconds.' }
-      ],
-      logs: [
-        { time: '00:00.015', tag: '[OCR]', msg: '14 pages segmented into 180 layout blocks.' },
-        { time: '00:00.110', tag: '[ZOD]', msg: 'Schema integrity 100%. Tax checksum validated.' },
-        { time: '00:00.180', tag: '[ERP_SYNC]', msg: 'Synchronized with internal accounts database.' }
-      ]
     }
   };
 
@@ -1027,7 +991,7 @@ function initAIWorkflowStepper() {
       el.classList.remove('active');
     });
 
-    // Animate stepping across the pipeline
+    // Step progression animation
     stepEls[0].classList.add('active');
     let curr = 0;
     const interval = setInterval(() => {
@@ -1037,13 +1001,13 @@ function initAIWorkflowStepper() {
       if (curr === stepEls.length - 1) clearInterval(interval);
     }, 450);
 
-    // Stream logs
+    // Stream logs into terminal
     consoleEl.innerHTML = '';
     data.logs.forEach((item, i) => {
       setTimeout(() => {
         const line = document.createElement('div');
-        line.className = 'console-line enter-natural active';
-        line.innerHTML = `<span class="console-time">[${item.time}]</span> <span class="console-tag">${item.tag}</span> <span class="console-msg">${item.msg}</span>`;
+        line.className = 'console-line';
+        line.innerHTML = `<span class="console-time" style="color:var(--ink-faint); margin-right:8px;">[${item.time}]</span><span class="console-tag" style="color:var(--accent-violet); font-weight:600; margin-right:8px;">${item.tag}</span><span class="console-msg" style="color:var(--ink);">${item.msg}</span>`;
         consoleEl.appendChild(line);
         consoleEl.scrollTop = consoleEl.scrollHeight;
       }, i * 220);
@@ -1059,134 +1023,13 @@ function initAIWorkflowStepper() {
     });
   });
 
-  // Start with default
+  // Start with default flow
   activateWorkflow('support');
 }
 
-/* ---------- 2. Interactive Telegram Bot Simulator ---------- */
-function initTelegramBotDemo() {
-  const chatMessages = document.getElementById('tgChatMessages');
-  const actionButtons = document.getElementById('tgActionButtons');
-  const resetBtn = document.getElementById('tgResetBtn');
-  if (!chatMessages || !actionButtons) return;
-
-  function getTimeStr() {
-    const now = new Date();
-    return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-  }
-
-  function appendMsg(text, type = 'incoming') {
-    const msg = document.createElement('div');
-    msg.className = `tg-msg ${type}`;
-    msg.innerHTML = `<div>${text}</div><div class="tg-time">${getTimeStr()}</div>`;
-    chatMessages.appendChild(msg);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  function showTyping(callback, delay = 500) {
-    const typing = document.createElement('div');
-    typing.className = 'tg-msg incoming';
-    typing.id = 'tgTypingIndicator';
-    typing.innerHTML = '<span style="color:#5288C1; font-style:italic; font-size:12px;">typing...</span>';
-    chatMessages.appendChild(typing);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    setTimeout(() => {
-      if (typing.parentNode) typing.parentNode.removeChild(typing);
-      callback();
-    }, delay);
-  }
-
-  function setButtons(buttons) {
-    actionButtons.innerHTML = '';
-    buttons.forEach(btnInfo => {
-      const btn = document.createElement('button');
-      btn.className = 'tg-pill-btn';
-      btn.textContent = btnInfo.label;
-      btn.addEventListener('click', btnInfo.onClick);
-      actionButtons.appendChild(btn);
-    });
-  }
-
-  function startConversation() {
-    chatMessages.innerHTML = '';
-    appendMsg('👋 Welcome to <strong>NextGen Automation</strong>!<br>We engineer high-concurrency Telegram bots, MetaTrader 5 (MT5) dynamic licensing compilers, and automated payment gateways.', 'incoming');
-
-    setButtons([
-      {
-        label: '/start',
-        onClick: () => {
-          appendMsg('/start', 'outgoing');
-          showTyping(() => {
-            appendMsg('Welcome back! What capability would you like to explore?', 'incoming');
-            showServicesMenu();
-          }, 400);
-        }
-      },
-      {
-        label: 'Services',
-        onClick: () => {
-          appendMsg('Services', 'outgoing');
-          showServicesMenu();
-        }
-      }
-    ]);
-  }
-
-  function showServicesMenu() {
-    showTyping(() => {
-      appendMsg('Choose your service discipline:', 'incoming');
-      setButtons([
-        {
-          label: 'AI Automation',
-          onClick: () => {
-            appendMsg('AI Automation', 'outgoing');
-            showTyping(() => {
-              appendMsg('We build autonomous multi-agent systems, document extraction pipelines, and Supabase vector search.', 'incoming');
-              setButtons([{ label: 'Explore AI Page', onClick: () => window.location.href = 'agentic-ai-development.html' }, { label: 'Back to Menu', onClick: showServicesMenu }]);
-            }, 400);
-          }
-        },
-        {
-          label: 'Web Development',
-          onClick: () => {
-            appendMsg('Web Development', 'outgoing');
-            showTyping(() => {
-              appendMsg('We engineer high-velocity Next.js applications, multi-tenant SaaS dashboards, and e-commerce portals.', 'incoming');
-              setButtons([{ label: 'Explore Web Dev Page', onClick: () => window.location.href = 'web-development.html' }, { label: 'Back to Menu', onClick: showServicesMenu }]);
-            }, 400);
-          }
-        },
-        {
-          label: 'Telegram Bots',
-          onClick: () => {
-            appendMsg('Telegram Bots', 'outgoing');
-            showTyping(() => {
-              appendMsg('<strong>We build intelligent Telegram automation systems.</strong><br>Our architecture features MT5 dynamic bytecode compilers, automated VIP subscription paywalls, and high-speed trading signal distribution.', 'incoming');
-              setButtons([
-                {
-                  label: 'Get a Free Quote →',
-                  onClick: () => {
-                    const contactSection = document.getElementById('contact-tg') || document.getElementById('contact');
-                    if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                },
-                {
-                  label: 'Restart Demo',
-                  onClick: startConversation
-                }
-              ]);
-            }, 450);
-          }
-        }
-      ]);
-    }, 400);
-  }
-
-  if (resetBtn) {
-    resetBtn.addEventListener('click', startConversation);
-  }
-
-  // Initialize first state
-  startConversation();
+// Ensure initAIWorkflowStepper runs on DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAIWorkflowStepper);
+} else {
+  initAIWorkflowStepper();
 }
