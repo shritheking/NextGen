@@ -925,3 +925,268 @@ function initScrollHighlight() {
     observer.observe(section);
   });
 }
+
+
+/* ==========================================================================
+   NextGen Interactive AI Workflow Simulator & Telegram Bot Demo Handlers
+   Emil Kowalski Physics & Interaction Principles (Sub-300ms, Spring, No Flash)
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAIWorkflowStepper();
+  initTelegramBotDemo();
+});
+
+/* ---------- 1. Interactive AI Workflow Stepper ---------- */
+function initAIWorkflowStepper() {
+  const tabs = document.querySelectorAll('.workflow-tab');
+  const pipeline = document.getElementById('workflowPipeline');
+  const consoleEl = document.getElementById('workflowConsole');
+  if (!tabs.length || !pipeline || !consoleEl) return;
+
+  const workflows = {
+    support: {
+      name: 'Customer Support Triage',
+      steps: [
+        { title: 'USER INPUT', desc: 'Inbound message: "Our webhook failed with code 502, invoice #4029."' },
+        { title: 'AI AGENT', desc: 'Extracts intent: Webhook Failure. Entity: Invoice #4029. PII scrubbed.' },
+        { title: 'REASONING ENGINE', desc: 'LangGraph verifies customer SLA tier and checks error telemetry.' },
+        { title: 'TOOLS & APIS', desc: 'Dispatches query to PostgreSQL logs and Stripe webhook replay endpoint.' },
+        { title: 'AUTOMATED EXECUTION', desc: 'Replays event payload, marks invoice as verified in database.' },
+        { title: 'FINAL RESULT', desc: 'Dispatches resolution notice to customer and closes incident ticket.' }
+      ],
+      logs: [
+        { time: '00:00.010', tag: '[INGRESS]', msg: 'Inbound ticket received from API gateway.' },
+        { time: '00:00.042', tag: '[CLASSIFY]', msg: 'LLM intent classified: [INFRA_WEBHOOK_FAIL].' },
+        { time: '00:00.088', tag: '[LANGGRAPH]', msg: 'Routing to self-healing retry toolchain.' },
+        { time: '00:00.140', tag: '[STRIPE_API]', msg: 'POST /v1/webhook_endpoints/resend -> HTTP 200 OK.' },
+        { time: '00:00.198', tag: '[RESOLVED]', msg: 'Invoice #4029 synchronized. Notification sent.' }
+      ]
+    },
+    finance: {
+      name: 'Financial Ledger Reconciliation',
+      steps: [
+        { title: 'LEDGER INGRESS', desc: 'Daily batch upload: 1,420 bank statement rows received via SFTP.' },
+        { title: 'AI AGENT', desc: 'Parser sanitizes raw strings, normalizes transaction codes & dates.' },
+        { title: 'REASONING ENGINE', desc: 'Fuzzy matching model links bank deposits to internal invoice IDs.' },
+        { title: 'TOOLS & APIS', desc: 'Queries Supabase pgvector embedding database for vendor metadata.' },
+        { title: 'AUTOMATED EXECUTION', desc: 'Automatically clears 1,412 matched items; routes 8 to audit ledger.' },
+        { title: 'FINAL RESULT', desc: 'Generates GST-compliant reconciliation statement in PDF format.' }
+      ],
+      logs: [
+        { time: '00:00.008', tag: '[BATCH]', msg: '1,420 transactions streamed from banking bridge.' },
+        { time: '00:00.055', tag: '[VECTOR_MATCH]', msg: 'Similarity threshold 0.95: 1,412 auto-reconciled.' },
+        { time: '00:00.092', tag: '[AUDIT]', msg: '8 discrepancies flagged with confidence score < 0.70.' },
+        { time: '00:00.145', tag: '[PDF_ENGINE]', msg: 'Compiled signed GST reconciliation digest.' }
+      ]
+    },
+    bot: {
+      name: 'MT5 License Compiler',
+      steps: [
+        { title: 'TELEGRAM INGRESS', desc: 'User provides MT5 Account ID: #8849201 via Telegram inline query.' },
+        { title: 'VERIFICATION AGENT', desc: 'Validates payment receipt & checks broker server whitelist.' },
+        { title: 'REASONING ENGINE', desc: 'Generates unique hardware hash & embedded expiration timestamp.' },
+        { title: 'TOOLS & APIS', desc: 'Injects license parameters into raw MQL5 source tree on Windows runner.' },
+        { title: 'COMPILATION', desc: 'Invokes MetaEditor CLI in headless container. Output: EA_v4.ex5.' },
+        { title: 'TELEGRAM DISPATCH', desc: 'Dispatches locked .ex5 binary directly to client Telegram chat.' }
+      ],
+      logs: [
+        { time: '00:00.012', tag: '[TG_WEBHOOK]', msg: 'Account ID #8849201 validated against Razorpay order.' },
+        { time: '00:00.060', tag: '[INJECT]', msg: 'Cryptographic watermark and expiration injected.' },
+        { time: '00:01.820', tag: '[METAEDITOR]', msg: 'MQL5 compiler exited with code 0. Binary: 482 KB.' },
+        { time: '00:02.140', tag: '[DELIVER]', msg: 'Document dispatched to Telegram chat. License active.' }
+      ]
+    },
+    document: {
+      name: 'Contract & Invoice Parser',
+      steps: [
+        { title: 'FILE UPLOAD', desc: 'Scanned 14-page multi-vendor logistics contract (PDF/TIFF).' },
+        { title: 'VISION AGENT', desc: 'High-resolution OCR segmentation and structural layout bounding.' },
+        { title: 'REASONING ENGINE', desc: 'Extracts line items, tax rates, payment milestones, and penalty clauses.' },
+        { title: 'SCHEMA VALIDATION', desc: 'Zod schema verification: verifies line-item math and totals.' },
+        { title: 'API DISPATCH', desc: 'Streams structured JSON payloads into client ERP & database.' },
+        { title: 'FINAL RESULT', desc: '100% verified structured record created in under 4 seconds.' }
+      ],
+      logs: [
+        { time: '00:00.015', tag: '[OCR]', msg: '14 pages segmented into 180 layout blocks.' },
+        { time: '00:00.110', tag: '[ZOD]', msg: 'Schema integrity 100%. Tax checksum validated.' },
+        { time: '00:00.180', tag: '[ERP_SYNC]', msg: 'Synchronized with internal accounts database.' }
+      ]
+    }
+  };
+
+  function activateWorkflow(key) {
+    const data = workflows[key] || workflows.support;
+    const stepEls = pipeline.querySelectorAll('.pipeline-step');
+    
+    stepEls.forEach((el, idx) => {
+      if (data.steps[idx]) {
+        el.querySelector('.step-title').textContent = data.steps[idx].title;
+        el.querySelector('.step-desc').textContent = data.steps[idx].desc;
+      }
+      el.classList.remove('active');
+    });
+
+    // Animate stepping across the pipeline
+    stepEls[0].classList.add('active');
+    let curr = 0;
+    const interval = setInterval(() => {
+      stepEls[curr].classList.remove('active');
+      curr = (curr + 1) % stepEls.length;
+      stepEls[curr].classList.add('active');
+      if (curr === stepEls.length - 1) clearInterval(interval);
+    }, 450);
+
+    // Stream logs
+    consoleEl.innerHTML = '';
+    data.logs.forEach((item, i) => {
+      setTimeout(() => {
+        const line = document.createElement('div');
+        line.className = 'console-line enter-natural active';
+        line.innerHTML = `<span class="console-time">[${item.time}]</span> <span class="console-tag">${item.tag}</span> <span class="console-msg">${item.msg}</span>`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }, i * 220);
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const flowKey = tab.getAttribute('data-flow');
+      activateWorkflow(flowKey);
+    });
+  });
+
+  // Start with default
+  activateWorkflow('support');
+}
+
+/* ---------- 2. Interactive Telegram Bot Simulator ---------- */
+function initTelegramBotDemo() {
+  const chatMessages = document.getElementById('tgChatMessages');
+  const actionButtons = document.getElementById('tgActionButtons');
+  const resetBtn = document.getElementById('tgResetBtn');
+  if (!chatMessages || !actionButtons) return;
+
+  function getTimeStr() {
+    const now = new Date();
+    return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+  }
+
+  function appendMsg(text, type = 'incoming') {
+    const msg = document.createElement('div');
+    msg.className = `tg-msg ${type}`;
+    msg.innerHTML = `<div>${text}</div><div class="tg-time">${getTimeStr()}</div>`;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function showTyping(callback, delay = 500) {
+    const typing = document.createElement('div');
+    typing.className = 'tg-msg incoming';
+    typing.id = 'tgTypingIndicator';
+    typing.innerHTML = '<span style="color:#5288C1; font-style:italic; font-size:12px;">typing...</span>';
+    chatMessages.appendChild(typing);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    setTimeout(() => {
+      if (typing.parentNode) typing.parentNode.removeChild(typing);
+      callback();
+    }, delay);
+  }
+
+  function setButtons(buttons) {
+    actionButtons.innerHTML = '';
+    buttons.forEach(btnInfo => {
+      const btn = document.createElement('button');
+      btn.className = 'tg-pill-btn';
+      btn.textContent = btnInfo.label;
+      btn.addEventListener('click', btnInfo.onClick);
+      actionButtons.appendChild(btn);
+    });
+  }
+
+  function startConversation() {
+    chatMessages.innerHTML = '';
+    appendMsg('👋 Welcome to <strong>NextGen Automation</strong>!<br>We engineer high-concurrency Telegram bots, MetaTrader 5 (MT5) dynamic licensing compilers, and automated payment gateways.', 'incoming');
+
+    setButtons([
+      {
+        label: '/start',
+        onClick: () => {
+          appendMsg('/start', 'outgoing');
+          showTyping(() => {
+            appendMsg('Welcome back! What capability would you like to explore?', 'incoming');
+            showServicesMenu();
+          }, 400);
+        }
+      },
+      {
+        label: 'Services',
+        onClick: () => {
+          appendMsg('Services', 'outgoing');
+          showServicesMenu();
+        }
+      }
+    ]);
+  }
+
+  function showServicesMenu() {
+    showTyping(() => {
+      appendMsg('Choose your service discipline:', 'incoming');
+      setButtons([
+        {
+          label: 'AI Automation',
+          onClick: () => {
+            appendMsg('AI Automation', 'outgoing');
+            showTyping(() => {
+              appendMsg('We build autonomous multi-agent systems, document extraction pipelines, and Supabase vector search.', 'incoming');
+              setButtons([{ label: 'Explore AI Page', onClick: () => window.location.href = 'agentic-ai-development.html' }, { label: 'Back to Menu', onClick: showServicesMenu }]);
+            }, 400);
+          }
+        },
+        {
+          label: 'Web Development',
+          onClick: () => {
+            appendMsg('Web Development', 'outgoing');
+            showTyping(() => {
+              appendMsg('We engineer high-velocity Next.js applications, multi-tenant SaaS dashboards, and e-commerce portals.', 'incoming');
+              setButtons([{ label: 'Explore Web Dev Page', onClick: () => window.location.href = 'web-development.html' }, { label: 'Back to Menu', onClick: showServicesMenu }]);
+            }, 400);
+          }
+        },
+        {
+          label: 'Telegram Bots',
+          onClick: () => {
+            appendMsg('Telegram Bots', 'outgoing');
+            showTyping(() => {
+              appendMsg('<strong>We build intelligent Telegram automation systems.</strong><br>Our architecture features MT5 dynamic bytecode compilers, automated VIP subscription paywalls, and high-speed trading signal distribution.', 'incoming');
+              setButtons([
+                {
+                  label: 'Get a Free Quote →',
+                  onClick: () => {
+                    const contactSection = document.getElementById('contact-tg') || document.getElementById('contact');
+                    if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                },
+                {
+                  label: 'Restart Demo',
+                  onClick: startConversation
+                }
+              ]);
+            }, 450);
+          }
+        }
+      ]);
+    }, 400);
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', startConversation);
+  }
+
+  // Initialize first state
+  startConversation();
+}

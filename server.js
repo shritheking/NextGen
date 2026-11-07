@@ -1090,6 +1090,45 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+
+  // NextGen AI Chatbot API Endpoint
+  if (pathname === '/api/chat' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { message } = JSON.parse(body || '{}');
+        const q = (message || '').toLowerCase();
+        
+        let reply = '';
+        if (q.includes('ai') || q.includes('agent') || q.includes('rag') || q.includes('llm')) {
+          reply = "NextGen specializes in <strong>Agentic AI Engineering</strong>! We build custom autonomous agents, multi-agent pipelines (LangGraph), document extraction systems, and enterprise RAG on Supabase pgvector. Check our <a href='agentic-ai-development.html' style='color:var(--electric-blue); text-decoration:underline;'>Agentic AI Page</a> for details!";
+        } else if (q.includes('telegram') || q.includes('bot') || q.includes('mt5') || q.includes('trading')) {
+          reply = "Our <strong>Telegram Bot Engineering</strong> covers MetaTrader 5 (MT5) dynamic licensing compilers, VIP paid channel gatekeeper bots, signal distribution, and in-bot payments. You can reach lead engineer Shri Dharsan directly at <a href='https://t.me/shridharsan1' target='_blank' style='color:var(--electric-blue); text-decoration:underline;'>@shridharsan1</a>!";
+        } else if (q.includes('web') || q.includes('website') || q.includes('saas') || q.includes('react')) {
+          reply = "We build high-performance web applications and SaaS platforms using <strong>React 18, TypeScript, Tailwind CSS, and Node.js</strong>. All our web apps feature 99+ Lighthouse scores and sub-second edge loads! Visit our <a href='web-development.html' style='color:var(--electric-blue); text-decoration:underline;'>Web Development Page</a>.";
+        } else if (q.includes('price') || q.includes('cost') || q.includes('budget') || q.includes('quote')) {
+          reply = "Our pricing is transparent and milestone-based. Standard web apps and Telegram bots typically range from ₹1,50,000 to ₹3,00,000, while complex SaaS platforms and Agentic AI architectures range upward. Submit your requirements on our <a href='contact.html' style='color:var(--electric-blue); text-decoration:underline;'>Contact Page</a> for a precise quote!";
+        } else if (q.includes('coimbatore') || q.includes('location') || q.includes('where') || q.includes('address')) {
+          reply = "NextGen Web Studio is headquartered in <strong>Coimbatore, Tamil Nadu, India</strong>! We serve clients across India and internationally in the US, Europe, and the Middle East.";
+        } else if (q.includes('contact') || q.includes('phone') || q.includes('email') || q.includes('whatsapp')) {
+          reply = "You can reach us immediately via <strong>WhatsApp at <a href='https://wa.me/916379140067' target='_blank' style='color:var(--electric-blue); text-decoration:underline;'>+91 63791 40067</a></strong> or email us at <strong>nextgenwebstudio63@gmail.com</strong>. We reply within 4 business hours!";
+        } else if (q.includes('time') || q.includes('timeline') || q.includes('how long')) {
+          reply = "Standard production web apps and Telegram bots take <strong>1 to 3 weeks</strong>. Full SaaS suites or multi-agent AI ecosystems take <strong>4 to 8 weeks</strong> with daily sprint updates.";
+        } else {
+          reply = "Thank you for asking! NextGen Web Studio engineers Agentic AI, full-stack web applications, and Telegram bots. Would you like to explore our <a href='services.html' style='color:var(--electric-blue); text-decoration:underline;'>Services Hub</a> or chat on <a href='https://wa.me/916379140067' target='_blank' style='color:var(--electric-blue); text-decoration:underline;'>WhatsApp</a>?";
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ response: reply }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Chat API processing error' }));
+      }
+    });
+    return;
+  }
+
   // Handle Contact API (Splits submissions between projects and inquiries)
   if (pathname === '/api/contact' && req.method === 'POST') {
     let body = '';
@@ -3808,15 +3847,27 @@ function parseBudgetToNumber(budgetString) {
     return;
   }
 
+  // Clean URL resolution: if path has no extension, check if corresponding .html exists
+  if (!path.extname(pathname)) {
+    const candidateHtml = filePath + '.html';
+    if (fs.existsSync(candidateHtml)) {
+      filePath = candidateHtml;
+    }
+  }
+
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html for SPA router (or 404 for assets with extensions)
-      if (path.extname(pathname)) {
+      // Fallback to 404.html if it exists, or index.html
+      const notFoundPage = path.join(__dirname, '404.html');
+      if (fs.existsSync(notFoundPage) && path.extname(pathname) === '') {
+        filePath = notFoundPage;
+      } else if (path.extname(pathname)) {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('404 Not Found');
         return;
+      } else {
+        filePath = path.join(__dirname, 'index.html');
       }
-      filePath = path.join(__dirname, 'index.html');
     }
 
     const ext = path.extname(filePath).toLowerCase();
