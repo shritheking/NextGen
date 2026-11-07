@@ -2,140 +2,210 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Services &amp; Capabilities | NextGen Web Studio Coimbatore</title>
-  <meta name="description" content="Explore our three core engineering pillars: Agentic AI Systems, High-Performance Web Applications, and Telegram Bot Automation. Based in Coimbatore, India.">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services & Capabilities | NextGen Web Studio Coimbatore</title>
+  <meta name="description" content="Agentic AI Development, High-Performance Web Applications, and Telegram Bot Engineering.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dark-theme">
-  <header class="header" id="mainHeader">
-    <div class="nav-container">
-      <a href="/" class="brand"><span class="brand-badge">NEXTGEN</span><span class="brand-text">WEB STUDIO</span></a>
-      <nav class="nav-links">
-        <a href="/" class="nav-link">Home</a>
-        <a href="services.html" class="nav-link active">Services</a>
-        <a href="agentic-ai-development.html" class="nav-link">Agentic AI</a>
-        <a href="web-development.html" class="nav-link">Web Dev</a>
-        <a href="telegram-bot-development.html" class="nav-link">Telegram Bots</a>
-        <a href="portfolio.html" class="nav-link">Portfolio</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+  <header>
+    <div class="wrap nav-container">
+      <a href="index.html" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
+      </a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="services.html" class="active" style="color:var(--accent);">services</a>
+          <a href="agentic-ai-development.html">agentic ai</a>
+          <a href="web-development.html">web dev</a>
+          <a href="telegram-bot-development.html">telegram bots</a>
+          <a href="portfolio.html">work</a>
+          <a href="about.html">about</a>
+          <a href="contact.html">contact</a>
+          <a href="client.html">client portal</a>
+        </div>
+        <a href="contact.html" class="nav-cta">start a project</a>
       </nav>
-      <div class="nav-actions">
-        <a href="client.html" class="portal-link">Client Portal</a>
-        <a href="contact.html" class="btn btn-primary nav-cta">Start a Project</a>
+
+      <div class="mobile-nav-actions">
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero-section" style="padding: 120px 0 60px;">
-      <div class="container text-center" style="max-width: 800px;">
-        <span class="section-tag">SERVICES CATALOG</span>
-        <h1 class="hero-title" style="font-size: clamp(34px, 5vw, 56px); margin: 16px 0;">
-          Engineered For Speed, Scale &amp; <br><span class="gradient-text">Complete Autonomy.</span>
-        </h1>
-        <p class="hero-description" style="margin: 0 auto 30px;">
-          NextGen Web Studio is an engineering agency built for tech-forward businesses. We replace disjointed contractors with a cohesive technical execution partner.
-        </p>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html">home</a>
+      <a href="services.html">services</a>
+      <a href="agentic-ai-development.html">agentic ai</a>
+      <a href="web-development.html">web dev</a>
+      <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="portfolio.html">work</a>
+      <a href="about.html">about</a>
+      <a href="contact.html">contact</a>
+      <a href="client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
+      <a href="contact.html" class="drawer-cta btn-primary">start a project</a>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <main class="wrap">
+    <section class="hero" id="home">
+      <div class="eyebrow-cli">
+        <span class="eb-path"><i class="fa-solid fa-layer-group"></i> ~/services-catalog</span>
+        <span class="eb-branch"><i class="fa-solid fa-code-branch"></i> git:(main)</span>
+        <span class="eb-status"><i class="fa-solid fa-circle-check"></i> status: active</span>
       </div>
-    </section>
 
-    <!-- 3 Pillars Grid -->
-    <section class="services-flagship-section" style="padding-bottom: 90px;">
-      <div class="container">
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-badge">01 • AGENTIC AI</div>
-            <h3 class="service-title">Agentic AI Development</h3>
-            <p class="service-description">Autonomous multi-agent swarms, custom LangGraph pipelines, and enterprise private RAG retrieval systems on Supabase pgvector.</p>
-            <ul class="service-features">
-              <li>Cyclic multi-agent state machines</li>
-              <li>Enterprise knowledge base RAG</li>
-              <li>Document intelligence &amp; OCR parsing</li>
-              <li>Autonomous customer support workflows</li>
-            </ul>
-            <a href="agentic-ai-development.html" class="service-cta">Deep Dive: Agentic AI &rarr;</a>
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <h1>Three Specialized <br><span class="gradient-text">Engineering Disciplines.</span></h1>
+          <p class="hero-sub">We don't offer generic 50-service agency menus. We focus relentlessly on three high-impact technical disciplines engineered to give founders an unfair advantage.</p>
+          <div class="hero-actions">
+            <a href="contact.html" class="btn-primary">Start a Project <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="portfolio.html" class="btn-ghost">View Our Work</a>
           </div>
+        </div>
 
-          <div class="service-card">
-            <div class="service-badge">02 • WEB DEVELOPMENT</div>
-            <h3 class="service-title">High-Performance Web Applications</h3>
-            <p class="service-description">Modern Next.js and React full-stack applications engineered for sub-second page loads, conversion velocity, and robust security.</p>
-            <ul class="service-features">
-              <li>Next.js &amp; TypeScript architectures</li>
-              <li>Multi-tenant SaaS dashboards</li>
-              <li>Razorpay &amp; Stripe checkout systems</li>
-              <li>Sub-second Core Web Vitals standard</li>
-            </ul>
-            <a href="web-development.html" class="service-cta">Deep Dive: Web Development &rarr;</a>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">03 • TELEGRAM ENGINEERING</div>
-            <h3 class="service-title">Telegram Bot Engineering</h3>
-            <p class="service-description">High-throughput automated Telegram ecosystems: MT5 dynamic licensing compilers, VIP paywall gates, and real-time signal distribution.</p>
-            <ul class="service-features">
-              <li>MetaTrader 5 EA binary compilers</li>
-              <li>VIP channel paywall subscription bots</li>
-              <li>High-frequency trading signal relays</li>
-              <li>High-concurrency GramJS/Python webhooks</li>
-            </ul>
-            <a href="telegram-bot-development.html" class="service-cta">Deep Dive: Telegram Bots &rarr;</a>
+        <div class="terminal-container">
+          <div class="terminal" aria-hidden="true">
+            <div class="term-bar">
+              <div class="term-dot close"></div>
+              <div class="term-dot minimize"></div>
+              <div class="term-dot expand"></div>
+              <span class="term-title">services &bull; index</span>
+            </div>
+            <div class="term-body">
+              <div class="term-history">
+                <div class="term-line"><span class="term-prompt">$</span> ls -la services/</div>
+                <div class="term-line output">drwx 01_agentic_ai_development/</div>
+                <div class="term-line output">drwx 02_fullstack_web_platforms/</div>
+                <div class="term-line output">drwx 03_telegram_bot_engineering/</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line"><span class="term-prompt">$</span> nextgen.guarantee</div>
+                <div class="term-line output">100% Code Ownership &bull; Sub-Second Speed &bull; Fixed Pricing</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Global CTA -->
-    <section class="cta-section" style="border-top: 1px solid var(--border);">
-      <div class="container text-center" style="max-width: 680px; padding: 70px 0;">
-        <h2 style="font-family: var(--font-display); font-size: 32px; color: var(--ink); margin-bottom: 16px;">Ready to Scope Your System?</h2>
-        <p style="color: var(--ink-soft); font-size: 15px; margin-bottom: 28px;">Contact our engineering leads directly on WhatsApp or submit a brief.</p>
-        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-          <a href="contact.html" class="btn btn-primary">Submit Technical Brief</a>
-          <a href="https://wa.me/916379140067" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">WhatsApp: +91 63791 40067</a>
-        </div>
+    <section class="block" id="catalog">
+      <div class="path-label">~/capabilities</div>
+      <div class="section-head">
+        <h2>Flagship Capabilities</h2>
+        <p class="section-note">Click any service to view full technical specifications and architectures.</p>
+      </div>
+
+      <div class="services-grid">
+        <a href="agentic-ai-development.html" class="service-card card-design" style="text-decoration:none;">
+          <div class="service-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>01. Agentic AI Development <span class="card-arrow">&rarr;</span></h3>
+          <p>Autonomous multi-agent swarms, LangGraph cyclic pipelines, Supabase pgvector RAG, and document intelligence.</p>
+        </a>
+
+        <a href="web-development.html" class="service-card card-build" style="text-decoration:none;">
+          <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+          <h3>02. Full-Stack Web Development <span class="card-arrow">&rarr;</span></h3>
+          <p>Next.js &amp; React web apps, multi-tenant SaaS dashboards, dynamic booking engines, and custom APIs.</p>
+        </a>
+
+        <a href="telegram-bot-development.html" class="service-card card-telegram" style="text-decoration:none;">
+          <div class="service-icon"><i class="fa-brands fa-telegram"></i></div>
+          <h3>03. Telegram Bot Engineering <span class="card-arrow">&rarr;</span></h3>
+          <p>MetaTrader 5 (MT5) dynamic licensing compilers, VIP channel paywall gates, and high-frequency signal distribution.</p>
+        </a>
       </div>
     </section>
   </main>
-
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col brand-col">
-        <a href="/" class="brand"><span class="brand-badge">NEXTGEN</span><span class="brand-text">WEB STUDIO</span></a>
-        <p class="footer-tagline">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures."</p>
-        <div class="footer-location">Coimbatore, Tamil Nadu, India</div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures." Engineered from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://t.me/shridharsan1" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:nextgenwebstudio63@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Flagship Services</h4>
+          <ul>
+            <li><a href="agentic-ai-development.html">Agentic AI Systems</a></li>
+            <li><a href="web-development.html">Web Development</a></li>
+            <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
+            <li><a href="client.html">Client Portal</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+            <li><i class="fa-solid fa-clock"></i> Mon-Sat, 9:00 AM - 6:00 PM</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <div class="footer-heading">Services</div>
-        <ul class="footer-links">
-          <li><a href="agentic-ai-development.html">Agentic AI</a></li>
-          <li><a href="web-development.html">Web Development</a></li>
-          <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Company</div>
-        <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="client.html">Client Portal</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Legal</div>
-        <ul class="footer-links">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms &amp; Conditions</a></li>
-          <li><a href="refunds.html">Refund Policy</a></li>
-        </ul>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
       </div>
     </div>
   </footer>
+
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
   <script src="app.js"></script>
 </body>
 </html>

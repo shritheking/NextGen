@@ -1,288 +1,1057 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Telegram Bot Development Services | NextGen Web Studio Coimbatore</title>
-  <meta name="description" content="Custom Telegram bot engineering, MetaTrader 5 (MT5) dynamic licensing compilers, VIP paid channel automation, and high-concurrency trading bots in Coimbatore.">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRW7H5TQ4Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XRW7H5TQ4Z');
+  </script>
 
-  <!-- Google Fonts -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Bot Development Services | NextGen Web Studio</title>
+  <meta name="description" content="Custom Telegram bot development — automation, payments, admin panels, and API integrations. Built and deployed by NextGen Web Studio, Coimbatore.">
+  <meta name="keywords" content="Telegram Bot Development, Custom Telegram Bots, Automation Bots, Python Bot Developer, NextGen Web Studio, Bot Integration, Payment Bots">
+  <link rel="canonical" href="https://nextgenwebstudio.in/telegram-bot-development.html">
+  <link rel="manifest" href="site.webmanifest">
+  
+  <!-- Open Graph (Social Sharing) -->
+  <meta property="og:title" content="Telegram Bot Development Services | NextGen Web Studio">
+  <meta property="og:description" content="Custom Telegram bot development — automation, payments, admin panels, and API integrations. Built and deployed by NextGen Web Studio, Coimbatore.">
+  <meta property="og:image" content="https://nextgenwebstudio.in/og-image.png">
+  <meta property="og:url" content="https://nextgenwebstudio.in">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Previews -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Telegram Bot Development Services | NextGen Web Studio">
+  <meta name="twitter:description" content="Custom Telegram bot development — automation, payments, admin panels, and API integrations. Built and deployed by NextGen Web Studio, Coimbatore.">
+  <meta name="twitter:image" content="https://nextgenwebstudio.in/og-image.png">
+
+  <!-- Favicon Branding -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Structured Data Array (LocalBusiness, Organization, WebSite, FAQPage) -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "NextGen Web Studio",
+      "image": "https://nextgenwebstudio.in/og-image.png",
+      "@id": "https://nextgenwebstudio.in/#localbusiness",
+      "url": "https://nextgenwebstudio.in",
+      "telephone": "+916379140067",
+      "email": "nextgenwebstudio63@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Coimbatore",
+        "addressLocality": "Coimbatore",
+        "addressRegion": "Tamil Nadu",
+        "postalCode": "641001",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 11.0168,
+        "longitude": 76.9558
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "NextGen Web Studio",
+      "url": "https://nextgenwebstudio.in",
+      "logo": "https://nextgenwebstudio.in/favicon-32x32.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+916379140067",
+        "contactType": "customer service",
+        "email": "nextgenwebstudio63@gmail.com"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NextGen Web Studio",
+      "url": "https://nextgenwebstudio.in",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://nextgenwebstudio.in/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are you a professional Website Development Company in Coimbatore?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, NextGen Web Studio is a premium website development company in Coimbatore, India. We engineer custom web applications, responsive portfolios, and tailored business software integrations to help startups and companies establish a powerful visual footprint."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What technologies do you use for Custom Web Application Development?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We specialize in custom web application development utilizing modern full-stack architectures, primarily React and Node.js development. This configuration provides blazing fast load performance, real-time sync connections, secure session structures, and lightweight database configurations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer E-commerce Website Development services?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, our e-commerce website development solutions leverage high-speed digital architecture, optimized checkouts, secure Razorpay transaction configurations, and interactive filters. We build bespoke storefront layouts without bloated drag-and-drop engines, maximizing conversions and Google speed metrics."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you integrate custom AI Solutions into corporate portals?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. We build and integrate custom AI solutions, speech evaluation APIs, automated document parsing pipelines, and interactive AI chatbot frameworks directly into customer portals or workflow dashboards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you assist with Google search indexing and maintenance audits?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All our digital products receive technical SEO checks, search console verification sitemap submissions, security header alerts, and PWA manifest links. We also offer hosting setup and website maintenance retentions."
+          }
+        }
+      ]
+    }
+  ]
+  </script>
+
+  <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
+  <!-- Loading Screen Loader -->
+  <div id="loader-screen">
+    <div class="loader-content">
+      <svg class="loader-logo" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+    </div>
+  </div>
+  <script>
+    // Failsafe: Hide loader after 1500ms even if document scripts hang
+    setTimeout(() => {
+      const failsafeLoader = document.getElementById('loader-screen');
+      if (failsafeLoader && !failsafeLoader.classList.contains('fade-out')) {
+        failsafeLoader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }
+    }, 1500);
+  </script>
 
   <!-- Header -->
-  <header class="header" id="mainHeader">
-    <div class="nav-container">
-      <a href="/" class="brand" aria-label="NextGen Web Studio Home">
-        <span class="brand-badge">NEXTGEN</span>
-        <span class="brand-text">WEB STUDIO</span>
+  <header>
+    <div class="wrap nav-container">
+      <a href="#" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
       </a>
-
-      <nav class="nav-links" id="navLinks" aria-label="Main Navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="services.html" class="nav-link">Services</a>
-        <a href="agentic-ai-development.html" class="nav-link">Agentic AI</a>
-        <a href="web-development.html" class="nav-link">Web Dev</a>
-        <a href="telegram-bot-development.html" class="nav-link active">Telegram Bots</a>
-        <a href="portfolio.html" class="nav-link">Portfolio</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="services.html">services</a>
+          <a href="agentic-ai-development.html">agentic ai</a>
+          <a href="web-development.html">web dev</a>
+          <a href="telegram-bot-development.html" class="active" style="color:var(--accent);">telegram bots</a>
+          <a href="portfolio.html">work</a>
+          <a href="about.html">about</a>
+          <a href="contact.html">contact</a>
+          <a href="client.html">client portal</a>
+        </div>
+        <a href="contact.html" class="nav-cta">start a project</a>
       </nav>
 
-      <div class="nav-actions">
-        <a href="client.html" class="portal-link">Client Portal</a>
-        <a href="#contact-tg" class="btn btn-primary nav-cta">Deploy a Bot</a>
+      <div class="mobile-nav-actions">
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-section" style="padding: 120px 0 60px;">
-      <div class="container text-center" style="max-width: 900px;">
-        <div class="hero-badge" style="margin: 0 auto 20px;">
-          <span class="pulse-dot"></span>
-          <span>HIGH-CONCURRENCY BOT ARCHITECTURE</span>
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html#home">home</a>
+      <a href="index.html#services">services</a>
+      <a href="index.html#work">work</a>
+      <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="index.html#process">process</a>
+      <a href="#contact">contact</a>
+      <a href="client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
+      <a href="#contact" class="drawer-cta btn-primary">start a project</a>
+    </div>
+    <div class="drawer-theme-section" style="margin-top: auto; padding-top: 16px; margin-bottom: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.05em;">THEME</span>
+      <button id="drawerThemeToggleBtn" aria-label="Toggle light/dark theme" style="background: var(--bg-alt); border: 1px solid var(--border); width: 40px; height: 40px; border-radius: 50%; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast);">
+        <i class="fa-solid fa-sun" style="font-size: 14px;"></i>
+        <i class="fa-solid fa-moon" style="font-size: 14px;"></i>
+      </button>
+    </div>
+    <div class="drawer-footer" style="margin-top: 0; padding-top: 0;">
+      <p><i class="fa-solid fa-envelope"></i> nextgenwebstudio63@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> +91 63791 40067</p>
+      <p><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</p>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <main class="wrap">
+    <!-- TELEGRAM HERO -->
+    <section id="home" class="hero">
+      <div class="path-label" style="margin-bottom: 24px;">~/telegram-bot-development</div>
+      
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <h1 style="font-size: clamp(36px, 5vw, 64px); line-height: 1.1; margin-bottom: 24px;">BUILD → AUTOMATE → SCALE<br><span class="gradient-text">Telegram Bots</span><br>That Actually Do Work.</h1>
+          <p class="hero-sub" style="font-size: 18px; color: var(--ink-soft); margin-bottom: 32px; line-height: 1.6;">Custom Telegram bots built for automation, payments, notifications, APIs and business workflows. Your bot. Your workflow. Your infrastructure.</p>
+          <div class="hero-actions">
+            <a href="#contact?service=Telegram+Bot" class="btn-primary" onclick="document.querySelector('[data-value=\'Telegram Bot\']').click();">start a project <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#capabilities" class="btn-ghost">view capabilities</a>
+          </div>
+          <div style="margin-top: 24px; font-family: var(--font-mono); font-size: 13px;">
+            <a href="https://t.me/shridharsan1" target="_blank" style="color: var(--ink-soft); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--ink-soft)'">
+              <i class="fa-brands fa-telegram" style="font-size: 16px;"></i> Test our live Telegram demo bot &rarr;
+            </a>
+          </div>
         </div>
-        <h1 class="hero-title" style="font-size: clamp(36px, 5vw, 64px); line-height: 1.15;">
-          Intelligent Telegram Bots <br>
-          <span class="gradient-text">Engineered for Automated Scale.</span>
-        </h1>
-        <p class="hero-description" style="margin: 20px auto 36px; max-width: 720px; font-size: 18px;">
-          From MetaTrader 5 (MT5) dynamic licensing compiler engines to VIP subscription gatekeepers, automated trading signal relays, and AI conversational assistants.
-        </p>
-        <div class="hero-ctas" style="justify-content: center;">
-          <a href="#interactive-telegram-demo" class="btn btn-primary">Try Interactive Telegram Demo</a>
-          <a href="#contact-tg" class="btn btn-secondary">Request Bot Proposal</a>
+
+        <div class="terminal-container">
+          <div class="terminal" aria-hidden="true" style="transform: none; animation: none;">
+            <div class="term-bar">
+              <div class="term-dot close"></div>
+              <div class="term-dot minimize"></div>
+              <div class="term-dot expand"></div>
+              <span class="term-title">bash — telegram_bot.init()</span>
+            </div>
+            <div class="term-body" id="termBody" style="min-height: 280px; font-size: 13px;">
+              <div class="term-history">
+                <div class="term-line output" style="color: #E0FF4F;">BOT STATUS</div>
+                <div class="term-line output">● ONLINE</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/start</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/order</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/status</div>
+                <div class="term-line output" style="color: var(--ink-faint);">/support</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line output">API ................. <span style="color: #4ADE80;">CONNECTED</span></div>
+                <div class="term-line output">DATABASE ............ <span style="color: #4ADE80;">CONNECTED</span></div>
+                <div class="term-line output">PAYMENTS ............ <span style="color: #4ADE80;">CONNECTED</span></div>
+                <div class="term-line output">WEBHOOK ............. <span style="color: #4ADE80;">ACTIVE</span></div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line output"><span style="color: #E0FF4F;">nextgen@server:~$</span> <span class="term-blink" style="background: var(--ink); width: 8px; height: 15px; display: inline-block; vertical-align: middle;"></span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
-    <!-- REALISTIC INTERACTIVE TELEGRAM BOT DEMONSTRATION -->
-    <section class="workflow-section" id="interactive-telegram-demo">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">SIMULATED BOT RUNTIME</span>
-          <h2 class="section-title">Interactive Telegram Bot Demonstration</h2>
-          <p class="section-sub">Experience how our bots respond with instant sub-second interactivity and customized inline action keyboards.</p>
+    
+    <!-- CAPABILITIES SECTION -->
+    <section class="block" id="capabilities">
+      <div class="path-label">~/capabilities</div>
+      <div class="section-head">
+        <h2>What We Build</h2>
+        <p class="section-note">Custom Telegram integrations designed around your exact business workflow.</p>
+      </div>
+      <style>
+        .service-card {
+          height: 100%;
+          border: 1px solid var(--border);
+          transition: all 0.3s ease;
+        }
+        .service-card:hover {
+          border-color: var(--accent);
+          box-shadow: 0 8px 30px rgba(224, 255, 79, 0.05);
+          transform: translateY(-4px);
+        }
+      </style>
+      <div class="services-grid">
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">01</div>
+            <i class="fa-solid fa-robot" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Custom Telegram Bots</h3>
+          <p style="margin-bottom: 0;">Bots designed around your exact business workflow and specific industry needs.</p>
         </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">02</div>
+            <i class="fa-solid fa-gears" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Business Automation</h3>
+          <p style="margin-bottom: 0;">Automate repetitive tasks, team notifications, and internal company workflows.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">03</div>
+            <i class="fa-solid fa-credit-card" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Payment Bots</h3>
+          <p style="margin-bottom: 0;">Accept Razorpay/Stripe payments, handle order confirmation, and automated receipts.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">04</div>
+            <i class="fa-solid fa-plug" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">API Integrations</h3>
+          <p style="margin-bottom: 0;">Connect Telegram directly with your existing websites, CRMs, APIs and SaaS tools.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">05</div>
+            <i class="fa-solid fa-database" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Database Systems</h3>
+          <p style="margin-bottom: 0;">Robust PostgreSQL data structures for user, order, license and application state management.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">06</div>
+            <i class="fa-solid fa-shield-halved" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Admin Bots</h3>
+          <p style="margin-bottom: 0;">Securely manage users, ban accounts, review orders, and monitor operations directly via Telegram.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">07</div>
+            <i class="fa-solid fa-headset" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Customer Support</h3>
+          <p style="margin-bottom: 0;">Interactive navigation menus, dynamic FAQs, ticket routing systems and automated responses.</p>
+        </div>
+        <div class="service-card" style="grid-column: span 6;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div style="font-family: var(--font-mono); color: var(--accent); font-size: 13px; font-weight: 700; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; background: rgba(224,255,79,0.05);">08</div>
+            <i class="fa-solid fa-chart-line" style="font-size: 24px; color: var(--ink-faint);"></i>
+          </div>
+          <h3 style="margin-bottom: 12px; font-size: 20px;">Trading Integrations</h3>
+          <p style="margin-bottom: 0;">Real-time Telegram notifications, secure license delivery, and MT5-related backend automation.</p>
+        </div>      </div>
+    </section>
 
-        <div class="tg-demo-container">
-          <div class="tg-demo-header">
+        <!-- HOW IT WORKS -->
+        <!-- Interactive Telegram Bot Simulator Block -->
+    <section class="block" id="interactive-demo">
+      <div class="path-label">~/interactive-bot-simulator</div>
+      <div class="section-head">
+        <h2>Live Telegram Bot Simulator</h2>
+        <p class="section-note">Test our responsive Telegram bot flows in real-time. Click commands below to interact.</p>
+      </div>
+
+      <div class="tg-demo-container">
+        <div class="tg-demo-header">
+          <div class="tg-demo-header-left">
             <div class="tg-demo-avatar">NG</div>
-            <div class="tg-demo-meta">
+            <div>
               <div class="tg-demo-name">NextGen Automation Bot</div>
-              <div class="tg-demo-sub">bot • verified runtime</div>
+              <div class="tg-demo-sub">bot &bull; online</div>
             </div>
-            <button id="tgResetBtn" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#A1A1AA; border-radius:6px; font-size:11px; padding:4px 8px; cursor:pointer;">Reset Demo</button>
           </div>
+          <button id="tgResetBtn" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#A1A1AA; border-radius:6px; font-size:11px; padding:4px 8px; cursor:pointer;">Reset</button>
+        </div>
 
-          <div class="tg-demo-messages" id="tgChatMessages">
-            <!-- Messages will be rendered dynamically by JavaScript -->
-          </div>
+        <div class="tg-demo-messages" id="tgChatMessages">
+          <!-- Messages populated by app.js -->
+        </div>
 
-          <div class="tg-demo-actions" id="tgActionButtons">
-            <!-- Interactive keyboard buttons -->
+        <div class="tg-demo-actions" id="tgActionButtons">
+          <!-- Buttons populated by app.js -->
+        </div>
+      </div>
+    </section>
+
+<section class="block" id="workflow">
+      <div class="path-label">~/workflow</div>
+      <div class="section-head">
+        <h2>How We Build It</h2>
+        <p class="section-note">From command to deployment.</p>
+      </div>
+      <style>
+      .process-list {
+        position: relative;
+      }
+      .process-list::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        bottom: 20px;
+        left: 17px;
+        width: 2px;
+        background: var(--border);
+        z-index: 0;
+      }
+      .process-item {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 30px;
+      }
+      .process-node {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--bg-card);
+        border: 2px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+        z-index: 2;
+      }
+      .process-content {
+        margin-left: 60px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+      .process-item:hover .process-content {
+        border-color: var(--accent);
+      }
+      </style>
+      <div class="process-list">
+        
+        <div class="process-item">
+          <div class="process-node">01</div>
+          <div class="process-content">
+            <div class="process-content-header">
+              <h3><i class="fa-solid fa-list-check"></i> Define</h3>
+              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1-2 Days</span>
+            </div>
+            <p>Understand your exact business workflow and Telegram bot requirements.</p>
+            <span class="process-accent-cmd">$ run define-workflow</span>
+            <ul class="process-deliverables">
+              <li><i class="fa-solid fa-check"></i> Requirement Analysis</li>
+              <li><i class="fa-solid fa-check"></i> Feature Blueprint</li>
+              <li><i class="fa-solid fa-check"></i> API Checklist</li>
+            </ul>
           </div>
         </div>
-        <p style="text-align: center; margin-top: 14px; font-size: 12px; color: var(--ink-faint);">
-          *Interactive browser simulation showcasing the /start &rarr; Services &rarr; Telegram Bots conversation scenario.
+
+        <div class="process-item">
+          <div class="process-node">02</div>
+          <div class="process-content">
+            <div class="process-content-header">
+              <h3><i class="fa-solid fa-sitemap"></i> Design</h3>
+              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1-2 Days</span>
+            </div>
+            <p>Design commands, menus, states and conversational interaction flow.</p>
+            <span class="process-accent-cmd">$ run design-flow</span>
+            <ul class="process-deliverables">
+              <li><i class="fa-solid fa-check"></i> Command Structure</li>
+              <li><i class="fa-solid fa-check"></i> Menu Architecture</li>
+              <li><i class="fa-solid fa-check"></i> Error Handling Flow</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-item">
+          <div class="process-node">03</div>
+          <div class="process-content">
+            <div class="process-content-header">
+              <h3><i class="fa-solid fa-plug"></i> Connect</h3>
+              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1-2 Weeks</span>
+            </div>
+            <p>Build the backend and integrate APIs, databases, payments and third-party services.</p>
+            <span class="process-accent-cmd">$ run build --api</span>
+            <ul class="process-deliverables">
+              <li><i class="fa-solid fa-check"></i> Backend Integration</li>
+              <li><i class="fa-solid fa-check"></i> Payment Gateways</li>
+              <li><i class="fa-solid fa-check"></i> Database Setup</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-item">
+          <div class="process-node">04</div>
+          <div class="process-content">
+            <div class="process-content-header">
+              <h3><i class="fa-solid fa-rocket"></i> Deploy</h3>
+              <span class="duration-badge"><i class="fa-solid fa-clock"></i> 1 Day</span>
+            </div>
+            <p>Deploy the bot to reliable cloud infrastructure with active webhooks.</p>
+            <span class="process-accent-cmd">$ run deploy --webhook</span>
+            <ul class="process-deliverables">
+              <li><i class="fa-solid fa-check"></i> Cloud Hosting</li>
+              <li><i class="fa-solid fa-check"></i> Webhook Registration</li>
+              <li><i class="fa-solid fa-check"></i> Environment Secrets</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="process-item">
+          <div class="process-node">05</div>
+          <div class="process-content">
+            <div class="process-content-header">
+              <h3><i class="fa-solid fa-bolt"></i> Automate</h3>
+              <span class="duration-badge"><i class="fa-solid fa-clock"></i> Ongoing</span>
+            </div>
+            <p>The bot handles the repetitive work automatically. You focus on scaling.</p>
+            <span class="process-accent-cmd">$ run scale</span>
+            <ul class="process-deliverables">
+              <li><i class="fa-solid fa-check"></i> 24/7 Uptime</li>
+              <li><i class="fa-solid fa-check"></i> User Management</li>
+              <li><i class="fa-solid fa-check"></i> Operations Dashboard</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="block" id="tech-stack">
+      <div class="path-label">~/tech-stack</div>
+      <div class="section-head">
+        <h2>Telegram Bot Stack</h2>
+      </div>
+      <div class="filters" style="justify-content: center; margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; max-width: 800px; margin-left: auto; margin-right: auto;">
+        <span class="filter-btn">Telegram Bot API</span>
+        <span class="filter-btn">Python</span>
+        <span class="filter-btn">Node.js</span>
+        <span class="filter-btn">FastAPI</span>
+        <span class="filter-btn">Express</span>
+        <span class="filter-btn">PostgreSQL</span>
+        <span class="filter-btn">Supabase</span>
+        <span class="filter-btn">REST APIs</span>
+        <span class="filter-btn">Webhooks</span>
+        <span class="filter-btn">Docker</span>
+        <span class="filter-btn">Render</span>
+        <span class="filter-btn">Vercel</span>
+        <span class="filter-btn">Razorpay</span>
+      </div>
+    </section>
+
+    <!-- CASE STUDY -->
+    <section class="block" id="case-study" style="padding-top: 60px; padding-bottom: 80px; border-top: 1px solid var(--border);">
+      <div class="path-label">~/case-study</div>
+      
+      <div class="section-head" style="margin-bottom: 40px;">
+        <h2 style="font-size: clamp(24px, 3vw, 32px); margin-bottom: 8px;">CASE STUDY // TELEGRAM AUTOMATION</h2>
+        <p class="section-note" style="font-family: var(--font-mono); color: var(--accent); font-size: 14px;">Infinity Trader — MT5 License &amp; Delivery System</p>
+      </div>
+
+<div class="social-proof-banner" style="display: flex; align-items: center; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap;">
+        <div style="text-align: center;">
+          <div style="font-size: 28px; font-weight: 700; color: var(--ink); font-family: var(--font-display);">15+</div>
+          <div style="font-size: 12px; color: var(--ink-soft); font-family: var(--font-mono); text-transform: uppercase;">Bots Deployed</div>
+        </div>
+        <div style="width: 1px; height: 30px; background: var(--border);"></div>
+        <div style="text-align: center;">
+          <div style="font-size: 28px; font-weight: 700; color: var(--ink); font-family: var(--font-display);">100%</div>
+          <div style="font-size: 12px; color: var(--ink-soft); font-family: var(--font-mono); text-transform: uppercase;">Uptime Guarantee</div>
+        </div>
+        <div style="width: 1px; height: 30px; background: var(--border);"></div>
+        <div style="text-align: center;">
+          <div style="font-size: 28px; font-weight: 700; color: var(--ink); font-family: var(--font-display);">500k+</div>
+          <div style="font-size: 12px; color: var(--ink-soft); font-family: var(--font-mono); text-transform: uppercase;">Tasks Automated</div>
+        </div>
+      </div>
+
+      <div class="glass-panel" style="padding: 40px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card);">
+        <p style="margin-bottom: 40px; font-size: 15.5px; color: var(--ink-soft); line-height: 1.6; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
+          A Telegram-based license automation system that handles customer information, license generation, automated MQ5 → EX5 compilation and secure file delivery. 
+          <br><br>
+          <span style="font-size: 13px; opacity: 0.7;"><em>Note: Trading EA logic is supplied separately.</em></span>
         </p>
+        
+        <style>
+          .arch-node {
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--ink);
+            text-align: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+          }
+          .arch-node.primary {
+            background: rgba(22,163,74,0.08);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+          }
+          .arch-node.output {
+            background: transparent;
+            border: 1px dashed var(--ink-faint);
+            color: var(--ink-soft);
+          }
+          .arch-arrow {
+            color: var(--ink-faint);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .arch-arrow i {
+            animation: pulse-arrow 2.5s infinite;
+          }
+          .arch-arrow i::before {
+            content: "\f061"; /* fa-arrow-right */
+          }
+          
+          @keyframes pulse-arrow {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .arch-arrow i { animation: none; }
+          }
+
+          /* Responsive Flex Flow Architecture */
+          .arch-flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+          }
+
+          @media (max-width: 900px) {
+            .arch-flow {
+              flex-direction: column;
+            }
+            .arch-arrow i::before {
+              content: "\f063"; /* fa-arrow-down */
+            }
+          }
+        </style>
+
+        <!-- UNIFIED RESPONSIVE ARCHITECTURE -->
+        <div class="arch-flow">
+          <div class="arch-node primary">Telegram Client</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node">FastAPI Backend</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node">License System</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node">Compile Queue</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node">Docker + Wine</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node">MetaEditor</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node output">EX5 Binary</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node output">Storage</div>
+          <div class="arch-arrow"><i class="fa-solid"></i></div>
+          <div class="arch-node primary">Telegram Delivery</div>
+        </div>
+
+      </div>
+    </section>      
+
+    <!-- CTA SECTION -->
+
+    
+
+
+
+    <!-- PRICING -->
+    
+
+<section class="block" id="pricing">
+      <div class="path-label" style="margin-bottom: 24px;">~/pricing</div>
+      <div class="section-head">
+        <h2>Bot Packages</h2>
+        <p class="section-note">Flexible architecture packages for telegram automation.</p>
+      </div>
+      <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; padding: 0 5%;">
+        
+        <!-- Tier 1 -->
+        <div class="pricing-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px 30px;">
+          <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--ink);">Simple Bot</h3>
+          <p style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); margin-bottom: 24px; min-height: 42px;">Basic menus, FAQ responses, and forwarding.</p>
+          <div style="font-size: 24px; font-weight: 700; margin-bottom: 30px; font-family: var(--font-display); color: var(--accent);">Custom Quote</div>
+          <ul style="list-style: none; padding: 0; margin-bottom: 40px; font-size: 14px; color: var(--ink-soft);">
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Node.js or Python backend</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Up to 10 commands/menus</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Email/Telegram forwarding</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Render/Vercel deployment</li>
+          </ul>
+          <a href="#contact" class="btn-ghost" style="width: 100%; text-align: center; justify-content: center;">Get Started</a>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="pricing-card popular" style="background: var(--bg-card); border: 1px solid var(--accent); border-radius: 12px; padding: 40px 30px; position: relative;">
+          <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase;">Most Popular</div>
+          <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--ink);">Automation Bot</h3>
+          <p style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); margin-bottom: 24px; min-height: 42px;">Database integration, APIs, and workflows.</p>
+          <div style="font-size: 24px; font-weight: 700; margin-bottom: 30px; font-family: var(--font-display); color: var(--accent);">Custom Quote</div>
+          <ul style="list-style: none; padding: 0; margin-bottom: 40px; font-size: 14px; color: var(--ink-soft);">
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> PostgreSQL / Supabase DB</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> REST API Integrations</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> 1 Payment Gateway</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Dynamic user sessions</li>
+          </ul>
+          <a href="#contact" class="btn-primary" style="width: 100%; text-align: center; justify-content: center;">Get Started</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="pricing-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px 30px;">
+          <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--ink);">Full System</h3>
+          <p style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-soft); margin-bottom: 24px; min-height: 42px;">Advanced architecture, SaaS, or complex tools.</p>
+          <div style="font-size: 24px; font-weight: 700; margin-bottom: 30px; font-family: var(--font-display); color: var(--accent);">Custom Quote</div>
+          <ul style="list-style: none; padding: 0; margin-bottom: 40px; font-size: 14px; color: var(--ink-soft);">
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Web Admin Dashboard</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Complex Auth & Licensing</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Multi-platform webhooks</li>
+            <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color: var(--accent); margin-right: 10px;"></i> Custom Infrastructure</li>
+          </ul>
+          <a href="#contact" class="btn-ghost" style="width: 100%; text-align: center; justify-content: center;">Get Started</a>
+        </div>
       </div>
     </section>
-
-    <!-- 10 Telegram Bot Engineering Services -->
-    <section class="services-flagship-section" style="padding: 90px 0;">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">FULL SPECTRUM CAPABILITIES</span>
-          <h2 class="section-title">Telegram Automation Disciplines</h2>
-          <p class="section-sub">Engineered with python-telegram-bot, GramJS, and high-concurrency event loops.</p>
-        </div>
-
-        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-          <div class="service-card">
-            <div class="service-badge">01 • MT5 &amp; TRADING</div>
-            <h3 class="service-title">MT5 Dynamic Licensing Bots</h3>
-            <p class="service-description">
-              Automated compiler pipelines that take client account IDs, verify payments, and compile custom locked MQL5 Expert Advisor (.ex5) binaries in under 3.5 seconds.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">02 • PAYWALL &amp; SUBSCRIPTION</div>
-            <h3 class="service-title">VIP Channel Gatekeeper Bots</h3>
-            <p class="service-description">
-              Fully automated private channel management: generates single-use invite links, tracks subscription expiration dates, and automatically revokes access upon non-renewal.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">03 • TRADING SIGNALS</div>
-            <h3 class="service-title">Signal Distribution Systems</h3>
-            <p class="service-description">
-              Sub-millisecond signal distribution from TradingView webhooks, MetaTrader, or custom algorithms directly to thousands of VIP subscribers simultaneously.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">04 • AI ASSISTANTS</div>
-            <h3 class="service-title">AI-Powered Telegram Bots</h3>
-            <p class="service-description">
-              Conversational bots powered by OpenAI GPT-4o or Claude 3.5 with RAG database access, handling customer inquiries, quote estimations, and booking management.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">05 • PAYMENTS</div>
-            <h3 class="service-title">In-Telegram Payment Bots</h3>
-            <p class="service-description">
-              Seamless checkout directly within Telegram chat via Razorpay, Stripe, UPI, and crypto payment rails with instant automated receipt dispatch.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">06 • COMMUNITY</div>
-            <h3 class="service-title">Group Moderation &amp; Anti-Spam</h3>
-            <p class="service-description">
-              Zero-tolerance spam defense: CAPTCHA verifications for new joiners, regex content moderation, rate limiting, and automated bad-actor blacklisting.
-            </p>
-          </div>
-        </div>
+<section class="block" id="telegram-cta" style="text-align: center; padding: 100px 0;">
+      <h2 style="font-size: 36px; margin-bottom: 20px;">HAVE A BOT IDEA?</h2>
+      <p style="color: var(--ink-soft); margin-bottom: 40px; font-size: 18px;">Tell us what you want to automate.</p>
+      <a href="#contact" class="btn-primary" onclick="document.querySelector('[data-value=\'Telegram Bot\']').click();" style="display: inline-block; margin-bottom: 20px;">START A TELEGRAM PROJECT</a>
+      <div style="font-family: var(--font-mono); font-size: 14px; color: var(--ink-faint);">
+        > ./deploy --telegram
       </div>
     </section>
-
-    <!-- Architecture Breakdown: MT5 Compiler Engine -->
-    <section class="why-us-section" style="padding: 80px 0; background: var(--bg-card);">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">PROPRIETARY ARCHITECTURE</span>
-          <h2 class="section-title">How Our MT5 Dynamic Licensing Engine Operates</h2>
-          <p class="section-sub">A zero-touch compiler pipeline that eliminates manual MQL5 compilation forever.</p>
-        </div>
-
-        <div class="process-grid-4" style="margin-top: 40px;">
-          <div class="process-card">
-            <div class="process-step-num">01</div>
-            <h4 class="process-title">Telegram Payment &amp; ID Ingestion</h4>
-            <p class="process-desc">User submits their MetaTrader 5 account number and completes payment. Telegram webhook validates transaction on Razorpay/Stripe.</p>
-          </div>
-          <div class="process-card">
-            <div class="process-step-num">02</div>
-            <h4 class="process-title">Parameter Injection</h4>
-            <p class="process-desc">Backend injects client account ID, expiration timestamps, and broker security hashes into the proprietary MQL5 source code template.</p>
-          </div>
-          <div class="process-card">
-            <div class="process-step-num">03</div>
-            <h4 class="process-title">Headless MetaEditor Compilation</h4>
-            <p class="process-desc">Isolated build runner invokes MetaEditor CLI in headless mode, compiling encrypted .ex5 machine bytecode in ~2.8 seconds.</p>
-          </div>
-          <div class="process-card">
-            <div class="process-step-num">04</div>
-            <h4 class="process-title">Encrypted Telegram Dispatch</h4>
-            <p class="process-desc">Compiled binary is uploaded directly to the client's Telegram chat with installation documentation and license confirmation.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Scoping CTA -->
-    <section class="cta-section" id="contact-tg">
-      <div class="container cta-container">
-        <div class="cta-content">
-          <span class="section-tag">ENGINEER YOUR BOT</span>
-          <h2 class="cta-title">Scale Your Business on Telegram</h2>
-          <p class="cta-desc">
-            Discuss your bot architecture directly with Shri Dharsan. We handle bot token setup, cloud daemon hosting, and payment gateway wiring.
-          </p>
-          <div class="direct-contact-pills">
-            <a href="https://t.me/shridharsan1" class="contact-pill tg" target="_blank" rel="noopener noreferrer">
-              Telegram: @shridharsan1
+    <!-- Contact Form Section -->
+<section class="block" id="contact" style="border-top:none; padding-top:0;">
+      <div class="contact-section-grid">
+        <div class="contact-info-panel">
+          <h2>Have a site<br>to build?</h2>
+          <p>Let's map out your project together. Drop us details about your product roadmap, and we will get back to you within one business day.</p>
+          
+          <div class="direct-contact-details">
+            <a href="mailto:nextgenwebstudio63@gmail.com" class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-envelope"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Email Us</span>
+                <span class="detail-value">nextgenwebstudio63@gmail.com</span>
+              </div>
             </a>
-            <a href="https://wa.me/916379140067?text=Hi%20NextGen,%20I'd%20like%20to%20deploy%20a%20Telegram%20Bot" class="contact-pill wa" target="_blank" rel="noopener noreferrer">
-              WhatsApp: +91 63791 40067
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-phone"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Call / WhatsApp</span>
+                <span class="detail-value">+91 63791 40067</span>
+              </div>
             </a>
+            <div class="detail-link">
+              <span class="detail-icon"><i class="fa-solid fa-location-dot"></i></span>
+              <div class="detail-text">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">Coimbatore, Tamil Nadu</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="cta-form-card">
-          <form id="projectContactForm" class="inquiry-form">
-            <input type="hidden" name="projectType" value="Telegram Bot Engineering">
-            <div class="form-group">
-              <label for="tgClientName">Your Name / Handle</label>
-              <input type="text" id="tgClientName" name="name" required placeholder="TraderAlex / @alexchen">
+        <div class="contact-form-card">
+          <div class="form-header">
+            <h3>Project Scoping Form</h3>
+            <span>Fill out the fields to launch custom estimation</span>
+          </div>
+          
+          <form id="projectContactForm" novalidate>
+            <!-- Project Type Selection -->
+            <div class="form-group full-width">
+              <label class="section-label">I'm looking for:</label>
+              <div class="project-tags-selector">
+                <button type="button" class="tag-chip" data-value="Web Design">Web Design</button>
+                <button type="button" class="tag-chip" data-value="Full Stack">Full Stack App</button>
+                <button type="button" class="tag-chip" data-value="E-Commerce">E-Commerce</button>
+                <button type="button" class="tag-chip" data-value="Telegram Bot">Telegram Bot</button>
+                <button type="button" class="tag-chip" data-value="Consulting">Consulting / MVP</button>
+                <input type="hidden" name="projectType" id="projectTypeInput" value="">
+              </div>
             </div>
+
+            <!-- Name Input -->
             <div class="form-group">
-              <label for="tgClientEmail">Email Address</label>
-              <input type="email" id="tgClientEmail" name="email" required placeholder="alex@tradinggroup.com">
+              <div class="input-wrapper">
+                <input type="text" id="contactName" name="name" required placeholder=" ">
+                <label for="contactName">Your Name</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please enter your name</span>
             </div>
+
+            <!-- Email Input -->
             <div class="form-group">
-              <label for="tgBotType">Bot Category</label>
-              <select id="tgBotType" name="budget">
-                <option value="MT5 Dynamic Licensing">MT5 Dynamic Licensing Compiler</option>
-                <option value="VIP Paywall & Subscription">VIP Channel Paywall &amp; Subscriptions</option>
-                <option value="Trading Signal Distribution">Trading Signal Distribution Bot</option>
-                <option value="AI Conversational Bot">AI Conversational Customer Assistant</option>
-              </select>
+              <div class="input-wrapper">
+                <input type="email" id="contactEmail" name="email" required placeholder=" ">
+                <label for="contactEmail">Email Address</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please enter a valid email</span>
             </div>
+
+            <!-- Phone Input -->
             <div class="form-group">
-              <label for="tgClientMessage">Bot Functional Brief</label>
-              <textarea id="tgClientMessage" name="message" rows="3" required placeholder="Describe the required commands, payment integrations, or trading rules..."></textarea>
+              <div class="input-wrapper">
+                <input type="tel" id="contactPhone" name="phone" placeholder=" ">
+                <label for="contactPhone">Phone Number (Optional)</label>
+                <span class="focus-border"></span>
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit Telegram Bot Brief &rarr;</button>
+
+            <!-- Budget Picker -->
+            <div class="form-group">
+              <div class="input-wrapper select-wrapper">
+                <select id="contactBudget" name="budget" required>
+                  <option value="" disabled selected hidden></option>
+                  <option value="Under ₹50k">Under ₹50k</option>
+                  <option value="₹50k - ₹1.5L">₹50k - ₹1.5L</option>
+                  <option value="₹1.5L - ₹3L">₹1.5L - ₹3L</option>
+                  <option value="₹3L+">₹3L+ (Enterprise)</option>
+                </select>
+                <label for="contactBudget" class="select-label">Estimated Budget</label>
+                <i class="fa-solid fa-chevron-down select-icon"></i>
+              </div>
+              <span class="error-msg">Please select a budget range</span>
+            </div>
+
+            <!-- Message Input -->
+            <div class="form-group full-width">
+              <div class="input-wrapper">
+                <textarea id="contactMessage" name="message" required placeholder=" " rows="4"></textarea>
+                <label for="contactMessage">Tell us about your project requirements...</label>
+                <span class="focus-border"></span>
+              </div>
+              <span class="error-msg">Please tell us about your project</span>
+            </div>
+
+            <!-- Submit Button / Loader -->
+            <div class="form-actions full-width">
+              <button type="submit" class="submit-btn" id="submitFormBtn">
+                <span class="btn-text">Submit Request</span>
+                <span class="btn-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+              </button>
+            </div>
           </form>
+
+          <!-- Success State Terminal Overlay -->
+          <div class="form-success-overlay" id="formSuccessOverlay">
+            <div class="success-terminal">
+              <div class="success-terminal-bar">
+                <div class="term-dot close"></div>
+                <div class="term-dot minimize"></div>
+                <div class="term-dot expand"></div>
+                <span>deployment-success.log</span>
+              </div>
+              <div class="success-terminal-body">
+                <div class="s-line"><span class="s-prompt">$</span> ./send_inquiry.sh --to "NextGen"</div>
+                <div class="s-line info">Establishing secure handshake... [OK]</div>
+                <div class="s-line info">Encrypting payload data... [OK]</div>
+                <div class="s-line info">Uploading to Coimbatore DB... [OK]</div>
+                <div class="s-line success"><span class="s-prompt">$</span> status code: 200 OK</div>
+                <div class="s-line text-center highlight">
+                  <div class="success-icon-badge"><i class="fa-solid fa-circle-check"></i></div>
+                  <h4>Message Sent Successfully!</h4>
+                  <p>Thanks for reaching out! We'll review your project details and contact you via email shortly.</p>
+                </div>
+                <div class="s-line text-center">
+                  <button type="button" class="btn-ghost btn-sm" id="closeSuccessBtn">Send Another Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+    
   </main>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col brand-col">
-        <a href="/" class="brand">
-          <span class="brand-badge">NEXTGEN</span>
-          <span class="brand-text">WEB STUDIO</span>
-        </a>
-        <p class="footer-tagline">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures."</p>
-        <div class="footer-location">Coimbatore, Tamil Nadu, India</div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">High-performance full-stack web applications and custom digital tools built from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://t.me/shridharsan1" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="index.html#services">Web Design</a></li>
+            <li><a href="index.html#services">Full-stack builds</a></li>
+            <li><a href="index.html#services">E-Commerce</a></li>
+            <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
+            <li><a href="index.html#services">Product scoping</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+            <li><i class="fa-solid fa-clock"></i> Mon-Sat, 9:00 AM - 6:00 PM</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <div class="footer-heading">Services</div>
-        <ul class="footer-links">
-          <li><a href="agentic-ai-development.html">Agentic AI Engineering</a></li>
-          <li><a href="web-development.html">Web Development</a></li>
-          <li><a href="telegram-bot-development.html">Telegram Bot Engineering</a></li>
-          <li><a href="portfolio.html">Featured Case Studies</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Company</div>
-        <ul class="footer-links">
-          <li><a href="about.html">About NextGen</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="client.html">Client Portal</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Legal</div>
-        <ul class="footer-links">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="refunds.html">Refund Policy</a></li>
-        </ul>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
       </div>
     </div>
   </footer>
 
+  <!-- Floating WhatsApp Button -->
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div id="aiChatbotWidget" class="chatbot-closed">
+    <!-- Chat Button -->
+    <button id="chatbotToggleBtn" aria-label="Open AI Assistant" title="Chat with AI">
+      <i class="fa-solid fa-comments"></i>
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    
+    <!-- Chat Panel -->
+    <div class="chatbot-panel">
+      <div class="chat-header">
+        <div class="bot-info">
+          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div class="bot-text-meta">
+            <h4>nextgen_assistant</h4>
+            <span>online • instant response</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+          Hi! I'm your NextGen AI Assistant. 🤖
+          <br><br>
+          Ask me anything about our services, pricing, timeline, contact details, or location in Coimbatore!
+        </div>
+      </div>
+      <form class="chat-input-area" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off" required>
+        <button type="submit" id="chatSubmitBtn"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+
+
+  <!-- Toast Notifications Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
   <script src="app.js"></script>
+  <!-- Scroll Animation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.block').forEach(block => {
+        if(block.id !== 'home') { // Don't animate hero
+          block.style.opacity = '0';
+          block.style.transform = 'translateY(20px)';
+          block.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+          observer.observe(block);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

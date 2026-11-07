@@ -2,154 +2,240 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact NextGen Web Studio | Direct Engineering Consultation</title>
-  <meta name="description" content="Initiate a project scoping session with NextGen Web Studio in Coimbatore. Direct engineer access via WhatsApp, Telegram, or our project submission form.">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Submit your project scope or speak directly with Shri Dharsan via WhatsApp, Telegram, or email.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dark-theme">
-  <header class="header" id="mainHeader">
-    <div class="nav-container">
-      <a href="/" class="brand"><span class="brand-badge">NEXTGEN</span><span class="brand-text">WEB STUDIO</span></a>
-      <nav class="nav-links">
-        <a href="/" class="nav-link">Home</a>
-        <a href="services.html" class="nav-link">Services</a>
-        <a href="agentic-ai-development.html" class="nav-link">Agentic AI</a>
-        <a href="web-development.html" class="nav-link">Web Dev</a>
-        <a href="telegram-bot-development.html" class="nav-link">Telegram Bots</a>
-        <a href="portfolio.html" class="nav-link">Portfolio</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link active">Contact</a>
+  <header>
+    <div class="wrap nav-container">
+      <a href="index.html" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
+      </a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="services.html">services</a>
+          <a href="agentic-ai-development.html">agentic ai</a>
+          <a href="web-development.html">web dev</a>
+          <a href="telegram-bot-development.html">telegram bots</a>
+          <a href="portfolio.html">work</a>
+          <a href="about.html">about</a>
+          <a href="contact.html" class="active" style="color:var(--accent);">contact</a>
+          <a href="client.html">client portal</a>
+        </div>
+        <a href="contact.html" class="nav-cta">start a project</a>
       </nav>
-      <div class="nav-actions">
-        <a href="client.html" class="portal-link">Client Portal</a>
+
+      <div class="mobile-nav-actions">
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <section class="cta-section" style="padding: 120px 0 90px;">
-      <div class="container cta-container">
-        <div class="cta-content">
-          <span class="section-tag">DIRECT CONSULTATION</span>
-          <h1 class="cta-title" style="font-size: clamp(34px, 4vw, 52px);">Let's Build Something Powerful Together.</h1>
-          <p class="cta-desc">
-            Whether you need an autonomous agentic pipeline, a sub-second web application, or a high-concurrency Telegram bot, our senior engineers review all technical submissions within 12 hours.
-          </p>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html">home</a>
+      <a href="services.html">services</a>
+      <a href="agentic-ai-development.html">agentic ai</a>
+      <a href="web-development.html">web dev</a>
+      <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="portfolio.html">work</a>
+      <a href="about.html">about</a>
+      <a href="contact.html">contact</a>
+      <a href="client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
+      <a href="contact.html" class="drawer-cta btn-primary">start a project</a>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
 
-          <div style="margin: 28px 0; display: flex; flex-direction: column; gap: 14px;">
-            <div style="display: flex; align-items: center; gap: 12px; color: var(--ink-soft); font-size: 14px;">
-              <span style="color: var(--accent);">&#10003;</span>
-              <span>Headquarters: Coimbatore, Tamil Nadu, India (IST / UTC+5:30)</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; color: var(--ink-soft); font-size: 14px;">
-              <span style="color: var(--accent);">&#10003;</span>
-              <span>Email: nextgenwebstudio63@gmail.com</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; color: var(--ink-soft); font-size: 14px;">
-              <span style="color: var(--accent);">&#10003;</span>
-              <span>Available for Q2/Q3 development sprints</span>
-            </div>
-          </div>
+  <main class="wrap">
+    <section class="hero" id="home">
+      <div class="eyebrow-cli">
+        <span class="eb-path"><i class="fa-solid fa-envelope-open-text"></i> ~/contact</span>
+        <span class="eb-branch"><i class="fa-solid fa-code-branch"></i> git:(main)</span>
+        <span class="eb-status"><i class="fa-solid fa-circle-check"></i> status: accepting projects</span>
+      </div>
 
-          <div class="direct-contact-pills">
-            <a href="https://wa.me/916379140067?text=Hi%20NextGen%20Web%20Studio,%20I'd%20like%20to%20discuss%20a%20new%20project" target="_blank" rel="noopener noreferrer" class="contact-pill wa">
-              WhatsApp: +91 63791 40067
-            </a>
-            <a href="https://t.me/shridharsan1" target="_blank" rel="noopener noreferrer" class="contact-pill tg">
-              Telegram: @shridharsan1
-            </a>
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <h1>Let's Build Something <br><span class="gradient-text">Extraordinary.</span></h1>
+          <p class="hero-sub">Submit your project parameters below. Lead engineer Shri Dharsan reviews all technical submissions within 12 business hours.</p>
+          <div class="hero-actions">
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" class="btn-primary">Chat on WhatsApp <i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://t.me/shridharsan1" target="_blank" class="btn-ghost">Telegram: @shridharsan1</a>
           </div>
         </div>
 
-        <div class="cta-form-card">
-          <form id="projectContactForm" class="inquiry-form">
-            <div class="form-group">
-              <label for="cName">Your Name / Organization</label>
-              <input type="text" id="cName" name="name" required placeholder="Elena Rostova">
+        <div class="terminal-container">
+          <div class="terminal" aria-hidden="true">
+            <div class="term-bar">
+              <div class="term-dot close"></div>
+              <div class="term-dot minimize"></div>
+              <div class="term-dot expand"></div>
+              <span class="term-title">contact &bull; direct-channel</span>
             </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="cEmail">Email Address</label>
-                <input type="email" id="cEmail" name="email" required placeholder="elena@rostova.com">
+            <div class="term-body">
+              <div class="term-history">
+                <div class="term-line"><span class="term-prompt">$</span> ping nextgen-studio</div>
+                <div class="term-line output">Location: Coimbatore, Tamil Nadu, India</div>
+                <div class="term-line output">Phone: +91 63791 40067</div>
+                <div class="term-line output">Email: nextgenwebstudio63@gmail.com</div>
+                <div class="term-line output">Telegram: @shridharsan1</div>
               </div>
-              <div class="form-group">
-                <label for="cPhone">Phone / WhatsApp</label>
-                <input type="tel" id="cPhone" name="phone" placeholder="+91 98765 43210">
-              </div>
             </div>
-
-            <div class="form-group">
-              <label for="cService">Core Capability Needed</label>
-              <select id="cService" name="projectType">
-                <option value="Agentic AI Development">Agentic AI Engineering</option>
-                <option value="Web Development" selected>High-Performance Web Development</option>
-                <option value="Telegram Bot Engineering">Telegram Bot Engineering</option>
-                <option value="Full-Stack + AI Integration">Full-Stack + AI System</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="cBudget">Estimated Budget Range</label>
-              <select id="cBudget" name="budget">
-                <option value="Under ₹50k">Under ₹50k (~$600)</option>
-                <option value="₹50k - ₹1.5L" selected>₹50k - ₹1.5L (~$600 - $1.8k)</option>
-                <option value="₹1.5L - ₹3L">₹1.5L - ₹3L (~$1.8k - $3.6k)</option>
-                <option value="Above ₹3L">Above ₹3L ($3.6k+)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="cMessage">Technical Specifications / Scope</label>
-              <textarea id="cMessage" name="message" rows="4" required placeholder="Outline key deliverables, required integrations, and ideal launch timeline..."></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-block submit-btn" id="submitInquiryBtn">
-              Submit Scoping Brief &rarr;
-            </button>
-            <div class="form-status" id="formStatusMsg" style="display:none;"></div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
-  </main>
 
+    <!-- Scoping Form Block -->
+    <section class="block" id="scoping">
+      <div class="path-label">~/project-scoping-form</div>
+      <div class="section-head">
+        <h2>Submit Technical Brief</h2>
+        <p class="section-note">Fixed-price milestone contracts with zero hidden surcharges.</p>
+      </div>
+
+      <div style="max-width: 680px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 36px 32px;">
+        <form id="projectContactForm" class="scoping-form">
+          <div class="form-group full-width">
+            <label for="cName">Your Name / Company</label>
+            <input type="text" id="cName" name="name" required placeholder="e.g. Alex Chen, Horizon Labs">
+          </div>
+
+          <div class="form-group">
+            <label for="cEmail">Email Address</label>
+            <input type="email" id="cEmail" name="email" required placeholder="alex@horizon.com">
+          </div>
+
+          <div class="form-group">
+            <label for="cPhone">Phone / WhatsApp</label>
+            <input type="tel" id="cPhone" name="phone" placeholder="+91 98765 43210">
+          </div>
+
+          <div class="form-group">
+            <label for="cService">Service Discipline</label>
+            <select id="cService" name="projectType">
+              <option value="Agentic AI Development">Agentic AI Development</option>
+              <option value="Web Development" selected>High-Performance Web Development</option>
+              <option value="Telegram Bot Engineering">Telegram Bot Engineering</option>
+              <option value="Full-Stack + AI System">Full-Stack + AI Multi-System</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cBudget">Estimated Budget</label>
+            <select id="cBudget" name="budget">
+              <option value="Under ₹50k">Starter / Under ₹50k (~$600)</option>
+              <option value="₹50k - ₹1.5L" selected>Growth / ₹50k - ₹1.5L (~$600 - $1.8k)</option>
+              <option value="₹1.5L - ₹3L">Scale / ₹1.5L - ₹3L (~$1.8k - $3.6k)</option>
+              <option value="Above ₹3L">Enterprise / Above ₹3L ($3.6k+)</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="cMessage">Project Scope Brief</label>
+            <textarea id="cMessage" name="message" rows="4" required placeholder="Describe your key deliverables, timeline goals, or existing links..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="submitInquiryBtn">
+              Submit Technical Brief <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div id="formStatusMsg" style="display:none; grid-column: 1 / -1; margin-top:16px; padding:12px; border-radius:4px; font-size:13px; text-align:center;"></div>
+        </form>
+      </div>
+    </section>
+  </main>
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col brand-col">
-        <a href="/" class="brand"><span class="brand-badge">NEXTGEN</span><span class="brand-text">WEB STUDIO</span></a>
-        <p class="footer-tagline">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures."</p>
-        <div class="footer-location">Coimbatore, Tamil Nadu, India</div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures." Engineered from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://t.me/shridharsan1" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:nextgenwebstudio63@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Flagship Services</h4>
+          <ul>
+            <li><a href="agentic-ai-development.html">Agentic AI Systems</a></li>
+            <li><a href="web-development.html">Web Development</a></li>
+            <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
+            <li><a href="client.html">Client Portal</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+            <li><i class="fa-solid fa-clock"></i> Mon-Sat, 9:00 AM - 6:00 PM</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <div class="footer-heading">Services</div>
-        <ul class="footer-links">
-          <li><a href="agentic-ai-development.html">Agentic AI</a></li>
-          <li><a href="web-development.html">Web Development</a></li>
-          <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Company</div>
-        <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Legal</div>
-        <ul class="footer-links">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms &amp; Conditions</a></li>
-          <li><a href="refunds.html">Refund Policy</a></li>
-        </ul>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
       </div>
     </div>
   </footer>
+
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
   <script src="app.js"></script>
 </body>
 </html>

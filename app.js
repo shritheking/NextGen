@@ -58,21 +58,23 @@ function initMobileMenu() {
   const drawerOverlay = document.getElementById('drawerOverlay');
   const drawerLinks = document.querySelectorAll('.drawer-links a');
 
+  if (!menuToggle || !mobileDrawer) return;
+
   function openDrawer() {
     mobileDrawer.classList.add('open');
-    drawerOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden'; // Lock background scroll
+    if (drawerOverlay) drawerOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
     mobileDrawer.classList.remove('open');
-    drawerOverlay.classList.remove('open');
-    document.body.style.overflow = ''; // Unlock scroll
+    if (drawerOverlay) drawerOverlay.classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   menuToggle.addEventListener('click', openDrawer);
-  drawerClose.addEventListener('click', closeDrawer);
-  drawerOverlay.addEventListener('click', closeDrawer);
+  if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+  if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
 
   drawerLinks.forEach(link => {
     link.addEventListener('click', closeDrawer);
@@ -1032,4 +1034,140 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initAIWorkflowStepper);
 } else {
   initAIWorkflowStepper();
+}
+
+/* ---------- Telegram Interactive Bot Simulator ---------- */
+function initTelegramBotDemo() {
+  const chatMessages = document.getElementById('tgChatMessages');
+  const actionButtons = document.getElementById('tgActionButtons');
+  const resetBtn = document.getElementById('tgResetBtn');
+  if (!chatMessages || !actionButtons) return;
+
+  function getTimeStr() {
+    const now = new Date();
+    return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+  }
+
+  function appendMsg(text, type = 'incoming') {
+    const msg = document.createElement('div');
+    msg.className = `tg-msg ${type}`;
+    msg.innerHTML = `<div>${text}</div><div class="tg-time">${getTimeStr()}</div>`;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function showTyping(callback, delay = 450) {
+    const typing = document.createElement('div');
+    typing.className = 'tg-msg incoming';
+    typing.id = 'tgTypingIndicator';
+    typing.innerHTML = '<span style="color:#5288C1; font-style:italic; font-size:12px;">typing...</span>';
+    chatMessages.appendChild(typing);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    setTimeout(() => {
+      if (typing.parentNode) typing.parentNode.removeChild(typing);
+      callback();
+    }, delay);
+  }
+
+  function setButtons(buttons) {
+    actionButtons.innerHTML = '';
+    buttons.forEach(btnInfo => {
+      const btn = document.createElement('button');
+      btn.className = 'tg-pill-btn';
+      btn.textContent = btnInfo.label;
+      btn.addEventListener('click', btnInfo.onClick);
+      actionButtons.appendChild(btn);
+    });
+  }
+
+  function startConversation() {
+    chatMessages.innerHTML = '';
+    appendMsg('👋 Welcome to <strong>NextGen Automation!</strong><br>We build intelligent Telegram automation systems.', 'incoming');
+
+    setButtons([
+      {
+        label: '/start',
+        onClick: () => {
+          appendMsg('/start', 'outgoing');
+          showTyping(() => {
+            appendMsg('Welcome back! What service would you like to explore?', 'incoming');
+            showServicesMenu();
+          }, 350);
+        }
+      },
+      {
+        label: 'Services',
+        onClick: () => {
+          appendMsg('Services', 'outgoing');
+          showServicesMenu();
+        }
+      }
+    ]);
+  }
+
+  function showServicesMenu() {
+    showTyping(() => {
+      appendMsg('Choose your service:', 'incoming');
+      setButtons([
+        {
+          label: 'AI Automation',
+          onClick: () => {
+            appendMsg('AI Automation', 'outgoing');
+            showTyping(() => {
+              appendMsg('We build autonomous multi-agent systems, document extraction pipelines, and Supabase vector search.', 'incoming');
+              setButtons([
+                { label: 'Explore AI Page', onClick: () => window.location.href = 'agentic-ai-development.html' },
+                { label: 'Back to Menu', onClick: showServicesMenu }
+              ]);
+            }, 350);
+          }
+        },
+        {
+          label: 'Web Development',
+          onClick: () => {
+            appendMsg('Web Development', 'outgoing');
+            showTyping(() => {
+              appendMsg('We engineer high-velocity Next.js applications, multi-tenant SaaS dashboards, and e-commerce portals.', 'incoming');
+              setButtons([
+                { label: 'Explore Web Dev Page', onClick: () => window.location.href = 'web-development.html' },
+                { label: 'Back to Menu', onClick: showServicesMenu }
+              ]);
+            }, 350);
+          }
+        },
+        {
+          label: 'Telegram Bots',
+          onClick: () => {
+            appendMsg('Telegram Bots', 'outgoing');
+            showTyping(() => {
+              appendMsg('<strong>We build intelligent Telegram automation systems.</strong><br>Our architecture features MetaTrader 5 (MT5) dynamic licensing compilers, automated VIP subscription paywalls, and high-frequency trading signal distribution.', 'incoming');
+              setButtons([
+                {
+                  label: 'Get a Free Quote →',
+                  onClick: () => {
+                    const contactSection = document.getElementById('contact') || document.getElementById('contact-tg');
+                    if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                },
+                {
+                  label: 'Restart Demo',
+                  onClick: startConversation
+                }
+              ]);
+            }, 400);
+          }
+        }
+      ]);
+    }, 350);
+  }
+
+  if (resetBtn) resetBtn.addEventListener('click', startConversation);
+  startConversation();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTelegramBotDemo);
+} else {
+  initTelegramBotDemo();
 }

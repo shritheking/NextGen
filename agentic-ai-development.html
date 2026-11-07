@@ -2,316 +2,293 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agentic AI Development Services | NextGen Web Studio Coimbatore</title>
-  <meta name="description" content="Custom autonomous AI agents, multi-agent orchestration with LangGraph, enterprise RAG on Supabase pgvector, and automated operational pipelines by NextGen Web Studio in Coimbatore.">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <!-- Google Fonts -->
+  <meta name="description" content="Custom autonomous AI agents, multi-agent orchestration with LangGraph, and enterprise RAG on Supabase pgvector.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
-
-  <!-- Header -->
-  <header class="header" id="mainHeader">
-    <div class="nav-container">
-      <a href="/" class="brand" aria-label="NextGen Web Studio Home">
-        <span class="brand-badge">NEXTGEN</span>
-        <span class="brand-text">WEB STUDIO</span>
+  <header>
+    <div class="wrap nav-container">
+      <a href="index.html" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
       </a>
-
-      <nav class="nav-links" id="navLinks" aria-label="Main Navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="services.html" class="nav-link">Services</a>
-        <a href="agentic-ai-development.html" class="nav-link active">Agentic AI</a>
-        <a href="web-development.html" class="nav-link">Web Dev</a>
-        <a href="telegram-bot-development.html" class="nav-link">Telegram Bots</a>
-        <a href="portfolio.html" class="nav-link">Portfolio</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="services.html">services</a>
+          <a href="agentic-ai-development.html" class="active" style="color:var(--accent);">agentic ai</a>
+          <a href="web-development.html">web dev</a>
+          <a href="telegram-bot-development.html">telegram bots</a>
+          <a href="portfolio.html">work</a>
+          <a href="about.html">about</a>
+          <a href="contact.html">contact</a>
+          <a href="client.html">client portal</a>
+        </div>
+        <a href="contact.html" class="nav-cta">start a project</a>
       </nav>
 
-      <div class="nav-actions">
-        <a href="client.html" class="portal-link">Client Portal</a>
-        <a href="#contact-scope" class="btn btn-primary nav-cta">Scope AI System</a>
+      <div class="mobile-nav-actions">
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-section" style="padding: 120px 0 60px;">
-      <div class="container text-center" style="max-width: 900px;">
-        <div class="hero-badge" style="margin: 0 auto 20px;">
-          <span class="pulse-dot"></span>
-          <span>FLAGSHIP ENGINEERING DISCIPLINE</span>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html">home</a>
+      <a href="services.html">services</a>
+      <a href="agentic-ai-development.html">agentic ai</a>
+      <a href="web-development.html">web dev</a>
+      <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="portfolio.html">work</a>
+      <a href="about.html">about</a>
+      <a href="contact.html">contact</a>
+      <a href="client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
+      <a href="contact.html" class="drawer-cta btn-primary">start a project</a>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <main class="wrap">
+    <section class="hero" id="home">
+      <div class="eyebrow-cli">
+        <span class="eb-path"><i class="fa-solid fa-robot"></i> ~/agentic-ai</span>
+        <span class="eb-branch"><i class="fa-solid fa-code-branch"></i> git:(main)</span>
+        <span class="eb-status"><i class="fa-solid fa-circle-check"></i> status: active</span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <h1>Autonomous Agentic AI <br>for <span class="gradient-text">Complex Operations.</span></h1>
+          <p class="hero-sub">We build cyclic, self-correcting multi-agent systems with LangGraph, Supabase pgvector, and deterministic tool execution. Automate mission-critical workflows with zero human latency.</p>
+          <div class="hero-actions">
+            <a href="#workflow" class="btn-primary">Try Interactive Flow <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="contact.html" class="btn-ghost">Scope AI System</a>
+          </div>
         </div>
-        <h1 class="hero-title" style="font-size: clamp(36px, 5vw, 64px); line-height: 1.15;">
-          Autonomous Agentic AI <br>
-          <span class="gradient-text">Engineered for Complex Operations.</span>
-        </h1>
-        <p class="hero-description" style="margin: 20px auto 36px; max-width: 720px; font-size: 18px;">
-          Move beyond simple chatbot wrappers. We architect cyclic, self-correcting multi-agent systems that connect directly to your databases, APIs, and business workflows to execute real work autonomously.
-        </p>
-        <div class="hero-ctas" style="justify-content: center;">
-          <a href="#interactive-visualizer" class="btn btn-primary">Try Interactive Workflow</a>
-          <a href="#contact-scope" class="btn btn-secondary">Book Architecture Session</a>
+
+        <div class="terminal-container">
+          <div class="terminal" aria-hidden="true">
+            <div class="term-bar">
+              <div class="term-dot close"></div>
+              <div class="term-dot minimize"></div>
+              <div class="term-dot expand"></div>
+              <span class="term-title">langgraph &bull; orchestrator-cluster</span>
+            </div>
+            <div class="term-body">
+              <div class="term-history">
+                <div class="term-line"><span class="term-prompt">$</span> supervisor.status()</div>
+                <div class="term-line output">[OK] Multi-agent network initialized. 4 sub-agents active.</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line"><span class="term-prompt">$</span> memory.vector_store()</div>
+                <div class="term-line output">[OK] Supabase pgvector indexed. Cosine similarity threshold: 0.92.</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line"><span class="term-prompt">$</span> guardrails.verify()</div>
+                <div class="term-line output">[OK] Zero data training retention active. Schema verified.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Interactive 6-Stage Workflow Visualization -->
-    <section class="workflow-section" id="interactive-visualizer">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">EXECUTION PIPELINE</span>
-          <h2 class="section-title">The 6-Stage Autonomous Reasoning Loop</h2>
-          <p class="section-sub">Select an enterprise scenario to observe how the multi-agent system reasons and self-corrects in real-time.</p>
-        </div>
+    <!-- Interactive AI Workflow Simulator -->
+    <section class="block" id="workflow">
+      <div class="path-label">~/interactive-pipeline</div>
+      <div class="section-head">
+        <h2>Interactive Multi-Agent Reasoning Loop</h2>
+        <p class="section-note">Select a scenario to inspect the multi-agent decision steps and real-time execution telemetry.</p>
+      </div>
 
-        <div class="workflow-tabs">
-          <button class="workflow-tab active" data-flow="support">01. Autonomous Support &amp; Triage Agent</button>
-          <button class="workflow-tab" data-flow="finance">02. Automated Financial Ledger Reconciliation</button>
-          <button class="workflow-tab" data-flow="document">03. Multimodal Invoice &amp; Contract Parser</button>
-        </div>
+      <div class="workflow-tabs" style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+        <button class="term-btn workflow-tab active" data-flow="support" style="padding: 8px 16px; border-radius: 6px; font-size: 13px;">01. Support Triage Swarm</button>
+        <button class="term-btn workflow-tab" data-flow="finance" style="padding: 8px 16px; border-radius: 6px; font-size: 13px;">02. Financial Reconciliation</button>
+        <button class="term-btn workflow-tab" data-flow="bot" style="padding: 8px 16px; border-radius: 6px; font-size: 13px;">03. MT5 License Generation</button>
+      </div>
 
-        <div class="workflow-pipeline" id="workflowPipeline">
-          <div class="pipeline-step active" data-step="1">
-            <div class="step-number">STAGE 01</div>
-            <div class="step-title">USER / WEBHOOK INPUT</div>
-            <div class="step-desc">Inbound unstructured text, JSON payload, document scan, or trigger event.</div>
-          </div>
-          <div class="pipeline-step" data-step="2">
-            <div class="step-number">STAGE 02</div>
-            <div class="step-title">AI AGENT EVALUATION</div>
-            <div class="step-desc">Intent classification, safety guardrails verification, and prompt validation.</div>
-          </div>
-          <div class="pipeline-step" data-step="3">
-            <div class="step-number">STAGE 03</div>
-            <div class="step-title">REASONING ENGINE</div>
-            <div class="step-desc">LangGraph cyclic state graph plans step sequences and queries vector stores.</div>
-          </div>
-          <div class="pipeline-step" data-step="4">
-            <div class="step-number">STAGE 04</div>
-            <div class="step-title">TOOLS &amp; APIS</div>
-            <div class="step-desc">Deterministic tool calls: Supabase pgvector, Stripe, ERP, or internal APIs.</div>
-          </div>
-          <div class="pipeline-step" data-step="5">
-            <div class="step-number">STAGE 05</div>
-            <div class="step-title">AUTOMATED EXECUTION</div>
-            <div class="step-desc">Executes database transactions, updates tickets, or formats clean payloads.</div>
-          </div>
-          <div class="pipeline-step" data-step="6">
-            <div class="step-number">STAGE 06</div>
-            <div class="step-title">FINAL VERIFIED RESULT</div>
-            <div class="step-desc">Output dispatched to client, audit trail logged, and self-evaluation complete.</div>
-          </div>
+      <div class="workflow-pipeline" id="workflowPipeline">
+        <div class="pipeline-step active" data-step="1">
+          <div class="step-number" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">STAGE 01</div>
+          <div class="step-title" style="font-weight: 600; font-size: 13px; color: var(--ink);">USER INPUT</div>
+          <div class="step-desc" style="font-size: 12px; color: var(--ink-soft); line-height: 1.4;">Customer request, raw webhook, or document ingress received.</div>
         </div>
+        <div class="pipeline-step" data-step="2">
+          <div class="step-number" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">STAGE 02</div>
+          <div class="step-title" style="font-weight: 600; font-size: 13px; color: var(--ink);">AI AGENT</div>
+          <div class="step-desc" style="font-size: 12px; color: var(--ink-soft); line-height: 1.4;">Classifies intent, parses entities, and checks safety guardrails.</div>
+        </div>
+        <div class="pipeline-step" data-step="3">
+          <div class="step-number" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">STAGE 03</div>
+          <div class="step-title" style="font-weight: 600; font-size: 13px; color: var(--ink);">REASONING ENGINE</div>
+          <div class="step-desc" style="font-size: 12px; color: var(--ink-soft); line-height: 1.4;">LangGraph cyclic state graph plans tool sequence and retrieves context.</div>
+        </div>
+        <div class="pipeline-step" data-step="4">
+          <div class="step-number" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">STAGE 04</div>
+          <div class="step-title" style="font-weight: 600; font-size: 13px; color: var(--ink);">TOOLS &amp; APIS</div>
+          <div class="step-desc" style="font-size: 12px; color: var(--ink-soft); line-height: 1.4;">Dispatches deterministic calls to Supabase pgvector, Stripe, or compiler.</div>
+        </div>
+        <div class="pipeline-step" data-step="5">
+          <div class="step-number" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">STAGE 05</div>
+          <div class="step-title" style="font-weight: 600; font-size: 13px; color: var(--ink);">EXECUTION</div>
+          <div class="step-desc" style="font-size: 12px; color: var(--ink-soft); line-height: 1.4;">Mutates state, updates client records, or compiles executable payloads.</div>
+        </div>
+        <div class="pipeline-step" data-step="6">
+          <div class="step-number" style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px;">STAGE 06</div>
+          <div class="step-title" style="font-weight: 600; font-size: 13px; color: var(--ink);">VERIFIED RESULT</div>
+          <div class="step-desc" style="font-size: 12px; color: var(--ink-soft); line-height: 1.4;">Outputs verified response to user and stores audit telemetry.</div>
+        </div>
+      </div>
 
-        <div class="workflow-console" id="workflowConsole">
+      <div class="terminal" style="margin-top: 20px;" aria-hidden="true">
+        <div class="term-bar">
+          <div class="term-dot close"></div>
+          <div class="term-dot minimize"></div>
+          <div class="term-dot expand"></div>
+          <span class="term-title">telemetry &bull; live-execution-stream</span>
+        </div>
+        <div class="term-body" id="workflowConsole" style="min-height: 120px; max-height: 180px; overflow-y: auto; font-family: var(--font-mono); font-size: 12px;">
           <div class="console-line">
-            <span class="console-time">[18:32.102]</span>
-            <span class="console-tag">[SUPERVISOR_AGENT]</span>
-            <span class="console-msg">Multi-agent LangGraph network online. Select a scenario above to test.</span>
+            <span class="console-time" style="color: var(--ink-faint);">[00:00.010]</span>
+            <span class="console-tag" style="color: var(--accent-violet); font-weight: 600;">[SUPERVISOR]</span>
+            <span class="console-msg" style="color: var(--ink);">Agentic AI telemetry engine online. Click any scenario button above to test.</span>
           </div>
         </div>
-        <p style="text-align: center; margin-top: 14px; font-size: 12px; color: var(--ink-faint);">
-          *Interactive demonstration simulating live LangGraph state transitions and tool routing.
-        </p>
       </div>
     </section>
 
     <!-- Services Grid -->
-    <section class="services-flagship-section" style="padding: 90px 0;">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">CAPABILITIES DEEP DIVE</span>
-          <h2 class="section-title">What We Build in Agentic AI</h2>
-          <p class="section-sub">End-to-end autonomous intelligence engineered for zero operational latency.</p>
-        </div>
-
-        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
-          <div class="service-card">
-            <div class="service-badge">01 • MULTI-AGENT</div>
-            <h3 class="service-title">Multi-Agent Orchestration</h3>
-            <p class="service-description">
-              Complex workflows where specialized sub-agents collaborate: a researcher agent gathers intelligence, a critic agent audits accuracy, and an executive agent triggers real-world actions.
-            </p>
-            <ul class="service-features">
-              <li>LangGraph Cyclic State Graphs</li>
-              <li>Agent-to-Agent Verification Loops</li>
-              <li>Human-in-the-Loop Approval Gates</li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">02 • ENTERPRISE RAG</div>
-            <h3 class="service-title">Vector Search &amp; Private RAG</h3>
-            <p class="service-description">
-              Connect your proprietary PDFs, spreadsheets, and databases to LLMs without exposing sensitive data. Fast, zero-hallucination vector retrieval using Supabase pgvector and hybrid keyword search.
-            </p>
-            <ul class="service-features">
-              <li>Context-Aware Chunking Strategies</li>
-              <li>Supabase pgvector Hybrid Search</li>
-              <li>Zero Data Training Retention Guarantees</li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">03 • DOCUMENT INTELLIGENCE</div>
-            <h3 class="service-title">AI Document Extraction</h3>
-            <p class="service-description">
-              High-accuracy extraction from messy invoices, bank statements, legal agreements, and handwritten forms into verified structured JSON schemas ready for ERP ingestion.
-            </p>
-            <ul class="service-features">
-              <li>Multimodal OCR &amp; Vision Models</li>
-              <li>Zod Schema Validation &amp; Error Recovery</li>
-              <li>Automated ERP / Accounting Sync</li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">04 • CUSTOM AI SAAS</div>
-            <h3 class="service-title">AI-Powered SaaS Products</h3>
-            <p class="service-description">
-              End-to-end design and build of AI SaaS platforms: multi-tenant authentication, token consumption billing, rate limiting, and real-time streaming interfaces.
-            </p>
-            <ul class="service-features">
-              <li>Token Usage Metering &amp; Stripe Billing</li>
-              <li>Sub-50ms Streaming Responses</li>
-              <li>Multi-Tenant Data Isolation</li>
-            </ul>
-          </div>
-        </div>
+    <section class="block" id="services">
+      <div class="path-label">~/capabilities</div>
+      <div class="section-head">
+        <h2>What We Engineer in Agentic AI</h2>
+        <p class="section-note">End-to-end autonomous intelligence engineered for zero operational latency.</p>
       </div>
-    </section>
 
-    <!-- Architecture Comparison -->
-    <section class="why-us-section" style="padding: 80px 0; background: var(--bg-card);">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">ARCHITECTURAL PARADIGM</span>
-          <h2 class="section-title">Linear Chains vs. Agentic State Machines</h2>
-          <p class="section-sub">Why classical script chains fail in production, and how our agentic loops succeed.</p>
+      <div class="services-grid">
+        <div class="service-card card-design">
+          <div class="service-icon"><i class="fa-solid fa-sitemap"></i></div>
+          <h3>Multi-Agent Orchestration <span class="card-arrow">&rarr;</span></h3>
+          <p>Collaborative agent networks with specialized roles: researcher, validator, and executor swarms that self-correct errors.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;">
-          <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius-md); padding: 28px;">
-            <h4 style="color: #EF4444; font-family: var(--font-display); font-size: 18px; margin-bottom: 14px;">Fragile Linear Chains (Typical Agency)</h4>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; color: var(--ink-soft); font-size: 14px;">
-              <li>❌ Fails immediately if an API call throws a 500 error</li>
-              <li>❌ Zero self-reflection or error correction</li>
-              <li>❌ Prone to hallucinations when context windows overflow</li>
-              <li>❌ Blind token consumption without budget circuit-breakers</li>
-            </ul>
-          </div>
-
-          <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-md); padding: 28px;">
-            <h4 style="color: #10B981; font-family: var(--font-display); font-size: 18px; margin-bottom: 14px;">NextGen Cyclic Agentic Architecture</h4>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; color: var(--ink-soft); font-size: 14px;">
-              <li>✔ Dynamic retry loops with alternate tool fallback paths</li>
-              <li>✔ Automated critic agent checks outputs against schema rules</li>
-              <li>✔ Hybrid vector + metadata retrieval preserves token budgets</li>
-              <li>✔ Comprehensive audit log of every reasoning decision</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Scoping CTA -->
-    <section class="cta-section" id="contact-scope">
-      <div class="container cta-container">
-        <div class="cta-content">
-          <span class="section-tag">ENGINEERING CONSULTATION</span>
-          <h2 class="cta-title">Ready to Automate Your Core Workflows?</h2>
-          <p class="cta-desc">
-            Speak directly with our senior AI architects. We evaluate feasibility, token economics, and integration architectures within 24 hours.
-          </p>
-          <div class="direct-contact-pills">
-            <a href="https://wa.me/916379140067?text=Hi%20NextGen,%20I'm%20interested%20in%20Agentic%20AI%20Development" class="contact-pill wa" target="_blank" rel="noopener noreferrer">
-              WhatsApp: +91 63791 40067
-            </a>
-            <a href="https://t.me/shridharsan1" class="contact-pill tg" target="_blank" rel="noopener noreferrer">
-              Telegram: @shridharsan1
-            </a>
-          </div>
+        <div class="service-card card-build">
+          <div class="service-icon"><i class="fa-solid fa-database"></i></div>
+          <h3>Enterprise RAG &amp; Vector Databases <span class="card-arrow">&rarr;</span></h3>
+          <p>Private knowledge retrieval on Supabase pgvector. Zero hallucinations, hybrid keyword/vector search, and complete data privacy.</p>
         </div>
 
-        <div class="cta-form-card">
-          <form id="projectContactForm" class="inquiry-form">
-            <input type="hidden" name="projectType" value="Agentic AI Development">
-            <div class="form-group">
-              <label for="aiClientName">Your Name</label>
-              <input type="text" id="aiClientName" name="name" required placeholder="Alex Morgan">
-            </div>
-            <div class="form-group">
-              <label for="aiClientEmail">Work Email</label>
-              <input type="email" id="aiClientEmail" name="email" required placeholder="alex@company.com">
-            </div>
-            <div class="form-group">
-              <label for="aiClientBudget">Target Budget</label>
-              <select id="aiClientBudget" name="budget">
-                <option value="₹50k - ₹1.5L">₹50k - ₹1.5L (~$600 - $1.8k)</option>
-                <option value="₹1.5L - ₹3L" selected>₹1.5L - ₹3L (~$1.8k - $3.6k)</option>
-                <option value="Above ₹3L">Enterprise Custom (₹3L+)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="aiClientMessage">Workflow Scope</label>
-              <textarea id="aiClientMessage" name="message" rows="3" required placeholder="Describe the manual process or operational bottleneck you wish to automate..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit Agentic AI Brief &rarr;</button>
-          </form>
+        <div class="service-card card-grow">
+          <div class="service-icon"><i class="fa-solid fa-file-invoice"></i></div>
+          <h3>Document Intelligence &amp; OCR <span class="card-arrow">&rarr;</span></h3>
+          <p>Automated multimodal parsing of complex invoices, contracts, and receipts into verified Zod schemas and ERP payloads.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-headset"></i></div>
+          <h3>Autonomous Customer Support <span class="card-arrow">&rarr;</span></h3>
+          <p>24/7 intelligent support agents that verify order states, initiate refunds, and escalate edge cases with full conversation context.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-code-compare"></i></div>
+          <h3>Self-Healing ETL Pipelines <span class="card-arrow">&rarr;</span></h3>
+          <p>Autonomous schema migration watchers, API webhook retriers, and idempotent data pipelines that fix schema drift on the fly.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-microphone"></i></div>
+          <h3>Multimodal &amp; Voice Assistants <span class="card-arrow">&rarr;</span></h3>
+          <p>Sub-second conversational voice evaluation, Whisper real-time audio parsing, and structured interview grading systems.</p>
         </div>
       </div>
     </section>
   </main>
-
-  <!-- Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col brand-col">
-        <a href="/" class="brand">
-          <span class="brand-badge">NEXTGEN</span>
-          <span class="brand-text">WEB STUDIO</span>
-        </a>
-        <p class="footer-tagline">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures."</p>
-        <div class="footer-location">Coimbatore, Tamil Nadu, India</div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures." Engineered from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://t.me/shridharsan1" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:nextgenwebstudio63@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Flagship Services</h4>
+          <ul>
+            <li><a href="agentic-ai-development.html">Agentic AI Systems</a></li>
+            <li><a href="web-development.html">Web Development</a></li>
+            <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
+            <li><a href="client.html">Client Portal</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+            <li><i class="fa-solid fa-clock"></i> Mon-Sat, 9:00 AM - 6:00 PM</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <div class="footer-heading">Services</div>
-        <ul class="footer-links">
-          <li><a href="agentic-ai-development.html">Agentic AI Engineering</a></li>
-          <li><a href="web-development.html">Web Development</a></li>
-          <li><a href="telegram-bot-development.html">Telegram Bot Engineering</a></li>
-          <li><a href="portfolio.html">Featured Case Studies</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Company</div>
-        <ul class="footer-links">
-          <li><a href="about.html">About NextGen</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="client.html">Client Portal</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Legal</div>
-        <ul class="footer-links">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="refunds.html">Refund Policy</a></li>
-        </ul>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
       </div>
     </div>
   </footer>
+
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
 
   <script src="app.js"></script>
 </body>

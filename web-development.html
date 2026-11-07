@@ -2,366 +2,336 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>High-Performance Web Development | NextGen Web Studio Coimbatore</title>
-  <meta name="description" content="Custom full-stack web applications, SaaS platforms, high-conversion e-commerce, and admin dashboards engineered for speed, security, and scalability in Coimbatore.">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <!-- Google Fonts -->
+  <meta name="description" content="Full-stack React, Next.js, and Node.js applications engineered for sub-second speeds and flawless conversion.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
-
-  <!-- Header -->
-  <header class="header" id="mainHeader">
-    <div class="nav-container">
-      <a href="/" class="brand" aria-label="NextGen Web Studio Home">
-        <span class="brand-badge">NEXTGEN</span>
-        <span class="brand-text">WEB STUDIO</span>
+  <header>
+    <div class="wrap nav-container">
+      <a href="index.html" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
       </a>
-
-      <nav class="nav-links" id="navLinks" aria-label="Main Navigation">
-        <a href="/" class="nav-link">Home</a>
-        <a href="services.html" class="nav-link">Services</a>
-        <a href="agentic-ai-development.html" class="nav-link">Agentic AI</a>
-        <a href="web-development.html" class="nav-link active">Web Dev</a>
-        <a href="telegram-bot-development.html" class="nav-link">Telegram Bots</a>
-        <a href="portfolio.html" class="nav-link">Portfolio</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="services.html">services</a>
+          <a href="agentic-ai-development.html">agentic ai</a>
+          <a href="web-development.html" class="active" style="color:var(--accent);">web dev</a>
+          <a href="telegram-bot-development.html">telegram bots</a>
+          <a href="portfolio.html">work</a>
+          <a href="about.html">about</a>
+          <a href="contact.html">contact</a>
+          <a href="client.html">client portal</a>
+        </div>
+        <a href="contact.html" class="nav-cta">start a project</a>
       </nav>
 
-      <div class="nav-actions">
-        <a href="client.html" class="portal-link">Client Portal</a>
-        <a href="#contact-web" class="btn btn-primary nav-cta">Start Web Project</a>
+      <div class="mobile-nav-actions">
+        <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-section" style="padding: 120px 0 60px;">
-      <div class="container text-center" style="max-width: 900px;">
-        <div class="hero-badge" style="margin: 0 auto 20px;">
-          <span class="pulse-dot"></span>
-          <span>FULL-STACK ARCHITECTURE &amp; DESIGN ENGINEERING</span>
-        </div>
-        <h1 class="hero-title" style="font-size: clamp(36px, 5vw, 64px); line-height: 1.15;">
-          Web Applications That Ship Fast <br>
-          <span class="gradient-text">And Work Relentlessly.</span>
-        </h1>
-        <p class="hero-description" style="margin: 20px auto 36px; max-width: 720px; font-size: 18px;">
-          From high-converting brand platforms to multi-tenant SaaS dashboards and transaction engines. We engineer production web software with sub-second speeds and flawless craft.
-        </p>
-        <div class="hero-ctas" style="justify-content: center;">
-          <a href="#projects-showcase" class="btn btn-primary">View Real Deployments</a>
-          <a href="#contact-web" class="btn btn-secondary">Request Architecture Scoping</a>
-        </div>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html">home</a>
+      <a href="services.html">services</a>
+      <a href="agentic-ai-development.html">agentic ai</a>
+      <a href="web-development.html">web dev</a>
+      <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="portfolio.html">work</a>
+      <a href="about.html">about</a>
+      <a href="contact.html">contact</a>
+      <a href="client.html" class="drawer-client-link"><i class="fa-solid fa-circle-user"></i> client portal</a>
+      <a href="contact.html" class="drawer-cta btn-primary">start a project</a>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <main class="wrap">
+    <section class="hero" id="home">
+      <div class="eyebrow-cli">
+        <span class="eb-path"><i class="fa-solid fa-code"></i> ~/web-development</span>
+        <span class="eb-branch"><i class="fa-solid fa-code-branch"></i> git:(main)</span>
+        <span class="eb-status"><i class="fa-solid fa-circle-check"></i> status: active</span>
       </div>
-    </section>
 
-    <!-- 4 Engineering Pillars -->
-    <section class="why-us-section" style="padding: 70px 0; background: var(--bg-card);">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag">ENGINEERING PILLARS</span>
-          <h2 class="section-title">The Four Standards Behind Every Deploy</h2>
-          <p class="section-sub">We build on these foundational engineering criteria for every client platform.</p>
-        </div>
-
-        <div class="why-us-grid">
-          <div class="why-card">
-            <div class="why-icon" style="color: #3B82F6;">01</div>
-            <h3 class="why-title">Performance</h3>
-            <p class="why-desc">
-              Sub-second Largest Contentful Paint (LCP), zero Cumulative Layout Shift (CLS), and aggressive asset optimizations to achieve 98+ Google Lighthouse scores.
-            </p>
-          </div>
-
-          <div class="why-card">
-            <div class="why-icon" style="color: #10B981;">02</div>
-            <h3 class="why-title">Security</h3>
-            <p class="why-desc">
-              OWASP Top 10 compliance, CSRF protections, strict Content Security Policies, parameterized queries, and Row-Level Security (RLS) on PostgreSQL.
-            </p>
-          </div>
-
-          <div class="why-card">
-            <div class="why-icon" style="color: #8B5CF6;">03</div>
-            <h3 class="why-title">Scalability</h3>
-            <p class="why-desc">
-              Edge routing via Cloudflare/Vercel, stateless API containers, connection pooling via Supabase, and distributed Redis caches that handle traffic spikes smoothly.
-            </p>
-          </div>
-
-          <div class="why-card">
-            <div class="why-icon" style="color: #F59E0B;">04</div>
-            <h3 class="why-title">Interaction &amp; UI/UX</h3>
-            <p class="why-desc">
-              Tuned using Emil Kowalski motion principles: fluid spring curves, zero tap delays, origin-aware menus, and active press states with zero layout thrashing.
-            </p>
+      <div class="hero-grid">
+        <div class="hero-text-content">
+          <h1>Web Applications That <br><span class="gradient-text">Ship Fast</span> &amp; Scale.</h1>
+          <p class="hero-sub">We engineer sub-second full-stack platforms, SaaS applications, custom booking engines, and high-conversion e-commerce storefronts tailored for ambitious founders.</p>
+          <div class="hero-actions">
+            <a href="#capabilities" class="btn-primary">Our 4 Pillars <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="contact.html" class="btn-ghost">Start a Project</a>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Services Spectrum -->
-    <section class="services-flagship-section" style="padding: 90px 0;">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">SERVICES CATALOG</span>
-          <h2 class="section-title">Comprehensive Web Engineering Disciplines</h2>
-          <p class="section-sub">Modular, scalable architectures tailored to your commercial requirements.</p>
-        </div>
-
-        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-          <div class="service-card">
-            <div class="service-badge">01 • BRAND &amp; PRODUCT</div>
-            <h3 class="service-title">Business &amp; Corporate Portals</h3>
-            <p class="service-description">
-              Custom-engineered websites designed to establish category leadership. Structured schema markup, high-velocity page loads, and internationalized CMS integration.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">02 • SOFTWARE AS A SERVICE</div>
-            <h3 class="service-title">Custom SaaS Platforms</h3>
-            <p class="service-description">
-              Full-stack subscription applications featuring multi-tenant workspace isolation, usage metering, team role management, and automated Stripe/Razorpay billing.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">03 • DIRECT COMMERCE</div>
-            <h3 class="service-title">High-Conversion E-Commerce</h3>
-            <p class="service-description">
-              Frictionless checkout pipelines with Indian &amp; international payment gateways, dynamic cart locks, automated courier API integration, and order status tracking.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">04 • INTERNAL TOOLS</div>
-            <h3 class="service-title">Admin &amp; Operational Dashboards</h3>
-            <p class="service-description">
-              High-density, keyboard-driven internal management dashboards, custom CRM views, live transaction streams, and comprehensive audit log consoles.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">05 • INTEGRATION</div>
-            <h3 class="service-title">Custom APIs &amp; Integrations</h3>
-            <p class="service-description">
-              Resilient RESTful and GraphQL endpoints, webhook receivers, and integrations with third-party tools like WhatsApp Cloud API, Shiprocket, and ERP systems.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-badge">06 • MODERNIZATION</div>
-            <h3 class="service-title">Speed Optimization &amp; Refactoring</h3>
-            <p class="service-description">
-              Transforming sluggish legacy codebases into modern high-speed architectures. Eliminating bundle bloat, reducing render waterfalls, and fixing layout shifts.
-            </p>
+        <div class="terminal-container">
+          <div class="terminal" aria-hidden="true">
+            <div class="term-bar">
+              <div class="term-dot close"></div>
+              <div class="term-dot minimize"></div>
+              <div class="term-dot expand"></div>
+              <span class="term-title">web-vitals &bull; lighthouse-audit</span>
+            </div>
+            <div class="term-body">
+              <div class="term-history">
+                <div class="term-line"><span class="term-prompt">$</span> lighthouse.audit(url)</div>
+                <div class="term-line output">Performance ........ [ 99 / 100 ]</div>
+                <div class="term-line output">Accessibility ...... [ 100 / 100 ]</div>
+                <div class="term-line output">Best Practices ..... [ 100 / 100 ]</div>
+                <div class="term-line output">SEO ................ [ 100 / 100 ]</div>
+                <div class="term-line">&nbsp;</div>
+                <div class="term-line"><span class="term-prompt">$</span> latency.lcp</div>
+                <div class="term-line output">Largest Contentful Paint: 0.72s (Sub-Second)</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Real Projects Showcase -->
-    <section class="portfolio-section" id="projects-showcase" style="background: var(--bg-secondary); padding: 90px 0;">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">VERIFIED CASE STUDIES</span>
-          <h2 class="section-title">Production Web Applications We've Shipped</h2>
-          <p class="section-sub">Real client software running in production with verified commercial outcomes.</p>
+        <!-- 4 Engineering Pillars -->
+    <section class="block" id="capabilities">
+      <div class="path-label">~/engineering-pillars</div>
+      <div class="section-head">
+        <h2>The Four Pillars of Every Build</h2>
+        <p class="section-note">We build according to rigorous production standards that prevent regressions.</p>
+      </div>
+
+      <div class="capabilities-list">
+        <div class="capability-row">
+          <div class="capability-left">
+            <span class="capability-icon"><i class="fa-solid fa-gauge-high"></i></span>
+            <div class="capability-info">
+              <h3>Sub-Second Performance Standard</h3>
+              <p>Edge caching, optimized asset bundles, and clean React code ensure immediate interaction and 99+ Lighthouse scores.</p>
+            </div>
+          </div>
+          <div class="capability-right">
+            <span class="capability-metric">&lt; 0.8s LCP</span>
+            <span class="capability-arrow">&rarr;</span>
+          </div>
         </div>
 
-        <div class="projects-grid">
-          <!-- Boomers Gaming -->
-          <article class="project-card">
-            <div class="project-media">
-              <img src="images/boomers_cafe_new.png" alt="Boomers Gaming Cafe Booking Engine">
-              <span class="project-category-badge">Esports Booking &amp; Tournament Platform</span>
+        <div class="capability-row">
+          <div class="capability-left">
+            <span class="capability-icon"><i class="fa-solid fa-shield-halved"></i></span>
+            <div class="capability-info">
+              <h3>Zero-Trust Enterprise Security</h3>
+              <p>OWASP compliance, strict Content Security Policies, parameterized queries, and Row-Level Security on PostgreSQL.</p>
             </div>
-            <div class="project-info">
-              <h3 class="project-title">Boomers Gaming Cafe System</h3>
-              <p class="project-desc">
-                High-performance PC station reservation and tournament engine for Coimbatore's premier gaming lounge. Integrated with real-time station locks and Razorpay.
-              </p>
-              <div class="project-tags">
-                <span class="tag">Node.js</span>
-                <span class="tag">WebSockets</span>
-                <span class="tag">Razorpay</span>
-                <span class="tag">99.8% Uptime</span>
-              </div>
-              <div class="project-links">
-                <a href="https://boomersgamingcafe.com" target="_blank" rel="noopener noreferrer" class="link-btn">Live Platform &nearr;</a>
-              </div>
-            </div>
-          </article>
+          </div>
+          <div class="capability-right">
+            <span class="capability-metric">OWASP Top 10</span>
+            <span class="capability-arrow">&rarr;</span>
+          </div>
+        </div>
 
-          <!-- GoatTurf -->
-          <article class="project-card">
-            <div class="project-media">
-              <img src="images/turf_dashboard_new.png" alt="GoatTurf Sports Slot Reservation Engine">
-              <span class="project-category-badge">Sports SaaS &amp; Real-Time Booking</span>
+        <div class="capability-row">
+          <div class="capability-left">
+            <span class="capability-icon"><i class="fa-solid fa-network-wired"></i></span>
+            <div class="capability-info">
+              <h3>Stateless Elastic Scalability</h3>
+              <p>Edge-routed APIs, serverless handlers, Redis connection pooling, and multi-region database replication.</p>
             </div>
-            <div class="project-info">
-              <h3 class="project-title">GoatTurf Booking Engine</h3>
-              <p class="project-desc">
-                Full-stack slot reservation engine with dynamic hourly pricing, concurrent lock mechanisms preventing double bookings, and automated WhatsApp passes.
-              </p>
-              <div class="project-tags">
-                <span class="tag">React</span>
-                <span class="tag">Redis Concurrency</span>
-                <span class="tag">WhatsApp API</span>
-              </div>
-              <div class="project-links">
-                <span class="link-badge">Production Deployment</span>
-              </div>
-            </div>
-          </article>
+          </div>
+          <div class="capability-right">
+            <span class="capability-metric">Global Edge</span>
+            <span class="capability-arrow">&rarr;</span>
+          </div>
+        </div>
 
-          <!-- NeiMozhi -->
-          <article class="project-card">
-            <div class="project-media">
-              <img src="images/neimozhi_new.png" alt="NeiMozhi E-Commerce Platform">
-              <span class="project-category-badge">Native Commerce &amp; Fulfillment</span>
+        <div class="capability-row">
+          <div class="capability-left">
+            <span class="capability-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+            <div class="capability-info">
+              <h3>Emil Kowalski Motion Polish</h3>
+              <p>Spring-based active press states, zero-flash mobile interactions, and origin-aware dropdowns that feel physical.</p>
             </div>
-            <div class="project-info">
-              <h3 class="project-title">NeiMozhi Native Storefront</h3>
-              <p class="project-desc">
-                Direct-to-consumer e-commerce platform for pure native Tamil Nadu ghee with lightning fast checkout and automated Shiprocket logistics dispatch.
-              </p>
-              <div class="project-tags">
-                <span class="tag">E-Commerce</span>
-                <span class="tag">Razorpay Rails</span>
-                <span class="tag">Sub-Second Loads</span>
-              </div>
-              <div class="project-links">
-                <span class="link-badge">Live Storefront</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- NextGen Billing -->
-          <article class="project-card">
-            <div class="project-media">
-              <img src="images/billing_software_new.png" alt="NextGen Enterprise Billing & POS">
-              <span class="project-category-badge">Enterprise POS &amp; Invoicing</span>
-            </div>
-            <div class="project-info">
-              <h3 class="project-title">NextGen Enterprise Billing Engine</h3>
-              <p class="project-desc">
-                Multi-tenant POS and GST compliance invoicing software with thermal receipt formatting, real-time sales telemetry, and ledger reconciliation.
-              </p>
-              <div class="project-tags">
-                <span class="tag">Full-Stack</span>
-                <span class="tag">PDF Vector Engine</span>
-                <span class="tag">GST Invoicing</span>
-              </div>
-              <div class="project-links">
-                <span class="link-badge">Internal Enterprise Suite</span>
-              </div>
-            </div>
-          </article>
+          </div>
+          <div class="capability-right">
+            <span class="capability-metric">Tactile UI</span>
+            <span class="capability-arrow">&rarr;</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Scoping Form -->
-    <section class="cta-section" id="contact-web">
-      <div class="container cta-container">
-        <div class="cta-content">
-          <span class="section-tag">PROJECT ESTIMATION</span>
-          <h2 class="cta-title">Build Your Web Application with NextGen</h2>
-          <p class="cta-desc">
-            Submit your core specifications. We provide a comprehensive architectural proposal, milestone schedule, and fixed quote within 24 hours.
-          </p>
-          <div class="direct-contact-pills">
-            <a href="https://wa.me/916379140067?text=Hi%20NextGen,%20I'm%20interested%20in%20Web%20Development" class="contact-pill wa" target="_blank" rel="noopener noreferrer">
-              WhatsApp: +91 63791 40067
-            </a>
-            <a href="https://t.me/shridharsan1" class="contact-pill tg" target="_blank" rel="noopener noreferrer">
-              Telegram: @shridharsan1
-            </a>
-          </div>
-        </div>
+    <!-- Web Solutions Grid -->
+    <section class="block" id="web-solutions">
+      <div class="path-label">~/web-disciplines</div>
+      <div class="section-head">
+        <h2>Full-Stack Capabilities</h2>
+        <p class="section-note">From bespoke brand flagships to multi-tenant SaaS dashboards.</p>
+      </div>
 
-        <div class="cta-form-card">
-          <form id="projectContactForm" class="inquiry-form">
-            <input type="hidden" name="projectType" value="Web Development">
-            <div class="form-group">
-              <label for="webClientName">Your Name</label>
-              <input type="text" id="webClientName" name="name" required placeholder="Sarah Jenkins">
-            </div>
-            <div class="form-group">
-              <label for="webClientEmail">Email Address</label>
-              <input type="email" id="webClientEmail" name="email" required placeholder="sarah@brand.com">
-            </div>
-            <div class="form-group">
-              <label for="webClientBudget">Target Budget</label>
-              <select id="webClientBudget" name="budget">
-                <option value="Under ₹50k">Starter / Under ₹50k (~$600)</option>
-                <option value="₹50k - ₹1.5L" selected>Growth / ₹50k - ₹1.5L (~$600 - $1.8k)</option>
-                <option value="₹1.5L - ₹3L">Scale / ₹1.5L - ₹3L (~$1.8k - $3.6k)</option>
-                <option value="Above ₹3L">Enterprise / Above ₹3L ($3.6k+)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="webClientMessage">Project Scope Brief</label>
-              <textarea id="webClientMessage" name="message" rows="3" required placeholder="Tell us about the web application, required features, or redesign goals..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit Web Development Brief &rarr;</button>
-          </form>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
+          <h3>SaaS Platforms &amp; Dashboards</h3>
+          <p>Real-time analytics portals, multi-tenant RBAC permissions, Supabase Auth, and recurring billing rails.</p>
         </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+          <h3>E-Commerce &amp; Native Checkouts</h3>
+          <p>Frictionless checkout experiences, Razorpay/Stripe webhooks, automated shipping labels, and dynamic catalogs.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <h3>Custom Booking &amp; Slot Locks</h3>
+          <p>Concurrency-locked reservation calendars that eliminate double bookings with instant WhatsApp confirmation passes.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-server"></i></div>
+          <h3>Custom APIs &amp; Microservices</h3>
+          <p>High-throughput REST and GraphQL backends built with Node.js and FastAPI with sub-35ms response targets.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <h3>Legacy Modernization &amp; Redesign</h3>
+          <p>Re-architecting slow, clunky WordPress or legacy sites into snappy, ultra-modern Next.js applications.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-shield-virus"></i></div>
+          <h3>Speed &amp; SEO Optimization</h3>
+          <p>Core Web Vitals tuning, JSON-LD rich snippet architecture, dynamic OpenGraph generation, and edge caching.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected Web Deployments -->
+    <section class="block" id="web-deployments">
+      <div class="path-label">~/featured-deployments</div>
+      <div class="section-head">
+        <h2>Featured Web Deployments</h2>
+        <p class="section-note">Live production builds engineered and maintained by NextGen Web Studio.</p>
+      </div>
+
+      <div class="portfolio-grid">
+        <article class="project-card">
+          <div class="project-media">
+            <img src="images/boomers_cafe_new.png" alt="Boomers Gaming Platform" loading="lazy">
+            <span class="project-badge">Esports Booking</span>
+          </div>
+          <div class="project-body">
+            <h3>Boomers Gaming Platform</h3>
+            <p>Real-time PC station booking, gaming tournament scheduling, and payment integration for Coimbatore's largest esports cafe.</p>
+            <div class="project-tech">
+              <span>Node.js</span><span>WebSockets</span><span>Razorpay</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://boomersgamingcafe.com" target="_blank" rel="noopener noreferrer" class="link-btn">Live Platform &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-media">
+            <img src="images/turf_dashboard_new.png" alt="GoatTurf Sports Booking" loading="lazy">
+            <span class="project-badge">Sports SaaS</span>
+          </div>
+          <div class="project-body">
+            <h3>GoatTurf Booking Engine</h3>
+            <p>Automated turf reservation platform with dynamic pricing, concurrent slot locks to prevent double-booking, and instant WhatsApp booking passes.</p>
+            <div class="project-tech">
+              <span>React</span><span>Redis Concurrency</span><span>WhatsApp Cloud API</span>
+            </div>
+            <div class="project-actions">
+              <span class="project-status-tag">Production Deployment</span>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </main>
-
-  <!-- Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col brand-col">
-        <a href="/" class="brand">
-          <span class="brand-badge">NEXTGEN</span>
-          <span class="brand-text">WEB STUDIO</span>
-        </a>
-        <p class="footer-tagline">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures."</p>
-        <div class="footer-location">Coimbatore, Tamil Nadu, India</div>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+          </svg>
+          <p class="footer-desc">"Beyond Websites. Beyond Automation. We Build Intelligent Digital Futures." Engineered from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://t.me/shridharsan1" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:nextgenwebstudio63@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Flagship Services</h4>
+          <ul>
+            <li><a href="agentic-ai-development.html">Agentic AI Systems</a></li>
+            <li><a href="web-development.html">Web Development</a></li>
+            <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
+            <li><a href="client.html">Client Portal</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+            <li><i class="fa-solid fa-clock"></i> Mon-Sat, 9:00 AM - 6:00 PM</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <div class="footer-heading">Services</div>
-        <ul class="footer-links">
-          <li><a href="agentic-ai-development.html">Agentic AI Engineering</a></li>
-          <li><a href="web-development.html">Web Development</a></li>
-          <li><a href="telegram-bot-development.html">Telegram Bot Engineering</a></li>
-          <li><a href="portfolio.html">Featured Case Studies</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Company</div>
-        <ul class="footer-links">
-          <li><a href="about.html">About NextGen</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="client.html">Client Portal</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-heading">Legal</div>
-        <ul class="footer-links">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="refunds.html">Refund Policy</a></li>
-        </ul>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
       </div>
     </div>
   </footer>
+
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
 
   <script src="app.js"></script>
 </body>
