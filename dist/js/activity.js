@@ -47,6 +47,36 @@ async function fetchSmtpConfig() {
         if (document.getElementById('resendTo')) document.getElementById('resendTo').value = config.resend.to || 'nextgenwebstudio63@gmail.com';
       }
 
+      if (config.razorpay) {
+        if (document.getElementById('razorpayKeyId')) document.getElementById('razorpayKeyId').value = config.razorpay.keyId || '';
+        if (document.getElementById('razorpayKeySecret')) document.getElementById('razorpayKeySecret').value = config.razorpay.keySecret || '';
+        const rzBadge = document.getElementById('razorpayStatusBadge');
+        if (rzBadge) {
+          if (config.razorpay.keyId) {
+            rzBadge.className = 'status-badge paid';
+            rzBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Connected (' + config.razorpay.keyId.slice(0, 10) + '...)';
+          } else {
+            rzBadge.className = 'status-badge new';
+            rzBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Key Required';
+          }
+        }
+      }
+
+      if (config.oauth) {
+        if (document.getElementById('googleClientId')) document.getElementById('googleClientId').value = config.oauth.googleClientId || '';
+        if (document.getElementById('googleClientSecret')) document.getElementById('googleClientSecret').value = config.oauth.googleClientSecret || '';
+        const gBadge = document.getElementById('googleStatusBadge');
+        if (gBadge) {
+          if (config.oauth.googleClientId) {
+            gBadge.className = 'status-badge paid';
+            gBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Google OAuth Active';
+          } else {
+            gBadge.className = 'status-badge new';
+            gBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Credentials Required';
+          }
+        }
+      }
+
       loadTemplates();
       loadEmailLogs();
 
@@ -351,6 +381,14 @@ document.addEventListener('DOMContentLoaded', () => {
           fromName: document.getElementById('resendFromName') ? document.getElementById('resendFromName').value.trim() : 'NextGen Web Studio',
           fromEmail: document.getElementById('resendFromEmail') ? document.getElementById('resendFromEmail').value.trim() : 'nextgenwebstudio63@gmail.com',
           to: document.getElementById('resendTo') ? document.getElementById('resendTo').value.trim() : 'nextgenwebstudio63@gmail.com'
+        },
+        razorpay: {
+          keyId: document.getElementById('razorpayKeyId') ? document.getElementById('razorpayKeyId').value.trim() : '',
+          keySecret: document.getElementById('razorpayKeySecret') ? document.getElementById('razorpayKeySecret').value.trim() : ''
+        },
+        oauth: {
+          googleClientId: document.getElementById('googleClientId') ? document.getElementById('googleClientId').value.trim() : '',
+          googleClientSecret: document.getElementById('googleClientSecret') ? document.getElementById('googleClientSecret').value.trim() : ''
         }
       };
 

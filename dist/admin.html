@@ -1531,7 +1531,7 @@
         <li data-tab="calendarTab"><a href="#"><i class="fa-solid fa-calendar-days"></i> Calendar</a></li>
         <li data-tab="portalControlTab"><a href="#"><i class="fa-solid fa-toggle-on"></i> Portal Control</a></li>
         <li data-tab="accessTab"><a href="#"><i class="fa-solid fa-users"></i> Client Management</a></li>
-        <li data-tab="settingsTab"><a href="#"><i class="fa-solid fa-gears"></i> SMTP Settings</a></li>
+        <li data-tab="settingsTab"><a href="#"><i class="fa-solid fa-gears"></i> API & Gateway Settings</a></li>
         <li data-tab="chatbotTab"><a href="#" style="display:flex; align-items:center; justify-content:space-between; width:100%;"><span style="display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-comments"></i> Chatbot Inbox</span><span id="chatNotificationDot" style="display:none; width:8px; height:8px; background-color:#ef4444; border-radius:50%; box-shadow:0 0 8px #ef4444;"></span></a></li>
       </ul>
       <div class="logout-btn" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logout</div>
@@ -2238,6 +2238,55 @@
               </div>
 
               <!-- Save settings action -->
+              <!-- Razorpay Payment Gateway Config -->
+              <div style="border-top: 1px solid var(--border); padding-top: 25px; margin-top: 25px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <h4 style="margin:0; font-family:var(--font-mono); font-size:13px; text-transform:uppercase; color:var(--accent);">
+                    <i class="fa-solid fa-credit-card" style="margin-right:6px;"></i>Razorpay Payment Gateway
+                  </h4>
+                  <span id="razorpayStatusBadge" class="status-badge paid"><i class="fa-solid fa-circle-check"></i> Connected</span>
+                </div>
+                <p style="font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:15px;">
+                  Configure your Razorpay Key ID and Secret to accept instant UPI, Cards, and Netbanking payments for client milestone receipts.
+                </p>
+                <div class="settings-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                  <div class="input-group">
+                    <label for="razorpayKeyId">Razorpay Key ID</label>
+                    <input type="text" id="razorpayKeyId" placeholder="rzp_test_... or rzp_live_...">
+                  </div>
+                  <div class="input-group">
+                    <label for="razorpayKeySecret">Razorpay Key Secret</label>
+                    <input type="password" id="razorpayKeySecret" placeholder="Enter Razorpay Secret Key">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Google OAuth Client Credentials -->
+              <div style="border-top: 1px solid var(--border); padding-top: 25px; margin-top: 25px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <h4 style="margin:0; font-family:var(--font-mono); font-size:13px; text-transform:uppercase; color:#EA4335;">
+                    <i class="fa-brands fa-google" style="margin-right:6px;"></i>Google OAuth Authentication
+                  </h4>
+                  <span id="googleStatusBadge" class="status-badge paid"><i class="fa-solid fa-circle-check"></i> Google OAuth Active</span>
+                </div>
+                <p style="font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:15px;">
+                  Google Cloud OAuth 2.0 client credentials powering 1-click client verification into the Client Portal.
+                </p>
+                <div class="settings-grid" style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px;">
+                  <div class="input-group">
+                    <label for="googleClientId">Google Client ID</label>
+                    <input type="text" id="googleClientId" placeholder="xxxxxxxxxxxx-xxxxxxxx.apps.googleusercontent.com">
+                  </div>
+                  <div class="input-group">
+                    <label for="googleClientSecret">Google Client Secret</label>
+                    <input type="password" id="googleClientSecret" placeholder="GOCSPX-xxxxxxxxxxxxxxxxxxxxxxxx">
+                  </div>
+                </div>
+                <div style="font-size:11.5px; font-family:var(--font-mono); color:var(--ink-soft); line-height:1.6; background:var(--bg-alt); padding:10px 14px; border-radius:6px; border:1px solid var(--border); margin-bottom:15px;">
+                  <i class="fa-solid fa-link" style="color:var(--accent); margin-right:6px;"></i> Authorized Redirect URI: <code>https://nextgen-studio-czz7.onrender.com/api/auth/google/callback</code>
+                </div>
+              </div>
+
               <div style="margin-top: 10px; margin-bottom: 30px;">
                 <button type="submit" class="login-btn" style="width: 100%;"><i class="fa-solid fa-save"></i> Save Configurations</button>
               </div>

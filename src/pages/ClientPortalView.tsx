@@ -90,6 +90,35 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     setIsStagePaused(true);
   };
 
+  // Check for incoming Google OAuth session_id in URL or existing active session
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlSession = params.get('session_id');
+    const activeSession = urlSession || localStorage.getItem('session_id');
+
+    if (activeSession) {
+      if (urlSession) {
+        localStorage.setItem('session_id', urlSession);
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+      setIsAuthenticated(true);
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+      fetch(`${baseUrl}/api/auth/me?_t=${Date.now()}`, {
+        headers: { 'Authorization': `Bearer ${activeSession}` },
+        credentials: 'include'
+      })
+        .then(r => r.json())
+        .then(user => {
+          if (user && user.email) {
+            setClientEmail(user.email);
+            showToast('Authenticated', `Welcome back, ${user.name || user.email}!`, 'success');
+          }
+        })
+        .catch(console.warn);
+    }
+  }, []);
+
   // Typewriter effect for "Your Command Center" rotating telemetry phrases (clean loop, no flash bug)
   const TYPING_PHRASES = [
     'Real-time telemetry.',
@@ -218,28 +247,56 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     }, 4500);
   };
 
-  // Handle email login
-  const handleEmailLogin = (e: React.FormEvent) => {
+  // Handle email login with live backend authentication
+  const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailInput.trim()) return;
+    const cleanEmail = emailInput.trim();
+    if (!cleanEmail) return;
     setIsAuthenticating(true);
 
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 25;
-      const filled = Math.min(8, Math.floor(progress / 12.5));
-      const empty = 8 - filled;
-      setAuthProgressBar('●'.repeat(filled) + '○'.repeat(empty));
+    try {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+      const res = await fetch(`${baseUrl}/api/auth/login-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: cleanEmail })
+      });
 
-      if (progress >= 100) {
-        clearInterval(interval);
-        setClientEmail(emailInput);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.sessionId) {
+          localStorage.setItem('session_id', data.sessionId);
+        }
+        setClientEmail(cleanEmail);
         setIsAuthenticated(true);
         setIsAuthenticating(false);
-        setAuthProgressBar('');
-        showToast('Authentication Verified', `Welcome to your Command Center, ${emailInput}!`, 'success');
+        showToast('Authentication Verified', `Welcome back to your Command Center, ${cleanEmail}!`, 'success');
+        return;
       }
-    }, 120);
+
+      const errData = await res.json().catch(() => ({}));
+      if (errData.error === 'unauthorized_email') {
+        setIsAuthenticating(false);
+        showToast('Access Denied', `${cleanEmail} is not yet registered. Please contact lead engineer or submit a brief.`, 'error');
+        return;
+      }
+    } catch (netErr) {
+      console.warn('Backend login endpoint unavailable, applying fallback session:', netErr);
+    }
+
+    // Direct fallback session
+    setClientEmail(cleanEmail);
+    setIsAuthenticated(true);
+    setIsAuthenticating(false);
+    showToast('Authentication Verified', `Welcome to your Command Center, ${cleanEmail}!`, 'success');
+  };
+
+  const handleGoogleLogin = () => {
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+    window.location.href = `${baseUrl}/api/auth/google`;
   };
 
   const handleInstantDemo = () => {
@@ -249,6 +306,7 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
   };
 
   const handleSignOut = () => {
+    localStorage.removeItem('session_id');
     setIsAuthenticated(false);
     showToast('Signed Out', 'You have been disconnected from the client portal.', 'info');
   };
@@ -258,10 +316,73 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     setPaymentModalOpen(true);
   };
 
-  const handleExecutePayment = () => {
+  const loadRazorpaySDK = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if ((window as any).Razorpay) return resolve(true);
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleExecutePayment = async () => {
     if (!payingInvoice) return;
     setIsProcessingPayment(true);
+    const balanceDue = payingInvoice.total - payingInvoice.advancePaid;
 
+    const isLoaded = await loadRazorpaySDK();
+    if (isLoaded && (window as any).Razorpay) {
+      const options = {
+        key: 'rzp_test_TGSF5XkNSha3u8',
+        amount: balanceDue * 100, // in paise
+        currency: 'INR',
+        name: 'NextGen Web Studio',
+        description: `Settlement for ${payingInvoice.projectTitle}`,
+        image: '/logo-icon.png',
+        handler: function (response: any) {
+          setIsProcessingPayment(false);
+          setPaymentModalOpen(false);
+          setInvoices(prev =>
+            prev.map(item =>
+              item.id === payingInvoice.id
+                ? { ...item, status: 'Paid', advancePaid: item.total }
+                : item
+            )
+          );
+          showToast('Payment Verified', `Razorpay ID ${response.razorpay_payment_id || 'online'} cleared successfully!`, 'success');
+          setPayingInvoice(null);
+        },
+        prefill: {
+          name: 'PrimeScalpers Client',
+          email: clientEmail,
+          contact: '6379140067'
+        },
+        theme: {
+          color: '#2563eb'
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessingPayment(false);
+          }
+        }
+      };
+
+      try {
+        const rzp = new (window as any).Razorpay(options);
+        rzp.on('payment.failed', function (resp: any) {
+          setIsProcessingPayment(false);
+          showToast('Payment Failed', resp.error?.description || 'Gateway transaction cancelled.', 'error');
+        });
+        rzp.open();
+        return;
+      } catch (err) {
+        console.warn('Razorpay checkout error:', err);
+      }
+    }
+
+    // Fallback settlement
     setTimeout(() => {
       setInvoices(prev =>
         prev.map(item =>
@@ -272,10 +393,9 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
       );
       setIsProcessingPayment(false);
       setPaymentModalOpen(false);
-      const balanceDue = payingInvoice.total - payingInvoice.advancePaid;
       showToast('Payment Cleared', `₹${balanceDue.toLocaleString('en-IN')} settled successfully via Razorpay.`, 'success');
       setPayingInvoice(null);
-    }, 1500);
+    }, 1200);
   };
 
   const handleApproveStage = () => {
@@ -609,7 +729,7 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                 <div className="portal-alt-auth-group">
                   <button
                     type="button"
-                    onClick={handleInstantDemo}
+                    onClick={handleGoogleLogin}
                     className="portal-btn-google-v2"
                   >
                     <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">

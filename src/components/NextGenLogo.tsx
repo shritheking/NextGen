@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface NextGenLogoProps {
   className?: string;
@@ -11,6 +11,7 @@ export const NextGenLogo: React.FC<NextGenLogoProps> = ({
   theme = 'light',
   size = 'md'
 }) => {
+  const [imgFailed, setImgFailed] = useState(false);
   const isDark = theme === 'dark';
   const iconSize = size === 'sm' ? 24 : size === 'lg' ? 34 : 28;
   const textSize = size === 'sm' ? 20 : size === 'lg' ? 28 : 24;
@@ -27,25 +28,45 @@ export const NextGenLogo: React.FC<NextGenLogoProps> = ({
         lineHeight: 1
       }}
     >
-      <img
-        src="/logo-icon.png"
-        alt="NextGen Logo Mark"
-        className="brand-official-icon"
-        onError={(e) => {
-          const img = e.currentTarget;
-          if (!img.src.includes('assets/logo-icon.png')) {
-            img.src = '/assets/logo-icon.png';
-          }
-        }}
-        style={{
-          width: `${iconSize}px`,
-          height: `${iconSize}px`,
-          borderRadius: `${Math.round(iconSize * 0.25)}px`,
-          boxShadow: '0 2px 6px rgba(0, 0, 0, 0.12)',
-          display: 'inline-block',
-          objectFit: 'contain'
-        }}
-      />
+      {!imgFailed ? (
+        <img
+          src="/logo-icon.png"
+          alt="NextGen Logo Mark"
+          className="brand-official-icon"
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (!img.src.includes('assets/logo-icon.png')) {
+              img.src = '/assets/logo-icon.png';
+            } else {
+              setImgFailed(true);
+            }
+          }}
+          style={{
+            width: `${iconSize}px`,
+            height: `${iconSize}px`,
+            borderRadius: `${Math.round(iconSize * 0.25)}px`,
+            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.12)',
+            display: 'inline-block',
+            objectFit: 'contain'
+          }}
+        />
+      ) : (
+        <svg
+          viewBox="0 0 100 100"
+          style={{
+            width: `${iconSize}px`,
+            height: `${iconSize}px`,
+            borderRadius: `${Math.round(iconSize * 0.25)}px`,
+            display: 'inline-block',
+            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.12)'
+          }}
+        >
+          <rect width="100" height="100" rx="24" fill="#0b0b0a"/>
+          <rect x="2" y="2" width="96" height="96" rx="22" fill="none" stroke="#22211f" strokeWidth="4"/>
+          <path d="M 28,26 L 52,50 L 28,74" stroke="#f5f4f0" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+          <path d="M 50,26 L 74,50 L 50,74" stroke="#2563eb" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </svg>
+      )}
       <span
         className="brand-text"
         style={{

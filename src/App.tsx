@@ -940,7 +940,7 @@ export const App: React.FC = () => {
     email: '',
     whatsapp: '',
     service: 'Agentic AI Systems',
-    budget: '₹50,000 - ₹1,50,000 (~$1.8K)',
+    budget: '₹50,000 - ₹1,50,000',
     idea: ''
   });
 
@@ -2746,6 +2746,15 @@ export const App: React.FC = () => {
                             const img = e.currentTarget;
                             if (!img.src.includes('assets/primescalpers-avatar.png')) {
                               img.src = '/assets/primescalpers-avatar.png';
+                            } else {
+                              img.style.display = 'none';
+                              if (img.parentElement && !img.parentElement.querySelector('.tg-avatar-fallback')) {
+                                const fallback = document.createElement('div');
+                                fallback.className = 'tg-avatar-fallback';
+                                fallback.style.cssText = 'width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#1e3a8a,#0284c7);display:flex;align-items:center;justify-content:center;color:#ffffff;font-weight:700;font-size:12px;';
+                                fallback.innerText = 'PS';
+                                img.parentElement.appendChild(fallback);
+                              }
                             }
                           }}
                         />

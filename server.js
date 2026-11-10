@@ -1290,7 +1290,7 @@ function parseBudgetToNumber(budgetString) {
         const projects = await dbList('projects');
         
         // Avoid duplicate project mappings
-        let existingProj = projects.find(p => p.email.toLowerCase() === inquiry.email.toLowerCase() && p.projectType === (inquiry.projectType || 'Web Scoping'));
+        let existingProj = projects.find(p => p.email.toLowerCase() === inquiry.email.toLowerCase() && p.projectType === (inquiry.projectType || 'Agentic AI Systems'));
         
         if (!existingProj) {
           const newProject = {
@@ -1299,7 +1299,7 @@ function parseBudgetToNumber(budgetString) {
             email: inquiry.email,
             phone: inquiry.phone || 'Not Provided',
             budget: inquiry.budget || 'Not Specified',
-            projectType: inquiry.projectType || 'Web Development',
+            projectType: inquiry.projectType || 'Agentic AI Systems',
             message: inquiry.message,
             date: inquiry.date,
             status: 'New Project',
@@ -2491,6 +2491,24 @@ function parseBudgetToNumber(budgetString) {
             fromName: payload.resend.fromName || 'NextGen Web Studio',
             fromEmail: payload.resend.fromEmail || 'nextgenwebstudio63@gmail.com',
             to: payload.resend.to || 'nextgenwebstudio63@gmail.com'
+          };
+        }
+
+        if (payload.razorpay) {
+          config.razorpay = {
+            keyId: payload.razorpay.keyId || '',
+            keySecret: payload.razorpay.keySecret || ''
+          };
+        }
+
+        if (payload.oauth) {
+          config.oauth = {
+            googleClientId: payload.oauth.googleClientId || '',
+            googleClientSecret: payload.oauth.googleClientSecret || '',
+            appleClientId: payload.oauth.appleClientId || '',
+            appleTeamId: payload.oauth.appleTeamId || '',
+            appleKeyId: payload.oauth.appleKeyId || '',
+            applePrivateKey: payload.oauth.applePrivateKey || ''
           };
         }
 
