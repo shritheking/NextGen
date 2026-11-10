@@ -5,6 +5,7 @@ import { LegalPolicyView } from './pages/LegalPolicyView';
 import { ContextualHint } from './components/ContextualHint';
 import { EMCLogo } from './components/EMCLogo';
 import { FAQSection } from './components/FAQSection';
+import { AnimatedCounter } from './components/AnimatedCounter';
 
 const TelegramDoubleTick = ({ color = '#ffffff' }: { color?: string }) => (
   <svg
@@ -457,6 +458,19 @@ export const App: React.FC = () => {
       window.removeEventListener('hashchange', handleLocation);
       window.removeEventListener('popstate', handleLocation);
     };
+  }, []);
+
+  // Subtle desktop hero grid parallax & scroll-linked progress
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+      const heroGrid = document.querySelector('.hero-grid-matrix') as HTMLElement;
+      if (heroGrid && y < 1200) {
+        heroGrid.style.transform = `translateY(${y * 0.14}px)`;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Client Portal & Legal Modals State
@@ -2371,12 +2385,16 @@ export const App: React.FC = () => {
                 {/* 3. Metrics Dual Row */}
                 <div className="bento-metrics-row">
                   <div className="bento-stat-card animate-card-in" style={{ animationDelay: '0.65s' }}>
-                    <span className="bento-stat-num">24+</span>
+                    <span className="bento-stat-num">
+                      <AnimatedCounter end={24} suffix="+" />
+                    </span>
                     <span className="bento-stat-label">total production systems shipped</span>
                   </div>
                   <div className="bento-stat-card green-tint animate-card-in" style={{ animationDelay: '0.75s' }}>
                     <div className="bento-stat-header">
-                      <span className="bento-stat-num">100%</span>
+                      <span className="bento-stat-num">
+                        <AnimatedCounter end={100} suffix="%" />
+                      </span>
                       <div className="bento-stat-badge">
                         <CheckCircle2 size={15} />
                       </div>
@@ -3447,6 +3465,16 @@ export const App: React.FC = () => {
             2. MAIN 4-COLUMN FOOTER NAVIGATION & BRAND SECTION
             ========================================================================= */}
         <div className="footer-main-container">
+          {/* Monumental Editorial Brand Showcase (Reference Quality) */}
+          <div className="footer-editorial-banner scroll-reveal" data-testid="footer-brand-banner">
+            <div className="footer-editorial-text">NEXTGEN WEB STUDIO</div>
+            <div className="footer-editorial-subtext">
+              <span>Autonomous Digital Engineering</span>
+              <span className="sub-pill">Sub-35ms Edge Architecture</span>
+              <span>Worldwide Production Handover</span>
+            </div>
+          </div>
+
           <div className="footer-grid-layout">
             {/* Top Brand Presentation / Left Column on Desktop */}
             <div className="footer-brand-section">

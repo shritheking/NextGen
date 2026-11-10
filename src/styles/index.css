@@ -11336,3 +11336,196 @@ h1 span.text-accent-blue, h2 i.text-accent-blue {
 
 
 
+
+
+/* ==========================================================================
+   NEXTGEN PREMIUM SCROLL EXPERIENCE & PARALLAX CHOREOGRAPHY (EMC-INSPIRED)
+   ========================================================================== */
+
+/* 1. Global Performance & Scroll Smoothing */
+.portfolio {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* 2. Hero Background Grid Subtle Parallax Shift */
+.hero-new {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid-matrix {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* 3. Numeric Counter Animations */
+.animated-counter-num {
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  will-change: contents;
+}
+
+/* 4. Selected Work Mask & Clip-Path Reveals */
+.work-item {
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-item .project-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111827;
+  clip-path: inset(6% 0% 6% 0% round 12px);
+  opacity: 0.88;
+  transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  will-change: clip-path, transform;
+}
+
+.work-item.in-view .project-photo,
+[data-inview="true"] .work-item .project-photo {
+  clip-path: inset(0% 0% 0% 0% round 12px);
+  opacity: 1;
+}
+
+.work-item .project-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  will-change: transform;
+}
+
+.work-item:hover .project-photo img {
+  transform: scale(1.04) translateY(-3px);
+}
+
+.work-item .project-info {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-item:hover .project-info {
+  transform: translateY(-2px);
+}
+
+/* 5. Continuous Process Timeline Drawn Spine */
+.process-timeline-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 40px auto 0;
+}
+
+.timeline-spine-track {
+  position: absolute;
+  left: 28px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.timeline-spine-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, #2563eb 0%, #10b981 100%);
+  border-radius: 2px;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+@media (max-width: 768px) {
+  .timeline-spine-track {
+    left: 20px;
+  }
+}
+
+/* 6. Grand Editorial Brand Banner in Footer */
+.footer-editorial-banner {
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 40px 0 32px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+.footer-editorial-text {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: clamp(38px, 8.5vw, 114px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.07);
+  white-space: nowrap;
+  user-select: none;
+  transition: color 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: color, transform;
+}
+
+.footer-editorial-banner:hover .footer-editorial-text {
+  color: rgba(255, 255, 255, 0.14);
+  transform: translateX(6px);
+}
+
+.footer-editorial-subtext {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+  font-family: 'JetBrains Mono', 'DM Mono', monospace;
+  font-size: 11.5px;
+  color: #64748b;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-editorial-subtext span.sub-pill {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* 7. Interactive Service Explorer Tabs & Spec Reveal */
+.service-interactive-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-interactive-card:hover {
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 12px 36px rgba(37, 99, 235, 0.08);
+  transform: translateY(-3px);
+}
+
+/* 8. Self-Drawing Underlines */
+.self-drawing-line {
+  display: block;
+  width: 0%;
+  height: 2px;
+  background: #2563eb;
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.in-view .self-drawing-line,
+[data-inview="true"] .self-drawing-line {
+  width: 100%;
+}
