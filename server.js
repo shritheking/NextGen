@@ -125,6 +125,7 @@ if (!fs.existsSync(CONFIG_FILE)) {
 
 // ---------- SUPABASE DATABASE & DUAL FALLBACK SYSTEM ----------
 let supabase = null;
+let supabaseOfflineUntil = 0; // Circuit breaker to avoid DNS hangs when Supabase is paused or unresolvable
 try {
   const { createClient } = require('@supabase/supabase-js');
   const supabaseUrl = process.env.SUPABASE_URL;
@@ -199,11 +200,17 @@ function readLocalFallback(collection) {
 }
 
 async function dbList(collection) {
-  if (supabase) {
+  if (supabase && Date.now() > supabaseOfflineUntil) {
     const table = getTableName(collection);
     let { data, error } = await supabase.from(table).select('*');
     if (error) {
-      console.error(`[Supabase dbList Error (${table})]:`, error);
+      const errStr = (error.message || '') + ' ' + (error.details || '');
+      if (errStr.includes('ENOTFOUND') || errStr.includes('fetch failed')) {
+        supabaseOfflineUntil = Date.now() + 60000;
+        console.warn(`[Database] Supabase endpoint unreachable (ENOTFOUND). Using high-speed local JSON fallback for next 60s.`);
+      } else {
+        console.error(`[Supabase dbList Error (${table})]:`, error);
+      }
       return readLocalFallback(collection);
     }
     if (data) {
@@ -338,7 +345,7 @@ async function dbList(collection) {
 }
 
 async function dbWrite(collection, list) {
-  if (supabase) {
+  if (supabase && Date.now() > supabaseOfflineUntil) {
     const table = getTableName(collection);
     let upsertList = list;
     if (collection === 'users') {
@@ -3083,7 +3090,9 @@ function parseBudgetToNumber(budgetString) {
     const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
     const protocol = isLocal ? 'http' : 'https';
     const redirectUri = encodeURIComponent(`${protocol}://${host}/api/auth/google/callback`);
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile&prompt=select_account`;
+    const targetRedirect = parsedUrl.searchParams.get('redirect') || '/?view=client';
+    const state = encodeURIComponent(targetRedirect);
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile&state=${state}&prompt=select_account`;
     res.writeHead(302, { 'Location': authUrl });
     res.end();
     return;
@@ -3145,36 +3154,40 @@ function parseBudgetToNumber(budgetString) {
                   if (userJson.email) {
                     const clientEmail = userJson.email.toLowerCase();
                     const users = await dbList('users');
-                    const clientRecord = users.find(u => u.email.toLowerCase() === clientEmail);
+                    let clientRecord = users.find(u => u.email.toLowerCase() === clientEmail);
                     
-                    if (clientRecord) {
-                      if (clientRecord.status === 'Suspended') {
-                        res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=client_suspended') });
-                        res.end();
-                        return;
-                      }
-                      if (clientRecord.portalEnabled === false || clientRecord.portalEnabled === 'false') {
-                        res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=portal_disabled') });
-                        res.end();
-                        return;
-                      }
-                      if (clientRecord.approved === false || clientRecord.approved === 'false') {
-                        res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=pending_approval') });
-                        res.end();
-                        return;
-                      }
-
-                      const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-                      SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
-                      res.writeHead(302, { 
-                        'Set-Cookie': getSessionCookie(sessionId, req), 
-                        'Location': getFrontendRedirectUrl(req, `/client.html?session_id=${sessionId}`) 
-                      });
-                      res.end();
-                    } else {
-                      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/client.html?error=unauthorized_email') });
-                      res.end();
+                    // Auto-enroll new client on Google OAuth login
+                    if (!clientRecord) {
+                      clientRecord = {
+                        email: clientEmail,
+                        name: userJson.name || clientEmail.split('@')[0],
+                        created: new Date().toISOString(),
+                        status: 'Active',
+                        portalEnabled: true,
+                        approved: true
+                      };
+                      users.push(clientRecord);
+                      await dbWrite('users', users);
+                      console.log(`[Google OAuth] Auto-enrolled verified Google account: ${clientEmail}`);
                     }
+
+                    if (clientRecord.status === 'Suspended') {
+                      res.writeHead(302, { 'Location': getFrontendRedirectUrl(req, '/?view=client&error=client_suspended') });
+                      res.end();
+                      return;
+                    }
+
+                    const rawState = parsedUrl.searchParams.get('state');
+                    const targetPath = rawState ? decodeURIComponent(rawState) : '/?view=client';
+                    const separator = targetPath.includes('?') ? '&' : '?';
+
+                    const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                    SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
+                    res.writeHead(302, { 
+                      'Set-Cookie': getSessionCookie(sessionId, req), 
+                      'Location': getFrontendRedirectUrl(req, `${targetPath}${separator}session_id=${sessionId}`) 
+                    });
+                    res.end();
                   } else {
                     res.writeHead(302, { 'Location': '/client.html?error=no_email' });
                     res.end();
