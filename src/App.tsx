@@ -1121,9 +1121,11 @@ export const App: React.FC = () => {
     }, 380);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.idea) return;
+    
+    // 1. Local storage backup for instant offline reliability
     try {
       const existing = JSON.parse(localStorage.getItem('nextgen_inquiries') || '[]');
       existing.push({ ...formData, timestamp: new Date().toISOString() });
@@ -1131,6 +1133,31 @@ export const App: React.FC = () => {
     } catch (err) {
       console.warn('Storage fallback:', err);
     }
+
+    // 2. Dispatch to live backend API so inquiries appear immediately in Admin Panel & CRM leads
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.whatsapp || 'Not Specified',
+      whatsapp: formData.whatsapp || 'Not Specified',
+      projectType: formData.service || 'Agentic AI Systems',
+      budget: formData.budget,
+      message: formData.idea,
+      source: 'NextGen V2 Web Studio Scoping Brief'
+    };
+
+    try {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+      await fetch(`${baseUrl}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (netErr) {
+      console.warn('Live API dispatch error (stored in local backup):', netErr);
+    }
+
     setFormSubmitted(true);
   };
 

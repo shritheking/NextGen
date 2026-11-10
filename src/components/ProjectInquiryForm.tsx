@@ -15,7 +15,7 @@ export const ProjectInquiryForm: React.FC = () => {
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.whatsapp || !formData.description) {
       alert('Please fill out all required fields.');
@@ -23,16 +23,50 @@ export const ProjectInquiryForm: React.FC = () => {
     }
 
     setStatus('submitting');
-    setTimeout(() => {
-      try {
-        const existing = JSON.parse(localStorage.getItem('nextgen_inquiries') || '[]');
-        existing.push({ ...formData, timestamp: new Date().toISOString() });
-        localStorage.setItem('nextgen_inquiries', JSON.stringify(existing));
-      } catch (err) {
-        console.warn('Storage fallback:', err);
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.whatsapp,
+      whatsapp: formData.whatsapp,
+      company: formData.company || 'Not Specified',
+      projectType: formData.service || 'Agentic AI Development',
+      budget: formData.budget,
+      timeline: formData.timeline,
+      message: formData.description,
+      source: 'NextGen V2 Web Studio Scoping Brief'
+    };
+
+    // 1. Always store locally for offline/instant client reliability
+    try {
+      const existing = JSON.parse(localStorage.getItem('nextgen_inquiries') || '[]');
+      existing.push({ ...formData, timestamp: new Date().toISOString() });
+      localStorage.setItem('nextgen_inquiries', JSON.stringify(existing));
+    } catch (err) {
+      console.warn('Storage fallback warning:', err);
+    }
+
+    // 2. Transmit to live Render backend API for Admin Panel & CRM sync
+    try {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+      const response = await fetch(`${baseUrl}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        console.warn('Backend returned non-200 status:', response.status);
       }
-      setStatus('success');
-    }, 600);
+    } catch (netErr) {
+      console.warn('Live API dispatch error (stored in local queue):', netErr);
+    }
+
+    // Show success state
+    setStatus('success');
   };
 
   return (
