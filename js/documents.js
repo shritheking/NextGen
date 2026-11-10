@@ -725,6 +725,162 @@ const templates = {
       </div>
     `
   },
+  
+  agentic_ai_agreement: {
+    name: "Agentic AI Service Agreement",
+    fields: [
+      { id: "agr_id", label: "Agreement Reference ID", type: "text", default: "NXG-AI-" + Math.floor(10000 + Math.random() * 90000) },
+      { id: "agr_date", label: "Agreement Date", type: "text", default: "10 / 11 / 2026" },
+      { id: "client_company", label: "Client Enterprise Name", type: "text", default: "Client Enterprise" },
+      { id: "client_rep", label: "Client Executive / Sponsor", type: "text", default: "Client Lead" },
+      { id: "client_contact", label: "Email / Telephone", type: "text", default: "client@enterprise.com / +91 99999 88888" },
+      { id: "proj_title", label: "AI System Scope Title", type: "text", default: "Autonomous Multi-Agent LangGraph System & Semantic Retrieval" },
+      { id: "model_tier", label: "Primary Model Infrastructure", type: "text", default: "Claude 3.5 Sonnet / GPT-4o with Function Calling & Fallback Router" },
+      { id: "db_tier", label: "Vector Database Layer", type: "text", default: "Supabase pgvector (1536-dim embeddings, HNSW index)" },
+      { id: "revision_rate", label: "Hourly Out-of-Scope Rate (₹)", type: "text", default: "₹2,500" },
+      { id: "payment_desc", label: "Commercial Terms", type: "text", default: "50% Engineering Retainer, 50% Production Handover" }
+    ],
+    render: (data) => `
+      <!-- PAGE 1: Agreement Cover Page -->
+      <div class="doc-page">
+        <img class="watermark" src="assets/logo-icon.png" alt="Watermark">
+        <div class="agreement-cover-hero">
+          <div class="confidential-badge agreement-cover-badge" style="background:rgba(56,189,248,0.12); color:#38bdf8; border:1px solid rgba(56,189,248,0.25);">Confidential · Engineering Retainer</div>
+          <div class="agreement-cover-logo">
+            <img class="hero-icon" src="assets/logo-icon.png" alt="Icon">
+            <img class="hero-text" src="assets/logo-text.png" alt="Text">
+          </div>
+          <p class="doc-hero-pre agreement-cover-pre" style="color:#38bdf8;">Autonomous Systems Architecture</p>
+          <h1 class="doc-hero-title agreement-cover-title">Agentic AI & Multi-Agent Systems<br>Master Services Agreement</h1>
+          
+          <div class="agreement-cover-meta">
+            <div>Agreement Reference: <strong style="color:#38bdf8;">${data.agr_id}</strong></div>
+            <div>Model Stack: <strong>${data.model_tier}</strong></div>
+            <div>Vector Engine: <strong>${data.db_tier}</strong></div>
+            <div>Effective Date: <strong>${data.agr_date}</strong></div>
+          </div>
+          
+          <div class="divider-line"></div>
+          
+          <p class="agreement-cover-desc">This legally binding Agreement is entered into by NextGen Web Studio and the Client listed below, governing custom Agentic AI system architecture, deterministic LangGraph workflows, MCP tool integration, and full intellectual property transfer.</p>
+        </div>
+        <div class="doc-footer">
+          <span>Confidential · NextGen Web Studio · nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 1 of 4</span>
+        </div>
+      </div>
+
+      <div class="doc-page-separator"></div>
+
+      <!-- PAGE 2: Client Details & Architecture Specifications -->
+      <div class="doc-page">
+        <div class="doc-header">
+          <div class="doc-header-logo">
+            <img class="header-icon" src="assets/logo-icon.png">
+            <img class="header-text" src="assets/logo-text.png">
+          </div>
+          <div class="doc-header-meta">Agentic AI System Specifications</div>
+        </div>
+
+        <div class="doc-page-content">
+          <div class="doc-section">
+            <h2 class="doc-section-title">System Architecture Overview</h2>
+            <div class="doc-table-wrapper">
+              <table class="doc-table">
+                <tbody>
+                  <tr>
+                    <td><strong>Agreement ID</strong></td>
+                    <td style="color:#38bdf8;"><strong>${data.agr_id}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Client Enterprise</strong></td>
+                    <td><strong>${data.client_company}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Executive Lead</strong></td>
+                    <td>${data.client_rep}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Core Deliverables</strong></td>
+                    <td><strong>${data.proj_title}</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Vector Retrieval</strong></td>
+                    <td>${data.db_tier}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Model Layer</strong></td>
+                    <td>${data.model_tier}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="doc-section">
+            <h2 class="doc-section-title">Scope of Work & Deliverables</h2>
+            <ul class="work-metrics" style="font-size: 11.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Multi-Agent Orchestration with LangGraph state graphs</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Supabase pgvector hybrid search & embeddings pipeline</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Schema-enforced tool calling with Pydantic validation</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Edge token streaming & low-latency execution (&lt;40ms routing)</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Human-in-the-loop review interrupts & approval gates</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Master prompt templates, evals, & test suites</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> Full IP buyout: complete source code, prompts & architecture</li>
+              <li><i class="fa-solid fa-circle-check" style="color:#38bdf8;"></i> 30 days post-launch hypercare & performance tuning</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          <span>Confidential · NextGen Web Studio · nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 2 of 4</span>
+        </div>
+      </div>
+    `
+  },
+  agentic_ai_proposal: {
+    name: "Agentic AI System Proposal",
+    fields: [
+      { id: "client_name", label: "Client Enterprise", type: "text", default: "Enterprise Partner" },
+      { id: "quote_no", label: "Proposal ID", type: "text", default: "NXG-AI-PROP-" + Math.floor(1000 + Math.random() * 9000) },
+      { id: "quote_date", label: "Date", type: "text", default: "10 / 11 / 2026" },
+      { id: "system_scope", label: "Agentic Scope", type: "text", default: "Autonomous Multi-Agent Copilot & Knowledge Graph RAG" },
+      { id: "investment", label: "Investment (₹)", type: "text", default: "₹2,50,000 - ₹4,00,000" }
+    ],
+    render: (data) => `
+      <!-- PAGE 1: Cover Page -->
+      <div class="doc-page">
+        <img class="watermark" src="assets/logo-icon.png" alt="Watermark">
+        <div class="agreement-cover-hero" style="margin-top: 90px;">
+          <div class="confidential-badge agreement-cover-badge" style="background:rgba(56,189,248,0.12); color:#38bdf8; border:1px solid rgba(56,189,248,0.25);">Engineering Proposal</div>
+          <div class="agreement-cover-logo" style="margin-bottom: 36px;">
+            <img class="hero-icon" src="assets/logo-icon.png" alt="Icon" style="height: 50px;">
+            <img class="hero-text" src="assets/logo-text.png" alt="Text" style="height: 24px;">
+          </div>
+          <h1 class="doc-hero-title agreement-cover-title" style="font-size: 36px; line-height: 1.25;">AGENTIC AI SYSTEMS<br><span style="font-size: 22px; color: #94a3b8; font-weight: 500;">Autonomous Multi-Agent Infrastructure & Knowledge RAG</span></h1>
+          
+          <p class="doc-hero-pre agreement-cover-pre" style="color:#38bdf8; margin-top: 18px; font-size: 15px;">Technical Blueprint & Complete Source Code Handover</p>
+          
+          <div class="agreement-cover-meta" style="margin-top: 50px; font-size: 14px;">
+            <div>Prepared For: <strong style="color:#38bdf8;">${data.client_name}</strong></div>
+            <div>Prepared By: <strong>NextGen Web Studio (Coimbatore)</strong></div>
+            <div>Proposal ID: <strong>${data.quote_no}</strong></div>
+            <div>Date: <strong>${data.quote_date}</strong></div>
+            <div>Estimated Investment: <strong style="color:#10b981;">${data.investment}</strong></div>
+          </div>
+          
+          <div class="divider-line" style="margin: 36px 0;"></div>
+          
+          <p class="agreement-cover-desc" style="font-size: 13px;">This proposal outlines NextGen's enterprise agentic architecture: autonomous multi-agent pipelines, schema-validated tool-calling, semantic vector search, and sub-40ms edge performance with complete IP transfer.</p>
+        </div>
+        <div class="doc-footer">
+          <span>Confidential · NextGen Web Studio · nextgenwebstudio.in</span>
+          <span class="page-num-placeholder">Page 1 of 4</span>
+        </div>
+      </div>
+    `
+  },
   bot_agreement: {
     name: "Telegram Bot Service Agreement",
     fields: [
