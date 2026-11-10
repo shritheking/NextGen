@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NextGen Studio â€” Private Admin Workspace</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Chart.js for Analytics Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Document Suite Stylesheets -->
+  <link rel="stylesheet" href="documents.css">
+  <link rel="stylesheet" href="documents-print.css?v=3" media="print">
+  
+  <style>
+    /* ---------- CSS VARIABLES & THEMES ---------- */
+    :root {
+      /* Dark Theme (Default) */
+      --bg: #0B0B0A;
+      --bg-card: #131312;
+      --bg-alt: #1B1B19;
+      --border: #22211F;
+      --accent: #E0FF4F;
+      --accent-glow: rgba(224, 255, 79, 0.15);
+      --ink: #F5F4F0;
+      --ink-soft: #A2A098;
+      --ink-faint: #5C5B56;
+      --shadow: rgba(0, 0, 0, 0.4);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --font-body: 'Inter', sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+    }
+
+    body.light-theme {
+      /* Light Theme */
+      --bg: #FAFAF9;
+      --bg-card: #FFFFFF;
+      --bg-alt: #F1F1EF;
+      --border: #DEDCD4;
+      --accent: #0A0A0A;
+      --accent-glow: rgba(10, 10, 10, 0.08);
+      --ink: #0A0A0A;
+      --ink-soft: #59564F;
+      --ink-faint: #8C897F;
+      --shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ---------- THEME TOGGLE ---------- */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .theme-toggle .fa-sun { display: none; }
+    body.light-theme .theme-toggle .fa-moon { display: none; }
+    body.light-theme .theme-toggle .fa-sun { display: block; }
+
+    /* ---------- LOGIN SCREEN ---------- */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: var(--bg);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .login-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 40px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-align: center;
+      box-shadow: 0 20px 50px var(--shadow);
+    }
+    .login-logo {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+    .login-logo span { color: var(--accent); }
+    .login-card p {
+      color: var(--ink-soft);
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .input-group input, .input-group select, .input-group textarea, .line-name-input, .line-cost-input {
+      width: 100%;
+      padding: 12px 16px;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+    }
+    .input-group input:focus, .input-group select:focus, .input-group textarea:focus, .line-name-input:focus, .line-cost-input:focus {
+      border-color: var(--accent);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--accent);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: background-color 0.2s;
+    }
+    body.light-theme .login-btn {
+      color: #FFFFFF;
+    }
+    .login-btn:hover {
+      background-color: var(--ink);
+      color: var(--bg);
+    }
+    .login-error {
+      color: #FF5F56;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      margin-top: 14px;
+      display: none;
+    }
+
+    /* ---------- MAIN DASHBOARD ---------- */
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+    @media (max-width: 900px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+        height: auto !important;
+        overflow: visible !important;
+      }
+    }
+
+    /* Sidebar */
+    aside {
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+    }
+    @media (max-width: 900px) {
+      aside {
+        height: 100vh !important;
+      }
+    }
+    .sidebar-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sidebar-logo span {
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg-alt);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    body.light-theme .sidebar-logo span {
+      background: rgba(10, 10, 10, 0.05);
+      color: var(--accent);
+    }
+    .sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .sidebar-menu li {
+      cursor: pointer;
+    }
+    .sidebar-menu li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: var(--ink-soft);
+      border-radius: var(--radius-sm);
+      font-size: 14.2px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    .sidebar-menu li:hover a {
+      color: var(--ink);
+      background-color: var(--bg-alt);
+      transform: translateX(2px);
+    }
+    .sidebar-menu li.active a {
+      color: var(--ink);
+      background-color: var(--bg-alt);
+      font-weight: 600;
+      box-shadow: inset 3px 0 0 0 var(--accent);
+    }
+    body.light-theme .sidebar-menu li.active a {
+      background-color: rgba(10, 10, 10, 0.04);
+      color: #0A0A0A;
+    }
+    body.light-theme .sidebar-menu li:hover a {
+      background-color: rgba(10, 10, 10, 0.02);
+      color: #0A0A0A;
+    }
+    .sidebar-menu li.active a i {
+      color: var(--accent);
+    }
+    .logout-btn {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: #FF5F56;
+      font-size: 14.2px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: transform 0.2s ease;
+    }
+    .logout-btn:hover {
+      transform: translateX(2px);
+    }
+
+    /* Main Content Area */
+    main {
+      padding: 40px;
+      overflow-y: auto;
+      height: 100%;
+    }
+    @media (max-width: 900px) {
+      main {
+        height: auto !important;
+        overflow: visible !important;
+        padding: 20px !important;
+      }
+    }
+    @media (max-width: 640px) {
+      main { padding: 20px !important; }
+    }
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .main-header h1 {
+      font-family: var(--font-display);
+      font-size: 28px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .refresh-btn {
+      padding: 10px 18px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--ink-soft);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s;
+    }
+    .refresh-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 1080px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 550px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+    .stat-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-text h3 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 6px;
+    }
+    .stat-text p {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--accent);
+    }
+
+    /* Tab Contents Sections */
+    .tab-section {
+      display: none;
+    }
+    .tab-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Panel Listing Card */
+    .panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: 40px;
+    }
+    .panel-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .panel-header h2 {
+      font-size: 18px;
+      font-family: var(--font-display);
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      background-color: rgba(0, 0, 0, 0.05);
+      font-weight: 600;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .col-name { font-weight: 600; }
+    .col-date { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); }
+    .col-message { max-width: 320px; color: var(--ink-soft); line-height: 1.4; word-break: break-word; }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .status-badge.paid, .status-badge.completed {
+      background-color: rgba(16, 185, 129, 0.08);
+      color: #10B981;
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    body.light-theme .status-badge.paid, body.light-theme .status-badge.completed {
+      background-color: rgba(4, 120, 87, 0.08);
+      color: #047857;
+      border-color: rgba(4, 120, 87, 0.2);
+    }
+    .status-badge.pending, .status-badge.pending-payment {
+      background-color: rgba(245, 158, 11, 0.08);
+      color: #F59E0B;
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+    .status-badge.in-progress, .status-badge.contacted, .status-badge.new {
+      background-color: rgba(59, 130, 246, 0.08);
+      color: #3B82F6;
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+    .status-badge.hold, .status-badge.on-hold {
+      background-color: rgba(156, 163, 175, 0.08);
+      color: #9CA3AF;
+      border-color: rgba(156, 163, 175, 0.2);
+    }
+
+    /* Alternating Table Row Backgrounds */
+    tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.015);
+    }
+    body.light-theme tbody tr:nth-child(even) {
+      background-color: #FAFAFA;
+    }
+    body:not(.light-theme) tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.015);
+    }
+
+    .col-tags span {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 8px;
+    }
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background-color: var(--bg-alt);
+      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+    .action-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .action-btn.btn-delete:hover {
+      border-color: #FF5F56;
+      color: #FF5F56;
+    }
+
+    .empty-state {
+      padding: 60px;
+      text-align: center;
+      color: var(--ink-soft);
+    }
+    .empty-state i {
+      font-size: 40px;
+      color: var(--border);
+      margin-bottom: 16px;
+    }
+
+    /* ---------- RECEIPTS CENTER LAYOUT ---------- */
+    .receipts-workspace {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 30px;
+    }
+    @media (max-width: 1200px) {
+      .receipts-workspace { grid-template-columns: 1fr; }
+    }
+
+    .creator-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      align-self: start;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+    .creator-card h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    /* Item Lines Creator Form */
+    .item-lines-container {
+      margin: 20px 0;
+    }
+    .item-lines-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .item-lines-header label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .add-line-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+      padding: 4px 10px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+    }
+    .add-line-btn:hover {
+      border-color: var(--accent);
+      background-color: var(--accent-glow);
+    }
+    .item-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .item-row input[type="text"] {
+      flex: 1;
+    }
+    .item-row input[type="number"] {
+      width: 90px;
+    }
+    .remove-row-btn {
+      background: none;
+      border: none;
+      color: #FF5F56;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0 4px;
+    }
+
+    .total-display-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .total-display-row span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .total-display-row h4 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--accent);
+    }
+
+    /* ---------- DETAILED RECEIPT VIEW MODAL ---------- */
+    .receipt-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: rgba(0,0,0,0.85);
+      z-index: 2500;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+    .receipt-modal.show {
+      opacity: 1; pointer-events: auto;
+    }
+    .receipt-card {
+      width: 100%;
+      max-width: 500px;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 20px 60px var(--shadow);
+    }
+    .receipt-header {
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .receipt-header h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .receipt-header span {
+      font-size: 11px;
+      color: var(--ink-faint);
+    }
+    .receipt-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 14px;
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      padding-bottom: 6px;
+    }
+    .receipt-row .r-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+    }
+    .receipt-row .r-val {
+      font-weight: 500;
+      text-align: right;
+    }
+    
+    .receipt-items-block {
+      border: 1px solid var(--border);
+      background-color: var(--bg-alt);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .receipt-items-table {
+      width: 100%;
+      font-size: 12.5px;
+    }
+    .receipt-items-table th, .receipt-items-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .receipt-items-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .receipt-desc-block {
+      border: 1px solid var(--border);
+      background-color: var(--bg-alt);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+    .receipt-close {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 24px;
+      color: var(--ink-soft);
+      cursor: pointer;
+    }
+    .receipt-actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+    .receipt-actions button {
+      flex: 1;
+      padding: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+
+    /* ---------- PRINT INVOICE LAYOUT ---------- */
+    .print-receipt-view {
+      display: none;
+    }
+
+    .print-invoice-container {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    
+    .invoice-print-page {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 40px;
+      color: var(--ink);
+      font-family: var(--font-body);
+      position: relative;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+    
+    .invoice-print-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .company-info h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    
+    body.light-theme .company-info h2 {
+      color: var(--ink);
+    }
+    
+    .company-info p {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+    
+    .company-info .meta-sub {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--ink-faint);
+      margin-top: 8px;
+    }
+    
+    .invoice-meta-block {
+      text-align: right;
+    }
+    
+    .invoice-meta-block h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    
+    .invoice-meta-block p {
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+    
+    .invoice-meta-block p span {
+      font-family: var(--font-mono);
+      color: var(--ink-faint);
+    }
+    
+    .client-billing-block, .project-title-block {
+      margin-bottom: 24px;
+    }
+    
+    .client-billing-block h4, .project-title-block h4 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+    
+    .client-billing-block .client-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    
+    .client-billing-block p, .project-title-block p {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+    
+    .print-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+    }
+    
+    .print-items-table th, .print-items-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    
+    .print-items-table th {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      background-color: var(--bg-alt);
+    }
+    
+    .print-items-table td {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+    }
+    
+    .print-grand-total {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .print-grand-total span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+    }
+    
+    .print-grand-total h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--accent);
+    }
+    
+    body.light-theme .print-grand-total h3 {
+      color: var(--ink);
+    }
+    
+    .payment-status-block {
+      margin-top: 30px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    
+    .payment-status-block span {
+      font-family: var(--font-mono);
+      color: var(--ink-faint);
+    }
+
+    /* Page 2 specific classes */
+    .terms-title {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+    
+    .terms-section {
+      margin-bottom: 24px;
+    }
+    
+    .terms-section h4 {
+      font-size: 14px;
+      font-family: var(--font-display);
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    
+    .terms-section p {
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+    
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 60px;
+      margin-bottom: 40px;
+    }
+    
+    .sig-block {
+      text-align: center;
+    }
+    
+    .receipt-sig-line {
+      width: 100%;
+      height: 1px;
+      background-color: var(--ink-faint);
+      margin-bottom: 10px;
+    }
+    
+    .sig-block p {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    
+    .sig-block small {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+    }
+    
+    .print-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+    
+    .print-footer .company-tagline {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      margin-top: 6px;
+    }
+
+    /* ---------- MEDIA PRINT STYLES ---------- */
+    @media print {
+      @page {
+        size: A4;
+        margin: 0 !important;
+      }
+      
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+      }
+      
+      /* Only hide dashboard if receipt modal is actually open */
+      body:has(#receiptModal.show) .dashboard-container,
+      body:has(#receiptModal.show) .login-overlay,
+      body:has(#receiptModal.show) .confirm-modal {
+        display: none !important;
+      }
+      
+      /* Only target and display our active receipt print container */
+      #receiptModal.show, #receiptModal.show * {
+        visibility: visible;
+      }
+      
+      #receiptModal {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: auto;
+        background: none !important;
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        box-shadow: none !important;
+      }
+      
+      .receipt-card {
+        position: absolute;
+        top: 0; left: 0; width: 100% !important;
+        max-width: 100% !important;
+        background: #FFFFFF !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      
+      .receipt-header, .receipt-close, .receipt-actions, #receiptModal h3#rTitle, #receiptModal span#rId {
+        display: none !important;
+      }
+      
+      .receipt-body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .screen-receipt-view {
+        display: none !important;
+      }
+
+      .print-receipt-view {
+        display: block !important;
+      }
+
+      .print-invoice-container {
+        display: block !important;
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* Custom print styling adjustments */
+      .invoice-print-page {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 20mm 20mm 25mm 20mm !important; /* Print margins handled natively via page padding */
+        margin: 0 !important;
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        width: 210mm !important; /* Lock exactly to A4 width */
+        height: 296mm !important; /* A4 height minus 1mm prevents browser fractional page break issues */
+        position: relative !important;
+        box-sizing: border-box !important;
+        page-break-inside: avoid !important;
+        overflow: hidden !important;
+      }
+      
+      .invoice-page-1 {
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      
+      .invoice-page-2 {
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        margin-top: 0 !important;
+        padding-top: 20mm !important;
+      }
+
+      /* Manual page numbers centered at bottom in monospace font */
+      .print-page-number {
+        position: absolute;
+        bottom: 15mm;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: #8C8A82;
+      }
+      
+      .company-info h2, .invoice-meta-block h3, .print-grand-total h3 {
+        color: #000000 !important;
+      }
+      
+      .print-items-table th {
+        background-color: #F1F1EF !important;
+        color: #000000 !important;
+        border-bottom: 2px solid #000000 !important;
+      }
+      
+      .print-items-table td {
+        color: #000000 !important;
+        border-bottom: 1px solid #DEDCD4 !important;
+      }
+      
+      .receipt-sig-line {
+        background-color: #000000 !important;
+      }
+      
+      .receipt-desc-block, .receipt-items-block {
+        border-color: #DEDCD4 !important;
+        background-color: #FAFAF9 !important;
+      }
+
+      /* Ensure signature image prints clearly */
+      .signatures-grid img {
+        display: block !important;
+        opacity: 1 !important;
+      }
+    }
+
+    /* ---------- CUSTOM TOAST NOTIFICATIONS ---------- */
+    .toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+    .toast-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      min-width: 320px;
+      max-width: 420px;
+      box-shadow: 0 10px 40px var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      pointer-events: auto;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+      opacity: 0;
+    }
+    .toast-card.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .toast-icon {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .toast-icon.success { color: #4ADE80; }
+    .toast-icon.error { color: #EF4444; }
+    .toast-icon.info { color: var(--accent); }
+    
+    .toast-content {
+      flex: 1;
+    }
+    .toast-title {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      color: var(--ink);
+    }
+    .toast-desc {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .toast-close {
+      cursor: pointer;
+      color: var(--ink-faint);
+      transition: color 0.15s;
+      font-size: 18px;
+      line-height: 1;
+      align-self: flex-start;
+      margin-top: -2px;
+    }
+    .toast-close:hover {
+      color: var(--ink);
+    }
+
+    /* Premium Styled Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    /* ---------- MOBILE RESPONSIVE DASHBOARD OVERRIDES ---------- */
+    .access-workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 1200px) {
+      .access-workspace {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      #adminMenuToggle, #adminSidebarClose {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      aside {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      
+      aside.open {
+        left: 0;
+      }
+      
+      .dashboard-container {
+        grid-template-columns: 1fr !important;
+      }
+      
+      main {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 20px !important;
+      }
+      
+      .access-workspace {
+        grid-template-columns: 1fr !important;
+        padding: 12px !important;
+        gap: 20px !important;
+      }
+
+      .creator-card, .panel {
+        padding: 20px !important;
+      }
+
+      /* Convert table to card view on mobile screens */
+      .table-container table, 
+      .table-container thead, 
+      .table-container tbody, 
+      .table-container th, 
+      .table-container td, 
+      .table-container tr {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box;
+      }
+      
+      .table-container thead {
+        display: none !important;
+      }
+      
+      .table-container tr {
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-md) !important;
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+        background-color: var(--bg-card) !important;
+      }
+      
+      .table-container td {
+        border: none !important;
+        padding: 8px 0 !important;
+        text-align: left !important;
+        border-bottom: 1px dashed var(--border) !important;
+      }
+      
+      .table-container td:last-child {
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+      }
+
+      /* Add column labels before values */
+      .table-container td::before {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--ink-faint);
+        display: block;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        letter-spacing: 0.05em;
+      }
+
+      #inquiriesTable td:nth-child(1)::before { content: "Client Contact"; }
+      #inquiriesTable td:nth-child(2)::before { content: "Inquiry Message"; }
+      #inquiriesTable td:nth-child(3)::before { content: "Date Logged"; }
+      #inquiriesTable td:nth-child(4)::before { content: "Status"; }
+      #inquiriesTable td:nth-child(5)::before { content: "Actions"; }
+
+      #projectsTable td:nth-child(1)::before { content: "Client Contact"; }
+      #projectsTable td:nth-child(2)::before { content: "Project Stack"; }
+      #projectsTable td:nth-child(3)::before { content: "Scoping Budget"; }
+      #projectsTable td:nth-child(4)::before { content: "Detailed Message"; }
+      #projectsTable td:nth-child(5)::before { content: "Date Logged"; }
+      #projectsTable td:nth-child(6)::before { content: "Status"; }
+      #projectsTable td:nth-child(7)::before { content: "Actions"; }
+
+      #receiptsTable td:nth-child(1)::before { content: "Receipt Code"; }
+      #receiptsTable td:nth-child(2)::before { content: "Client Details"; }
+      #receiptsTable td:nth-child(3)::before { content: "Project Description"; }
+      #receiptsTable td:nth-child(4)::before { content: "Billing Total"; }
+      #receiptsTable td:nth-child(5)::before { content: "Payment Status"; }
+      #receiptsTable td:nth-child(6)::before { content: "Actions"; }
+    }
+
+    /* ============= AGENCY OS EXTENSIONS ============= */
+    .sidebar-section-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      padding: 4px 14px;
+      margin-top: 10px;
+      margin-bottom: 2px;
+      pointer-events: none;
+    }
+    .sidebar-divider { height: 1px; background-color: var(--border); margin: 4px 0; }
+
+    .stats-grid-8 {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 1400px) { .stats-grid-8 { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { .stats-grid-8 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats-grid-8 { grid-template-columns: 1fr; } }
+    .stat-card.accent-border { border-left: 3px solid var(--accent); }
+    .stat-card.green-border  { border-left: 3px solid #4ADE80; }
+    .stat-card.amber-border  { border-left: 3px solid #F59E0B; }
+    .stat-card.blue-border   { border-left: 3px solid #3B82F6; }
+    .stat-value-lg { font-family:var(--font-display); font-size:26px; font-weight:700; line-height:1; margin-bottom:4px; }
+    .stat-label-sm { font-family:var(--font-mono); font-size:10px; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.05em; }
+    .stat-change   { font-family:var(--font-mono); font-size:11px; margin-top:6px; }
+    .stat-change.up   { color:#4ADE80; }
+    .stat-change.down { color:#EF4444; }
+
+    .charts-grid { display:grid; grid-template-columns:2fr 1fr; gap:20px; margin-bottom:28px; }
+    @media (max-width:1100px) { .charts-grid { grid-template-columns:1fr; } }
+    .chart-card { background-color:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:24px; }
+    .chart-card h3 { font-family:var(--font-display); font-size:15px; font-weight:600; margin-bottom:4px; }
+    .chart-card p  { font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-bottom:20px; }
+    .chart-canvas-wrap { position:relative; height:220px; }
+
+    .crm-pipeline { display:flex; gap:16px; overflow-x:auto; padding-bottom:16px; }
+    .crm-column { min-width:210px; flex-shrink:0; background-color:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; }
+    .crm-column-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+    .crm-column-header h4 { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); }
+    .crm-count { font-family:var(--font-mono); font-size:11px; background-color:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:1px 8px; color:var(--ink-faint); }
+    .crm-lead-card { background-color:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-bottom:10px; cursor:pointer; transition:all .2s; }
+    .crm-lead-card:hover { border-color:var(--accent); transform:translateY(-1px); }
+    .crm-lead-name   { font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+    .crm-lead-budget { font-family:var(--font-mono); font-size:11px; color:var(--accent); margin-bottom:6px; }
+    .crm-lead-meta   { font-size:11px; color:var(--ink-faint); display:flex; gap:6px; flex-wrap:wrap; }
+    .crm-lead-tag    { padding:2px 6px; border-radius:3px; background-color:var(--bg-alt); border:1px solid var(--border); }
+
+    .task-board { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+    @media (max-width:1200px) { .task-board { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:700px)  { .task-board { grid-template-columns:1fr; } }
+    .task-column { background-color:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; }
+    .task-column-header { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+    .task-card { background-color:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-bottom:8px; font-size:13px; }
+    .task-card .task-title  { font-weight:600; color:var(--ink); margin-bottom:6px; }
+    .task-card .task-assign { font-family:var(--font-mono); font-size:10px; color:var(--ink-faint); }
+    .task-priority { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; }
+    .task-priority.high { background-color:#EF4444; }
+    .task-priority.med  { background-color:#F59E0B; }
+    .task-priority.low  { background-color:#3B82F6; }
+
+    .ticket-row { display:flex; align-items:center; gap:14px; padding:14px 20px; border-bottom:1px solid var(--border); transition:background-color .15s; }
+    .ticket-row:hover { background-color:var(--bg-alt); }
+    .ticket-priority-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .ticket-info { flex:1; }
+    .ticket-subject { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+    .ticket-meta    { font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+    .ticket-badge   { font-family:var(--font-mono); font-size:10px; padding:3px 8px; border-radius:4px; border:1px solid var(--border); }
+
+    .activity-item { display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+    .activity-icon { width:32px; height:32px; border-radius:50%; background-color:var(--bg-alt); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--accent); flex-shrink:0; }
+    .activity-text { flex:1; }
+    .activity-text strong { font-size:13.5px; color:var(--ink); display:block; margin-bottom:2px; }
+    .activity-text span   { font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); }
+
+    .roadmap-phase { background-color:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; margin-bottom:14px; }
+    .roadmap-phase-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+    .phase-dot   { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .phase-title { font-size:15px; font-weight:600; flex:1; }
+    .phase-progress-bar  { height:6px; background-color:var(--bg-alt); border-radius:10px; overflow:hidden; margin-top:8px; }
+    .phase-progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),#4ADE80); border-radius:10px; transition:width .5s ease; }
+    body.light-theme .phase-progress-fill { background:linear-gradient(90deg,#0A0A0A,#047857); }
+
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+    .calendar-header-day { font-family:var(--font-mono); font-size:10px; text-transform:uppercase; color:var(--ink-faint); text-align:center; padding:8px 0; }
+    .calendar-day { background-color:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px; min-height:64px; }
+    .calendar-day.today { border-color:var(--accent); }
+    .calendar-day.other-month { opacity:.35; }
+    .calendar-day-num { font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--ink-soft); }
+    .calendar-event { font-size:9px; padding:2px 4px; border-radius:2px; background-color:rgba(224,255,79,.15); color:var(--accent); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    body.light-theme .calendar-event { background-color:rgba(0,0,0,.06); color:var(--ink); }
+
+    .dash-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media(max-width:900px){ .dash-grid-2 { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- 1. LOGIN OVERLAY -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-logo">nextgen<span>_admin</span></div>
+      <p>Secure login dashboard for project workspace management</p>
+      <form id="adminLoginForm">
+        <div class="input-group">
+          <label for="adminPass">Private Password</label>
+          <input type="password" id="adminPass" required placeholder="Enter private password">
+        </div>
+        <button type="submit" class="login-btn">Authenticate</button>
+        <div class="login-error" id="loginError">Authentication Failed: Invalid passcode</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. MAIN DASHBOARD CONTAINER -->
+  <div class="dashboard-container">
+    <!-- Sidebar Navigation -->
+    <aside id="adminSidebar">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;" class="sidebar-header-wrapper">
+        <div class="sidebar-logo" style="margin-bottom:0;">nextgen<span>_admin</span></div>
+        <button id="adminSidebarClose" aria-label="Close menu" style="display:none; background:none; border:none; color:var(--ink-soft); font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-section-label">Core</li>
+        <li class="active" data-tab="dashboardTab"><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li data-tab="inquiriesTab"><a href="#"><i class="fa-solid fa-envelope"></i> Enquiries</a></li>
+        <li data-tab="activityTab"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Activity Log</a></li>
+        <div class="sidebar-divider"></div>
+        <li class="sidebar-section-label">Sales</li>
+        <li data-tab="crmTab"><a href="#"><i class="fa-solid fa-people-arrows"></i> CRM Pipeline</a></li>
+        <li data-tab="proposalsTab"><a href="#"><i class="fa-solid fa-file-signature"></i> Document Center</a></li>
+        <div class="sidebar-divider"></div>
+        <li class="sidebar-section-label">Projects</li>
+        <li data-tab="projectsTab"><a href="#"><i class="fa-solid fa-folder-open"></i> Project Scoping</a></li>
+        <li data-tab="roadmapEditorTab"><a href="#"><i class="fa-solid fa-map"></i> Roadmap Editor</a></li>
+        <li data-tab="tasksTab"><a href="#"><i class="fa-solid fa-list-check"></i> Task Board</a></li>
+        <li data-tab="supportTab"><a href="#"><i class="fa-solid fa-headset"></i> Support Desk</a></li>
+        <div class="sidebar-divider"></div>
+        <li class="sidebar-section-label">Finance</li>
+        <li data-tab="receiptsTab"><a href="#"><i class="fa-solid fa-file-invoice-dollar"></i> Invoices</a></li>
+        <li data-tab="paymentsTab"><a href="#"><i class="fa-solid fa-indian-rupee-sign"></i> Payments</a></li>
+        <div class="sidebar-divider"></div>
+        <li class="sidebar-section-label">Systems</li>
+        <li data-tab="calendarTab"><a href="#"><i class="fa-solid fa-calendar-days"></i> Calendar</a></li>
+        <li data-tab="portalControlTab"><a href="#"><i class="fa-solid fa-toggle-on"></i> Portal Control</a></li>
+        <li data-tab="accessTab"><a href="#"><i class="fa-solid fa-users"></i> Client Management</a></li>
+        <li data-tab="settingsTab"><a href="#"><i class="fa-solid fa-gears"></i> SMTP Settings</a></li>
+        <li data-tab="chatbotTab"><a href="#" style="display:flex; align-items:center; justify-content:space-between; width:100%;"><span style="display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-comments"></i> Chatbot Inbox</span><span id="chatNotificationDot" style="display:none; width:8px; height:8px; background-color:#ef4444; border-radius:50%; box-shadow:0 0 8px #ef4444;"></span></a></li>
+      </ul>
+      <div class="logout-btn" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Logout</div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main>
+      <div class="main-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button id="adminMenuToggle" aria-label="Toggle menu" style="display:none; background:none; border:none; color:var(--ink); font-size:20px; cursor:pointer;">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1 id="workspaceTitle">Agency Dashboard</h1>
+        </div>
+        <div class="header-actions">
+          <div id="adminLiveClock" style="font-family:var(--font-mono); font-size:12px; color:var(--accent); background:rgba(224,255,79,0.04); border:1px solid rgba(224,255,79,0.15); padding:6px 12px; border-radius:4px; display:flex; align-items:center; gap:6px; font-weight:600; line-height:1;"><i class="fa-solid fa-clock"></i> <span id="clockValue">00:00:00 AM</span></div>
+          <button class="theme-toggle" id="adminThemeToggle" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+            <i class="fa-solid fa-sun"></i>
+          </button>
+          <button class="refresh-btn" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Sync Data</button>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: DASHBOARD HOME -->
+      <div class="tab-section active" id="dashboardTab">
+        <!-- 6-Card Stats Summary Banner (Dashboard only) -->
+        <div class="stats-grid-8" id="statsRow">
+          <div class="stat-card green-border">
+            <div>
+              <div class="stat-label-sm">Today's Revenue</div>
+              <div class="stat-value-lg" id="statTodayRevenue">&#8377;1,20,000</div>
+              <div class="stat-change up">Live today</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(74,222,128,.08); color:#4ADE80;"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+          </div>
+          <div class="stat-card accent-border">
+            <div>
+              <div class="stat-label-sm">Pending Payments</div>
+              <div class="stat-value-lg" id="statPendingPayments">5</div>
+              <div class="stat-change down">Invoices outstanding</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(224,255,79,.08);"><i class="fa-solid fa-clock"></i></div>
+          </div>
+          <div class="stat-card blue-border">
+            <div>
+              <div class="stat-label-sm">Projects Running</div>
+              <div class="stat-value-lg" id="statProjectsRunning">12</div>
+              <div class="stat-change up">Active builds</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(59,130,246,.08); color:#3B82F6;"><i class="fa-solid fa-spinner"></i></div>
+          </div>
+          <div class="stat-card amber-border">
+            <div>
+              <div class="stat-label-sm">Unread Support</div>
+              <div class="stat-value-lg" id="statUnreadSupport">3</div>
+              <div class="stat-change">Awaiting reply</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(245,158,11,.08); color:#F59E0B;"><i class="fa-solid fa-headset"></i></div>
+          </div>
+          <div class="stat-card" style="border-left: 3px solid #A78BFA;">
+            <div>
+              <div class="stat-label-sm">CRM Leads</div>
+              <div class="stat-value-lg" id="statCrmLeads">0</div>
+              <div class="stat-change up">Pipeline leads</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(167,139,250,.08); color:#A78BFA;"><i class="fa-solid fa-users"></i></div>
+          </div>
+          <div class="stat-card" style="border-left: 3px solid #EF4444;">
+            <div>
+              <div class="stat-label-sm">Completed Milestones</div>
+              <div class="stat-value-lg" id="statCompletedMilestones">0</div>
+              <div class="stat-change down">Milestones achieved</div>
+            </div>
+            <div class="stat-icon" style="background:rgba(239,68,68,.08); color:#EF4444;"><i class="fa-solid fa-circle-check"></i></div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Monthly Revenue</h3>
+            <p>Revenue collected per month (&#8377;)</p>
+            <div class="chart-canvas-wrap"><canvas id="revenueChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3>Payment Status</h3>
+            <p>Invoice status breakdown</p>
+            <div class="chart-canvas-wrap"><canvas id="paymentStatusChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: ACTIVITY LOG -->
+      <div class="tab-section" id="activityTab">
+        <div class="panel">
+          <div class="panel-header"><h2>Activity Log</h2><span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);">All system events</span></div>
+          <div style="padding:16px 24px; display:flex; flex-direction:column; gap:12px;" id="systemActivityLogList">
+            <!-- Dynamic activity logs rendered here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: CRM PIPELINE -->
+      <div class="tab-section" id="crmTab">
+        <div class="panel" style="margin-bottom:28px;">
+          <div class="panel-header">
+            <h2>CRM Lead Pipeline</h2>
+            <button class="refresh-btn" onclick="document.getElementById('crmAddForm').style.display = document.getElementById('crmAddForm').style.display === 'none' ? 'block' : 'none'"><i class="fa-solid fa-plus"></i> Add Lead</button>
+          </div>
+          <div style="padding:20px;">
+            <div class="crm-pipeline">
+              <div class="crm-column" id="crmCol_New">
+                <div class="crm-column-header"><h4>New</h4><span class="crm-count">0</span></div>
+              </div>
+              <div class="crm-column" id="crmCol_Contacted">
+                <div class="crm-column-header"><h4>Contacted</h4><span class="crm-count">0</span></div>
+              </div>
+              <div class="crm-column" id="crmCol_Meeting">
+                <div class="crm-column-header"><h4>Meeting</h4><span class="crm-count">0</span></div>
+              </div>
+              <div class="crm-column" id="crmCol_Proposal">
+                <div class="crm-column-header"><h4>Proposal</h4><span class="crm-count">0</span></div>
+              </div>
+              <div class="crm-column" id="crmCol_Negotiation">
+                <div class="crm-column-header"><h4>Negotiation</h4><span class="crm-count">0</span></div>
+              </div>
+              <div class="crm-column" id="crmCol_Won">
+                <div class="crm-column-header"><h4 style="color:#4ADE80;">Won &#10003;</h4><span class="crm-count">0</span></div>
+              </div>
+              <div class="crm-column" id="crmCol_Lost">
+                <div class="crm-column-header"><h4 style="color:#EF4444;">Lost</h4><span class="crm-count">0</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Add Lead Form -->
+        <div id="crmAddForm" style="display:none; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; margin-top:16px;">
+          <h3 style="font-size:14px; font-weight:600; margin-bottom:14px;">Add New CRM Lead</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+            <div class="input-group" style="margin-bottom:0;"><label>Name *</label><input type="text" id="crmLeadName" placeholder="Lead name"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Email</label><input type="email" id="crmLeadEmail" placeholder="email@domain.com"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Budget (&#8377;)</label><input type="text" id="crmLeadBudget" placeholder="e.g. &#8377;50,000"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Project Type</label><input type="text" id="crmLeadType" placeholder="e.g. Website"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Source</label><input type="text" id="crmLeadSource" placeholder="e.g. Instagram"></div>
+            <div style="display:flex; align-items:flex-end; gap:8px;">
+              <button class="login-btn" style="flex:1; margin-top:0;" onclick="addCrmLead()"><i class="fa-solid fa-plus"></i> Add Lead</button>
+              <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('crmAddForm').style.display='none'">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: PROPOSALS -->
+      <div class="tab-section" id="proposalsTab">
+        <!-- Split-pane layout for Document Center -->
+        <div class="document-center-workspace">
+          <!-- Left Sidebar Controls -->
+          <div class="doc-editor-sidebar">
+            <div class="doc-editor-scrollable">
+              <!-- Template Selector -->
+              <div class="input-group">
+                <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);"><i class="fa-solid fa-file-invoice"></i> Select Document Template</label>
+                <select id="docTemplateSelector" class="line-name-input" style="width:100%; height:40px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:4px; padding:0 10px; outline:none; font-family:inherit; margin-top:6px;">
+                  <option value="" disabled selected>-- Select Template --</option>
+                  <option value="ea_admin_manual">Admin Manual</option>
+                  <option value="ea_mq5_guide">MQ5 Code Integration Guide</option>
+                  <option value="ea_user_manual">EA Bot User Manual</option>
+                  <option value="ea_license_integration">EA License Integration Guide</option>
+                  <option value="ea_setup_guide">Bot Code Setup Guide</option>
+                  <option value="ea_automation_quotation">EA Automation System Proposal</option>
+                  <option value="ea_bot_quotation">EA Bot Access Proposal</option>
+                  <option value="agreement">Website Design Agreement</option>
+                  <option value="bot_agreement">Telegram Bot Service Agreement</option>
+                  <option value="agentic_ai_agreement">Agentic AI Service Agreement</option>
+                  <option value="agentic_ai_proposal">Agentic AI System Proposal</option>
+                  <option value="agentic_ai_brochure">Agentic AI Architecture Brochure</option>
+                  <option value="brochure">Company Profile & Brochure</option>
+                  <option value="bot_brochure">Telegram Bot Brochure</option>
+                  <option value="proposal">Client Website Proposal</option>
+                  <option value="invoice">Client Invoice</option>
+                  <option value="receipt">Payment Receipt</option>
+                  <option value="maintenance">Maintenance Plans Collateral</option>
+                  <option value="brand_guidelines">Agency Brand Guidelines</option>
+                  <option value="handover">Website Handover Guide</option>
+                </select>
+              </div>
+
+              <!-- Options Toggles -->
+              <div class="doc-options-group" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; background:var(--bg-alt); padding:16px; border:1px solid var(--border); border-radius:6px;">
+                <h4 style="font-size:12px; font-weight:700; margin:0 0 8px 0; text-transform:uppercase; font-family:var(--font-mono); color:var(--ink-soft);">Print Settings</h4>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px;">
+                  <span>Dark Mode Print (Digital PDF)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="docThemeToggle" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px;">
+                  <span>Include Logo Headers</span>
+                  <label class="switch">
+                    <input type="checkbox" id="docLogoToggle" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:12.5px;">
+                  <span>Visual Page Padding Margins</span>
+                  <label class="switch">
+                    <input type="checkbox" id="docMarginToggle" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Dynamic Document Variables Fields Stack -->
+              <div style="margin-top:20px;">
+                <h4 style="font-size:12px; font-weight:700; margin:0 0 12px 0; text-transform:uppercase; font-family:var(--font-mono); color:var(--ink-soft);">Document Content Fields</h4>
+                <div id="docDynamicFields" style="display:flex; flex-direction:column; gap:12px;">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Sticky Bottom Actions -->
+            <div class="doc-editor-footer" style="padding-top:16px; border-top:1px solid var(--border); margin-top:20px; display:flex; flex-direction:column; gap:8px;">
+              <button id="docPrintBtn" class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); margin:0; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px;"><i class="fa-solid fa-print"></i> Print Document</button>
+              <span style="font-size:10px; color:var(--ink-faint); text-align:center; font-family:var(--font-mono);">Choose 'Save as PDF' in browser print dialog</span>
+            </div>
+          </div>
+
+          <!-- Right Document Preview Workstation -->
+          <div class="doc-preview-workstation">
+            <div class="doc-preview-header" style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:1px solid var(--border); background:var(--bg-alt); border-top-left-radius:6px; border-top-right-radius:6px;">
+              <div style="font-size:12px; font-weight:600; display:flex; align-items:center; gap:6px; color:var(--accent);"><i class="fa-solid fa-eye"></i> Document Preview Canvas</div>
+              <div style="font-size:11px; color:var(--ink-faint); font-family:var(--font-mono);">A4 Portrait (A4 Standard)</div>
+            </div>
+            <div class="doc-preview-scroll-container">
+              <div id="docPreviewContainer" class="preview-canvas preview-dark">
+                <!-- Template HTML content rendered here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION 1: GENERAL ENQUIRIES -->
+      <div class="tab-section" id="inquiriesTab">
+        <div class="panel">
+          <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h2>Client Messages Inbox</h2>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <input type="text" id="searchInquiriesInput" placeholder="&#x1F50D; Search inquiries..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+              <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="inquiriesCount">0 enquiries found</span>
+            </div>
+          </div>
+          <div class="table-container">
+            <table id="inquiriesTable">
+              <thead>
+                <tr>
+                  <th>Client Contact</th>
+                  <th>Inquiry Message</th>
+                  <th>Date Logged</th>
+                  <th>Contact Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="inquiriesTableBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="inquiriesEmpty" style="display:none;">
+            <i class="fa-solid fa-folder-open"></i>
+            <p>No general enquiries found in inquiries.json.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION 2: PROJECT SCOPING -->
+      <div class="tab-section" id="projectsTab">
+        <div class="panel">
+          <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h2>Detailed Project Leads</h2>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <input type="text" id="searchProjectsInput" placeholder="&#x1F50D; Search projects..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+              <button id="addProjectBtn" class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); margin:0; padding:8px 16px; font-size:13px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; width:auto; height:38px;"><i class="fa-solid fa-plus"></i> Add Project</button>
+              <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="projectsCount">0 projects found</span>
+            </div>
+          </div>
+          <div class="table-container">
+            <table id="projectsTable">
+              <thead>
+                <tr>
+                  <th>Client Contact</th>
+                  <th>Project Stack Category</th>
+                  <th>Scoping Budget</th>
+                  <th>Detailed Message</th>
+                  <th>Date Logged</th>
+                  <th>Contact Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="projectsEmpty" style="display:none;">
+            <i class="fa-solid fa-folder-open"></i>
+            <p>No project scoping enquiries found in projects.json.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: ROADMAP EDITOR -->
+      <div class="tab-section" id="roadmapEditorTab">
+        <div class="panel" style="margin-bottom:28px;">
+          <div class="panel-header">
+            <h2>Roadmap Phase Editor</h2>
+            <span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);">Syncs directly to Client Portal</span>
+          </div>
+          <div style="padding:24px;">
+            <div class="input-group" style="max-width:400px; margin-bottom:24px;">
+              <label for="roadmapEditorProjectSelect" style="font-weight:600; margin-bottom:8px; display:block;">Select Project to Edit</label>
+              <select id="roadmapEditorProjectSelect" style="width:100%; height:40px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 12px; color:var(--ink); outline:none; font-size:14px;">
+                <option value="">-- Choose a Project --</option>
+              </select>
+            </div>
+            
+            <div id="roadmapEditorFormContainer" style="display:none; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:24px;">
+              <h4 id="roadmapEditorProjectHeader" style="margin:0 0 20px 0; font-size:16px; font-weight:700; border-bottom:1px solid var(--border); padding-bottom:12px; color:var(--ink-soft);">Project Roadmap Status</h4>
+              
+              <form id="roadmapEditorForm">
+                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; margin-bottom:20px;">
+                  <div class="input-group" style="margin-bottom:0;">
+                    <label for="roadmapEditorCurrentStage" style="font-weight:600; margin-bottom:6px; display:block;">Current Stage</label>
+                    <select id="roadmapEditorCurrentStage" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                      <option value="Discovery">Discovery</option>
+                      <option value="Scoping">Scoping</option>
+                      <option value="Design">Design</option>
+                      <option value="Development">Development</option>
+                      <option value="Testing">Testing</option>
+                      <option value="Launch">Launch</option>
+                      <option value="Maintenance">Maintenance</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+                  
+                  <div class="input-group" style="margin-bottom:0;">
+                    <label for="roadmapEditorProgress" style="font-weight:600; margin-bottom:6px; display:block;">Progress (%)</label>
+                    <input type="number" id="roadmapEditorProgress" min="0" max="100" required placeholder="e.g. 45" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  </div>
+
+                  <div class="input-group" style="margin-bottom:0;">
+                    <label for="roadmapEditorNextMilestone" style="font-weight:600; margin-bottom:6px; display:block;">Next Milestone</label>
+                    <input type="text" id="roadmapEditorNextMilestone" placeholder="e.g. Front-End Wireframes approval" required style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  </div>
+
+                  <div class="input-group" style="margin-bottom:0;">
+                    <label for="roadmapEditorEta" style="font-weight:600; margin-bottom:6px; display:block;">ETA</label>
+                    <input type="text" id="roadmapEditorEta" placeholder="e.g. 5 Days" required style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  </div>
+
+                  <div class="input-group" style="margin-bottom:0;">
+                    <label for="roadmapEditorStatus" style="font-weight:600; margin-bottom:6px; display:block;">Status</label>
+                    <select id="roadmapEditorStatus" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                      <option value="In Progress">In Progress</option>
+                      <option value="Paused">Paused</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+
+                  <div class="input-group" style="margin-bottom:0;">
+                    <label for="roadmapEditorPreviewUrl" style="font-weight:600; margin-bottom:6px; display:block;">Preview Availability (Staging URL)</label>
+                    <input type="text" id="roadmapEditorPreviewUrl" placeholder="e.g. https://staging.example.com" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  </div>
+
+                  <div class="input-group" style="margin-bottom:0; grid-column: span 2;">
+                    <label for="roadmapEditorLastUpdated" style="font-weight:600; margin-bottom:6px; display:block;">Updated Time</label>
+                    <div style="display:flex; gap:10px;">
+                      <input type="datetime-local" id="roadmapEditorLastUpdated" style="flex:1; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                      <button type="button" class="refresh-btn" onclick="setRoadmapEditorLiveTime()" style="margin-top:0; padding:0 16px; height:38px; display:inline-flex; align-items:center; gap:6px;"><i class="fa-solid fa-clock"></i> Live Time</button>
+                    </div>
+                  </div>
+                </div>
+                
+                <button type="submit" class="login-btn" style="width:100%; margin-top:10px; height:42px;"><i class="fa-solid fa-save"></i> Save Roadmap Details</button>
+              </form>
+            </div>
+            
+            <div id="roadmapEditorPlaceholder" style="color:var(--ink-soft); text-align:center; padding:48px; border:1px dashed var(--border); border-radius:6px; background:var(--bg-alt);">
+              <i class="fa-solid fa-map-location-dot" style="font-size:32px; color:var(--ink-faint); margin-bottom:12px; display:block;"></i>
+              Select a project from the dropdown above to edit its roadmap settings.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: TASK BOARD -->
+      <div class="tab-section" id="tasksTab">
+        <div class="panel" style="margin-bottom:28px;">
+          <div class="panel-header"><h2>Task Board</h2>
+            <button class="refresh-btn" onclick="document.getElementById('taskAddForm').style.display = document.getElementById('taskAddForm').style.display === 'none' ? 'block' : 'none'"><i class="fa-solid fa-plus"></i> Add Task</button>
+          </div>
+          <div style="padding:20px;">
+            <div class="task-board">
+              <div class="task-column" id="taskCol_Todo">
+                <div class="task-column-header">Todo <span class="crm-count">0</span></div>
+              </div>
+              <div class="task-column" id="taskCol_Design">
+                <div class="task-column-header">Design <span class="crm-count">0</span></div>
+              </div>
+              <div class="task-column" id="taskCol_Development">
+                <div class="task-column-header">Development <span class="crm-count">0</span></div>
+              </div>
+              <div class="task-column" id="taskCol_Testing">
+                <div class="task-column-header">Testing <span class="crm-count">0</span></div>
+              </div>
+              <div class="task-column" id="taskCol_Done">
+                <div class="task-column-header" style="color:#4ADE80;">Done <span class="crm-count">0</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Add Task Form -->
+        <div id="taskAddForm" style="display:none; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px; margin-top:16px;">
+          <h3 style="font-size:14px; font-weight:600; margin-bottom:14px;">Add New Task</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; align-items:end;">
+            <div class="input-group" style="margin-bottom:0;"><label>Task Title *</label><input type="text" id="taskTitle" placeholder="e.g. Homepage hero"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Assign To</label><input type="text" id="taskAssign" placeholder="Designer / Developer"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Priority</label><select id="taskPriority" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Column</label><select id="taskStage" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option>Todo</option><option>Design</option><option>Development</option><option>Testing</option><option>Done</option></select></div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:12px;">
+            <button class="login-btn" style="margin-top:0;" onclick="addTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('taskAddForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: SUPPORT DESK -->
+      <div class="tab-section" id="supportTab">
+        <div class="panel" style="margin-bottom:28px;">
+          <div class="panel-header"><h2>Support Desk</h2>
+            <button class="refresh-btn" onclick="document.getElementById('ticketAddForm').style.display = document.getElementById('ticketAddForm').style.display === 'none' ? 'block' : 'none'"><i class="fa-solid fa-plus"></i> New Ticket</button>
+          </div>
+          <!-- Add Ticket Form -->
+          <div id="ticketAddForm" style="display:none; padding:16px 20px; background:var(--bg-alt); border-bottom:1px solid var(--border);">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; align-items:end;">
+              <div class="input-group" style="margin-bottom:0;"><label>Subject *</label><input type="text" id="ticketSubject" placeholder="Issue description"></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Client Email</label><input type="email" id="ticketEmail" placeholder="client@domain.com"></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Category</label><select id="ticketCategory" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option>Billing</option><option>Development</option><option>Files</option><option>General</option></select></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Priority</label><select id="ticketPriority" style="width:100%; height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm);"><option value="high">High</option><option value="med" selected>Medium</option><option value="low">Low</option></select></div>
+            </div>
+            <div class="input-group" style="margin-bottom:0; margin-top:10px;"><label>Message</label><textarea id="ticketMessage" rows="2" placeholder="Describe the issue..." style="width:100%; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:var(--radius-sm); padding:8px 12px; font-family:inherit;"></textarea></div>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button class="login-btn" style="margin-top:0;" onclick="addSupportTicket()"><i class="fa-solid fa-plus"></i> Create Ticket</button>
+              <button class="refresh-btn" style="margin-top:0;" onclick="document.getElementById('ticketAddForm').style.display='none'">Cancel</button>
+            </div>
+          </div>
+          <div id="ticketList">
+            <div class="ticket-row">
+              <div class="ticket-priority-dot" style="background:#EF4444;"></div>
+              <div class="ticket-info"><div class="ticket-subject">#001 &mdash; Payment not reflecting in portal</div><div class="ticket-meta">client@example.com &bull; Billing &bull; 2 hours ago</div></div>
+              <span class="ticket-badge" style="color:#EF4444; border-color:rgba(239,68,68,.3);">High</span>
+              <span class="ticket-badge" style="color:#F59E0B; border-color:rgba(245,158,11,.3);">Open</span>
+              <div class="action-group"><button class="action-btn" title="Reply"><i class="fa-solid fa-reply"></i></button></div>
+            </div>
+            <div class="ticket-row">
+              <div class="ticket-priority-dot" style="background:#F59E0B;"></div>
+              <div class="ticket-info"><div class="ticket-subject">#002 &mdash; Need to update company logo</div><div class="ticket-meta">another@client.com &bull; Files &bull; 1 day ago</div></div>
+              <span class="ticket-badge" style="color:#F59E0B; border-color:rgba(245,158,11,.3);">Med</span>
+              <span class="ticket-badge" style="color:#3B82F6; border-color:rgba(59,130,246,.3);">In Review</span>
+              <div class="action-group"><button class="action-btn" title="Reply"><i class="fa-solid fa-reply"></i></button></div>
+            </div>
+            <div class="ticket-row">
+              <div class="ticket-priority-dot" style="background:#3B82F6;"></div>
+              <div class="ticket-info"><div class="ticket-subject">#003 &mdash; WhatsApp button not working on mobile</div><div class="ticket-meta">third@client.com &bull; Development &bull; 3 days ago</div></div>
+              <span class="ticket-badge" style="color:#3B82F6; border-color:rgba(59,130,246,.3);">Low</span>
+              <span class="ticket-badge" style="color:#4ADE80; border-color:rgba(74,222,128,.3);">Resolved</span>
+              <div class="action-group"><button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION 3: RECEIPT CENTER & CREATOR -->
+      <div class="tab-section" id="receiptsTab">
+        <div class="receipts-workspace">
+          <!-- Receipts List -->
+          <div class="panel" style="margin-bottom:0;">
+            <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <h2>Billing Receipts</h2>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <input type="text" id="searchReceiptsInput" placeholder="&#x1F50D; Search invoices..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+                <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="receiptsCount">0 receipts found</span>
+              </div>
+            </div>
+            <div class="table-container">
+              <table id="receiptsTable">
+                <thead>
+                  <tr>
+                    <th style="width:18%;">Receipt Code / Time</th>
+                    <th style="width:25%;">Client details</th>
+                    <th style="width:25%;">Project Description</th>
+                    <th style="width:12%;">Billing Total</th>
+                    <th style="width:12%;">Payment Status / Razorpay ID</th>
+                    <th style="width:8%;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="receiptsTableBody"></tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="receiptsEmpty" style="display:none;">
+              <i class="fa-solid fa-file-circle-exclamation"></i>
+              <p>No generated client invoices found in receipts.json.</p>
+            </div>
+          </div>
+
+          <!-- Receipts Manual Generator -->
+          <div class="creator-card">
+            <h3>Manual Receipt Builder</h3>
+            <form id="receiptGeneratorForm">
+              <div class="input-group">
+                <label for="rcptName">Client Name</label>
+                <input type="text" id="rcptName" required placeholder="e.g. John Doe">
+              </div>
+              <div class="input-group">
+                <label for="rcptEmail">Client Email</label>
+                <input type="email" id="rcptEmail" required placeholder="e.g. client@domain.com">
+              </div>
+              <div class="input-group">
+                <label for="rcptPhone">Phone Number</label>
+                <input type="text" id="rcptPhone" placeholder="e.g. +91 98765 43210">
+              </div>
+              <div class="input-group">
+                <label for="rcptProject">Project Title</label>
+                <input type="text" id="rcptProject" required placeholder="e.g. D2C Storefront Redesign">
+              </div>
+              <div class="input-group">
+                <label for="rcptStatus">Payment Status</label>
+                <select id="rcptStatus" class="line-name-input" style="height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); width:100%;">
+                  <option value="Pending">Pending Invoice</option>
+                  <option value="Paid">Paid Receipt</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="rcptAdvance">Advance Amount Paid (Optional, &#8377;)</label>
+                <input type="number" id="rcptAdvance" placeholder="e.g. 15000" min="0" class="line-name-input" style="width:100%;">
+              </div>
+              
+              <div class="input-group">
+                <label for="rcptDate" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Invoice Date & Time (Optional)</span>
+                  <button type="button" id="setLiveTimeBtn" style="font-size:10px; padding:3px 6px; background:var(--accent); color:var(--bg); border:none; border-radius:3px; cursor:pointer;"><i class="fa-solid fa-clock"></i> Set Live Time</button>
+                </label>
+                <input type="datetime-local" id="rcptDate" class="line-name-input" style="width:100%; margin-top:4px;">
+              </div>
+
+              <!-- Dynamic Task Line Items checklist -->
+              <div class="item-lines-container">
+                <div class="item-lines-header">
+                  <label>Scoping Line Items</label>
+                  <button type="button" class="add-line-btn" id="addLineItemBtn"><i class="fa-solid fa-plus"></i> Add Line</button>
+                </div>
+                <div id="itemLinesList">
+                  <!-- Auto-appends dynamic item rows -->
+                  <div class="item-row">
+                    <input type="text" placeholder="Task Name (e.g. UX UI Design)" required class="line-name-input">
+                    <input type="number" placeholder="Cost (&#8377;)" required min="0" class="line-cost-input">
+                    <button type="button" class="remove-row-btn" onclick="removeRow(this)">&times;</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="total-display-row">
+                <span>Calculated Amount:</span>
+                <h4 id="receiptTotalText">&#8377;0</h4>
+              </div>
+
+              <div class="input-group" style="flex-direction: row; align-items: center; gap: 8px; margin-top: 15px; width: 100%;">
+                <input type="checkbox" id="rcptSendEmail" style="width: auto; cursor: pointer; height: 16px; margin: 0;">
+                <label for="rcptSendEmail" style="cursor: pointer; margin: 0; font-size: 13px; font-weight: 500; user-select: none; color: var(--ink-soft);">Send Email Notification to Client immediately</label>
+              </div>
+
+              <button type="submit" class="login-btn" style="margin-top:20px;"><i class="fa-solid fa-save"></i> Save &amp; Generate</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: PAYMENTS -->
+      <div class="tab-section" id="paymentsTab">
+        <div class="panel">
+          <div class="panel-header"><h2>Payment Records</h2><span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);">All Razorpay transactions</span></div>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>Payment ID</th><th>Client</th><th>Amount</th><th>Gateway</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td style="font-family:var(--font-mono); font-size:11px;">pay_Nh2xYZ123</td>
+                  <td class="col-name">NextGen Demo</td>
+                  <td style="font-family:var(--font-mono); color:#4ADE80;">&#8377;50,000</td>
+                  <td>Razorpay</td>
+                  <td><span class="status-badge paid">Received</span></td>
+                  <td class="col-date">15 Jul 2026</td>
+                  <td><div class="action-group"><button class="action-btn" title="Receipt"><i class="fa-solid fa-receipt"></i></button></div></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono); font-size:11px;">pay_Nh3aBC456</td>
+                  <td class="col-name">NextGen Demo</td>
+                  <td style="font-family:var(--font-mono); color:#4ADE80;">&#8377;1,00,001</td>
+                  <td>Razorpay</td>
+                  <td><span class="status-badge paid">Received</span></td>
+                  <td class="col-date">20 Jun 2026</td>
+                  <td><div class="action-group"><button class="action-btn" title="Receipt"><i class="fa-solid fa-receipt"></i></button></div></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono); font-size:11px;">&mdash;</td>
+                  <td class="col-name">Artisan Bakery</td>
+                  <td style="font-family:var(--font-mono); color:#F59E0B;">&#8377;50,000</td>
+                  <td>Awaiting</td>
+                  <td><span class="status-badge pending">Pending</span></td>
+                  <td class="col-date">Due 28 Jul</td>
+                  <td><div class="action-group"><button class="action-btn" title="Reminder" onclick="showToast('Payment','Reminder sent!','info')"><i class="fa-solid fa-bell"></i></button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION 4: EMAIL DISPATCH HUB -->
+      <div class="tab-section" id="settingsTab">
+        <div class="receipts-workspace" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 30px; align-items: start;">
+          
+          <!-- Left: Provider Configurations -->
+          <div class="creator-card" style="margin-bottom: 0;">
+            <h3>Email Provider Config</h3>
+            <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; line-height:1.5;">
+              Choose your primary email sending provider. HTTPS over Resend API is recommended for Render hosting to bypass SMTP port restrictions.
+            </p>
+            <form id="smtpSettingsForm">
+              <!-- Provider Selection Radio -->
+              <div class="input-group" style="margin-bottom: 25px;">
+                <label style="display: block; margin-bottom: 10px;">Select Email Provider</label>
+                <div style="display: flex; gap: 20px;">
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 500;">
+                    <input type="radio" name="emailProvider" value="resend" checked style="accent-color: var(--accent);"> Resend API (Recommended)
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 500;">
+                    <input type="radio" name="emailProvider" value="smtp" style="accent-color: var(--accent);"> SMTP Server (Advanced)
+                  </label>
+                </div>
+              </div>
+
+              <!-- Resend Fields -->
+              <div id="resendConfigBlock" class="settings-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px;">
+                <div class="input-group">
+                  <label for="resendApiKey">Resend API Key</label>
+                  <input type="password" id="resendApiKey" placeholder="re_xxxxxxxxxxxxxxxxxxxxxxxx">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="input-group">
+                    <label for="resendFromName">From Display Name</label>
+                    <input type="text" id="resendFromName" placeholder="e.g. NextGen Web Studio">
+                  </div>
+                  <div class="input-group">
+                    <label for="resendFromEmail">From Email Address</label>
+                    <input type="email" id="resendFromEmail" placeholder="e.g. nextgenwebstudio63@gmail.com">
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label for="resendTo">Admin Notification Email</label>
+                  <input type="email" id="resendTo" placeholder="e.g. nextgenwebstudio63@gmail.com">
+                </div>
+              </div>
+
+              <!-- SMTP Fields -->
+              <div id="smtpConfigBlock" class="settings-grid" style="display: none; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                <div class="input-group" style="grid-column: span 2;">
+                  <label for="smtpHost">SMTP Server Host</label>
+                  <input type="text" id="smtpHost" placeholder="e.g. smtp.gmail.com">
+                </div>
+                <div class="input-group">
+                  <label for="smtpPort">SMTP Server Port</label>
+                  <input type="number" id="smtpPort" placeholder="e.g. 465 or 587">
+                </div>
+                <div class="input-group">
+                  <label for="smtpUser">SMTP Username</label>
+                  <input type="email" id="smtpUser" placeholder="e.g. name@domain.com">
+                </div>
+                <div class="input-group" style="grid-column: span 2;">
+                  <label for="smtpPass">SMTP Access Password (App Password)</label>
+                  <input type="password" id="smtpPass" placeholder="&#128272; Enter App Password">
+                </div>
+                <div class="input-group">
+                  <label for="smtpFromName">From Display Name</label>
+                  <input type="text" id="smtpFromName" placeholder="e.g. NextGen Web Studio">
+                </div>
+                <div class="input-group">
+                  <label for="smtpFromEmail">From Email Address</label>
+                  <input type="email" id="smtpFromEmail" placeholder="e.g. nextgenwebstudio63@gmail.com">
+                </div>
+                <div class="input-group" style="grid-column: span 2;">
+                  <label for="smtpTo">Admin Notification Email</label>
+                  <input type="email" id="smtpTo" placeholder="e.g. nextgenwebstudio63@gmail.com">
+                </div>
+              </div>
+
+              <!-- Save settings action -->
+              <div style="margin-top: 10px; margin-bottom: 30px;">
+                <button type="submit" class="login-btn" style="width: 100%;"><i class="fa-solid fa-save"></i> Save Configurations</button>
+              </div>
+
+              <!-- Send Test Email Tool -->
+              <div style="border-top: 1px solid var(--border); padding-top: 25px;">
+                <h4 style="margin-bottom: 10px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; color: var(--accent);">Send Dispatch Test</h4>
+                <p style="font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 15px;">
+                  Verify your active credentials by sending a test email layout to any recipient.
+                </p>
+                <div style="display: flex; gap: 15px; align-items: end;">
+                  <div class="input-group" style="flex: 1; margin-bottom: 0;">
+                    <label for="emailTestTo">Recipient Email</label>
+                    <input type="email" id="emailTestTo" placeholder="e.g. client@example.com">
+                  </div>
+                  <button type="button" class="refresh-btn" id="testSmtpBtn" style="height: 48px; border-radius: var(--radius-sm); margin-top: 0; padding: 0 24px; font-weight: 600;"><i class="fa-solid fa-paper-plane"></i> Send Test</button>
+                </div>
+              </div>
+
+              <div id="smtpTestStatus" style="display:none; margin-top:20px; padding: 16px; border-radius: var(--radius-sm); font-size:12.5px; font-family:var(--font-mono); line-height: 1.6; white-space: pre-wrap; word-break: break-all; border: 1px solid var(--border);"></div>
+            </form>
+          </div>
+
+          <!-- Right Column: Diagnostics, Templates, & Logs -->
+          <div style="display: grid; grid-template-columns: 1fr; gap: 30px;">
+            
+            <!-- Email Diagnostics Status Card -->
+            <div class="creator-card" style="margin-bottom: 0;">
+              <h3>System Diagnostics</h3>
+              <div style="margin-top: 15px; display: grid; grid-template-columns: 1.2fr 2fr; gap: 12px 10px; font-size: 13px; font-family: var(--font-mono);">
+                <div style="color: var(--ink-soft);">Active Provider:</div>
+                <div id="diagProvider" style="font-weight: 700; text-transform: uppercase; color: var(--accent);">resend</div>
+                
+                <div style="color: var(--ink-soft);">Status:</div>
+                <div id="diagConnection" style="color: var(--ink-faint);">-</div>
+                
+                <div style="color: var(--ink-soft);">Sender Domain:</div>
+                <div id="diagDomain" style="color: var(--ink); font-weight: 600;">-</div>
+                
+                <div style="color: var(--ink-soft);">Verification:</div>
+                <div id="diagVerification" style="color: var(--ink-faint);">-</div>
+                
+                <div style="color: var(--ink-soft);">Last Test:</div>
+                <div id="diagLastTest" style="color: var(--ink-soft);">-</div>
+                
+                <div style="color: var(--ink-soft);">Message ID:</div>
+                <div id="diagMessageId" style="color: var(--ink-faint); font-size: 11px; word-break: break-all;">-</div>
+              </div>
+            </div>
+
+            <!-- Email Templates Manager -->
+            <div class="creator-card" style="margin-bottom: 0;">
+              <h3>Email Templates Manager</h3>
+              <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:15px; line-height:1.5;">
+                Select a notification template and customize its subject or layout.
+              </p>
+              
+              <div class="input-group" style="margin-bottom: 15px;">
+                <label for="templateSelect">Choose Template</label>
+                <select id="templateSelect" style="width: 100%; height: 48px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-alt); color: var(--ink); padding: 0 15px; font-weight: 500;">
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+
+              <div class="input-group" style="margin-bottom: 15px;">
+                <label for="templateSubject">Subject Header</label>
+                <input type="text" id="templateSubject" placeholder="Template Subject">
+              </div>
+
+              <div class="input-group" style="margin-bottom: 20px;">
+                <label for="templateBody">HTML Template Body</label>
+                <textarea id="templateBody" style="width: 100%; height: 220px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-alt); color: var(--ink); padding: 12px 15px; font-family: var(--font-mono); font-size: 12px; line-height: 1.5; resize: vertical; box-sizing: border-box;"></textarea>
+                <small style="display: block; margin-top: 6px; color: var(--ink-faint); font-size: 11px; line-height: 1.4;">
+                  Supported placeholders: <code style="color: var(--accent);">{{clientName}}</code>, <code style="color: var(--accent);">{{projectName}}</code>, <code style="color: var(--accent);">{{receiptNumber}}</code>, <code style="color: var(--accent);">{{amount}}</code>, <code style="color: var(--accent);">{{clientEmail}}</code>, <code style="color: var(--accent);">{{clientPhone}}</code>, <code style="color: var(--accent);">{{message}}</code>, <code style="color: var(--accent);">{{portalUrl}}</code>
+                </small>
+              </div>
+
+              <button type="button" class="login-btn" id="saveTemplateBtn" style="width: 100%;"><i class="fa-solid fa-save"></i> Save Template changes</button>
+            </div>
+
+            <!-- Email Delivery Logs Table -->
+            <div class="creator-card" style="margin-bottom: 0; max-height: 380px; display: flex; flex-direction: column;">
+              <h3 style="margin-bottom: 12px;">Delivery Logs History</h3>
+              <div style="flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-alt);">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                  <thead>
+                    <tr style="border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); font-family: var(--font-mono);">
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Time</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Recipient</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Subject</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600;">Provider</th>
+                      <th style="padding: 10px 12px; color: var(--ink-soft); font-weight: 600; text-align: right;">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="emailLogsTableBody">
+                    <!-- Dynamically populated -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB SECTION: CALENDAR -->
+      <div class="tab-section" id="calendarTab">
+        <div class="panel" style="margin-bottom:28px;">
+          <div class="panel-header">
+            <h2 id="calendarMonthTitle">July 2026</h2>
+            <div style="display:flex; gap:8px;">
+              <button class="action-btn" onclick="changeCalendarMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="action-btn" onclick="changeCalendarMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div style="padding:20px;"><div class="calendar-grid" id="calendarGrid"></div></div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION: PORTAL CONTROL -->
+      <div class="tab-section" id="portalControlTab">
+        <div class="panel">
+          <div class="panel-header"><h2>Client Portal Control</h2><span style="font-family:var(--font-mono); font-size:12px; color:var(--ink-faint);">Per-client access toggles</span></div>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>Client Email</th><th>Portal Access</th><th>Invoice Visible</th><th>Files Visible</th><th>Preview Link</th><th>Account</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td class="col-name">shridharsan134@gmail.com</td>
+                  <td><label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" checked onchange="showToast('Portal','Access toggled','info')" style="accent-color:var(--accent);"><span style="font-size:12px;">Enabled</span></label></td>
+                  <td><input type="checkbox" checked onchange="showToast('Portal','Invoice visibility toggled','info')" style="accent-color:var(--accent);"></td>
+                  <td><input type="checkbox" checked onchange="showToast('Portal','Files visibility toggled','info')" style="accent-color:var(--accent);"></td>
+                  <td><input type="checkbox" onchange="showToast('Portal','Preview link toggled','info')" style="accent-color:var(--accent);"></td>
+                  <td><span class="status-badge contacted">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB SECTION 5: ACCESS REGISTRY -->
+      <div class="tab-section" id="accessTab">
+        <div class="receipts-workspace access-workspace" style="padding: 24px;">
+          <!-- Left: Add Approved User Form -->
+          <div class="creator-card" style="margin-bottom: 0; max-height:85vh; overflow-y:auto; padding-right:10px;">
+            <h3>Create Client Profile</h3>
+            <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:20px; line-height:1.5;">
+              Create a new client profile, set up their primary active project details, and configure client portal access registry.
+            </p>
+            <form id="addApprovedUserForm" onsubmit="handleAddApprovedUser(event)">
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">1. Personal Info</div>
+              <div class="input-group">
+                <label for="newUserName">Client Name *</label>
+                <input type="text" id="newUserName" required placeholder="e.g. John Doe">
+              </div>
+              <div class="input-group">
+                <label for="newUserEmail">Client Email Address *</label>
+                <input type="email" id="newUserEmail" required placeholder="client@gmail.com">
+              </div>
+              <div class="input-group">
+                <label for="newUserPhone">Phone Number</label>
+                <input type="text" id="newUserPhone" placeholder="e.g. +91 98765 43210">
+              </div>
+              <div class="input-group">
+                <label for="newUserCompany">Company Name</label>
+                <input type="text" id="newUserCompany" placeholder="e.g. Acme Corp">
+              </div>
+              
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-top:20px; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">2. Initial Project Info</div>
+              <div class="input-group">
+                <label for="newUserProjectName">Project Name *</label>
+                <input type="text" id="newUserProjectName" placeholder="e.g. E-Commerce Website Development" required>
+              </div>
+              <div class="input-group">
+                <label for="newUserProjectBudget">Project Budget</label>
+                <input type="text" id="newUserProjectBudget" placeholder="e.g. &#8377;1.5L - &#8377;3L">
+              </div>
+              <div class="input-group">
+                <label for="newUserProjectType">Project Type</label>
+                <input type="text" id="newUserProjectType" placeholder="e.g. Agentic AI, Web Development, Telegram Bot">
+              </div>
+
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-top:20px; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">3. Portal Access</div>
+              <div class="input-group">
+                <label for="newUserPortalEnabled">Portal Access Status</label>
+                <select id="newUserPortalEnabled" style="width:100%; height:38px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  <option value="true">Enabled</option>
+                  <option value="false">Disabled</option>
+                </select>
+              </div>
+
+              <div style="font-size:11px; font-family:var(--font-mono); font-weight:700; color:var(--accent); text-transform:uppercase; margin-top:20px; margin-bottom:12px; border-bottom:1px dashed var(--border); padding-bottom:4px; letter-spacing:0.05em;">4. Other Details</div>
+              <div class="input-group">
+                <label for="newUserGst">GST Number</label>
+                <input type="text" id="newUserGst" placeholder="e.g. 33AAAAA1111A1Z1">
+              </div>
+              <div class="input-group">
+                <label for="newUserAddress">Address</label>
+                <textarea id="newUserAddress" placeholder="Client physical address" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea>
+              </div>
+              <div class="input-group">
+                <label for="newUserNotes">Notes (Internal Annotations)</label>
+                <textarea id="newUserNotes" placeholder="Private admin notes about this client..." style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea>
+              </div>
+              <button type="submit" class="login-btn" style="margin-top:20px; width:100%;"><i class="fa-solid fa-plus"></i> Add Client Profile</button>
+            </form>
+          </div>
+
+          <!-- Right: Approved Users Table -->
+          <div class="panel" style="margin-bottom: 0;">
+            <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <h2>Approved Client Profiles</h2>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <input type="text" id="searchAccessInput" placeholder="&#x1F50D; Search clients..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+                <span style="font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);" id="approvedUsersCount">0 clients found</span>
+              </div>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Company</th>
+                    <th>Project</th>
+                    <th>Progress</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Developer</th>
+                    <th>Last Updated</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="approvedUsersTableBody">
+                  <!-- Loaded dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. CHATBOT TAB SECTION -->
+      <div class="tab-section" id="chatbotTab">
+        <div class="panel">
+          <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <h2>Chatbot Inbox & Real-time Logs</h2>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <input type="text" id="searchChatInput" placeholder="&#x1F50D; Search chat logs..." style="width:200px; height:32px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:12px; color:var(--ink); outline:none; font-family:inherit;">
+              <button class="action-btn" id="markAllChatReadBtn" style="font-size:12px; height:32px; padding:0 12px; display:inline-flex; align-items:center; gap:6px; background-color:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; white-space:nowrap; flex-shrink:0; width:auto !important;"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 20%;">Client / Guest</th>
+                  <th style="width: 25%;">Client Message</th>
+                  <th style="width: 25%;">Bot Response</th>
+                  <th style="width: 15%;">Timestamp</th>
+                  <th style="width: 5%;">Status</th>
+                  <th style="width: 10%;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="chatbotMessagesTableBody">
+                <tr><td colspan="5" style="text-align:center; padding:30px; color:var(--ink-soft);">No chatbot logs recorded yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 2.5 MANUAL PROJECT CREATOR MODAL -->
+  <div class="receipt-modal" id="projectCreateModal">
+    <div class="receipt-card">
+      <span class="receipt-close" id="closeCreateProjectBtn">&times;</span>
+      <div class="receipt-header" style="text-align: left; padding-bottom: 12px; margin-bottom: 15px;">
+        <h3 style="font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-folder-plus" style="color:var(--accent);"></i> Manual Project Creator</h3>
+        <span style="font-size:11px; color:var(--ink-soft); margin-top:2px;">Register a new client project scoping lead</span>
+      </div>
+      <div class="receipt-body">
+        <form id="projectGeneratorForm" style="display:flex; flex-direction:column; gap:12px; width:100%;">
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Client Full Name</label>
+            <input type="text" id="manProjName" class="line-name-input" placeholder="e.g. John Doe" required style="width:100%;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Client Email Address</label>
+            <input type="email" id="manProjEmail" class="line-name-input" placeholder="e.g. johndoe@gmail.com" required style="width:100%;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Client Phone Number</label>
+            <input type="text" id="manProjPhone" class="line-name-input" placeholder="e.g. +91 98765 43210" style="width:100%;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Project Category (Stack)</label>
+            <input type="text" id="manProjType" class="line-name-input" placeholder="e.g. Agentic AI Pipeline, Next.js SaaS, Telegram Bot" required style="width:100%;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Scoping Budget Estimate</label>
+            <input type="text" id="manProjBudget" class="line-name-input" placeholder="e.g. â‚¹1.5L - â‚¹3L" required style="width:100%;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Milestone Status</label>
+            <select id="manProjStatus" class="line-name-input" style="height:42px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); width:100%;">
+              <option value="New Project">New Project</option>
+              <option value="Not Yet Started">Not Yet Started</option>
+              <option value="Starting Project">Starting Project</option>
+              <option value="Homepage Created">Homepage Created</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Live Preview URL</label>
+            <input type="url" id="manProjPreviewUrl" class="line-name-input" placeholder="https://staging.nextgen.com" style="width:100%;">
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Inquiry Description</label>
+            <textarea id="manProjMessage" class="line-name-input" style="min-height:70px; resize:vertical; padding:8px; width:100%;" placeholder="Describe scoping bounds..."></textarea>
+          </div>
+          <div class="input-group">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-faint);">Admin Notes (Internal Notes)</label>
+            <textarea id="manProjAdminNotes" class="line-name-input" style="min-height:70px; resize:vertical; padding:8px; width:100%;" placeholder="Add private internal notes..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; border-top:1px dashed var(--border); padding-top:15px; margin-top:5px; flex-shrink:0;">
+        <button type="button" id="cancelCreateProjectBtn" class="refresh-btn" style="margin:0; padding:8px 16px; justify-content:center; width:auto; border:1px solid var(--border);">Cancel</button>
+        <button type="button" id="submitCreateProjectBtn" class="login-btn" style="background-color:var(--accent); border-color:var(--accent); color:var(--bg); margin:0; padding:8px 24px; width:auto;"><i class="fa-solid fa-save"></i> Create Project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. DETAILED VIEW RECEIPT MODAL -->
+  <div class="receipt-modal" id="receiptModal">
+    <div class="receipt-card">
+      <span class="receipt-close" id="closeReceiptBtn">&times;</span>
+      <div class="receipt-header">
+        <h3 id="rTitle">Client Name</h3>
+        <span id="rId">Receipt ID</span>
+      </div>
+      <div class="receipt-body">
+        <div id="receiptMetaDetails">
+          <!-- Populated dynamically depending on type (Inquiry, Project, Manual Invoice) -->
+        </div>
+      </div>
+      <div class="receipt-actions" id="receiptActionsContainer">
+        <!-- Action Buttons -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.5 CHAT REPLY MODAL -->
+  <div class="receipt-modal" id="chatReplyModal" style="z-index:2200;">
+    <div class="receipt-card" style="max-width:550px;">
+      <span class="receipt-close" onclick="closeChatReplyModal()">&times;</span>
+      <div class="receipt-header">
+        <h3 id="chatReplyTitle">Conversation History</h3>
+        <span id="chatReplyUserEmail" style="font-family:var(--font-mono); font-size:12px; color:var(--accent);">client@domain.com</span>
+      </div>
+      <div class="receipt-body" style="padding:15px 0;">
+        <div id="chatHistoryWindow" style="max-height:300px; overflow-y:auto; border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; background:var(--bg-alt); display:flex; flex-direction:column; gap:10px; margin-bottom:12px;">
+          <!-- Chat messages load here dynamically -->
+        </div>
+        <form id="chatReplyForm" onsubmit="sendChatReply(event)">
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="chatReplyInput" placeholder="Type a response..." required style="flex:1; height:42px; padding:0 12px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--ink); outline:none; font-family:inherit;">
+            <button type="submit" class="login-btn" style="margin-top:0; width:100px; height:42px; justify-content:center; background-color:var(--accent); border-color:var(--accent); color:var(--bg);"><i class="fa-solid fa-paper-plane"></i> Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CUSTOM IN-WEBSITE SYSTEM CONFIRM MODAL -->
+  <div class="receipt-modal" id="confirmModal" style="z-index: 2500;">
+    <div class="receipt-card" style="max-width: 440px;">
+      <span class="receipt-close" onclick="closeConfirmModal()">&times;</span>
+      <div class="receipt-header">
+        <h3>System Confirmation</h3>
+      </div>
+      <div class="receipt-body" style="padding: 24px 0 10px 0;">
+        <p id="confirmMessageText" style="font-size:14.5px; line-height:1.6; color:var(--ink-soft);"></p>
+      </div>
+      <div style="display:flex; gap:12px; margin-top:20px; border-top:1px solid var(--border); padding-top:20px;">
+        <button class="login-btn" id="confirmYesBtn" style="flex:1; margin-top:0;">Yes, Proceed</button>
+        <button class="refresh-btn" style="flex:1; margin-top:0; justify-content:center;" onclick="closeConfirmModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CLIENT PROFILE DETAIL MODAL -->
+  <div class="receipt-modal" id="clientProfileModal" style="z-index: 2400;">
+    <div class="receipt-card" style="max-width: 1000px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; padding: 24px;">
+      <span class="receipt-close" onclick="closeClientProfileModal()">&times;</span>
+      <div class="receipt-header" style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:16px; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <div id="profileAvatar" style="width:48px; height:48px; border-radius:50%; background:var(--accent); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:18px; font-weight:700; text-transform:uppercase;"></div>
+          <div>
+            <h3 id="profileName" style="margin:0; font-size:18px; font-weight:700;">Client Workspace</h3>
+            <p id="profileCompany" style="margin:4px 0 0 0; font-size:12px; color:var(--ink-soft); font-family:var(--font-mono);"></p>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="action-btn" onclick="loginAsClientDirect()" style="font-size:12px; background:rgba(224,255,79,.1); color:var(--accent); border:1px solid var(--accent);"><i class="fa-solid fa-right-to-bracket"></i> Login As Client</button>
+          <button class="refresh-btn" onclick="openSendNotificationModal()" style="font-size:12px; margin-top:0;"><i class="fa-solid fa-bell"></i> Send Alert</button>
+        </div>
+      </div>
+      
+      <!-- Workspace Navigation -->
+      <div style="display:flex; gap:8px; margin:16px 0; border-bottom:1px solid var(--border); padding-bottom:10px; overflow-x:auto; white-space:nowrap; flex-shrink:0;">
+        <button class="action-btn active" id="btnProfileDetails" onclick="switchProfileTab('details')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">General Details</button>
+        <button class="action-btn" id="btnProfileProjects" onclick="switchProfileTab('projects')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Projects</button>
+        <button class="action-btn" id="btnProfileInvoices" onclick="switchProfileTab('invoices')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Invoices &amp; Payments</button>
+        <button class="action-btn" id="btnProfileRoadmap" onclick="switchProfileTab('roadmap')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Roadmap Stage</button>
+        <button class="action-btn" id="btnProfileFiles" onclick="switchProfileTab('files')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Files &amp; Assets</button>
+        <button class="action-btn" id="btnProfileSupport" onclick="switchProfileTab('support')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Support Desk</button>
+        <button class="action-btn" id="btnProfileActivity" onclick="switchProfileTab('activity')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Timeline Feed</button>
+        <button class="action-btn" id="btnProfileTeamchat" onclick="switchProfileTab('teamchat')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Team Chatter</button>
+        <button class="action-btn" id="btnProfileNotes" onclick="switchProfileTab('notes')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Admin Notes</button>
+        <button class="action-btn" id="btnProfileSettings" onclick="switchProfileTab('settings')" style="font-size:12px; height:30px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); color:var(--ink); border-radius:4px; cursor:pointer; width:auto !important; flex-shrink:0;">Portal Config</button>
+      </div>
+
+      <!-- Workspace Body (Scrollable Content) -->
+      <div class="receipt-body" style="padding: 10px 0; overflow-y:auto; flex: 1;">
+        
+        <!-- Tab: Details -->
+        <div id="profileTab_details" class="profile-tab-content">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div class="input-group" style="margin-bottom:0;"><label>Client Email</label><input type="email" id="editProfileEmail" readonly style="opacity:0.7;"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Client Name</label><input type="text" id="editProfileName"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Company Name</label><input type="text" id="editProfileCompany"></div>
+            <div class="input-group" style="margin-bottom:0;"><label>Phone Number</label><input type="text" id="editProfilePhone"></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>GST Number</label><input type="text" id="editProfileGst"></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Address</label><textarea id="editProfileAddress" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
+            <div class="input-group" style="margin-bottom:0; grid-column:span 2;"><label>Private Notes (Internal)</label><textarea id="editProfileNotes" style="width:100%; height:60px; background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea></div>
+          </div>
+          <button class="login-btn" onclick="saveClientProfileDetails()" style="width:100%;"><i class="fa-solid fa-save"></i> Save Client Profile Details</button>
+        </div>
+
+        <!-- Tab: Projects -->
+        <div id="profileTab_projects" class="profile-tab-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h4 style="margin:0; font-size:14px; font-weight:700;">Client Projects</h4>
+            <button class="action-btn" onclick="toggleAddProjectForm()" style="font-size:12px; height:28px;"><i class="fa-solid fa-plus"></i> Create Project</button>
+          </div>
+          
+          <!-- Add Project Subform -->
+          <div id="workspaceProjectForm" style="display:none; background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:16px;">
+            <h5 style="margin:0 0 12px 0;">New Project Details</h5>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div class="input-group"><label>Project Title *</label><input type="text" id="newProjTitle" required></div>
+              <div class="input-group"><label>Budget (&#8377;) *</label><input type="text" id="newProjBudget" required></div>
+              <div class="input-group"><label>Project Type / Stack</label><input type="text" id="newProjStack" placeholder="e.g. Next.js & Node"></div>
+              <div class="input-group">
+                <label>Assigned Developer</label>
+                <select id="newProjDev" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select>
+              </div>
+              <div class="input-group" style="grid-column:span 2;"><label>Description</label><textarea id="newProjDesc" style="width:100%; height:50px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:8px; color:var(--ink); font-size:12px; outline:none; resize:none;"></textarea></div>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+              <button class="login-btn" onclick="saveWorkspaceProject()" style="margin-top:0;">Save Project</button>
+              <button class="refresh-btn" onclick="toggleAddProjectForm()" style="margin-top:0;">Cancel</button>
+            </div>
+          </div>
+
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Budget</th>
+                  <th>Developer</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="profileProjectsList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab: Invoices & Payments -->
+        <div id="profileTab_invoices" class="profile-tab-content" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h4 style="margin:0; font-size:14px; font-weight:700;">Invoices &amp; Receipts</h4>
+            <button class="action-btn" onclick="toggleWorkspaceInvoiceForm()" style="font-size:12px; height:28px;"><i class="fa-solid fa-file-invoice-dollar"></i> Create Invoice / Receipt</button>
+          </div>
+          
+          <!-- Payment Summary Metrics Panel -->
+          <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:12px; margin-bottom:20px;" id="profilePaymentSummaryContainer">
+            <!-- Populated dynamically by JS -->
+          </div>
+          
+          <!-- Add Invoice Subform -->
+          <div id="workspaceInvoiceForm" style="display:none; background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:16px;">
+            <h5 style="margin:0 0 12px 0;">Generate Milestone Invoice or Paid Receipt</h5>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div class="input-group"><label>Milestone Project Name *</label><select id="newInvProjSelect" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select></div>
+              <div class="input-group"><label>Milestone Title / Description *</label><input type="text" id="newInvTitle" placeholder="e.g. 50% Advance Booking Fee" required></div>
+              <div class="input-group"><label>Milestone Amount (&#8377;) *</label><input type="number" id="newInvAmount" required></div>
+              <div class="input-group"><label>Invoice Due Date</label><input type="date" id="newInvDueDate"></div>
+              <div class="input-group">
+                <label>Status / Action</label>
+                <select id="newInvStatus" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  <option value="Pending">Generate Pending Invoice</option>
+                  <option value="Paid">Generate Paid Receipt</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:14px;">
+              <button class="login-btn" onclick="saveWorkspaceInvoice()" style="margin-top:0;">Generate Statement</button>
+              <button class="refresh-btn" onclick="toggleWorkspaceInvoiceForm()" style="margin-top:0;">Cancel</button>
+            </div>
+          </div>
+
+          <div class="table-container" style="border:none; margin-bottom:20px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Invoice ID</th>
+                  <th>Milestone</th>
+                  <th>Amount</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="profileInvoicesList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+          
+          <h4 style="margin:20px 0 10px 0; font-size:13px; font-weight:700; text-transform:uppercase; color:var(--ink-faint); letter-spacing:.05em;">Payment Audit Trail</h4>
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Payment ID</th>
+                  <th>Amount</th>
+                  <th>Gateway</th>
+                  <th>Transaction ID</th>
+                  <th>Date &amp; Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="profilePaymentsList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab: Roadmap Manager -->
+        <div id="profileTab_roadmap" class="profile-tab-content" style="display:none;">
+          <div class="input-group" style="max-width:300px; margin-bottom:20px;">
+            <label>Select Project</label>
+            <select id="roadmapProjectSelect" onchange="loadRoadmapDetails()" style="width:100%; height:38px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select>
+          </div>
+          
+          <div id="roadmapFormContainer" style="display:none; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:20px;">
+            <h4 style="margin:0 0 16px 0; font-size:15px; font-weight:700;">Update Project Roadmap</h4>
+            
+            <form id="updateRoadmapForm" onsubmit="handleUpdateRoadmap(event)">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapCurrentStage">Current Stage</label>
+                  <select id="roadmapCurrentStage" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                    <option value="Discovery">Discovery</option>
+                    <option value="Scoping">Scoping</option>
+                    <option value="Design">Design</option>
+                    <option value="Development">Development</option>
+                    <option value="Testing">Testing</option>
+                    <option value="Launch">Launch</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+                
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapProgress">Progress (%)</label>
+                  <input type="number" id="roadmapProgress" min="0" max="100" required placeholder="e.g. 30" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                </div>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapNextMilestone">Next Milestone</label>
+                  <input type="text" id="roadmapNextMilestone" placeholder="e.g. Wireframe UX Review" required style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                </div>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapEta">ETA</label>
+                  <input type="text" id="roadmapEta" placeholder="e.g. 12 Days" required style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                </div>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapStatus">Status</label>
+                  <select id="roadmapStatus" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                    <option value="In Progress">In Progress</option>
+                    <option value="Paused">Paused</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="roadmapPreviewUrl">Preview URL</label>
+                  <input type="text" id="roadmapPreviewUrl" placeholder="e.g. https://staging.client.com" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                </div>
+              </div>
+              
+              <button type="submit" class="login-btn" style="width:100%; margin-top:10px;"><i class="fa-solid fa-save"></i> Update Roadmap Details</button>
+            </form>
+          </div>
+          
+          <div id="noRoadmapProjectWarning" style="color:var(--ink-soft); text-align:center; padding:30px;">
+            No active project selected.
+          </div>
+        </div>
+
+        <!-- Tab: Files & Assets -->
+        <div id="profileTab_files" class="profile-tab-content" style="display:none;">
+          <div style="background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:20px;">
+            <h5 style="margin:0 0 12px 0; font-size:13px; font-weight:700;">Upload &amp; Share Document</h5>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:12px;">
+              <div class="input-group" style="margin-bottom:0;"><label>Document Title *</label><input type="text" id="fileDocTitle" placeholder="e.g. Agreement Proposal" required></div>
+              <div class="input-group" style="margin-bottom:0;"><label>File URL / Staging Path *</label><input type="text" id="fileDocUrl" placeholder="e.g. /uploads/agreement.pdf" required></div>
+              <div class="input-group" style="margin-bottom:0;">
+                <label>Asset Category</label>
+                <select id="fileDocCategory" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;">
+                  <option value="Proposal">Proposal</option>
+                  <option value="Agreement">Agreement</option>
+                  <option value="Invoice">Invoice</option>
+                  <option value="Logo">Logo</option>
+                  <option value="Source">Source Code</option>
+                  <option value="Preview">Preview URL</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin-bottom:0;"><label>Version Tag</label><input type="text" id="fileDocVersion" placeholder="e.g. V1" value="V1"></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Link to Project</label><select id="fileProjSelect" style="width:100%; height:38px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 10px; color:var(--ink); outline:none;"></select></div>
+              <div class="input-group" style="margin-bottom:0;"><label>Simulated Size (KB/MB)</label><input type="text" id="fileDocSize" placeholder="e.g. 2.4 MB"></div>
+            </div>
+            <button class="login-btn" onclick="saveWorkspaceFile()" style="margin-top:10px;"><i class="fa-solid fa-cloud-arrow-up"></i> Share Asset with Client</button>
+          </div>
+
+          <div class="table-container" style="border:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset Title</th>
+                  <th>Category</th>
+                  <th>Version</th>
+                  <th>Size</th>
+                  <th>Date Shared</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="profileFilesList">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab: Support Desk -->
+        <div id="profileTab_support" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 12px 0; font-size:14px; font-weight:700;">Client Support Tickets</h4>
+          
+          <div style="display:grid; grid-template-columns:300px 1fr; gap:20px;">
+            <!-- Left Side: Tickets List -->
+            <div style="border-right:1px solid var(--border); padding-right:16px; display:flex; flex-direction:column; gap:10px; max-height:450px; overflow-y:auto;" id="profileTicketsList">
+              <!-- Loaded dynamically -->
+            </div>
+            
+            <!-- Right Side: Ticket Details Editor -->
+            <div id="supportTicketEditor" style="display:none; background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
+              <h5 id="ticketEditorHeader" style="margin:0 0 14px 0; font-size:13px; font-weight:700; text-transform:uppercase; color:var(--accent);">Ticket Details</h5>
+              
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div class="input-group" style="margin-bottom:0;">
+                  <label>Priority</label>
+                  <select id="editTicketPriority" onchange="updateTicketField('priority')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="low">Low</option>
+                    <option value="med">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label>Status</label>
+                  <select id="editTicketStatus" onchange="updateTicketField('status')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="Open">Open</option>
+                    <option value="In Review">In Review</option>
+                    <option value="Resolved">Resolved</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0; grid-column:span 2;">
+                  <label>Assign Developer</label>
+                  <select id="editTicketAssignee" onchange="updateTicketField('assignedTo')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;"></select>
+                </div>
+              </div>
+              
+              <div class="input-group" style="margin-bottom:14px;">
+                <label>Private Internal Notes (Only Team Can See)</label>
+                <textarea id="editTicketInternalNotes" onchange="updateTicketField('internalNotes')" placeholder="Write developer comments or internal troubleshooting notes here..." style="width:100%; height:60px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:8px; color:var(--ink); font-size:12.5px; outline:none; resize:none;"></textarea>
+              </div>
+
+              <!-- Reply Section -->
+              <h5 style="margin:16px 0 8px 0; font-size:12px; font-weight:700; text-transform:uppercase; color:var(--ink-soft);">Add Reply to Ticket</h5>
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="ticketReplyText" placeholder="Write a response to the client..." style="flex:1; height:34px; padding:0 12px; background:var(--bg); border:1px solid var(--border); border-radius:4px; font-size:12.5px; color:var(--ink); outline:none; font-family:inherit;">
+                <button class="login-btn" onclick="sendTicketReply()" style="margin-top:0; height:34px;"><i class="fa-solid fa-paper-plane"></i> Send Reply</button>
+              </div>
+            </div>
+            
+            <div id="noTicketSelected" style="display:flex; align-items:center; justify-content:center; border:1px dashed var(--border); border-radius:6px; color:var(--ink-soft); font-size:13px; min-height:200px;">
+              Select a support ticket from the list on the left to edit or reply.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Timeline Feed (GitHub Style) -->
+        <div id="profileTab_activity" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 16px 0; font-size:14px; font-weight:700;">Client Operations Audit Feed</h4>
+          
+          <div class="timeline-wrapper" id="profileActivityList" style="position:relative; padding-left:24px; display:flex; flex-direction:column; gap:20px;">
+            <!-- Renders dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab: Team Chatter -->
+        <div id="profileTab_teamchat" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 6px 0; font-size:14px; font-weight:700;">Internal Team Chatter</h4>
+          <p style="font-size:12px; color:var(--ink-soft); margin-bottom:16px;">This channel is private to the team (Admin, Designer, Developer) and is completely hidden from the Client Portal.</p>
+          
+          <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; display:flex; flex-direction:column; height:320px; overflow:hidden; margin-bottom:14px;">
+            <div style="flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px;" id="teamchatMessages">
+              <!-- Loaded dynamically -->
+            </div>
+            <div style="border-top:1px solid var(--border); background:var(--bg); padding:10px; display:flex; gap:10px; align-items:center;">
+              <select id="teamchatSenderName" style="width:120px; height:34px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12px; outline:none;">
+                <option value="Admin">Admin</option>
+                <option value="Designer">Designer</option>
+                <option value="Developer">Developer</option>
+              </select>
+              <input type="text" id="teamchatInput" placeholder="Type an internal note or chat..." style="flex:1; height:34px; padding:0 12px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; font-size:12.5px; color:var(--ink); outline:none; font-family:inherit;">
+              <button class="login-btn" onclick="sendTeamchatComment()" style="margin-top:0; height:34px;"><i class="fa-solid fa-plus"></i> Post Comment</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Admin Notes -->
+        <div id="profileTab_notes" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 12px 0; font-size:14px; font-weight:700;">Private Admin Notes</h4>
+          
+          <div style="background:var(--bg-alt); border:1px solid var(--border); padding:16px; border-radius:6px; margin-bottom:20px;">
+            <h5 style="margin:0 0 12px 0; font-size:13px; font-weight:700;">Add Private Note</h5>
+            <div class="input-group">
+              <label for="newPrivateNoteText">Note Content *</label>
+              <textarea id="newPrivateNoteText" placeholder="Enter private note content here..." style="width:100%; height:80px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:10px; color:var(--ink); font-family:inherit; outline:none; resize:none; font-size:13px;"></textarea>
+            </div>
+            <button class="login-btn" onclick="savePrivateNote()" style="margin-top:10px;"><i class="fa-solid fa-note-sticky"></i> Save Private Note</button>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;" id="privateNotesList">
+            <!-- Loaded dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- Tab: Portal Config -->
+        <div id="profileTab_settings" class="profile-tab-content" style="display:none;">
+          <h4 style="margin:0 0 16px 0; font-size:14px; font-weight:700;">Client Portal Control Panel</h4>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px; grid-column:span 2;">
+              <h5 style="margin:0 0 12px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-gears"></i> Access &amp; Status Controls</h5>
+              <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:14px;">
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="controlClientStatus">Client Status</label>
+                  <select id="controlClientStatus" onchange="updateClientAccessSetting('status')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="Active">Active</option>
+                    <option value="Suspended">Suspended</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="controlPortalEnabled">Portal Access</label>
+                  <select id="controlPortalEnabled" onchange="updateClientAccessSetting('portalEnabled')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin-bottom:0;">
+                  <label for="controlGoogleLogin">Google Login</label>
+                  <select id="controlGoogleLogin" onchange="updateClientAccessSetting('approved')" style="width:100%; height:34px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12.5px; outline:none;">
+                    <option value="true">Approved</option>
+                    <option value="false">Pending Approval</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button class="refresh-btn" onclick="resetClientPortalSession()" style="margin-top:0; font-size:12px;"><i class="fa-solid fa-arrows-rotate"></i> Reset Portal Session</button>
+              </div>
+            </div>
+
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
+              <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-ghost"></i> Simulated Client Login</h5>
+              <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Open a new browser window representing the client's view. This will instantly authenticate you as the client to check dashboards.</p>
+              <button class="action-btn" onclick="loginAsClientDirect()" style="width:100%; justify-content:center;"><i class="fa-solid fa-external-link"></i> Launch Client Portal</button>
+            </div>
+            
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px;">
+              <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700;"><i class="fa-solid fa-bell"></i> Send Portal Alert</h5>
+              <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Dispatches a high-priority alert notification directly to this client's portal header feed (e.g. "Wireframe Approved").</p>
+              <button class="refresh-btn" onclick="openSendNotificationModal()" style="width:100%; margin-top:0; justify-content:center;"><i class="fa-solid fa-bell"></i> Send Alert Notification</button>
+            </div>
+            
+            <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:6px; padding:16px; grid-column:span 2; border-left:3px solid #EF4444;">
+              <h5 style="margin:0 0 8px 0; font-size:13px; font-weight:700; color:#EF4444;"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</h5>
+              <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;">Revoking client access will delete their local session keys and remove them from the approved users registry list.</p>
+              <button class="refresh-btn" onclick="revokeClientAccessDirect()" style="background:rgba(239,68,68,.1); border-color:#EF4444; color:#EF4444; margin-top:0;"><i class="fa-solid fa-user-slash"></i> Revoke &amp; Delete Profile</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Send Notification Modal -->
+  <div class="receipt-modal" id="sendNotifModal" style="z-index: 2500;">
+    <div class="receipt-card" style="max-width:450px; width:90%; padding:20px;">
+      <span class="receipt-close" onclick="closeSendNotificationModal()">&times;</span>
+      <h3 style="margin:0 0 14px 0; font-size:16px; font-weight:700;"><i class="fa-solid fa-bell"></i> Send Portal Notification</h3>
+      <div class="input-group"><label>Notification Title *</label><input type="text" id="notifTitle" placeholder="e.g. Design Draft Approved" required></div>
+      <div class="input-group"><label>Notification Message</label><input type="text" id="notifMessage" placeholder="e.g. We have uploaded the wireframe PDF."></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+        <div class="input-group" style="margin-bottom:0;">
+          <label>Type</label>
+          <select id="notifType" style="width:100%; height:36px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12px; outline:none;">
+            <option value="info">Info</option>
+            <option value="success">Success</option>
+            <option value="warning">Warning</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom:0;">
+          <label>Priority</label>
+          <select id="notifPriority" style="width:100%; height:36px; background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:0 8px; color:var(--ink); font-size:12px; outline:none;">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:16px;">
+        <button class="login-btn" onclick="submitWorkspaceNotification()" style="margin-top:0;">Send Alert</button>
+        <button class="refresh-btn" onclick="closeSendNotificationModal()" style="margin-top:0;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+    <script>
+    // Initialize shared global state
+    window.inquiries = [];
+    window.approvedUsers = [];
+    window.projects = [];
+    window.receipts = [];
+    window.crmLeads = [];
+    window.tasks = [];
+    window.supportTickets = [];
+    window.chatbotMessages = [];
+    window.initialFetchSuccess = false;
+    window.currentWorkspaceEmail = '';
+    window.activeSupportTicketId = null;
+
+    window.API_URL = window.location.protocol === 'file:'
+      ? 'http://localhost:3000'
+      : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? '' : 'https://nextgen-studio-czz7.onrender.com');
+  </script>
+
+  <!-- ===== MODULAR JS COMPONENTS ===== -->
+  <!-- Load order matters: sync.js must come last as it calls all fetchers.
+       All modules use window.* globals set in the inline script above. -->
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/crm.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/support.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/clients.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/receipts.js"></script>
+  <script src="js/documents.js"></script>
+  <script src="js/activity.js"></script>
+  <script src="js/sync.js"></script>
+
+</body>
+</html>

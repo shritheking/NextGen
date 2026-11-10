@@ -31,6 +31,12 @@ export const NextGenLogo: React.FC<NextGenLogoProps> = ({
         src="/logo-icon.png"
         alt="NextGen Logo Mark"
         className="brand-official-icon"
+        onError={(e) => {
+          const img = e.currentTarget;
+          if (!img.src.includes('assets/logo-icon.png')) {
+            img.src = '/assets/logo-icon.png';
+          }
+        }}
         style={{
           width: `${iconSize}px`,
           height: `${iconSize}px`,

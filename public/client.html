@@ -1,0 +1,2887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    // Seamlessly forward to V2 React matching UI Client Portal
+    window.location.replace('/?portal=true');
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRW7H5TQ4Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XRW7H5TQ4Z');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal | NextGen Web Studio</title>
+  <meta name="description" content="Access your NextGen Web Studio Client Portal to track milestones, view active estimates, settle billing statements, and check progress.">
+  <meta name="keywords" content="Client Portal, Billing Management, NextGen Portal, Coimbatore web development, active invoice tracker">
+  <link rel="canonical" href="https://nextgenwebstudio.in/client.html">
+  <link rel="manifest" href="site.webmanifest">
+  
+  <!-- Open Graph (Social Sharing) -->
+  <meta property="og:title" content="Client Portal | NextGen Web Studio">
+  <meta property="og:description" content="Secure Client Billing, Roadmap, and Project Scoping Console">
+  <meta property="og:image" content="https://nextgenwebstudio.in/og-image.png">
+  <meta property="og:url" content="https://nextgenwebstudio.in/client.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Previews -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Client Portal | NextGen Web Studio">
+  <meta name="twitter:description" content="Secure Client Billing, Roadmap, and Project Scoping Console">
+  <meta name="twitter:image" content="https://nextgenwebstudio.in/og-image.png">
+
+  <!-- Favicon Branding -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <!-- Premium Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Unified Studio Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Razorpay Standard Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <style>
+    /* Premium overrides to match homepage exactly */
+    .portal-main-wrap {
+      margin-top: 50px;
+      margin-bottom: 60px;
+      min-height: calc(100vh - 220px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+    }
+
+    /* Screen lock during client login with premium grid/glow backgrounds */
+    body.login-mode {
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 35%, rgba(37, 99, 235, 0.06), transparent 55%),
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      /* Slightly reduced grid opacity so it doesn't compete with card (#9) */
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      background-blend-mode: normal;
+      opacity: 1;
+    }
+    body.login-mode::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.login-mode.light-theme {
+      background-image: 
+        radial-gradient(circle at 50% 35%, rgba(37, 99, 235, 0.04), transparent 55%),
+        linear-gradient(rgba(0, 0, 0, 0.008) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.008) 1px, transparent 1px);
+    }
+    body.login-mode .portal-main-wrap {
+      flex: 1;
+      margin: 0 auto;
+      min-height: 0;
+      justify-content: center;
+      align-items: center;
+      padding-top: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    body.login-mode .login-container {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 460px;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    body.login-mode .login-container:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .login-header-promo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .login-header-promo h1 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .login-header-promo p {
+      font-size: 14.5px;
+      color: var(--ink-soft);
+      font-weight: 400;
+    }
+
+    .login-btn {
+      background-color: var(--accent);
+      border: 1px solid var(--accent);
+      color: var(--bg);
+      margin: 0;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    body.light-theme .login-btn {
+      background-color: var(--brand-blue);
+      border-color: var(--brand-blue);
+      color: #fff;
+    }
+    .login-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.25);
+      background-color: var(--ink);
+      border-color: var(--ink);
+      color: var(--bg-card);
+    }
+    body.light-theme .login-btn:hover {
+      background-color: #1d4ed8;
+      border-color: #1d4ed8;
+      color: #fff;
+    }
+    .login-btn:hover i.arrow-icon {
+      transform: translateX(4px);
+    }
+    .login-btn i.arrow-icon {
+      transition: transform 0.2s ease;
+    }
+
+    @media (max-width: 576px) {
+      body.login-mode {
+        overflow-y: auto;
+      }
+      /* #1: Reduce top whitespace on mobile by ~35px */
+      body.login-mode .portal-main-wrap {
+        padding: 10px 12px 24px !important;
+        justify-content: flex-start;
+      }
+      /* #2: Increase card width to 96% on mobile */
+      body.login-mode .login-container {
+        max-width: 96% !important;
+        border-radius: 16px !important;
+        border: 1px solid var(--border) !important;
+      }
+      /* #4: Reduce heading size slightly on mobile */
+      .login-header-promo h1 {
+        font-size: 22px;
+      }
+      .login-btn, .portal-submit-btn {
+        height: 48px !important;
+        font-size: 14.5px !important;
+      }
+    }
+
+    .term-card {
+      border: 1px solid var(--border);
+      background-color: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: border-color var(--transition-normal);
+    }
+    
+    .term-card:hover {
+      border-color: rgba(var(--accent-rgb), 0.3);
+    }
+
+    .term-header-bar {
+      display: flex;
+      align-items: center;
+      background-color: var(--bg-alt);
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .term-header-bar .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      margin-right: 7px;
+    }
+    .term-header-bar .dot.red { background-color: #EF4444; }
+    .term-header-bar .dot.yellow { background-color: #F59E0B; }
+    .term-header-bar .dot.green { background-color: #10B981; }
+
+    .term-header-bar .title-text {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dashboard-panel-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 32px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 992px) {
+      .dashboard-panel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .active-user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-right: 12px;
+    }
+
+    .login-container {
+      max-width: 480px;
+      width: 100%;
+      margin: 40px auto 60px auto;
+      padding: 0;
+    }
+
+    #signInForm, #registerForm {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      width: 100% !important;
+    }
+
+    /* Custom Input Styles to Match Home Page Inputs */
+    .portal-input-group {
+      position: relative;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .portal-input-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .portal-input {
+      width: 100%;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 14.5px;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .portal-input:focus {
+      border-color: var(--accent);
+      background-color: var(--bg-card);
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.08);
+    }
+
+    .portal-submit-btn {
+      width: 100%;
+      background-color: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .portal-submit-btn:hover {
+      box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.35);
+      transform: translateY(-1px);
+    }
+
+    .toggle-view-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: opacity var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .toggle-view-link:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 576px) {
+      .table-container table,
+      .table-container thead,
+      .table-container tbody,
+      .table-container th,
+      .table-container td,
+      .table-container tr {
+        display: block !important;
+        width: 100% !important;
+      }
+      .table-container thead {
+        display: none !important;
+      }
+      .table-container tr {
+        margin-bottom: 16px !important;
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-sm) !important;
+        background-color: var(--bg-alt) !important;
+        padding: 16px !important;
+      }
+      .table-container td {
+        border-bottom: none !important;
+        padding: 8px 0 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        font-size: 13px !important;
+        text-align: right !important;
+      }
+      .table-container td::before {
+        content: attr(data-label) !important;
+        font-family: var(--font-mono) !important;
+        font-size: 10.5px !important;
+        text-transform: uppercase !important;
+        color: var(--ink-faint) !important;
+        text-align: left !important;
+        font-weight: 600 !important;
+        margin-right: 15px !important;
+      }
+      .table-container td:first-child {
+        border-bottom: 1px dashed var(--border) !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 10px !important;
+        display: block !important;
+        text-align: left !important;
+      }
+      .table-container td:first-child::before {
+        display: block !important;
+        margin-bottom: 6px !important;
+        text-align: left !important;
+      }
+    }
+
+    /* Premium Portal Dashboard Extensions */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    .stat-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand-blue);
+    }
+    body.dark-theme .stat-card:hover {
+      border-color: var(--accent);
+    }
+    .stat-icon {
+      font-size: 20px;
+      color: var(--brand-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2px;
+    }
+    body.dark-theme .stat-icon {
+      color: var(--accent);
+    }
+    .stat-info {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 2px;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    
+    /* Progress Bars & Timeline Steppers */
+    .progress-bar-container {
+      margin: 12px 0 14px;
+      width: 100%;
+    }
+    .progress-bar-track {
+      height: 6px;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand-blue), #60A5FA);
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.8s ease;
+    }
+    body.dark-theme .progress-bar-fill {
+      background: linear-gradient(90deg, var(--accent), #D4F142);
+    }
+    .progress-bar-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .timeline-stepper {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+      position: relative;
+      padding: 4px 0 4px 12px;
+    }
+    .timeline-stepper::before {
+      content: '';
+      position: absolute;
+      left: 21px;
+      top: 13px;
+      bottom: 13px;
+      width: 2px;
+      background-color: var(--border);
+      z-index: 1;
+    }
+    .timeline-stepper .step {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      gap: 14px;
+      width: 100%;
+    }
+    .step-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: var(--bg-card);
+      border: 2px solid var(--border);
+      color: var(--ink-faint);
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .step.done .step-circle {
+      background-color: rgba(16, 185, 129, 0.1);
+      border-color: #10B981;
+      color: #10B981;
+    }
+    body.light-theme .step.done .step-circle {
+      background-color: rgba(4, 120, 87, 0.1);
+      border-color: #047857;
+      color: #047857;
+    }
+    .step.active .step-circle {
+      background-color: var(--bg-card);
+      border-color: var(--brand-blue);
+      color: var(--brand-blue);
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.15);
+    }
+    body.dark-theme .step.active .step-circle {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .step-name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .step.done .step-name {
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+    .step.active .step-name {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .timeline-eta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* Standardized Badges with High Contrast greens */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .badge.paid, .badge.completed {
+      background-color: rgba(16, 185, 129, 0.08);
+      color: #10B981;
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    body.light-theme .badge.paid, body.light-theme .badge.completed {
+      background-color: rgba(4, 120, 87, 0.08);
+      color: #047857;
+      border-color: rgba(4, 120, 87, 0.2);
+    }
+    .badge.pending, .badge.pending-payment {
+      background-color: rgba(245, 158, 11, 0.08);
+      color: #F59E0B;
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+    .badge.in-progress, .badge.design-phase, .badge.starting {
+      background-color: rgba(59, 130, 246, 0.08);
+      color: #3B82F6;
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+    .badge.hold {
+      background-color: rgba(156, 163, 175, 0.08);
+      color: #9CA3AF;
+      border-color: rgba(156, 163, 175, 0.2);
+    }
+
+    /* Alternating Table Row Backgrounds */
+    .table-container tbody tr:nth-child(even) {
+      background-color: #FAFAFA;
+    }
+    body.dark-theme .table-container tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.015);
+    }
+
+    /* Table Formatting & Color Highlighting */
+    .table-container table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .table-container th {
+      padding: 14px 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .table-container td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .table-container tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    
+    /* Row Highlighting based on status */
+    tr.payment-pending {
+      background-color: rgba(245, 158, 11, 0.02) !important;
+    }
+    tr.payment-pending:hover {
+      background-color: rgba(245, 158, 11, 0.05) !important;
+    }
+    tr.payment-completed {
+      background-color: rgba(16, 185, 129, 0.01) !important;
+    }
+    tr.payment-completed:hover {
+      background-color: rgba(16, 185, 129, 0.03) !important;
+    }
+    body.dark-theme tr.payment-pending {
+      background-color: rgba(245, 158, 11, 0.015) !important;
+    }
+    body.dark-theme tr.payment-completed {
+      background-color: rgba(16, 185, 129, 0.008) !important;
+    }
+    
+    .client-title {
+      font-size: 15.5px;
+      font-weight: 600;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Browser Header Uniformity styles */
+    .term-header-bar .title-text {
+      font-family: var(--font-mono) !important;
+      font-size: 12px;
+      color: var(--ink-soft);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .term-header-bar .title-text i {
+      font-size: 11px;
+      color: var(--ink-faint);
+    }
+
+    /* Notifications Bell Badge styling */
+    .notifications-bell-container {
+      position: relative;
+      margin-right: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+    .notifications-bell-container:hover {
+      background-color: var(--bg-alt);
+    }
+    .notifications-bell-container .bell-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background-color: #EF4444;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      height: 14px;
+      min-width: 14px;
+      padding: 0 3px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--bg-card);
+    }
+    
+    .notif-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 8px;
+      width: 280px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .notif-dropdown.open {
+      display: flex;
+    }
+    .notif-header {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg-alt);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .notif-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      transition: background-color 0.2s ease;
+    }
+    .notif-item:hover {
+      background-color: var(--bg-alt);
+    }
+    .notif-item:last-child {
+      border-bottom: none;
+    }
+    .notif-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .notif-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+    .notif-text strong {
+      font-size: 12.5px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .notif-text span {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .notif-text small {
+      font-size: 10px;
+      color: var(--ink-faint);
+      margin-top: 4px;
+    }
+
+    /* Buttons */
+    .pay-trigger-btn, .preview-btn, .receipt-btn {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      border: 1px solid var(--border);
+      background-color: var(--bg-alt);
+      color: var(--ink-soft);
+    }
+    .pay-trigger-btn {
+      background-color: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+    body.light-theme .pay-trigger-btn {
+      background-color: var(--brand-blue);
+      color: #fff;
+      border-color: var(--brand-blue);
+    }
+    .pay-trigger-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.25);
+      background-color: var(--ink);
+      color: var(--bg-card);
+      border-color: var(--ink);
+    }
+    body.light-theme .pay-trigger-btn:hover {
+      background-color: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+    .preview-btn:hover, .receipt-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      background-color: var(--border);
+      color: var(--ink);
+    }
+
+    /* Collapsible completed section */
+    .completed-payments-section {
+      border-top: 1px dashed var(--border);
+      padding-top: 20px;
+    }
+    .completed-toggle-header {
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+    .completed-toggle-header:hover {
+      color: var(--ink) !important;
+    }
+
+    /* Print Template Modal Styling */
+    #invoicePrintModal {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(11, 11, 11, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      padding: 40px 20px;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .print-logo {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .print-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+    }
+    .print-col h5 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+    .print-col p {
+      font-size: 14.5px;
+      color: var(--ink);
+      margin: 0 0 8px 0;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10B981;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse-animation 1.5s infinite;
+    }
+    @keyframes pulse-animation {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.6; }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #invoicePrintModal, #invoicePrintModal * {
+        visibility: visible;
+      }
+      #invoicePrintModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: block !important;
+        background: #fff !important;
+        color: #000 !important;
+      }
+      #invoicePrintModal .btn-primary,
+      #invoicePrintModal .receipt-btn {
+        display: none !important;
+      }
+    }
+    @media (max-width: 576px) {
+      .table-container td {
+        text-align: right !important;
+      }
+    }
+  </style>
+</head>
+<body class="dark-theme">
+  <script>
+    // Apply saved theme preference dynamically before rendering layout
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      document.body.classList.remove('dark-theme');
+      document.body.classList.add('light-theme');
+    }
+  </script>
+
+  <!-- Loading Screen Loader -->
+  <div id="loader-screen">
+    <div class="loader-content">
+      <svg class="loader-logo" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+    </div>
+  </div>
+  <script>
+    // Failsafe: Hide loader after 1500ms even if document scripts hang
+    setTimeout(() => {
+      const failsafeLoader = document.getElementById('loader-screen');
+      if (failsafeLoader && !failsafeLoader.classList.contains('fade-out')) {
+        failsafeLoader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }
+    }, 1500);
+  </script>
+
+  <!-- Header ( Verbatim Homepage layout ) -->
+  <header>
+    <div class="wrap nav-container">
+      <a href="/" class="logo-link" aria-label="NextGen Home">
+        <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="72" class="logo-text">nextgen</text>
+          <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+        </svg>
+      </a>
+      
+      <nav class="desktop-nav">
+        <div class="nav-links">
+          <a href="index.html#services">services</a>
+          <a href="index.html#work">work</a>
+            <a href="telegram-bot-development.html">telegram bots</a>
+          <a href="index.html#process">process</a>
+          <a href="index.html#contact">contact</a>
+          <a href="client.html" class="active">client portal</a>
+        </div>
+        <button id="themeToggleBtn" aria-label="Toggle light/dark theme" title="Switch Theme">
+          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        
+        <!-- Notifications Bell -->
+        <div class="notifications-bell-container" id="notifBellContainer" style="display: none;">
+          <i class="fa-solid fa-bell" style="font-size: 16px; color: var(--ink-soft);"></i>
+          <span class="bell-badge">2</span>
+          
+          <!-- Collapsible dropdown menu -->
+          <div class="notif-dropdown" id="notifDropdown">
+            <div class="notif-header">Notifications</div>
+            <div class="notif-item">
+              <div class="notif-dot"></div>
+              <div class="notif-text">
+                <strong>Roadmap Updated</strong>
+                <span>Milestone #2 "Design Review" confirmed.</span>
+                <small>Today at 2:35 PM</small>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-dot"></div>
+              <div class="notif-text">
+                <strong>New Invoice Generated</strong>
+                <span>Scoping & milestone agreement ready.</span>
+                <small>Yesterday</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- User email state & sign out -->
+        <span class="active-user-badge" id="headerUserBadge" style="display: none;">
+          <i class="fa-solid fa-circle-user" style="color: var(--accent);"></i>
+          <span id="headerUserEmail">client@domain.com</span>
+        </span>
+        
+        
+        
+        <a href="/api/auth/logout" class="nav-cta" id="logoutCtaBtn" style="display: none;">Sign Out</a>
+      </nav>
+
+      <button class="nav-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu ( Verbatim Homepage layout ) -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <svg class="logo-mark" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="height:22px;">
+        <text x="10" y="72" class="logo-text">nextgen</text>
+        <rect x="300" y="26" width="16" height="48" class="logo-cursor"/>
+      </svg>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html#services">services</a>
+      <a href="index.html#work">work</a>
+            <a href="telegram-bot-development.html">telegram bots</a>
+      <a href="index.html#process">process</a>
+      <a href="index.html#contact">contact</a>
+      <a href="client.html" class="active">client portal</a>
+      
+      <div id="mobileUserBadge" style="display: none; margin-top: 20px; padding: 10px 15px; border-radius: 4px; border: 1px solid var(--border); background-color: var(--bg-alt); text-align: center; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        <i class="fa-solid fa-circle-user" style="color: var(--accent); margin-right: 6px;"></i>
+        <span id="mobileUserEmail">client@domain.com</span>
+      </div>
+      <a href="/api/auth/logout" class="drawer-cta btn-primary" id="mobileLogoutBtn" style="display: none; margin-top:12px; text-align:center;">Sign Out</a>
+    </div>
+    <div class="drawer-theme-section" style="margin-top: auto; padding-top: 16px; margin-bottom: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.05em;">THEME</span>
+      <button id="drawerThemeToggleBtn" aria-label="Toggle light/dark theme" style="background: var(--bg-alt); border: 1px solid var(--border); width: 40px; height: 40px; border-radius: 50%; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast);">
+        <i class="fa-solid fa-sun" style="font-size: 14px;"></i>
+        <i class="fa-solid fa-moon" style="font-size: 14px;"></i>
+      </button>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- Main Portal Layout -->
+  <main class="wrap portal-main-wrap">
+    
+    <!-- Title & Subtitle Promo Above Login Card (hidden when signed in) -->
+    <div class="login-header-promo" id="loginPromoHeader" style="display: none;">
+      <h1>NextGen Client Portal</h1>
+      <p>Secure access to your active website builds, timelines, and invoice milestones.</p>
+    </div>
+    
+    <!-- 1. LOGIN / OAUTH MOCK TERMINAL -->
+    <div class="login-container term-card" id="loginView" style="display: none;">
+      <div class="term-header-bar">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <span class="title-text" id="terminalTitle"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/secure-auth</span>
+      </div>
+      
+      <!-- SIGN IN OPTIONS -->
+      <div style="padding: 30px 30px 24px 30px;" id="loginFormTab">
+        <!-- Upgraded Icon: Branded Folder + Lock -->
+        <div style="font-size: 38px; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i class="fa-solid fa-folder-closed" style="color:var(--brand-blue);"></i>
+          <i class="fa-solid fa-lock" style="font-size: 18px; color: var(--accent); margin-left: -14px; margin-top: 14px; background: var(--bg-card); border-radius: 50%; padding: 2px;"></i>
+        </div>
+        
+        <!-- Benefits checklist -->
+        <!-- #3: Shorter feature labels that don't wrap awkwardly -->
+        <ul style="list-style:none; padding:0; margin: 0 0 24px 0; font-size:13px; color:var(--ink-soft); display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; border-bottom:1px dashed var(--border); padding-bottom:20px; text-align:left;">
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> View Progress</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Download Receipts</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> View Milestones</li>
+          <li><i class="fa-solid fa-circle-check" style="color:#10B981; margin-right:6px;"></i> Pay Invoices</li>
+        </ul>
+        
+        <!-- Passwordless Email Login Form -->
+        <form id="portalLoginForm" style="display:flex; flex-direction:column; gap:14px; width:100%; margin-bottom:24px;">
+          <div class="input-group" style="text-align: left;">
+            <label class="input-label" style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px; letter-spacing:0.02em;">Client Email</label>
+            <input type="email" id="portalEmailInput" required placeholder="work-email@company.com" style="width:100%; height:44px; padding:0 12px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:14px; outline:none; transition:all 0.2s;" onfocus="this.style.borderColor='var(--accent)';" onblur="this.style.borderColor='var(--border)';">
+          </div>
+          <!-- #6: Extra space below Sign In button before the OR divider -->
+          <button type="submit" class="login-btn" id="loginSubmitBtn" style="margin-bottom:10px;">Sign In <i class="fa-solid fa-arrow-right-long arrow-icon"></i></button>
+        </form>
+
+        <div style="display:flex; align-items:center; margin: 20px 0; color:var(--ink-faint); font-size:11px; text-transform:uppercase; font-family:var(--font-mono); width:100%;">
+          <div style="flex:1; height:1px; background:var(--border); margin-right:10px;"></div>
+          <span>Or Continue with</span>
+          <div style="flex:1; height:1px; background:var(--border); margin-left:10px;"></div>
+        </div>
+
+        <!-- Styled Google OAuth Button -->
+        <div style="display:flex; flex-direction:column; gap:12px; width:100%;">
+          <a href="/api/auth/google" class="portal-submit-btn" onclick="showLoadingScreen()" style="background-color:var(--bg-card); color:var(--ink); border:1px solid var(--border); text-decoration:none; display:flex; align-items:center; justify-content:center; gap:10px; height:44px; font-size:14px; border-radius:6px; font-weight:600; transition:all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow:var(--shadow-sm);" onmouseover="this.style.transform='translateY(-1.5px)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--accent)';" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)'; this.style.borderColor='var(--border)';">
+            <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
+          </a>
+          <button type="button" id="quickDemoBtn" onclick="loginAsDemoUser()" style="margin-top: 10px; width: 100%; height: 44px; background: rgba(37, 99, 235, 0.12); border: 1px dashed var(--accent); color: var(--accent); border-radius: 6px; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
+            <i class="fa-solid fa-bolt"></i> Instant Demo Access (Explore Portal)
+          </button>
+        </div>
+
+        <!-- Trust Indicators & Help Link -->
+        <!-- #5: More horizontal spacing and slightly darker text on security badges -->
+        <div style="display:flex; justify-content:center; gap:18px; margin-top:20px; color:var(--ink-soft); font-size:10px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.05em;">
+          <span><i class="fa-solid fa-lock" style="color:var(--accent); margin-right:5px;"></i>256-bit SSL</span>
+          <span style="color:var(--border);">|</span>
+          <span><i class="fa-solid fa-shield-halved" style="color:var(--accent); margin-right:5px;"></i>Secure OAuth</span>
+          <span style="color:var(--border);">|</span>
+          <span><i class="fa-solid fa-user-check" style="color:var(--accent); margin-right:5px;"></i>Approved Only</span>
+        </div>
+
+        <!-- #7: Styled button link instead of plain text -->
+        <div style="text-align:center; margin-top:20px; border-top:1px solid var(--border); padding-top:16px;">
+          <a href="index.html#contact" style="display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border:1px solid var(--border); border-radius:6px; font-size:12.5px; font-weight:600; color:var(--ink-soft); text-decoration:none; transition:all 0.2s ease; background:transparent;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink-soft)';">
+            Request Client Access <i class="fa-solid fa-arrow-right-long"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. DASHBOARD VIEW -->
+    <div class="dashboard-panel-grid" id="dashboardView" style="display: none; grid-column: 1 / -1;">
+      
+      <!-- Quick Stats Row (grid-column: 1 / -1) -->
+      <div style="grid-column: 1 / -1;">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-cube"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Active Project</span>
+              <span class="stat-value" id="statsActiveProjects">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-credit-card"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Due Payment</span>
+              <span class="stat-value" id="statsPaymentsDue">₹0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Completed</span>
+              <span class="stat-value" id="statsMilestonesDone">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-headset"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Support</span>
+              <span class="stat-value">&lt;15 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time Notifications Feed Banner -->
+      <div style="grid-column: 1 / -1; display: none; flex-direction: column; gap: 10px; margin-bottom: 8px;" id="portalNotificationsFeed">
+        <!-- Renders dynamically -->
+      </div>
+
+      <!-- Left Column: Billing & Invoices (Top Left) -->
+      <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/scoping-bills &bull; <span id="invoicesCount">0 items</span> <span id="billsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+        </div>
+        
+        <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Milestone Details</th>
+                  <th>Total Due</th>
+                  <th>Status</th>
+                  <th>Billing Link</th>
+                </tr>
+              </thead>
+              <tbody id="invoicesTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="empty-state" id="invoicesEmpty" style="display: none; padding: 32px 0; text-align: center;">
+            <i class="fa-solid fa-circle-exclamation" style="font-size: 32px; color: var(--ink-faint); margin-bottom: 12px; display: block;"></i>
+            <p style="color: var(--ink-soft); font-size: 14.5px;">No scoping receipts or billing items linked to your user email.</p>
+          </div>
+
+          <!-- Completed Payments Accordion Section -->
+          <div class="completed-payments-section" id="completedPaymentsSection" style="display: none; margin-top: 24px;">
+            <h4 class="completed-toggle-header" id="completedToggleHeader" style="cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft); font-family: var(--font-mono); text-transform: uppercase;">
+              <span id="completedToggleArrow">▼</span> Completed Payments (<span id="completedCount">0</span>)
+            </h4>
+            <div id="completedTableContainer" style="display: none; margin-top: 14px;">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Milestone Details</th>
+                      <th>Total Paid</th>
+                      <th>Status</th>
+                      <th>Receipt</th>
+                    </tr>
+                  </thead>
+                  <tbody id="completedTableBody">
+                    <!-- Rendered dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Project roadmap (Top Right) -->
+      <div class="term-card" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+        <!-- Client Stage Approval Panel (Right Column top) -->
+        <div id="stageApprovalPanel" style="display: none; background: rgba(224,255,79,0.03); border-bottom: 1px solid var(--border); padding: 20px; border-radius: 6px 6px 0 0;">
+          <h4 style="margin: 0 0 6px 0; font-size: 13.5px; font-weight: 700; display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-thumbs-up" style="color:var(--accent);"></i> Client Approval Required</h4>
+          <p style="font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px;" id="approvalStageDescription">
+            Please review the current stage drafts (<strong id="approvalStageName">Discovery Stage</strong>). If satisfied, click Approve to advance the project pipeline automatically.
+          </p>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-primary" id="btnApproveStage" onclick="approveCurrentStage()" style="flex:1; justify-content:center; gap:6px; font-size:11.5px; height:32px;"><i class="fa-solid fa-circle-check"></i> Approve Milestone</button>
+          </div>
+        </div>
+
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/project-roadmaps &bull; <span id="projectsCount">0 paths</span> <span id="roadmapsLoader" style="display:none; color:var(--accent); margin-left:8px;"><i class="fa-solid fa-circle-notch fa-spin"></i></span></span>
+        </div>
+        
+        <div style="padding: 24px; flex: 1; display: flex; flex-direction: column;">
+          <div id="projectsListContainer">
+            <!-- Rendered dynamically as custom timelines -->
+          </div>
+          
+          <div class="empty-state" id="projectsEmpty" style="display: none; padding: 32px 0; text-align: center;">
+            <i class="fa-solid fa-route" style="font-size: 32px; color: var(--ink-faint); margin-bottom: 12px; display: block;"></i>
+            <p style="color: var(--ink-soft); font-size: 14.5px; margin-bottom: 16px;">No active project roadmaps registered for this email.</p>
+            <a href="index.html#contact" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px;">Start your first project <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Card Widget (Bottom full width) -->
+      <div class="term-card" style="grid-column: 1 / -1; margin-top: 8px;">
+        <div class="term-header-bar">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-terminal" style="font-size:11px; margin-right:6px;"></i> ~/support-desk</span>
+        </div>
+        <div style="padding: 24px; text-align: center; max-width: 600px; margin: 0 auto;">
+          <h4 style="font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Need help with your project?</h4>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.5;">Our support team is online to assist you with scoping, billing queries, or technical adjustments.</p>
+          <div class="support-badge" style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #10B981; background-color: rgba(16, 185, 129, 0.1); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 16px;">
+            <span class="pulse-dot"></span> Online &bull; Average response &lt;15 min
+          </div>
+          <a href="index.html#contact" class="btn-primary" style="display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; max-width: 250px; margin: 0 auto;">
+            <i class="fa-solid fa-envelope"></i> Message Support
+          </a>
+        </div>
+      </div>
+
+      <!-- Terms & Conditions Term-Card (grid-column: 1 / -1) -->
+      <div class="term-card" style="grid-column: 1 / -1; margin-top: 8px;">
+        <div class="term-header-bar" id="termsToggleHeader" style="cursor: pointer; user-select: none;">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+          <span class="title-text"><i class="fa-solid fa-terminal"></i> ~/terms-and-conditions &bull; <span id="termsToggleLabel" style="color:var(--accent); font-weight:600;">▼ Read Agreement</span></span>
+        </div>
+        <div id="termsContentBody" style="display: none; padding: 24px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; border-top: 1px solid var(--border);">
+          <h4 style="color:var(--accent); font-family:var(--font-display); font-size:15px; margin-bottom:12px;">Standard Client Agreement & Terms of Service</h4>
+          <p style="margin-bottom:12px;">By accessing this scoping portal, you agree to NextGen Web Studio's delivery milestones, payment clearance schedules, and terms of service. All milestones are cleared on an advance retainer basis.</p>
+          <ul style="padding-left:20px; list-style-type:square; margin-bottom:12px;">
+            <li>Each invoice milestone must be cleared before subsequent coding iterations commence.</li>
+            <li>Source code IP ownership transfers fully to the client upon final payment clearance.</li>
+            <li>Project timelines commence upon receipt of the initial clearance deposit.</li>
+          </ul>
+          <p>For detailed service agreement contracts, contact your assigned studio representative.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="portalFooter" style="display: none; margin-top: 60px; border-top: 1px solid var(--border); padding: 60px 0 30px 0;">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg class="logo-mark footer-logo" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="72" class="logo-text" fill="var(--ink)">nextgen</text>
+            <rect x="300" y="26" width="16" height="48" class="logo-cursor" fill="var(--accent)"/>
+          </svg>
+          <p class="footer-desc">High-performance full-stack web applications and custom digital tools built from Coimbatore, Tamil Nadu.</p>
+          <div class="footer-socials">
+            <a href="https://github.com" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://t.me/shridharsan1" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="index.html#services">Web Design</a></li>
+            <li><a href="index.html#services">Full-stack builds</a></li>
+            <li><a href="index.html#services">E-Commerce</a></li>
+            <li><a href="telegram-bot-development.html">Telegram Bots</a></li>
+            <li><a href="index.html#services">Product scoping</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h4>Direct Connect</h4>
+          <ul class="footer-contact-list">
+            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:nextgenwebstudio63@gmail.com">nextgenwebstudio63@gmail.com</a></li>
+            <li><i class="fa-solid fa-phone"></i> <a href="tel:6379140067">+91 63791 40067</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamil Nadu</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-divider"></div>
+      
+      <div class="footer-bottom-row">
+        <span>&copy; 2026 NextGen Web Studio. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="refunds.html">Refund Policy</a>
+        </div>
+        <button id="scrollToTopBtn" aria-label="Scroll to top" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="background:none; border:none; color:var(--ink-soft); cursor:pointer; font-family:var(--font-mono); font-size:12px; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-arrow-up"></i> Back to top</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://api.whatsapp.com/send?phone=916379140067" class="floating-whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat with us</span>
+  </a>
+
+  <!-- Floating AI Chatbot Widget -->
+  <div id="aiChatbotWidget" class="chatbot-closed">
+    <!-- Chat Button -->
+    <button id="chatbotToggleBtn" aria-label="Open AI Assistant" title="Chat with AI">
+      <i class="fa-solid fa-comments"></i>
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    
+    <!-- Chat Panel -->
+    <div class="chatbot-panel">
+      <div class="chat-header">
+        <div class="bot-info">
+          <div class="bot-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div class="bot-text-meta">
+            <h4>nextgen_assistant</h4>
+            <span>online • instant response</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+          Hi! I'm your NextGen AI Assistant. 🤖
+          <br><br>
+          Ask me anything about our services, pricing, timeline, contact details, or location in Coimbatore!
+        </div>
+      </div>
+      <form class="chat-input-area" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask a question..." autocomplete="off" required>
+        <button type="submit" id="chatSubmitBtn"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // ---------- GLOBAL STATE ----------
+
+    // ---------- DEMO FALLBACK DATA ----------
+    const defaultProjects = [
+      {
+        id: 'PRJ-BOOMERS',
+        projectTitle: 'Boomers Gaming Lounge OS',
+        status: 'In Progress',
+        currentStage: 'Development',
+        progress: 75,
+        nextMilestone: 'POS Hardware & Tournament Bracket Engine',
+        eta: '8 Days Remaining',
+        startDate: '2026-10-15'
+      },
+      {
+        id: 'PRJ-PRIMESCALPERS',
+        projectTitle: 'PrimeScalpers Telegram Automation Bot',
+        status: 'In Progress',
+        currentStage: 'Development',
+        progress: 90,
+        nextMilestone: 'Broker API Webhook & VIP Paywall Verification',
+        eta: '4 Days Remaining',
+        startDate: '2026-10-22'
+      },
+      {
+        id: 'PRJ-GOATTURF',
+        projectTitle: 'GoatTurf Sports Arena Platform',
+        status: 'Completed',
+        currentStage: 'Completed',
+        progress: 100,
+        nextMilestone: 'Production DNS Active & Handover Complete',
+        eta: 'Shipped & Live',
+        startDate: '2026-09-01'
+      }
+    ];
+
+    const defaultReceipts = [
+      {
+        id: 'inv-9021',
+        projectTitle: 'Boomers Gaming Lounge OS - Sprint 2 Milestone',
+        total: 35000,
+        advancePaid: 15000,
+        status: 'Pending',
+        date: '2026-11-04'
+      },
+      {
+        id: 'inv-9022',
+        projectTitle: 'PrimeScalpers Telegram Bot - Production License',
+        total: 25000,
+        advancePaid: 0,
+        status: 'Pending',
+        date: '2026-11-05'
+      },
+      {
+        id: 'inv-8840',
+        projectTitle: 'GoatTurf Arena Platform - Core Architecture Deposit',
+        total: 50000,
+        advancePaid: 50000,
+        status: 'Paid',
+        date: '2026-10-10'
+      },
+      {
+        id: 'inv-8712',
+        projectTitle: 'NextGen Design System & Discovery Specification',
+        total: 20000,
+        advancePaid: 20000,
+        status: 'Paid',
+        date: '2026-09-28'
+      }
+    ];
+
+    window.loginAsDemoUser = function() {
+      showLoadingScreen();
+      localStorage.setItem('session_id', 'demo_session');
+      localStorage.setItem('client_email', 'client@primescalpers.io');
+      showToast('Demo Access Granted', 'Logged into NextGen Agency OS Portal', 'success');
+      setTimeout(async () => {
+        await checkAuth();
+        hideLoadingScreen();
+      }, 500);
+    };
+
+    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? '' : 'https://nextgen-studio-czz7.onrender.com';
+    let currentUser = null;
+    let receipts = [];
+    let projects = [];
+
+    // ---------- TOAST SYSTEM ----------
+    function showToast(title, message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast-card';
+      
+      let icon = '<i class="fa-solid fa-circle-info"></i>';
+      if (type === 'success') icon = '<i class="fa-solid fa-circle-check"></i>';
+      else if (type === 'error') icon = '<i class="fa-solid fa-circle-xmark"></i>';
+      
+      toast.innerHTML = `
+        <div class="toast-icon ${type}">${icon}</div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-desc">${message}</div>
+        </div>
+        <div class="toast-close" onclick="this.closest('.toast-card').remove()">&times;</div>
+      `;
+      
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 50);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 5000);
+    }
+
+
+
+    // ---------- MOBILE MENU DRAWER ----------
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerClose = document.getElementById('drawerClose');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    if (menuToggle && mobileDrawer) {
+      menuToggle.addEventListener('click', () => {
+        mobileDrawer.classList.add('open');
+        if (drawerOverlay) drawerOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    if (drawerClose) {
+      drawerClose.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        if (drawerOverlay) drawerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+    if (drawerOverlay) {
+      drawerOverlay.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        drawerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+
+    const drawerLinks = document.querySelectorAll('.drawer-links a');
+    drawerLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        if (drawerOverlay) drawerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ---------- AUTH STATUS CHECK ----------
+    async function checkAuth() {
+      // Read session_id from URL query parameters (OAuth callback redirects)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('session_id')) {
+        localStorage.setItem('session_id', urlParams.get('session_id'));
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      const token = localStorage.getItem('session_id') || '';
+
+      // Demo or offline mock session support
+      if (token === 'demo_session' || token.startsWith('demo_')) {
+        currentUser = localStorage.getItem('client_email') || 'client@primescalpers.io';
+        document.getElementById('headerUserEmail').innerText = currentUser;
+        document.getElementById('headerUserBadge').style.display = 'inline-flex';
+        document.getElementById('notifBellContainer').style.display = 'flex';
+        document.getElementById('mobileUserEmail').innerText = currentUser;
+        document.getElementById('mobileUserBadge').style.display = 'block';
+        document.getElementById('logoutCtaBtn').style.display = 'inline-block';
+        document.getElementById('mobileLogoutBtn').style.display = 'block';
+        
+        document.getElementById('loginView').style.display = 'none';
+        document.getElementById('loginPromoHeader').style.display = 'none';
+        document.getElementById('dashboardView').style.display = 'grid';
+        
+        const footerEl = document.getElementById('portalFooter');
+        if (footerEl) footerEl.style.display = 'block';
+        
+        document.body.classList.remove('login-mode');
+        const chatbotWidget = document.getElementById('aiChatbotWidget');
+        if (chatbotWidget) chatbotWidget.style.display = 'block';
+        
+        await loadDashboardData();
+        return;
+      }
+
+      try {
+        const res = await fetch(API_URL + '/api/auth/me?_t=' + Date.now(), {
+          headers: { 'Authorization': 'Bearer ' + token },
+          credentials: 'include'
+        });
+        const data = await res.json();
+        const chatbotWidget = document.getElementById('aiChatbotWidget');
+        
+        if (res.ok && data.authenticated) {
+          currentUser = data.email;
+          localStorage.setItem('client_email', currentUser);
+          
+          document.getElementById('headerUserEmail').innerText = currentUser;
+          document.getElementById('headerUserBadge').style.display = 'inline-flex';
+          document.getElementById('notifBellContainer').style.display = 'flex';
+          document.getElementById('mobileUserEmail').innerText = currentUser;
+          document.getElementById('mobileUserBadge').style.display = 'block';
+          document.getElementById('logoutCtaBtn').style.display = 'inline-block';
+          document.getElementById('mobileLogoutBtn').style.display = 'block';
+          
+          document.getElementById('loginView').style.display = 'none';
+          document.getElementById('loginPromoHeader').style.display = 'none';
+          document.getElementById('dashboardView').style.display = 'grid';
+          
+          const footerEl = document.getElementById('portalFooter');
+          if (footerEl) footerEl.style.display = 'block';
+          
+          document.body.classList.remove('login-mode');
+          if (chatbotWidget) chatbotWidget.style.display = 'block';
+          
+          await loadDashboardData();
+        } else {
+          document.getElementById('headerUserBadge').style.display = 'none';
+          document.getElementById('notifBellContainer').style.display = 'none';
+          document.getElementById('mobileUserBadge').style.display = 'none';
+          document.getElementById('logoutCtaBtn').style.display = 'none';
+          document.getElementById('mobileLogoutBtn').style.display = 'none';
+          
+          document.getElementById('dashboardView').style.display = 'none';
+          document.getElementById('loginPromoHeader').style.display = 'block';
+          document.getElementById('loginView').style.display = 'block';
+          
+          const footerEl = document.getElementById('portalFooter');
+          if (footerEl) footerEl.style.display = 'none';
+          
+          document.body.classList.add('login-mode');
+          if (chatbotWidget) chatbotWidget.style.display = 'none';
+        }
+      } catch (err) {
+        console.error(err);
+        // Silent catch on initial unauthenticated visit
+        document.getElementById('dashboardView').style.display = 'none';
+        document.getElementById('notifBellContainer').style.display = 'none';
+        document.getElementById('loginPromoHeader').style.display = 'block';
+        document.getElementById('loginView').style.display = 'block';
+        const footerEl = document.getElementById('portalFooter');
+        if (footerEl) footerEl.style.display = 'none';
+        document.body.classList.add('login-mode');
+        const chatbotWidget = document.getElementById('aiChatbotWidget');
+        if (chatbotWidget) chatbotWidget.style.display = 'none';
+      }
+    }
+
+    // ---------- LOAD DASHBOARD DATA ----------
+    async function loadDashboardData() {
+      const bL = document.getElementById('billsLoader');
+      const rL = document.getElementById('roadmapsLoader');
+      if (bL) bL.style.display = 'inline-block';
+      if (rL) rL.style.display = 'inline-block';
+      try {
+        try {
+          const rRes = await fetch(API_URL + '/api/client/receipts?_t=' + Date.now(), { headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('session_id') || '') }, credentials: 'include' });
+          if (rRes.ok) {
+            receipts = await rRes.json();
+          }
+        } catch (e) {}
+
+        if (!receipts || receipts.length === 0) {
+          receipts = [...defaultReceipts];
+        }
+        renderReceipts();
+
+        try {
+          const pRes = await fetch(API_URL + '/api/client/projects?_t=' + Date.now(), { headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('session_id') || '') }, credentials: 'include' });
+          if (pRes.ok) {
+            projects = await pRes.json();
+          }
+        } catch (e) {}
+
+        if (!projects || projects.length === 0) {
+          projects = [...defaultProjects];
+        }
+        renderProjects();
+
+        await fetchPortalNotifications();
+        await fetchCurrentStageApproval();
+      } catch (err) {
+        showToast('Load Error', 'Failed to refresh client roadmap data.', 'error');
+      } finally {
+        if (bL) bL.style.display = 'none';
+        if (rL) rL.style.display = 'none';
+      }
+    }
+
+    async function fetchPortalNotifications() {
+      try {
+        const res = await fetch(API_URL + '/api/notifications?_t=' + Date.now());
+        if (res.ok) {
+          const list = await res.json();
+          const unread = list.filter(n => n.read === false && (n.userId.toLowerCase() === currentUser.toLowerCase() || n.userId === 'all'));
+          const feed = document.getElementById('portalNotificationsFeed');
+          
+          if (unread.length === 0) {
+            feed.style.display = 'none';
+            feed.innerHTML = '';
+            return;
+          }
+
+          feed.style.display = 'flex';
+          feed.innerHTML = unread.map(n => `
+            <div style="background:rgba(224,255,79,0.06); border:1px solid rgba(224,255,79,0.18); padding:10px 14px; border-radius:6px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="color:var(--ink);"><i class="fa-solid ${n.icon || 'fa-info-circle'}" style="color:var(--accent); margin-right:6px;"></i> <strong>${n.title}</strong> &bull; ${n.message || ''}</span>
+              <button onclick="dismissPortalNotification('${n.id}')" style="background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:14px; padding:0 4px;"><i class="fa-solid fa-times"></i></button>
+            </div>
+          `).join('');
+        }
+      } catch (e) {}
+    }
+    window.fetchPortalNotifications = fetchPortalNotifications;
+
+    async function dismissPortalNotification(id) {
+      try {
+        const res = await fetch(API_URL + '/api/notifications/mark-read', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        if (res.ok) {
+          fetchPortalNotifications();
+        }
+      } catch (e) {}
+    }
+    window.dismissPortalNotification = dismissPortalNotification;
+
+
+
+    window.activeApprovalProjectId = '';
+    window.activeApprovalStage = '';
+
+    async function fetchCurrentStageApproval() {
+      const panel = document.getElementById('stageApprovalPanel');
+      const stageNameEl = document.getElementById('approvalStageName');
+      const stageDescEl = document.getElementById('approvalStageDescription');
+      
+      const activeProj = projects.find(p => p.status !== 'Completed' && p.status !== 'Cancelled');
+      if (!activeProj) {
+        panel.style.display = 'none';
+        return;
+      }
+
+      window.activeApprovalProjectId = activeProj.id;
+
+      try {
+        const res = await fetch(API_URL + '/api/project-roadmap?_t=' + Date.now());
+        if (res.ok) {
+          const roadmaps = await res.json();
+          const projRoadmap = roadmaps.filter(r => r.projectId === activeProj.id);
+          
+          const stages = ['Discovery', 'Scoping', 'Design', 'Development', 'Launch'];
+          const stageDescriptions = {
+            'Discovery': 'onboarding roadmap and requirements scope specifications',
+            'Scoping': 'Scoping & Wireframe layouts structural design documents',
+            'Design': 'Figma Visual Design prototype specifications drafts',
+            'Development': 'fully integrated Staging build code release configurations',
+            'Launch': 'final Production Release, DNS redirection and launch handovers'
+          };
+
+          // Find first uncompleted stage
+          let targetStage = '';
+          for (let stg of stages) {
+            const match = projRoadmap.find(r => r.stage === stg);
+            if (!match || !match.completed) {
+              targetStage = stg;
+              break;
+            }
+          }
+
+          if (!targetStage) {
+            panel.style.display = 'none';
+            return;
+          }
+
+          window.activeApprovalStage = targetStage;
+          panel.style.display = 'block';
+          stageNameEl.innerText = `${targetStage} Milestone`;
+          stageDescEl.innerHTML = `Please review and approve deliverables for <strong style="color:var(--accent);">${targetStage} Stage</strong> (${stageDescriptions[targetStage]}). Clicking approve moves the project pipeline forward.`;
+        }
+      } catch (e) {
+        panel.style.display = 'none';
+      }
+    }
+    window.fetchCurrentStageApproval = fetchCurrentStageApproval;
+
+    async function approveCurrentStage() {
+      if (!window.activeApprovalProjectId || !window.activeApprovalStage) return;
+      
+      const btn = document.getElementById('btnApproveStage');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting Approval...`;
+
+      try {
+        const res = await fetch(API_URL + '/api/projects/approve-stage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projectId: window.activeApprovalProjectId,
+            stage: window.activeApprovalStage
+          })
+        });
+
+        if (res.ok) {
+          showToast('Milestone Approved', `Thank you! You have successfully approved the ${window.activeApprovalStage} milestone.`, 'success');
+          await loadDashboardData();
+        } else {
+          showToast('Approval Error', 'Server failed to log milestone approval.', 'error');
+        }
+      } catch (e) {
+        showToast('Connection Error', 'Failed to communicate with stage approval API.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Approve Milestone`;
+      }
+    }
+    window.approveCurrentStage = approveCurrentStage;
+
+    // ---------- RENDER FUNCTIONS ----------
+    function renderReceipts() {
+      const tbody = document.getElementById('invoicesTableBody');
+      const completedTbody = document.getElementById('completedTableBody');
+      const countSpan = document.getElementById('invoicesCount');
+      const emptyState = document.getElementById('invoicesEmpty');
+      const completedSection = document.getElementById('completedPaymentsSection');
+      const completedCountSpan = document.getElementById('completedCount');
+      
+      tbody.innerHTML = '';
+      completedTbody.innerHTML = '';
+      
+      const pendingReceipts = receipts.filter(r => r.status !== 'Paid');
+      const completedReceipts = receipts.filter(r => r.status === 'Paid');
+      
+      countSpan.innerText = `${pendingReceipts.length} items`;
+      
+      // Calculate Stats values
+      let totalDue = 0;
+      pendingReceipts.forEach(r => {
+        const balanceDue = r.total - (r.advancePaid || 0);
+        totalDue += balanceDue;
+      });
+      const formattedTotalDue = totalDue.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+      document.getElementById('statsPaymentsDue').innerText = formattedTotalDue;
+      document.getElementById('statsMilestonesDone').innerText = completedReceipts.length;
+      
+      // Render Pending Receipts
+      if (pendingReceipts.length === 0) {
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        pendingReceipts.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.className = 'payment-pending'; // Pending Row style highlight
+          const advancePaid = item.advancePaid || 0;
+          const balanceDue = item.total - advancePaid;
+          
+          const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+          const formattedBalance = Number(balanceDue).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+          const formattedAdvance = Number(advancePaid).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+
+          let totalDueMarkup = '';
+          if (advancePaid > 0) {
+            totalDueMarkup = `
+              <span style="font-weight:700; color:var(--accent); font-family:var(--font-mono);">${formattedBalance}</span>
+              <span style="display:block; font-size:10px; color:var(--ink-faint); margin-top:2px;">Total: ${formattedTotal} &bull; Adv: ${formattedAdvance}</span>
+            `;
+          } else {
+            totalDueMarkup = `<span style="font-weight:600; color:var(--accent); font-family:var(--font-mono);">${formattedBalance}</span>`;
+          }
+          
+          tr.innerHTML = `
+            <td data-label="Milestone Details">
+              <span class="client-title">${item.projectTitle}</span>
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);">${item.id.toUpperCase()} &bull; ${new Date(item.date).toLocaleDateString('en-IN')}</span>
+            </td>
+            <td data-label="Total Due">${totalDueMarkup}</td>
+            <td data-label="Status">
+              <span class="badge pending">Pending Payment</span>
+            </td>
+            <td data-label="Action">
+              <button class="pay-trigger-btn" onclick="initiatePayment('${item.id}', ${balanceDue})">
+                Pay ${formattedBalance} &nbsp;<i class="fa-solid fa-arrow-right-long"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Render Completed Receipts
+      if (completedReceipts.length === 0) {
+        completedSection.style.display = 'none';
+      } else {
+        completedSection.style.display = 'block';
+        completedCountSpan.innerText = completedReceipts.length;
+        
+        completedReceipts.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.className = 'payment-completed'; // Completed Row style highlight
+          const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+          
+          tr.innerHTML = `
+            <td data-label="Milestone Details">
+              <span class="client-title" style="font-size: 14.5px;">${item.projectTitle}</span>
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);">${item.id.toUpperCase()} &bull; ${new Date(item.date).toLocaleDateString('en-IN')}</span>
+            </td>
+            <td data-label="Total Paid" style="font-family:var(--font-mono); font-weight:600; color:var(--ink-soft);">${formattedTotal}</td>
+            <td data-label="Status">
+              <span class="badge paid">Completed</span>
+            </td>
+            <td data-label="Receipt">
+              <button class="receipt-btn" onclick="printInvoice('${item.id}')">
+                <i class="fa-solid fa-file-pdf"></i> Receipt
+              </button>
+            </td>
+          `;
+          completedTbody.appendChild(tr);
+        });
+      }
+    }
+
+    function renderProjects() {
+      const container = document.getElementById('projectsListContainer');
+      const countSpan = document.getElementById('projectsCount');
+      const emptyState = document.getElementById('projectsEmpty');
+      
+      container.innerHTML = '';
+      countSpan.innerText = `${projects.length} paths`;
+      document.getElementById('statsActiveProjects').innerText = projects.length;
+      
+      if (projects.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+      emptyState.style.display = 'none';
+
+      // Get current formatted timestamp for "Last Updated"
+      const now = new Date();
+      const updatedTime = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+      const lastUpdatedText = `Updated today at ${updatedTime}`;
+
+      projects.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'roadmap-timeline-card';
+        card.style.marginBottom = '28px';
+        card.style.padding = '20px';
+        card.style.border = '1px solid var(--border)';
+        card.style.borderRadius = 'var(--radius-md)';
+        card.style.backgroundColor = 'var(--bg-alt)';
+        card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease';
+        
+        // Hover listeners for custom timeline cards
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-2px)';
+          card.style.boxShadow = 'var(--shadow-md)';
+          card.style.borderColor = 'var(--accent)';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'none';
+          card.style.boxShadow = 'none';
+          card.style.borderColor = 'var(--border)';
+        });
+        
+        // Extract roadmap properties directly from database
+        const progress = item.progress !== undefined ? Number(item.progress) : 15;
+        const milestoneName = item.nextMilestone || 'Wireframe UX Review';
+        
+        // Dynamic Timeline Stepper mapping
+        const stageIndexMap = {
+          'Discovery': 0,
+          'Scoping': 1,
+          'Design': 2,
+          'Development': 3,
+          'Testing': 3,
+          'Launch': 4,
+          'Maintenance': 4,
+          'Completed': 5
+        };
+        const currentStageIdx = stageIndexMap[item.currentStage] !== undefined ? stageIndexMap[item.currentStage] : 0;
+
+        const getStepStatus = (stepIdx) => {
+          if (currentStageIdx > stepIdx) return 'done';
+          if (currentStageIdx === stepIdx) return 'active';
+          return 'pending';
+        };
+
+        const step1 = getStepStatus(0);
+        const step2 = getStepStatus(1);
+        const step3 = getStepStatus(2);
+        const step4 = getStepStatus(3);
+        const step5 = getStepStatus(4);
+
+        // Parse ETA
+        let etaText = item.eta || '';
+        if (!etaText) {
+          const startObj = item.startDate ? new Date(item.startDate) : new Date(item.date);
+          const etaDate = new Date(startObj.getTime() + 14 * 24 * 60 * 60 * 1000);
+          const today = new Date();
+          const diffTime = etaDate - today;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          etaText = diffDays > 0 ? `${diffDays} Days Remaining` : 'Launching Soon';
+        }
+
+        const rawStatus = item.status || 'In Progress';
+        let displayStatus = rawStatus;
+        let badgeClass = 'in-progress';
+        if (rawStatus === 'Completed') {
+          displayStatus = 'Completed';
+          badgeClass = 'completed';
+        } else if (rawStatus === 'Paused' || rawStatus === 'On Hold') {
+          displayStatus = 'On Hold';
+          badgeClass = 'hold';
+        } else {
+          displayStatus = 'In Progress';
+          badgeClass = 'in-progress';
+        }
+
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+            <div>
+              <h4 style="font-size:16px; font-weight:700; color:var(--ink); margin:0;">${item.projectTitle || item.name || item.projectType || 'Custom Website'}</h4>
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:2px; display:block;">Milestone Scopes &bull; &#8377;${(Number(item.budget) || 0).toLocaleString('en-IN')}</span>
+            </div>
+            <span class="badge ${badgeClass}">${displayStatus}</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" style="width: ${progress}%;"></div>
+            </div>
+            <div class="progress-bar-text">
+              <span>${progress}% Complete</span>
+              <span>Next: ${milestoneName}</span>
+            </div>
+          </div>
+          
+          <!-- Timeline Stepper (Discovery, Scoping, Design, Build, Launch) -->
+          <div class="timeline-stepper">
+            <div class="step ${step1}">
+              <div class="step-circle">${step1 === 'done' ? '<i class="fa-solid fa-check"></i>' : '●'}</div>
+              <span class="step-name">Discovery</span>
+            </div>
+            <div class="step ${step2}">
+              <div class="step-circle">${step2 === 'done' ? '<i class="fa-solid fa-check"></i>' : (step2 === 'active' ? '●' : '○')}</div>
+              <span class="step-name">Scoping</span>
+            </div>
+            <div class="step ${step3}">
+              <div class="step-circle">${step3 === 'done' ? '<i class="fa-solid fa-check"></i>' : (step3 === 'active' ? '●' : '○')}</div>
+              <span class="step-name">Design</span>
+            </div>
+            <div class="step ${step4}">
+              <div class="step-circle">${step4 === 'done' ? '<i class="fa-solid fa-check"></i>' : (step4 === 'active' ? '●' : '○')}</div>
+              <span class="step-name">Development</span>
+            </div>
+            <div class="step ${step5}">
+              <div class="step-circle">${step5 === 'done' ? '<i class="fa-solid fa-check"></i>' : (step5 === 'active' ? '●' : '○')}</div>
+              <span class="step-name">Launch</span>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; border-top:1px dashed var(--border); padding-top:12px; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <span class="timeline-eta" style="margin-top:0;"><i class="fa-solid fa-calendar-days"></i> <strong>ETA: ${etaText}</strong></span>
+              <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); display:flex; align-items:center; gap:5px;"><i class="fa-solid fa-rotate"></i> ${lastUpdatedText}</span>
+            </div>
+            ${item.previewUrl ? `
+              <a href="${item.previewUrl}" target="_blank" class="preview-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;"><i class="fa-solid fa-square-up-right"></i> Live Preview</a>
+            ` : `
+              <span style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); display:inline-flex; align-items:center; gap:6px;"><i class="fa-solid fa-hourglass-half"></i> Preview Soon</span>
+            `}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ---------- COLLAPSIBLE REGISTRATION HANDLERS ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Accordion for Terms & Conditions
+      const termsHeader = document.getElementById('termsToggleHeader');
+      if (termsHeader) {
+        termsHeader.addEventListener('click', () => {
+          const body = document.getElementById('termsContentBody');
+          const label = document.getElementById('termsToggleLabel');
+          if (body.style.display === 'none') {
+            body.style.display = 'block';
+            label.innerText = '▲ Collapse Agreement';
+          } else {
+            body.style.display = 'none';
+            label.innerText = '▼ Read Agreement';
+          }
+        });
+      }
+
+      // Accordion for Completed Payments
+      const completedHeader = document.getElementById('completedToggleHeader');
+      if (completedHeader) {
+        completedHeader.addEventListener('click', () => {
+          const container = document.getElementById('completedTableContainer');
+          const arrow = document.getElementById('completedToggleArrow');
+          if (container.style.display === 'none') {
+            container.style.display = 'block';
+            arrow.innerText = '▲';
+          } else {
+            container.style.display = 'none';
+            arrow.innerText = '▼';
+          }
+        });
+      }
+      
+      // Notifications dropdown toggle
+      const bellBtn = document.getElementById('notifBellContainer');
+      const dropdown = document.getElementById('notifDropdown');
+      if (bellBtn && dropdown) {
+        bellBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', () => {
+          dropdown.classList.remove('open');
+        });
+      }
+    });
+
+    // ---------- CLIENT PRINT RECEIPT GENERATOR ----------
+    function printInvoice(receiptId) {
+      const item = receipts.find(r => r.id === receiptId);
+      if (!item) return;
+      
+      let modal = document.getElementById('invoicePrintModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'invoicePrintModal';
+        document.body.appendChild(modal);
+      }
+      
+      const formattedTotal = Number(item.total).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+      const dateText = new Date(item.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+      
+      modal.innerHTML = `
+        <div style="max-width: 800px; margin: 30px auto; font-family: var(--font-sans); color: #111827; padding: 36px 40px; background: #ffffff; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #E5E7EB; padding-bottom: 20px; margin-bottom: 30px;">
+            <div>
+              <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #111827;">NextGen Web Studio</h2>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: #4B5563;">High-Performance Web Engineering</p>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: #6B7280; text-transform: uppercase;">Invoice / Receipt</span>
+              <h3 style="margin: 4px 0 0 0; font-size: 16px; font-weight: 600; color: #111827;">${item.id.toUpperCase()}</h3>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+            <div>
+              <h5 style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #6B7280; margin: 0 0 6px 0;">Billed To:</h5>
+              <p style="font-size: 14.5px; font-weight: 600; color: #111827; margin: 0 0 4px 0;">${localStorage.getItem('client_email') || 'Valued Client'}</p>
+            </div>
+            <div style="text-align: right;">
+              <h5 style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #6B7280; margin: 0 0 6px 0;">Invoice Details:</h5>
+              <p style="font-size: 13.5px; color: #374151; margin: 0 0 4px 0;">Date: ${dateText}</p>
+              <p style="font-size: 13.5px; color: #374151; margin: 0;">Payment Method: Secure Checkout</p>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 40px;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+              <thead>
+                <tr style="border-bottom: 2px solid #E5E7EB;">
+                  <th style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #374151;">Milestone Description</th>
+                  <th style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #374151; text-align: right;">Amount Paid</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #E5E7EB;">
+                  <td style="padding: 16px 0; font-size: 14.5px; color: #111827;">
+                    <strong>${item.projectTitle}</strong>
+                    <span style="display: block; font-size: 12.5px; color: #6B7280; margin-top: 4px;">Milestone payment cleared.</span>
+                  </td>
+                  <td style="padding: 16px 0; font-size: 14.5px; font-weight: 600; color: #111827; text-align: right; font-family: var(--font-mono);">${formattedTotal}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; background-color: #F9FAFB; padding: 20px; border-radius: 8px;">
+            <div>
+              <span style="display: inline-block; font-size: 11px; font-weight: 700; color: #065F46; background-color: #D1FAE5; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em;">Status: PAID</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 13px; color: #4B5563;">Total Settled:</span>
+              <h3 style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #111827; font-family: var(--font-mono);">${formattedTotal}</h3>
+            </div>
+          </div>
+          
+          <div class="print-actions" style="margin-top: 60px; text-align: center; border-top: 1px solid #E5E7EB; padding-top: 20px; display: flex; justify-content: center; gap: 12px;">
+            <button class="pay-trigger-btn" onclick="window.print()" style="padding: 10px 24px; font-size: 13px;">Print PDF</button>
+            <button class="receipt-btn" onclick="document.getElementById('invoicePrintModal').style.display='none'" style="padding: 10px 24px; font-size: 13px;">Close Preview</button>
+          </div>
+        </div>
+      `;
+      modal.style.display = 'block';
+    }
+
+    // ---------- RAZORPAY HANDSHAKE ----------
+    async function initiatePayment(receiptId, amount) {
+      try {
+        showToast('Initiating Payment', 'Generating secure order with Razorpay...', 'info');
+        
+        const res = await fetch(API_URL + '/api/razorpay/create-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (localStorage.getItem('session_id') || '')
+          },
+          credentials: 'include',
+          body: JSON.stringify({ receiptId })
+        });
+        
+        if (!res.ok) {
+          // If offline or demo mode, simulate Razorpay payment
+          showToast('Payment Processing', `Simulating payment settlement of ₹${Number(amount).toLocaleString('en-IN')}...`, 'info');
+          setTimeout(() => {
+            const item = receipts.find(r => r.id === receiptId);
+            if (item) {
+              item.status = 'Paid';
+              item.advancePaid = item.total;
+              renderReceipts();
+              showToast('Payment Cleared', `Milestone payment cleared! Receipt generated.`, 'success');
+            }
+          }, 1200);
+          return;
+        }
+        const order = await res.json();
+        
+        const options = {
+          key: order.key,
+          amount: order.amount,
+          currency: order.currency,
+          name: 'NextGen Web Studio',
+          description: 'Invoice Settlement for Milestones',
+          order_id: order.id,
+          handler: async function (response) {
+            showToast('Verifying', 'Verifying signature with gateway...', 'info');
+            const verifyRes = await fetch(API_URL + '/api/razorpay/verify-payment', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + (localStorage.getItem('session_id') || '')
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                receiptId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+            
+            const verifyData = await verifyRes.json();
+            if (verifyRes.ok && verifyData.success) {
+              showToast('Success', 'Payment processed and invoice updated successfully!', 'success');
+              loadDashboardData();
+            } else {
+              showToast('Failed Verification', verifyData.error || 'Signature mismatch.', 'error');
+            }
+          },
+          prefill: {
+            email: currentUser
+          },
+          theme: {
+            color: '#131312'
+          }
+        };
+
+        if (order.isMock) {
+          showToast('Mock Transaction', 'Simulating payment success overlay...', 'success');
+          setTimeout(async () => {
+            options.handler({
+              razorpay_payment_id: 'pay_mock_' + Date.now(),
+              razorpay_order_id: order.id,
+              razorpay_signature: 'sig_mock_verified'
+            });
+          }, 1000);
+          return;
+        }
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+      } catch (err) {
+        showToast('Payment Interrupted', err.message, 'error');
+      }
+    }
+
+    // ---------- EVENT LISTENERS ----------
+    const loginForm = document.getElementById('portalLoginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('portalEmailInput').value.trim();
+        
+        const submitBtn = document.getElementById('loginSubmitBtn');
+        const originalBtnHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        
+        // Simulated terminal authenticating progress loader
+        let count = 0;
+        const interval = setInterval(() => {
+          count += 2;
+          const barLength = 10;
+          const filled = Math.min(barLength, Math.floor(count / 2));
+          const empty = barLength - filled;
+          const bar = '█'.repeat(filled) + '░'.repeat(empty);
+          submitBtn.innerHTML = `<span style="font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.02em;">Authenticating ${bar} ${count * 10}%</span>`;
+          
+          if (count >= 10) {
+            clearInterval(interval);
+            performLogin(email, submitBtn, originalBtnHtml);
+          }
+        }, 120);
+      });
+    }
+
+    async function performLogin(email, submitBtn, originalBtnHtml) {
+      showLoadingScreen();
+
+      // If localhost or demo keyword
+      if (!API_URL || email.includes('demo') || email.includes('test') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        localStorage.setItem('session_id', 'demo_session');
+        localStorage.setItem('client_email', email);
+        showToast('Sign In Success', 'Welcome to the NextGen Client Portal!', 'success');
+        setTimeout(async () => {
+          await checkAuth();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+          hideLoadingScreen();
+        }, 600);
+        return;
+      }
+
+      try {
+        const res = await fetch(API_URL + '/api/auth/login-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.sessionId) {
+            localStorage.setItem('session_id', data.sessionId);
+          }
+          showToast('Sign In Success', 'Welcome back to the portal!', 'success');
+          setTimeout(async () => {
+            await checkAuth();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHtml;
+            hideLoadingScreen();
+          }, 800);
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+          hideLoadingScreen();
+          const data = await res.json().catch(() => ({}));
+          let errMsg = 'Access Denied: Your email address is not enrolled in the registry. Please contact admin.';
+          if (data.error === 'unauthorized_email') {
+            errMsg = 'Access Denied: Your email address is not enrolled in the NextGen registry. Please contact admin.';
+          }
+          showToast('Authentication Failed', errMsg, 'error');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+        hideLoadingScreen();
+        console.error(err);
+        showToast('Connection Error', 'Could not communicate with authentication server.', 'error');
+      }
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('error')) {
+      const err = params.get('error');
+      let msg = `Operation callback failed: ${err}`;
+      if (err === 'unauthorized_email') {
+        msg = 'Access Denied: Your email address is not enrolled in the NextGen registry. Please contact admin.';
+      } else if (err === 'client_suspended') {
+        msg = 'Access Denied: Your client profile is currently suspended. Please contact the administrator.';
+      } else if (err === 'portal_disabled') {
+        msg = 'Access Denied: Client portal access is disabled for this account.';
+      } else if (err === 'pending_approval') {
+        msg = 'Access Denied: Google Authentication is pending admin approval. Please check back later.';
+      }
+      showToast('Authentication Blocked', msg, 'error');
+      // Clean query string
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // ---------- INITIALIZE PORTAL AUTH CHECK & FADE OUT LOADER ----------
+    async function initPortal() {
+      showLoadingScreen();
+      await checkAuth();
+      hideLoadingScreen();
+    }
+    initPortal();
+
+    // Setup dynamic OAuth and Sign Out hrefs based on API_URL
+    const googleBtn = document.querySelector('a[href="/api/auth/google"]');
+    if (googleBtn) {
+      googleBtn.setAttribute('href', API_URL + '/api/auth/google');
+    }
+    const logoutBtns = document.querySelectorAll('a[href="/api/auth/logout"]');
+    logoutBtns.forEach(btn => {
+      btn.setAttribute('href', API_URL + '/api/auth/logout');
+      btn.addEventListener('click', () => {
+        localStorage.removeItem('session_id');
+      });
+    });
+
+    checkAuth();
+
+    // ---------- THEME TOGGLER ----------
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const drawerThemeBtn = document.getElementById('drawerThemeToggleBtn');
+    const body = document.body;
+    const activeSavedTheme = localStorage.getItem('theme') || 'dark';
+    
+    if (activeSavedTheme === 'light') {
+      body.classList.remove('dark-theme');
+      body.classList.add('light-theme');
+    } else {
+      body.classList.remove('light-theme');
+      body.classList.add('dark-theme');
+    }
+
+    const toggleTheme = () => {
+      if (body.classList.contains('dark-theme')) {
+        body.classList.replace('dark-theme', 'light-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.replace('light-theme', 'dark-theme');
+        localStorage.setItem('theme', 'dark');
+      }
+    };
+
+    if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+    if (drawerThemeBtn) drawerThemeBtn.addEventListener('click', toggleTheme);
+
+    // ---------- FLOATING AI CHATBOT WIDGET ----------
+    const widget = document.getElementById('aiChatbotWidget');
+    const toggleBtn = document.getElementById('chatbotToggleBtn');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatBody = document.getElementById('chatBody');
+
+    if (widget && toggleBtn && chatForm) {
+      let lastChatHistoryLength = 0;
+
+      async function fetchChatHistory() {
+        if (!currentUser) return;
+        try {
+          const res = await fetch(API_URL + `/api/chatbot/messages?email=${encodeURIComponent(currentUser)}&_t=${Date.now()}`, { headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('session_id') || '') }, credentials: 'include' });
+          if (!res.ok) return;
+          const messages = await res.json();
+          
+          // Sort chronologically
+          const sorted = messages.sort((a, b) => new Date(a.date) - new Date(b.date));
+          
+          if (sorted.length !== lastChatHistoryLength) {
+            lastChatHistoryLength = sorted.length;
+            
+            chatBody.innerHTML = `
+              <div class="chat-message bot">
+                Hi! I'm your NextGen AI Assistant. ⚡
+              </div>
+            `;
+            
+            sorted.forEach(msg => {
+              if (msg.sender) {
+                let senderClass = 'bot';
+                if (msg.sender === 'client') senderClass = 'user';
+                else if (msg.sender === 'bot' || msg.sender === 'admin') senderClass = 'bot';
+                
+                appendMessage(msg.text, senderClass);
+              } else {
+                appendMessage(msg.text, 'user');
+                if (msg.botResponse) {
+                  appendMessage(msg.botResponse, 'bot');
+                }
+              }
+            });
+          }
+        } catch (err) {
+          console.error('Error fetching chat history:', err);
+        }
+      }
+
+      // Start chat history sync loop
+      setInterval(() => {
+        if (currentUser && widget.classList.contains('chatbot-open')) {
+          fetchChatHistory();
+        }
+      }, 3000);
+
+      // Toggle open/close
+      toggleBtn.addEventListener('click', () => {
+        widget.classList.toggle('chatbot-open');
+        widget.classList.toggle('chatbot-closed');
+
+        if (widget.classList.contains('chatbot-open')) {
+          fetchChatHistory();
+          setTimeout(() => {
+            chatBody.scrollTop = chatBody.scrollHeight;
+          }, 300);
+        }
+      });
+
+      // Handle message submit
+      chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const query = chatInput.value.trim();
+        if (!query) return;
+
+        // 1. Add user message bubble
+        appendMessage(query, 'user');
+        chatInput.value = '';
+
+        // Check for profanity
+        const badWords = ['fuck', 'shit', 'asshole', 'bitch', 'bastard', 'dick', 'cunt', 'piss'];
+        const hasBadWords = badWords.some(word => query.toLowerCase().includes(word));
+        if (hasBadWords) {
+          appendMessage("⚠️ Warning: Please refrain from using inappropriate language in the chat.", 'bot');
+          chatInput.value = '';
+          return;
+        }
+
+        const botResponse = generateBotResponse(query);
+
+        // Send to server
+        try {
+          const res = await fetch(API_URL + '/api/chatbot/send', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + (localStorage.getItem('session_id') || '')
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+              email: currentUser || 'Guest',
+              text: query,
+              sender: 'client',
+              botResponse: botResponse
+            })
+          });
+
+          if (res.ok) {
+            fetchChatHistory();
+          }
+        } catch (err) {
+          console.error('Error sending message:', err);
+        }
+      });
+
+      function appendMessage(text, sender) {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-message ${sender}`;
+        bubble.innerHTML = text;
+        chatBody.appendChild(bubble);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      function generateBotResponse(message) {
+        const text = message.toLowerCase();
+
+        // Contact Admin Keywords
+        if (text.includes('admin') || text.includes('manager') || text.includes('support') || text.includes('human') || text.includes('message admin') || text.includes('tell admin') || text.includes('login') || text.includes('receipt') || text.includes('dashboard')) {
+          return "Got it! Your message has been sent directly to the Admin console. The admin has been notified with an alert dot and will get back to you here shortly! 🔔";
+        }
+
+        // CoimbatoreTN Keywords
+        if (text.includes('coimbatore') || text.includes('where') || text.includes('location') || text.includes('place')) {
+          return "NextGen Web Studio is headquartered in Coimbatore, Tamil Nadu, India! 📍 We serve clients locally and globally.";
+        }
+
+        // Phone / Contact Keywords
+        if (text.includes('phone') || text.includes('number') || text.includes('contact') || text.includes('call') || text.includes('whatsapp') || text.includes('mobile')) {
+          return "Call/WhatsApp our developer directly at <a href='tel:6379140067' style='color:var(--accent); text-decoration:underline; font-weight:600;'>+91 63791 40067</a>. 📞";
+        }
+
+        // Email Keywords
+        if (text.includes('email') || text.includes('mail') || text.includes('write')) {
+          return "Email your project requirements to nextgenwebstudio63@gmail.com. ✉️";
+        }
+
+        // Budget / Pricing / Cost Keywords
+        if (text.includes('price') || text.includes('cost') || text.includes('budget') || text.includes('how much') || text.includes('rate')) {
+          return "Web designs start from ₹40k, full-stack builds from ₹1.5L. Scopes are custom estimated! 💸";
+        }
+
+        // Services / What we build
+        if (text.includes('services') || text.includes('build') || text.includes('offer') || text.includes('tech') || text.includes('react') || text.includes('node')) {
+          return "We build custom web apps, React/Node full-stack platforms, Razorpay calendars, and Shopify storefronts. 💻";
+        }
+
+        // Help / Commands
+        if (text.includes('help') || text.includes('hi') || text.includes('hello') || text.includes('hey')) {
+          return "Hello! I can help you with:\n- Coimbatore office location\n- Direct phone & email contacts\n- Pricing & services\n- Viewing portfolio works\n- Messaging the Admin directly";
+        }
+
+        // Fallback
+        return "Message logged to Admin console! 🚀 For immediate quotes, you can also email us at nextgenwebstudio63@gmail.com.";
+      }
+    }
+
+    // ---------- WEBSITE COMMUNICATIONS INTERCEPT MODAL ----------
+    function setupWebsiteContactModal(type = 'email') {
+      const existing = document.getElementById('websiteContactModal');
+      if (existing) existing.remove();
+
+      const modal = document.createElement('div');
+      modal.id = 'websiteContactModal';
+      modal.className = 'receipt-modal';
+      modal.style.zIndex = '3000';
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.backgroundColor = 'rgba(0,0,0,0.85)';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.opacity = '0';
+      modal.style.pointerEvents = 'none';
+      modal.style.transition = 'opacity 0.3s ease';
+      
+      const isEmailMode = type === 'email';
+      const isPhoneMode = type === 'phone';
+
+      const chatbotHtml = `
+        <!-- Chatbot Live Inbox option (Highly Recommended) -->
+        <div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: rgba(224,255,79,0.04); border: 1px dashed rgba(224,255,79,0.3); border-radius: 6px; text-align: left;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size: 9.5px; font-weight: 700; color: var(--accent); font-family: var(--font-mono); text-transform:uppercase; letter-spacing:1px;"><i class="fa-solid fa-bolt"></i> Recommended</span>
+            <span style="font-size: 11px; color: var(--ink-soft); font-weight:600;"><i class="fa-solid fa-comments"></i> Real-time Chat</span>
+          </div>
+          <p style="font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin: 4px 0;">
+            Need direct assistance? Chat with us instantly through the floating AI widget at the bottom right. It alerts our admin desk in real-time!
+          </p>
+          <button type="button" class="login-btn" id="openChatbotFromModalBtn" style="margin: 6px 0 0 0; padding: 6px 12px; font-size: 12.5px; width: 100%; justify-content:center; height:36px; background-color:var(--accent); color:var(--bg); border:none; font-weight:600; cursor:pointer;"><i class="fa-solid fa-paper-plane"></i> Launch Live Chatbot</button>
+        </div>
+      `;
+
+      const phoneHtml = `
+        <!-- Phone / Call Option -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+          <div style="text-align: left;">
+            <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Direct Call</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--ink);">+91 63791 40067</div>
+          </div>
+          <button type="button" class="refresh-btn" id="copyPhoneBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+        
+        <!-- WhatsApp Option -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+          <div style="text-align: left;">
+            <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">WhatsApp Chat</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--ink);">Instant Chat Link</div>
+          </div>
+          <a href="https://api.whatsapp.com/send?phone=916379140067" target="_blank" class="login-btn" style="margin: 0; padding: 6px 16px; font-size: 12px; width: auto; background-color: #25D366; border-color: #25D366; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content:center; gap: 4px; border-radius:4px; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> Message</a>
+        </div>
+      `;
+
+      const emailHtml = `
+        <!-- Email Option -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+          <div style="text-align: left;">
+            <div style="font-size: 10px; font-weight: 600; color: var(--ink-faint); font-family: var(--font-mono); text-transform:uppercase;">Email Inquiry</div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--ink);">nextgenwebstudio63@gmail.com</div>
+          </div>
+          <button type="button" class="refresh-btn" id="copyEmailBtn" style="margin: 0; padding: 6px 12px; font-size: 12px; width: auto; justify-content:center;"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+      `;
+
+      let bodyContentHtml = chatbotHtml;
+      if (isEmailMode) {
+        bodyContentHtml += emailHtml;
+      } else if (isPhoneMode) {
+        bodyContentHtml += phoneHtml;
+      } else {
+        bodyContentHtml += phoneHtml + emailHtml;
+      }
+
+      modal.innerHTML = `
+        <div class="receipt-card" style="width: 90%; max-width: 420px; box-sizing: border-box; text-align: center; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:24px 20px; position:relative; box-shadow:0 20px 60px var(--shadow); margin: 0 auto;">
+          <span class="receipt-close" id="closeContactModalBtn" style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--ink-soft);">&times;</span>
+          <div class="receipt-header" style="border-bottom: 1px dashed var(--border); padding-bottom: 15px; margin-bottom: 20px; text-align:center;">
+            <h3 style="font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom:4px; font-family:var(--font-display);"><i class="fa-solid fa-comments" style="color:var(--accent);"></i> Contact Studio</h3>
+            <span style="font-size: 11px; color: var(--ink-faint);">NextGen Communication Portal</span>
+          </div>
+          
+          <div class="receipt-body" style="padding: 10px 0 20px 0; display:flex; flex-direction:column; gap:14px;">
+            <div style="font-size: 32px; color: var(--accent); margin-bottom: 5px;"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <p style="font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 10px;">
+              How would you like to connect with NextGen Web Studio?
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; width:100%;">
+              ${bodyContentHtml}
+            </div>
+          </div>
+          
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+
+      // Wire close events
+      const closeBtn = modal.querySelector('#closeContactModalBtn');
+      const copyBtn = modal.querySelector('#copyPhoneBtn');
+      const copyEmailBtn = modal.querySelector('#copyEmailBtn');
+
+      const closeModal = () => {
+        modal.classList.remove('show');
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+      };
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText('+916379140067');
+          showToast('Copied', 'Phone number copied to clipboard!', 'success');
+        });
+      }
+      if (copyEmailBtn) {
+        copyEmailBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText('nextgenwebstudio63@gmail.com');
+          showToast('Copied', 'Email address copied to clipboard!', 'success');
+        });
+      }
+
+      const openChatBtn = modal.querySelector('#openChatbotFromModalBtn');
+      if (openChatBtn) {
+        openChatBtn.addEventListener('click', () => {
+          closeModal();
+          const chatbotWidget = document.getElementById('aiChatbotWidget');
+          if (chatbotWidget) {
+            chatbotWidget.classList.remove('chatbot-closed');
+            chatbotWidget.classList.add('chatbot-open');
+            const chatBody = document.getElementById('chatBody');
+            if (chatBody) {
+              chatBody.scrollTop = chatBody.scrollHeight;
+            }
+          }
+        });
+      }
+    }
+    
+    function triggerWebsiteContactModal(event, type = 'email') {
+      if (event) event.preventDefault();
+      setupWebsiteContactModal(type);
+      const modal = document.getElementById('websiteContactModal');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+      }
+    }
+
+    function showLoadingScreen() {
+      const loader = document.getElementById('loader-screen');
+      if (loader) {
+        loader.classList.remove('fade-out');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    // Export to global scope for inline button clicks (e.g. Google Login redirection)
+    window.showLoadingScreen = showLoadingScreen;
+
+    function hideLoadingScreen() {
+      const loader = document.getElementById('loader-screen');
+      if (loader) {
+        loader.classList.add('fade-out');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Intercept tel, mailto, and whatsapp links dynamically
+    document.addEventListener('click', (e) => {
+      const anchor = e.target.closest('a');
+      if (anchor) {
+        const href = anchor.getAttribute('href') || '';
+        if (href.startsWith('tel:') || href.startsWith('mailto:') || href.includes('wa.me') || href.includes('whatsapp.com')) {
+          e.preventDefault();
+          triggerWebsiteContactModal(e);
+        }
+      }
+    });
+
+    // Auto-load polling: Refresh portal statistics & roadmaps every 5 seconds
+    setInterval(() => {
+      if (currentUser) {
+        loadDashboardData();
+      }
+    }, 5000);
+
+    // Failsafe: Ensure loader screen dismisses on back/forward cache navigation or reloads
+    window.addEventListener('pageshow', (event) => {
+      const loader = document.getElementById('loader-screen');
+      if (loader) {
+        setTimeout(() => {
+          loader.classList.add('fade-out');
+          document.body.style.overflow = '';
+        }, 500);
+      }
+    });
+  </script>
+</body>
+</html>

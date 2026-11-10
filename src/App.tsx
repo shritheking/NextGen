@@ -2693,7 +2693,17 @@ export const App: React.FC = () => {
                         <ChevronLeft size={20} />
                       </div>
                       <div className="tg-avatar-wrap">
-                        <img src="/primescalpers-avatar.png" alt="PrimeScalpers" className="tg-avatar-img" />
+                        <img
+                          src="/primescalpers-avatar.png"
+                          alt="PrimeScalpers"
+                          className="tg-avatar-img"
+                          onError={(e) => {
+                            const img = e.currentTarget;
+                            if (!img.src.includes('assets/primescalpers-avatar.png')) {
+                              img.src = '/assets/primescalpers-avatar.png';
+                            }
+                          }}
+                        />
                       </div>
                       <div className="tg-header-info">
                         <div className="tg-header-title">
@@ -2929,7 +2939,10 @@ export const App: React.FC = () => {
                   alt="Boomers Gaming Lounge Management"
                   src="/images/boomers_cafe_new.png"
                   onError={e => {
-                    (e.target as HTMLElement).style.display = 'none';
+                    const img = e.currentTarget;
+                    if (!img.src.includes('assets/images/boomers_cafe_new.png')) {
+                      img.src = '/assets/images/boomers_cafe_new.png';
+                    }
                   }}
                 />
                 <button
@@ -2955,7 +2968,10 @@ export const App: React.FC = () => {
                   alt="GoatTurf Sports Venue Reservation"
                   src="/images/turf_dashboard_new.png"
                   onError={e => {
-                    (e.target as HTMLElement).style.display = 'none';
+                    const img = e.currentTarget;
+                    if (!img.src.includes('assets/images/turf_dashboard_new.png')) {
+                      img.src = '/assets/images/turf_dashboard_new.png';
+                    }
                   }}
                 />
                 <button
@@ -2981,7 +2997,10 @@ export const App: React.FC = () => {
                   alt="NeiMozhi Native Pure Ghee Ecommerce"
                   src="/images/neimozhi_new.png"
                   onError={e => {
-                    (e.target as HTMLElement).style.display = 'none';
+                    const img = e.currentTarget;
+                    if (!img.src.includes('assets/images/neimozhi_new.png')) {
+                      img.src = '/assets/images/neimozhi_new.png';
+                    }
                   }}
                 />
                 <button
@@ -3007,7 +3026,10 @@ export const App: React.FC = () => {
                   alt="NextGen Multi-Tenant GST Billing System"
                   src="/images/billing_software_new.png"
                   onError={e => {
-                    (e.target as HTMLElement).style.display = 'none';
+                    const img = e.currentTarget;
+                    if (!img.src.includes('assets/images/billing_software_new.png')) {
+                      img.src = '/assets/images/billing_software_new.png';
+                    }
                   }}
                 />
                 <button
