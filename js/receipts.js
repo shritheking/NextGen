@@ -336,8 +336,16 @@ function openDetailsModal(id, type) {
         <span class="r-val">${item.email}</span>
       </div>
       <div class="receipt-row">
-        <span class="r-label">Phone</span>
-        <span class="r-val">${item.phone || 'Not Provided'}</span>
+        <span class="r-label">Phone / WhatsApp</span>
+        <span class="r-val">${item.phone || item.whatsapp || 'Not Provided'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Selected Discipline</span>
+        <span class="r-val" style="color:var(--accent); font-weight:700;"><i class="fa-solid fa-microchip" style="margin-right:6px;"></i>${item.projectType || item.service || 'Agentic AI Systems'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Estimated Budget</span>
+        <span class="r-val" style="color:#10B981; font-weight:700;">${item.budget || 'Not Specified'}</span>
       </div>
       <div class="receipt-row">
         <span class="r-label">Date Logged</span>
@@ -347,9 +355,9 @@ function openDetailsModal(id, type) {
         <span class="r-label">Contact Status</span>
         <span class="r-val">${item.status || 'New'}</span>
       </div>
-      <div>
-        <span class="r-label">Client Message Brief:</span>
-        <div class="receipt-desc-block">${item.message}</div>
+      <div style="margin-top:12px;">
+        <span class="r-label">Project Scope / Requirements:</span>
+        <div class="receipt-desc-block" style="margin-top:6px;">${item.message}</div>
       </div>
     `;
     

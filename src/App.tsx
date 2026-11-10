@@ -3382,10 +3382,10 @@ export const App: React.FC = () => {
                 </div>
 
                 <label>
-                  What are we working on? *
+                  Project Scope &amp; Engineering Goals *
                   <textarea
                     data-testid="contact-idea-input"
-                    placeholder="Describe your project, required APIs, or automation goals..."
+                    placeholder="Describe your technical requirements, APIs, architecture, or automation goals..."
                     required
                     rows={3}
                     value={formData.idea}

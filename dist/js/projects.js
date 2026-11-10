@@ -58,7 +58,15 @@ function renderInquiries(list) {
         <div style="font-size:11.5px; color:var(--ink-soft);">${item.email}</div>
         <div style="font-size:11.5px; color:var(--ink-soft);">${item.phone || 'No phone'}</div>
       </td>
-      <td class="col-message">${item.message}</td>
+      <td class="col-message">
+        <div style="margin-bottom:4px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span style="font-size:10.5px; font-weight:700; color:var(--accent); background:rgba(37,99,235,0.12); padding:2px 7px; border-radius:4px; border:1px solid rgba(37,99,235,0.25);">
+            <i class="fa-solid fa-microchip" style="margin-right:3px;"></i>${item.projectType || item.service || 'Agentic AI Systems'}
+          </span>
+          ${item.budget ? `<span style="font-size:10.5px; font-weight:600; color:#10B981; background:rgba(16,185,129,0.1); padding:2px 6px; border-radius:4px;">${item.budget}</span>` : ''}
+        </div>
+        <div style="color:var(--ink); font-size:12px; line-height:1.4;">${item.message}</div>
+      </td>
       <td class="col-date">${formattedDate}</td>
       <td><span class="status-badge ${statusClass}">${item.status || 'New'}</span></td>
       <td>
@@ -184,7 +192,15 @@ function renderProjects(list) {
       </td>
       <td class="col-tags">${tagsMarkup}</td>
       <td style="font-weight:600; color:var(--accent);">${budgetText}</td>
-      <td class="col-message">${item.message}</td>
+      <td class="col-message">
+        <div style="margin-bottom:4px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span style="font-size:10.5px; font-weight:700; color:var(--accent); background:rgba(37,99,235,0.12); padding:2px 7px; border-radius:4px; border:1px solid rgba(37,99,235,0.25);">
+            <i class="fa-solid fa-microchip" style="margin-right:3px;"></i>${item.projectType || item.service || 'Agentic AI Systems'}
+          </span>
+          ${item.budget ? `<span style="font-size:10.5px; font-weight:600; color:#10B981; background:rgba(16,185,129,0.1); padding:2px 6px; border-radius:4px;">${item.budget}</span>` : ''}
+        </div>
+        <div style="color:var(--ink); font-size:12px; line-height:1.4;">${item.message}</div>
+      </td>
       <td class="col-date">${formattedDate}</td>
       <td><span class="status-badge ${statusClass}">${item.status || 'Not Started'}</span></td>
       <td>
