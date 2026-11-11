@@ -242,6 +242,12 @@ async function dbList(collection) {
           total: item.totalAmount,
           lineItems: item.items
         }));
+      } else if (collection === 'inquiries') {
+        data = data.map(item => ({
+          ...item,
+          projectType: item.projectType || item.service || '',
+          date: item.date || item.created_at || new Date().toISOString()
+        }));
       } else if (collection === 'chatbot_messages') {
         data = data.map(item => ({
           ...item,
@@ -381,14 +387,26 @@ async function dbWrite(collection, list) {
         message: item.message || '',
         adminNotes: item.adminNotes || '',
         date: item.date || new Date().toLocaleDateString(),
-        progress: Number(item.progress) || 0,
+        progress: Number(item.progress) !== undefined && !isNaN(Number(item.progress)) ? Number(item.progress) : 0,
         current_stage: item.currentStage || item.current_stage || 'Discovery',
         developer_id: item.developerId || item.developer_id || '',
         deadline: item.deadline || null,
         started_at: item.started_at || item.startedAt || null,
         completed_at: item.completed_at || item.completedAt || null,
-        next_milestone: item.nextMilestone || '',
+        next_milestone: item.nextMilestone || item.next_milestone || '',
         eta: item.eta || ''
+      }));
+    } else if (collection === 'inquiries') {
+      upsertList = list.map(item => ({
+        id: item.id,
+        name: item.name || '',
+        email: item.email || '',
+        phone: item.phone || '',
+        budget: item.budget || '',
+        projectType: item.projectType || item.service || '',
+        message: item.message || '',
+        status: item.status || 'New',
+        date: item.date ? new Date(item.date).toISOString() : new Date().toISOString()
       }));
     } else if (collection === 'receipts') {
       upsertList = list.map(item => ({
@@ -1164,10 +1182,10 @@ const server = http.createServer(async (req, res) => {
         const targetFile = INQUIRIES_FILE;
         const isProject = lead.budget && lead.budget.trim().length > 0;
 
-        // Read and update file
-        const records = JSON.parse(fs.readFileSync(targetFile, 'utf8'));
+        // Read and update live inquiries from Supabase
+        const records = await dbList('inquiries');
         records.push(lead);
-        await dbWrite(targetFile === INQUIRIES_FILE ? 'inquiries' : 'projects', records);
+        await dbWrite('inquiries', records);
 
         // Dispatch email notification to admin asynchronously (non-blocking)
         try {
@@ -1381,7 +1399,7 @@ function parseBudgetToNumber(budgetString) {
     req.on('data', chunk => body += chunk);
     req.on('end', async () => {
       try {
-        const { id, name, email, phone, projectType, budget, status, previewUrl, message } = JSON.parse(body);
+        const { id, name, email, phone, projectType, stack, budget, status, previewUrl, message, adminNotes, currentStage, current_stage, progress, nextMilestone, next_milestone, eta } = JSON.parse(body);
         const projects = await dbList('projects');
         const index = projects.findIndex(l => l.id === id);
         if (index === -1) {
@@ -1393,11 +1411,31 @@ function parseBudgetToNumber(budgetString) {
         if (name !== undefined) projects[index].name = name.trim();
         if (email !== undefined) projects[index].email = email.trim();
         if (phone !== undefined) projects[index].phone = phone.trim();
-        if (projectType !== undefined) projects[index].projectType = projectType.trim();
+        if (projectType !== undefined) {
+          projects[index].projectType = projectType.trim();
+          projects[index].stack = projectType.trim();
+        }
+        if (stack !== undefined) {
+          projects[index].stack = stack.trim();
+          projects[index].projectType = stack.trim();
+        }
         if (budget !== undefined) projects[index].budget = budget.trim();
         if (status !== undefined) projects[index].status = status.trim();
         if (previewUrl !== undefined) projects[index].previewUrl = previewUrl.trim();
         if (message !== undefined) projects[index].message = message.trim();
+        if (adminNotes !== undefined) projects[index].adminNotes = adminNotes.trim();
+        if (currentStage !== undefined || current_stage !== undefined) {
+          const val = (currentStage || current_stage).trim();
+          projects[index].currentStage = val;
+          projects[index].current_stage = val;
+        }
+        if (progress !== undefined) projects[index].progress = Number(progress);
+        if (nextMilestone !== undefined || next_milestone !== undefined) {
+          const val = (nextMilestone || next_milestone).trim();
+          projects[index].nextMilestone = val;
+          projects[index].next_milestone = val;
+        }
+        if (eta !== undefined) projects[index].eta = eta.trim();
         
         await dbWrite('projects', projects);
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -1724,9 +1762,13 @@ function parseBudgetToNumber(budgetString) {
         }
 
         // Update Project
-        projects[projIdx].currentStage = currentStage || 'Discovery';
+        const stageVal = currentStage || 'Discovery';
+        projects[projIdx].currentStage = stageVal;
+        projects[projIdx].current_stage = stageVal;
         projects[projIdx].progress = progress !== undefined ? Number(progress) : 15;
-        projects[projIdx].nextMilestone = nextMilestone || '';
+        const milestoneVal = nextMilestone || '';
+        projects[projIdx].nextMilestone = milestoneVal;
+        projects[projIdx].next_milestone = milestoneVal;
         projects[projIdx].eta = eta || '';
         projects[projIdx].status = status || 'In Progress';
         if (previewUrl !== undefined) {
@@ -2897,6 +2939,14 @@ function parseBudgetToNumber(budgetString) {
     return;
   }
 
+// Helper to create stateless verifiable session tokens
+function createSessionToken(clientEmail) {
+  const cleanEmail = (clientEmail || '').trim().toLowerCase();
+  const payload = Buffer.from(JSON.stringify({ email: cleanEmail, time: Date.now() })).toString('base64url');
+  const hmac = crypto.createHmac('sha256', process.env.SUPABASE_KEY || 'nextgen-secret-session-salt-2026').update(payload).digest('hex').substring(0, 16);
+  return `sess_${payload}_${hmac}`;
+}
+
   // Helper to parse cookies and verify active session user
   function getSessionUser(req) {
     let sessionId = null;
@@ -2926,13 +2976,32 @@ function parseBudgetToNumber(budgetString) {
     }
     
     if (!sessionId) return null;
-    const session = SESSIONS.get(sessionId);
-    if (!session) return null;
-    if (Date.now() - session.loginTime > 30 * 24 * 60 * 60 * 1000) {
-      SESSIONS.delete(sessionId);
-      return null;
+    let session = SESSIONS.get(sessionId);
+    if (session) {
+      if (Date.now() - session.loginTime > 30 * 24 * 60 * 60 * 1000) {
+        SESSIONS.delete(sessionId);
+        return null;
+      }
+      return session;
     }
-    return session;
+
+    // Stateless token recovery (persists across Render cold starts & reboots)
+    if (sessionId.startsWith('sess_')) {
+      const parts = sessionId.split('_');
+      if (parts.length === 3) {
+        try {
+          const payloadStr = Buffer.from(parts[1], 'base64url').toString('utf8');
+          const data = JSON.parse(payloadStr);
+          const expectedHmac = crypto.createHmac('sha256', process.env.SUPABASE_KEY || 'nextgen-secret-session-salt-2026').update(parts[1]).digest('hex').substring(0, 16);
+          if (expectedHmac === parts[2] && data.email) {
+            session = { email: data.email.toLowerCase(), loginTime: data.time || Date.now() };
+            SESSIONS.set(sessionId, session);
+            return session;
+          }
+        } catch (_) {}
+      }
+    }
+    return null;
   }
 
   // --- remote database check debug route ---
@@ -2988,7 +3057,28 @@ function parseBudgetToNumber(budgetString) {
 
         const clientEmail = email.trim().toLowerCase();
         const users = await dbList('users');
-        const clientRecord = users.find(u => u.email.toLowerCase() === clientEmail);
+        let clientRecord = users.find(u => u.email && u.email.toLowerCase() === clientEmail);
+
+        if (!clientRecord) {
+          // Auto-enroll if client already has projects or inquiries submitted
+          const [projects, inquiries] = await Promise.all([dbList('projects'), dbList('inquiries')]);
+          const inProjects = projects.find(p => p.email && p.email.toLowerCase() === clientEmail);
+          const inInquiries = inquiries.find(i => i.email && i.email.toLowerCase() === clientEmail);
+          if (inProjects || inInquiries) {
+            clientRecord = {
+              id: 'usr_' + Date.now(),
+              email: clientEmail,
+              name: (inProjects && inProjects.name) || (inInquiries && inInquiries.name) || clientEmail.split('@')[0],
+              role: 'client',
+              status: 'Active',
+              portalEnabled: true,
+              approved: true,
+              dateApproved: new Date().toISOString()
+            };
+            users.push(clientRecord);
+            await dbWrite('users', users);
+          }
+        }
 
         if (clientRecord) {
           if (clientRecord.status === 'Suspended') {
@@ -3007,7 +3097,7 @@ function parseBudgetToNumber(budgetString) {
             return;
           }
 
-          const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+          const sessionId = createSessionToken(clientEmail);
           SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
           res.writeHead(200, { 
             'Set-Cookie': getSessionCookie(sessionId, req), 
@@ -3053,7 +3143,7 @@ function parseBudgetToNumber(budgetString) {
       return;
     }
 
-    const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    const sessionId = createSessionToken(queryEmail);
     SESSIONS.set(sessionId, { email: queryEmail, loginTime: Date.now() });
     
     res.writeHead(302, { 
@@ -3185,7 +3275,7 @@ function parseBudgetToNumber(budgetString) {
                     const targetPath = rawState ? decodeURIComponent(rawState) : '/?view=client';
                     const separator = targetPath.includes('?') ? '&' : '?';
 
-                    const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                    const sessionId = createSessionToken(clientEmail);
                     SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                     res.writeHead(302, { 
                       'Set-Cookie': getSessionCookie(sessionId, req), 
@@ -3268,7 +3358,7 @@ function parseBudgetToNumber(budgetString) {
               const isApproved = users.some(u => u.email.toLowerCase() === clientEmail);
               
               if (isApproved) {
-                const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+                const sessionId = createSessionToken(clientEmail);
                 SESSIONS.set(sessionId, { email: clientEmail, loginTime: Date.now() });
                 res.writeHead(302, { 
                   'Set-Cookie': getSessionCookie(sessionId, req), 

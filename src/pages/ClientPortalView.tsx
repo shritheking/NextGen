@@ -32,7 +32,8 @@ import {
   Code2,
   Bot,
   Database,
-  ChevronRight
+  ChevronRight,
+  Compass
 } from 'lucide-react';
 import { NextGenLogo } from '../components/NextGenLogo';
 
@@ -47,6 +48,18 @@ interface InvoiceItem {
   total: number;
   advancePaid: number;
   status: 'Pending' | 'Paid';
+  date: string;
+}
+
+interface InquiryItem {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  budget: string;
+  projectType: string;
+  message: string;
+  status: string;
   date: string;
 }
 
@@ -160,7 +173,8 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     setIsStagePaused(true);
   };
 
-  const loadClientData = async (token?: string, userEmail?: string) => {
+  const loadClientData = async (token?: string, userEmail?: string, manual = false) => {
+    if (manual) setIsSyncing(true);
     setIsLoadingData(true);
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
@@ -172,9 +186,10 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     }
 
     try {
-      const [receiptsRes, projectsRes] = await Promise.all([
+      const [receiptsRes, projectsRes, inquiriesRes] = await Promise.all([
         fetch(`${baseUrl}/api/client/receipts?_t=${Date.now()}`, { headers, credentials: 'include' }),
-        fetch(`${baseUrl}/api/client/projects?_t=${Date.now()}`, { headers, credentials: 'include' })
+        fetch(`${baseUrl}/api/client/projects?_t=${Date.now()}`, { headers, credentials: 'include' }),
+        fetch(`${baseUrl}/api/client/inquiries?_t=${Date.now()}`, { headers, credentials: 'include' })
       ]);
 
       if (receiptsRes.ok) {
@@ -216,16 +231,25 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
         const rawProjects = await projectsRes.json();
         if (Array.isArray(rawProjects)) {
           const mapped: ProjectItem[] = rawProjects.map((p: any) => {
-            let stageIdx = 1;
-            const stageStr = (p.current_stage || p.currentStage || p.status || '').toLowerCase();
-            if (stageStr.includes('launch') || stageStr.includes('complete') || stageStr.includes('shipped')) stageIdx = 4;
-            else if (stageStr.includes('develop') || stageStr.includes('build')) stageIdx = 3;
-            else if (stageStr.includes('design') || stageStr.includes('ui')) stageIdx = 2;
-            else if (stageStr.includes('scop') || stageStr.includes('progress')) stageIdx = 1;
-            else if (stageStr.includes('discover') || stageStr.includes('start') || stageStr.includes('new')) stageIdx = 0;
+            let stageIdx = 0;
+            const stageName = (p.current_stage || p.currentStage || '').toLowerCase();
+            const statusStr = (p.status || '').toLowerCase();
 
-            const prog = Number(p.progress) || (stageIdx === 4 ? 100 : (stageIdx + 1) * 20);
-            const isDone = stageIdx === 4 || prog >= 100 || (p.status || '').toLowerCase().includes('complete');
+            if (stageName.includes('launch') || stageName.includes('complete') || stageName.includes('shipped') || statusStr.includes('complete')) {
+              stageIdx = 4;
+            } else if (stageName.includes('develop') || stageName.includes('build')) {
+              stageIdx = 3;
+            } else if (stageName.includes('design') || stageName.includes('ui')) {
+              stageIdx = 2;
+            } else if (stageName.includes('scop') || statusStr.includes('progress')) {
+              stageIdx = 1;
+            } else if (stageName.includes('discover') || statusStr.includes('start') || statusStr.includes('new')) {
+              stageIdx = 0;
+            }
+
+            const rawProg = p.progress !== undefined && p.progress !== null ? Number(p.progress) : NaN;
+            const prog = !isNaN(rawProg) ? rawProg : (stageIdx === 4 ? 100 : (stageIdx + 1) * 20);
+            const isDone = stageIdx === 4 || prog >= 100 || statusStr.includes('complete');
 
             let pTitle = p.name || '';
             if (p.stack && p.stack !== p.name) {
@@ -239,18 +263,46 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
               budget: Number(String(p.budget || '').replace(/[^0-9]/g, '')) || 50000,
               status: isDone ? 'Completed' : 'In Progress',
               currentStage: Math.min(4, Math.max(0, stageIdx)),
-              progress: Math.min(100, Math.max(10, prog)),
-              eta: p.eta ? (p.eta.toLowerCase().includes('day') || p.eta.toLowerCase().includes('target') ? p.eta : `${p.eta} Remaining`) : (isDone ? 'Shipped & Live on Production' : 'Active Sprint • In Engineering'),
+              progress: Math.min(100, Math.max(0, prog)),
+              eta: p.eta ? (p.eta.toLowerCase().includes('day') || p.eta.toLowerCase().includes('target') || p.eta.toLowerCase().includes('tbd') ? p.eta : `${p.eta} Remaining`) : (isDone ? 'Shipped & Live on Production' : 'Active Sprint • In Engineering'),
               nextMilestone: p.next_milestone || p.nextMilestone || (isDone ? 'DNS Active & Maintenance SLA Onboarding' : 'Staging Sprint Review & Verification')
             };
           });
           setProjects(mapped);
         }
       }
+
+      if (inquiriesRes.ok) {
+        const rawInquiries = await inquiriesRes.json();
+        if (Array.isArray(rawInquiries)) {
+          const mapped: InquiryItem[] = rawInquiries.map((iq: any) => ({
+            id: iq.id || `iq_${Date.now()}`,
+            name: iq.name || '',
+            email: iq.email || '',
+            phone: iq.phone || '',
+            budget: iq.budget || 'Under ₹50k',
+            projectType: iq.projectType || iq.service || 'Custom Solution',
+            message: iq.message || '',
+            status: iq.status || 'New',
+            date: iq.date ? new Date(iq.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Recently'
+          }));
+          setInquiries(mapped);
+        }
+      }
+
+      const syncTimeString = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      setLastSyncTime(syncTimeString);
+      if (manual) {
+        showToast('System Synchronized', 'Real-time project scoping, milestone progress, and enquiries updated.', 'success');
+      }
     } catch (err) {
       console.warn('Error loading client portal records:', err);
+      if (manual) {
+        showToast('Sync Warning', 'Could not refresh some records. Re-authenticating...', 'error');
+      }
     } finally {
       setIsLoadingData(false);
+      setIsSyncing(false);
     }
   };
 
@@ -343,6 +395,11 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
   // Projects Roadmap State - loaded dynamically from live Supabase database
   const [projects, setProjects] = useState<ProjectItem[]>([]);
 
+  // Inquiries / Project Scoping Briefs State - loaded dynamically from live Supabase database
+  const [inquiries, setInquiries] = useState<InquiryItem[]>([]);
+  const [lastSyncTime, setLastSyncTime] = useState<string>('Just now');
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+
   // UI accordion / modal states
   const [completedOpen, setCompletedOpen] = useState(true);
   const [termsOpen, setTermsOpen] = useState(false);
@@ -352,6 +409,28 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [toastMessage, setToastMessage] = useState<{ title: string; desc: string; type: 'success' | 'info' | 'error' } | null>(null);
   const [stageApproved, setStageApproved] = useState(false);
+
+  // Live continuous background synchronization with backend (every 12 seconds)
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const interval = setInterval(() => {
+      loadClientData();
+    }, 12000);
+
+    const handleFocus = () => {
+      if (document.visibilityState === 'visible') {
+        loadClientData();
+      }
+    };
+    window.addEventListener('visibilitychange', handleFocus);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('visibilitychange', handleFocus);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [isAuthenticated, clientEmail]);
 
   const showToast = (title: string, desc: string, type: 'success' | 'info' | 'error' = 'info') => {
     setToastMessage({ title, desc, type });
@@ -951,20 +1030,48 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                 </p>
               </div>
 
-              {/* Mode Toggle Pills (Dashboard / Login Gate) */}
-              <div className="portal-mode-toggle">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <button
-                  onClick={() => setIsAuthenticated(true)}
-                  className={`portal-mode-btn ${isAuthenticated ? 'portal-mode-active' : ''}`}
+                  onClick={() => loadClientData(undefined, undefined, true)}
+                  disabled={isLoadingData || isSyncing}
+                  className="portal-sync-btn"
+                  title="Synchronize real-time scoping, milestones, and enquiries with admin"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid #E2E8F0',
+                    background: '#FFFFFF',
+                    color: '#334155',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: (isLoadingData || isSyncing) ? 'wait' : 'pointer',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                    transition: 'all 0.2s ease'
+                  }}
                 >
-                  Dashboard
+                  <RefreshCw size={14} className={(isLoadingData || isSyncing) ? 'portal-spin' : ''} style={{ color: '#2563EB' }} />
+                  <span>{isLoadingData || isSyncing ? 'Syncing...' : 'Sync Live'}</span>
+                  <span style={{ fontSize: '11px', color: '#94A3B8', marginLeft: '4px' }}>{lastSyncTime}</span>
                 </button>
-                <button
-                  onClick={() => setIsAuthenticated(false)}
-                  className={`portal-mode-btn ${!isAuthenticated ? 'portal-mode-active' : ''}`}
-                >
-                  Login Gate
-                </button>
+
+                {/* Mode Toggle Pills (Dashboard / Login Gate) */}
+                <div className="portal-mode-toggle">
+                  <button
+                    onClick={() => setIsAuthenticated(true)}
+                    className={`portal-mode-btn ${isAuthenticated ? 'portal-mode-active' : ''}`}
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    onClick={() => setIsAuthenticated(false)}
+                    className={`portal-mode-btn ${!isAuthenticated ? 'portal-mode-active' : ''}`}
+                  >
+                    Login Gate
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1199,9 +1306,13 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                     {projects.length === 0 ? (
                       <div className="portal-empty-card" style={{ padding: '36px 20px', textAlign: 'center' }}>
                         <Briefcase size={32} color="#3B82F6" style={{ margin: '0 auto 10px' }} />
-                        <div style={{ fontWeight: 700, fontSize: '14.5px', color: '#111827' }}>No Active Projects Assigned Yet</div>
-                        <div style={{ fontSize: '12.5px', color: '#64748B', marginTop: '4px', maxWidth: '380px', margin: '6px auto 0' }}>
-                          Your project roadmap will appear here as soon as our engineering team links your project brief to production.
+                        <div style={{ fontWeight: 700, fontSize: '14.5px', color: '#111827' }}>
+                          {inquiries.length > 0 ? 'Project Scoping & Architecture in Progress' : 'No Active Projects Assigned Yet'}
+                        </div>
+                        <div style={{ fontSize: '12.5px', color: '#64748B', marginTop: '4px', maxWidth: '420px', margin: '6px auto 0', lineHeight: 1.5 }}>
+                          {inquiries.length > 0
+                            ? `We have received your brief for "${inquiries[0].projectType}". Our engineering team is currently scoping the technical continuum and will activate your live sprint milestones here.`
+                            : 'Your project roadmap will appear here as soon as our engineering team links your project brief to production.'}
                         </div>
                       </div>
                     ) : (
@@ -1267,6 +1378,125 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                           </div>
                         </div>
                       ))
+                    )}
+                  </div>
+                </div>
+
+                {/* Section 9: Submitted Scoping Enquiries & Technical Briefs */}
+                <div className="portal-card-clean">
+                  <div className="portal-card-header-clean">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div className="portal-header-icon-box" style={{ background: '#EFF6FF', color: '#2563EB' }}>
+                          <Compass size={17} />
+                        </div>
+                        <div>
+                          <h3 className="portal-card-title-clean">Submitted Project Enquiries & Scoping Briefs</h3>
+                          <p className="portal-card-subtitle-clean">Real-time scoping intake & architectural review status</p>
+                        </div>
+                      </div>
+                      <span style={{ fontSize: '11px', fontFamily: '"DM Mono", monospace', padding: '3px 8px', borderRadius: '4px', background: '#F1F5F9', color: '#475569', fontWeight: 600 }}>
+                        {inquiries.length} {inquiries.length === 1 ? 'Brief' : 'Briefs'} Active
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="portal-card-body-clean" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {inquiries.length === 0 ? (
+                      <div className="portal-empty-card" style={{ padding: '28px 16px', textAlign: 'center' }}>
+                        <FileText size={28} color="#94A3B8" style={{ margin: '0 auto 8px' }} />
+                        <div style={{ fontWeight: 600, fontSize: '13.5px', color: '#1E293B' }}>No Pending Inquiries</div>
+                        <div style={{ fontSize: '12px', color: '#64748B', marginTop: '4px' }}>
+                          All your submitted briefs have either graduated into active project roadmaps or you haven't submitted a new brief yet.
+                        </div>
+                      </div>
+                    ) : (
+                      inquiries.map((iq) => {
+                        const isMoved = iq.status.toLowerCase() === 'moved' || iq.status.toLowerCase().includes('project');
+                        const isContacted = iq.status.toLowerCase() === 'contacted';
+
+                        return (
+                          <div
+                            key={iq.id}
+                            style={{
+                              border: '1px solid #E2E8F0',
+                              borderRadius: '12px',
+                              padding: '16px 18px',
+                              background: '#F8FAFC',
+                              transition: 'border-color 0.2s ease'
+                            }}
+                          >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
+                              <div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                  <span style={{
+                                    fontSize: '11px',
+                                    fontWeight: 700,
+                                    color: '#2563EB',
+                                    background: '#EFF6FF',
+                                    border: '1px solid #BFDBFE',
+                                    padding: '2px 8px',
+                                    borderRadius: '6px',
+                                    textTransform: 'uppercase',
+                                    fontFamily: '"DM Mono", monospace'
+                                  }}>
+                                    {iq.projectType || 'Web Design'}
+                                  </span>
+                                  <span style={{
+                                    fontSize: '11px',
+                                    fontWeight: 600,
+                                    color: '#10B981',
+                                    background: '#ECFDF5',
+                                    border: '1px solid #A7F3D0',
+                                    padding: '2px 8px',
+                                    borderRadius: '6px'
+                                  }}>
+                                    Budget: {iq.budget || 'Under ₹50k'}
+                                  </span>
+                                  <span style={{ fontSize: '11.5px', color: '#94A3B8' }}>• Logged {iq.date}</span>
+                                </div>
+                              </div>
+                              <span style={{
+                                fontSize: '11.5px',
+                                fontWeight: 700,
+                                padding: '3px 10px',
+                                borderRadius: '20px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                background: isMoved ? '#ECFDF5' : isContacted ? '#EFF6FF' : '#FEF3C7',
+                                color: isMoved ? '#059669' : isContacted ? '#2563EB' : '#D97706',
+                                border: `1px solid ${isMoved ? '#A7F3D0' : isContacted ? '#BFDBFE' : '#FDE68A'}`
+                              }}>
+                                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: isMoved ? '#10B981' : isContacted ? '#2563EB' : '#F59E0B' }}></span>
+                                {isMoved ? 'Enrolled into Active Roadmap' : isContacted ? 'Scoping Discovery Underway' : 'New Scoping Brief in Review'}
+                              </span>
+                            </div>
+
+                            <div style={{ fontSize: '13px', color: '#334155', lineHeight: '1.5', margin: '8px 0 12px', background: '#FFFFFF', padding: '10px 12px', borderRadius: '8px', border: '1px solid #F1F5F9' }}>
+                              <strong style={{ color: '#64748B', display: 'block', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '3px' }}>Inquiry Brief & Technical Requirements:</strong>
+                              {iq.message || 'Scoping inquiry logged during initial onboarding.'}
+                            </div>
+
+                            {/* Scoping Stages Progress Bar */}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '6px', flexWrap: 'wrap' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: '#059669', fontWeight: 600 }}>
+                                <CheckCircle2 size={13} color="#10B981" /> 1. Intake Logged
+                              </div>
+                              <span style={{ color: '#CBD5E1' }}>→</span>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: isMoved || isContacted ? '#059669' : '#D97706', fontWeight: 600 }}>
+                                {isMoved || isContacted ? <CheckCircle2 size={13} color="#10B981" /> : <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B' }}></div>}
+                                2. Engineering Architecture Review
+                              </div>
+                              <span style={{ color: '#CBD5E1' }}>→</span>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: isMoved ? '#059669' : '#94A3B8', fontWeight: isMoved ? 600 : 400 }}>
+                                {isMoved ? <CheckCircle2 size={13} color="#10B981" /> : <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#E2E8F0' }}></div>}
+                                3. Live Project Sprints Active
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })
                     )}
                   </div>
                 </div>
