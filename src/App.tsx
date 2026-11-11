@@ -422,11 +422,10 @@ export const App: React.FC = () => {
 
   const navigateTo = (view: 'home' | 'portal' | 'privacy' | 'terms' | 'refunds') => {
     setCurrentView(view);
-    if (view === 'home' || view === 'portal') {
-      // Keep root URL clean so page reloads always load the website home cleanly
-      if (window.location.hash || window.location.search) {
-        window.history.replaceState(null, '', window.location.pathname);
-      }
+    if (view === 'home') {
+      window.history.replaceState(null, '', window.location.pathname);
+    } else if (view === 'portal') {
+      window.history.replaceState(null, '', '/?view=client');
     } else {
       window.history.replaceState(null, '', `#${view}`);
     }
@@ -436,17 +435,19 @@ export const App: React.FC = () => {
     const handleLocation = () => {
       const hash = window.location.hash;
       const path = window.location.pathname;
-      if (hash === '#privacy') {
+      const search = window.location.search;
+      const params = new URLSearchParams(search);
+      const isPortal = params.get('view') === 'client' || params.get('portal') === 'true' || hash === '#portal' || path === '/client';
+
+      if (isPortal) {
+        setCurrentView('portal');
+      } else if (hash === '#privacy') {
         setCurrentView('privacy');
       } else if (hash === '#terms') {
         setCurrentView('terms');
       } else if (hash === '#refunds') {
         setCurrentView('refunds');
       } else {
-        // Any other reload, or if hash was #portal or path was /client, clean URL and load Home!
-        if (hash === '#portal' || path === '/client') {
-          window.history.replaceState(null, '', window.location.pathname);
-        }
         setCurrentView('home');
       }
     };

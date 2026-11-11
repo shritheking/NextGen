@@ -204,6 +204,10 @@ async function dbList(collection) {
     const table = getTableName(collection);
     let { data, error } = await supabase.from(table).select('*');
     if (error) {
+      if (error.code === 'PGRST205') {
+        return readLocalFallback(collection);
+      }
+
       const errStr = (error.message || '') + ' ' + (error.details || '');
       if (errStr.includes('ENOTFOUND') || errStr.includes('fetch failed')) {
         supabaseOfflineUntil = Date.now() + 60000;

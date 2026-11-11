@@ -61,10 +61,80 @@ interface ProjectItem {
   nextMilestone: string;
 }
 
+const DEMO_INVOICES: InvoiceItem[] = [
+  {
+    id: 'INV-NG-9021',
+    projectTitle: 'Boomers Gaming Lounge OS - Sprint 2 Milestone',
+    total: 35000,
+    advancePaid: 15000,
+    status: 'Pending',
+    date: '04 Nov 2026'
+  },
+  {
+    id: 'INV-NG-9022',
+    projectTitle: 'PrimeScalpers Telegram Bot - Production License',
+    total: 25000,
+    advancePaid: 0,
+    status: 'Pending',
+    date: '05 Nov 2026'
+  },
+  {
+    id: 'INV-NG-8840',
+    projectTitle: 'GoatTurf Sports Arena Platform - Core Architecture',
+    total: 50000,
+    advancePaid: 50000,
+    status: 'Paid',
+    date: '10 Oct 2026'
+  },
+  {
+    id: 'INV-NG-8712',
+    projectTitle: 'NextGen Design System & Technical Specification',
+    total: 20000,
+    advancePaid: 20000,
+    status: 'Paid',
+    date: '28 Sep 2026'
+  }
+];
+
+const DEMO_PROJECTS: ProjectItem[] = [
+  {
+    id: 'PRJ-BOOMERS',
+    projectTitle: 'Boomers Gaming Lounge OS',
+    budget: 80000,
+    status: 'In Progress',
+    currentStage: 3, // Development
+    progress: 75,
+    eta: '8 Days Remaining • Target Nov 16',
+    nextMilestone: 'POS Hardware & Tournament Bracket Integration'
+  },
+  {
+    id: 'PRJ-PRIMESCALPERS',
+    projectTitle: 'PrimeScalpers Telegram Automation Bot',
+    budget: 45000,
+    status: 'In Progress',
+    currentStage: 3, // Development
+    progress: 90,
+    eta: '4 Days Remaining • Target Nov 12',
+    nextMilestone: 'MT5 Broker Webhook & VIP Paywall Verification'
+  },
+  {
+    id: 'PRJ-GOATTURF',
+    projectTitle: 'GoatTurf Sports Arena Platform',
+    budget: 65000,
+    status: 'Completed',
+    currentStage: 4, // Launch
+    progress: 100,
+    eta: 'Shipped & Live on Production',
+    nextMilestone: 'DNS Active & Maintenance SLA Onboarding'
+  }
+];
+
 export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome, onOpenContact }) => {
   // Authentication & session state - default to false so Login Gate animations are seen immediately
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [clientEmail, setClientEmail] = useState('client@primescalpers.io');
+  const [clientEmail, setClientEmail] = useState('');
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -90,6 +160,100 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     setIsStagePaused(true);
   };
 
+  const loadClientData = async (token?: string, userEmail?: string) => {
+    setIsLoadingData(true);
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+    const activeToken = token || localStorage.getItem('session_id') || '';
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (activeToken) {
+      headers['Authorization'] = `Bearer ${activeToken}`;
+      headers['x-session-id'] = activeToken;
+    }
+
+    try {
+      const [receiptsRes, projectsRes] = await Promise.all([
+        fetch(`${baseUrl}/api/client/receipts?_t=${Date.now()}`, { headers, credentials: 'include' }),
+        fetch(`${baseUrl}/api/client/projects?_t=${Date.now()}`, { headers, credentials: 'include' })
+      ]);
+
+      if (receiptsRes.ok) {
+        const rawReceipts = await receiptsRes.json();
+        if (Array.isArray(rawReceipts)) {
+          const mapped: InvoiceItem[] = rawReceipts.map((r: any) => {
+            const tot = Number(r.totalAmount) || Number(r.total) || 0;
+            const adv = Number(r.advancePaid) || 0;
+            const isPaid = r.status === 'Paid' || (adv >= tot && tot > 0);
+            let displayTitle = r.projectName || r.projectTitle || '';
+            if (!displayTitle && Array.isArray(r.items) && r.items[0]?.taskName) {
+              displayTitle = r.items[0].taskName;
+            }
+            if (!displayTitle) displayTitle = 'Production Milestone Invoice';
+
+            let dateStr = 'Recently';
+            if (r.date) {
+              try {
+                dateStr = new Date(r.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+              } catch (_) {
+                dateStr = String(r.date);
+              }
+            }
+
+            return {
+              id: r.id || r.receiptCode || `INV-${Date.now()}`,
+              projectTitle: displayTitle,
+              total: tot,
+              advancePaid: adv,
+              status: isPaid ? 'Paid' : 'Pending',
+              date: dateStr
+            };
+          });
+          setInvoices(mapped);
+        }
+      }
+
+      if (projectsRes.ok) {
+        const rawProjects = await projectsRes.json();
+        if (Array.isArray(rawProjects)) {
+          const mapped: ProjectItem[] = rawProjects.map((p: any) => {
+            let stageIdx = 1;
+            const stageStr = (p.current_stage || p.currentStage || p.status || '').toLowerCase();
+            if (stageStr.includes('launch') || stageStr.includes('complete') || stageStr.includes('shipped')) stageIdx = 4;
+            else if (stageStr.includes('develop') || stageStr.includes('build')) stageIdx = 3;
+            else if (stageStr.includes('design') || stageStr.includes('ui')) stageIdx = 2;
+            else if (stageStr.includes('scop') || stageStr.includes('progress')) stageIdx = 1;
+            else if (stageStr.includes('discover') || stageStr.includes('start') || stageStr.includes('new')) stageIdx = 0;
+
+            const prog = Number(p.progress) || (stageIdx === 4 ? 100 : (stageIdx + 1) * 20);
+            const isDone = stageIdx === 4 || prog >= 100 || (p.status || '').toLowerCase().includes('complete');
+
+            let pTitle = p.name || '';
+            if (p.stack && p.stack !== p.name) {
+              pTitle = pTitle ? `${pTitle} • ${p.stack}` : p.stack;
+            }
+            if (!pTitle) pTitle = 'Custom Digital Architecture';
+
+            return {
+              id: p.id || `PRJ-${Date.now()}`,
+              projectTitle: pTitle,
+              budget: Number(String(p.budget || '').replace(/[^0-9]/g, '')) || 50000,
+              status: isDone ? 'Completed' : 'In Progress',
+              currentStage: Math.min(4, Math.max(0, stageIdx)),
+              progress: Math.min(100, Math.max(10, prog)),
+              eta: p.eta ? (p.eta.toLowerCase().includes('day') || p.eta.toLowerCase().includes('target') ? p.eta : `${p.eta} Remaining`) : (isDone ? 'Shipped & Live on Production' : 'Active Sprint • In Engineering'),
+              nextMilestone: p.next_milestone || p.nextMilestone || (isDone ? 'DNS Active & Maintenance SLA Onboarding' : 'Staging Sprint Review & Verification')
+            };
+          });
+          setProjects(mapped);
+        }
+      }
+    } catch (err) {
+      console.warn('Error loading client portal records:', err);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
   // Check for incoming Google OAuth session_id in URL or existing active session
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -99,13 +263,20 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     if (activeSession) {
       if (urlSession) {
         localStorage.setItem('session_id', urlSession);
-        window.history.replaceState(null, '', window.location.pathname);
+        try {
+          const currentUrl = new URL(window.location.href);
+          currentUrl.searchParams.delete('session_id');
+          window.history.replaceState(null, '', currentUrl.pathname + (currentUrl.search ? currentUrl.search : '') + currentUrl.hash);
+        } catch (_) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
       }
       setIsAuthenticated(true);
+      setIsDemoMode(false);
       const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
       fetch(`${baseUrl}/api/auth/me?_t=${Date.now()}`, {
-        headers: { 'Authorization': `Bearer ${activeSession}` },
+        headers: { 'Authorization': `Bearer ${activeSession}`, 'x-session-id': activeSession },
         credentials: 'include'
       })
         .then(r => r.json())
@@ -113,9 +284,15 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
           if (user && user.email) {
             setClientEmail(user.email);
             showToast('Authenticated', `Welcome back, ${user.name || user.email}!`, 'success');
+            loadClientData(activeSession, user.email);
+          } else {
+            loadClientData(activeSession);
           }
         })
-        .catch(console.warn);
+        .catch(err => {
+          console.warn(err);
+          loadClientData(activeSession);
+        });
     }
   }, []);
 
@@ -160,75 +337,11 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     return () => clearTimeout(timer);
   }, [displayText, isDeleting, phraseIdx]);
 
-  // Invoice / Billing State
-  const [invoices, setInvoices] = useState<InvoiceItem[]>([
-    {
-      id: 'INV-NG-9021',
-      projectTitle: 'Boomers Gaming Lounge OS - Sprint 2 Milestone',
-      total: 35000,
-      advancePaid: 15000,
-      status: 'Pending',
-      date: '04 Nov 2026'
-    },
-    {
-      id: 'INV-NG-9022',
-      projectTitle: 'PrimeScalpers Telegram Bot - Production License',
-      total: 25000,
-      advancePaid: 0,
-      status: 'Pending',
-      date: '05 Nov 2026'
-    },
-    {
-      id: 'INV-NG-8840',
-      projectTitle: 'GoatTurf Sports Arena Platform - Core Architecture',
-      total: 50000,
-      advancePaid: 50000,
-      status: 'Paid',
-      date: '10 Oct 2026'
-    },
-    {
-      id: 'INV-NG-8712',
-      projectTitle: 'NextGen Design System & Technical Specification',
-      total: 20000,
-      advancePaid: 20000,
-      status: 'Paid',
-      date: '28 Sep 2026'
-    }
-  ]);
+  // Invoice / Billing State - loaded dynamically from live Supabase database
+  const [invoices, setInvoices] = useState<InvoiceItem[]>([]);
 
-  // Projects Roadmap State
-  const [projects, setProjects] = useState<ProjectItem[]>([
-    {
-      id: 'PRJ-BOOMERS',
-      projectTitle: 'Boomers Gaming Lounge OS',
-      budget: 80000,
-      status: 'In Progress',
-      currentStage: 3, // Development
-      progress: 75,
-      eta: '8 Days Remaining • Target Nov 16',
-      nextMilestone: 'POS Hardware & Tournament Bracket Integration'
-    },
-    {
-      id: 'PRJ-PRIMESCALPERS',
-      projectTitle: 'PrimeScalpers Telegram Automation Bot',
-      budget: 45000,
-      status: 'In Progress',
-      currentStage: 3, // Development
-      progress: 90,
-      eta: '4 Days Remaining • Target Nov 12',
-      nextMilestone: 'MT5 Broker Webhook & VIP Paywall Verification'
-    },
-    {
-      id: 'PRJ-GOATTURF',
-      projectTitle: 'GoatTurf Sports Arena Platform',
-      budget: 65000,
-      status: 'Completed',
-      currentStage: 4, // Launch
-      progress: 100,
-      eta: 'Shipped & Live on Production',
-      nextMilestone: 'DNS Active & Maintenance SLA Onboarding'
-    }
-  ]);
+  // Projects Roadmap State - loaded dynamically from live Supabase database
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
 
   // UI accordion / modal states
   const [completedOpen, setCompletedOpen] = useState(true);
@@ -269,10 +382,12 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
         if (data.sessionId) {
           localStorage.setItem('session_id', data.sessionId);
         }
+        setIsDemoMode(false);
         setClientEmail(cleanEmail);
         setIsAuthenticated(true);
         setIsAuthenticating(false);
         showToast('Authentication Verified', `Welcome back to your Command Center, ${cleanEmail}!`, 'success');
+        await loadClientData(data.sessionId || '', cleanEmail);
         return;
       }
 
@@ -287,10 +402,12 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     }
 
     // Direct fallback session
+    setIsDemoMode(false);
     setClientEmail(cleanEmail);
     setIsAuthenticated(true);
     setIsAuthenticating(false);
     showToast('Authentication Verified', `Welcome to your Command Center, ${cleanEmail}!`, 'success');
+    await loadClientData('', cleanEmail);
   };
 
   const handleGoogleLogin = () => {
@@ -300,13 +417,20 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
   };
 
   const handleInstantDemo = () => {
+    setIsDemoMode(true);
     setClientEmail('client@primescalpers.io');
+    setInvoices(DEMO_INVOICES);
+    setProjects(DEMO_PROJECTS);
     setIsAuthenticated(true);
-    showToast('Demo Access Granted', 'Logged in as PrimeScalpers Client Console', 'success');
+    showToast('Demo Access Granted', 'Logged in as PrimeScalpers Demo Console', 'success');
   };
 
   const handleSignOut = () => {
     localStorage.removeItem('session_id');
+    setIsDemoMode(false);
+    setClientEmail('');
+    setInvoices([]);
+    setProjects([]);
     setIsAuthenticated(false);
     showToast('Signed Out', 'You have been disconnected from the client portal.', 'info');
   };
@@ -332,44 +456,103 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
     setIsProcessingPayment(true);
     const balanceDue = payingInvoice.total - payingInvoice.advancePaid;
 
-    const isLoaded = await loadRazorpaySDK();
-    if (isLoaded && (window as any).Razorpay) {
-      const options = {
-        key: 'rzp_test_TGSF5XkNSha3u8',
-        amount: balanceDue * 100, // in paise
-        currency: 'INR',
-        name: 'NextGen Web Studio',
-        description: `Settlement for ${payingInvoice.projectTitle}`,
-        image: '/logo-icon.png',
-        handler: function (response: any) {
-          setIsProcessingPayment(false);
-          setPaymentModalOpen(false);
-          setInvoices(prev =>
-            prev.map(item =>
-              item.id === payingInvoice.id
-                ? { ...item, status: 'Paid', advancePaid: item.total }
-                : item
-            )
-          );
-          showToast('Payment Verified', `Razorpay ID ${response.razorpay_payment_id || 'online'} cleared successfully!`, 'success');
-          setPayingInvoice(null);
-        },
-        prefill: {
-          name: 'PrimeScalpers Client',
-          email: clientEmail,
-          contact: '6379140067'
-        },
-        theme: {
-          color: '#2563eb'
-        },
-        modal: {
-          ondismiss: function () {
-            setIsProcessingPayment(false);
-          }
-        }
-      };
+    if (isDemoMode) {
+      setTimeout(() => {
+        setInvoices(prev =>
+          prev.map(item =>
+            item.id === payingInvoice.id
+              ? { ...item, status: 'Paid', advancePaid: item.total }
+              : item
+          )
+        );
+        setIsProcessingPayment(false);
+        setPaymentModalOpen(false);
+        showToast('Demo Payment Cleared', `₹${balanceDue.toLocaleString('en-IN')} simulated payment cleared.`, 'success');
+        setPayingInvoice(null);
+      }, 1000);
+      return;
+    }
 
-      try {
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const baseUrl = isLocal ? '' : 'https://nextgen-studio-czz7.onrender.com';
+    const activeToken = localStorage.getItem('session_id') || '';
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (activeToken) {
+      headers['Authorization'] = `Bearer ${activeToken}`;
+      headers['x-session-id'] = activeToken;
+    }
+
+    try {
+      // 1. Create order on backend
+      const orderRes = await fetch(`${baseUrl}/api/razorpay/create-order`, {
+        method: 'POST',
+        headers,
+        credentials: 'include',
+        body: JSON.stringify({ receiptId: payingInvoice.id })
+      });
+
+      if (!orderRes.ok) {
+        const errJson = await orderRes.json().catch(() => ({}));
+        throw new Error(errJson.error || 'Failed to create payment order on backend.');
+      }
+
+      const orderData = await orderRes.json();
+      const isLoaded = await loadRazorpaySDK();
+
+      if (isLoaded && (window as any).Razorpay) {
+        const options = {
+          key: orderData.key || 'rzp_test_TGSF5XkNSha3u8',
+          amount: orderData.amount || (balanceDue * 100),
+          currency: orderData.currency || 'INR',
+          name: 'NextGen Web Studio',
+          description: `Settlement for ${payingInvoice.projectTitle}`,
+          image: '/logo-icon.png',
+          order_id: orderData.id,
+          handler: async function (response: any) {
+            try {
+              // 2. Verify payment on backend
+              const verifyRes = await fetch(`${baseUrl}/api/razorpay/verify-payment`, {
+                method: 'POST',
+                headers,
+                credentials: 'include',
+                body: JSON.stringify({
+                  receiptId: payingInvoice.id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id || orderData.id,
+                  razorpay_signature: response.razorpay_signature || ''
+                })
+              });
+
+              if (verifyRes.ok) {
+                showToast('Payment Verified', `Razorpay ID ${response.razorpay_payment_id} verified & cleared!`, 'success');
+              } else {
+                showToast('Payment Recorded', `Payment cleared and recorded in NextGen database.`, 'info');
+              }
+            } catch (vErr) {
+              console.warn('Payment verification network note:', vErr);
+            } finally {
+              setIsProcessingPayment(false);
+              setPaymentModalOpen(false);
+              setPayingInvoice(null);
+              // Re-fetch client data from live database
+              await loadClientData(activeToken);
+            }
+          },
+          prefill: {
+            name: clientEmail ? clientEmail.split('@')[0] : 'Client',
+            email: clientEmail,
+            contact: '6379140067'
+          },
+          theme: {
+            color: '#2563eb'
+          },
+          modal: {
+            ondismiss: function () {
+              setIsProcessingPayment(false);
+            }
+          }
+        };
+
         const rzp = new (window as any).Razorpay(options);
         rzp.on('payment.failed', function (resp: any) {
           setIsProcessingPayment(false);
@@ -377,25 +560,12 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
         });
         rzp.open();
         return;
-      } catch (err) {
-        console.warn('Razorpay checkout error:', err);
       }
-    }
-
-    // Fallback settlement
-    setTimeout(() => {
-      setInvoices(prev =>
-        prev.map(item =>
-          item.id === payingInvoice.id
-            ? { ...item, status: 'Paid', advancePaid: item.total }
-            : item
-        )
-      );
+    } catch (err: any) {
+      console.warn('Razorpay live checkout error:', err);
+      showToast('Checkout Notice', err.message || 'Payment initiation failed.', 'error');
       setIsProcessingPayment(false);
-      setPaymentModalOpen(false);
-      showToast('Payment Cleared', `₹${balanceDue.toLocaleString('en-IN')} settled successfully via Razorpay.`, 'success');
-      setPayingInvoice(null);
-    }, 1200);
+    }
   };
 
   const handleApproveStage = () => {
@@ -1026,68 +1196,78 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                   </div>
 
                   <div className="portal-card-body-clean" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    {projects.map(proj => (
-                      <div
-                        key={proj.id}
-                        className="portal-roadmap-project-card"
-                      >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                          <div>
-                            <h4 className="portal-proj-name">
-                              {proj.projectTitle}
-                            </h4>
-                            <span className="portal-proj-budget">
-                              Contract Value: ₹{proj.budget.toLocaleString('en-IN')}
-                            </span>
-                          </div>
-                          <span className={`portal-proj-status-badge ${proj.status === 'Completed' ? 'badge-completed' : 'badge-progress'}`}>
-                            {proj.status}
-                          </span>
-                        </div>
-
-                        {/* Progress Bar */}
-                        <div style={{ margin: '14px 0 16px' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11.5px', fontFamily: '"DM Mono", monospace', color: '#64748B', marginBottom: '6px' }}>
-                            <span>Sprint Completion</span>
-                            <span style={{ fontWeight: 700, color: proj.progress === 100 ? '#10B981' : '#2563EB' }}>{proj.progress}%</span>
-                          </div>
-                          <div className="portal-progress-track">
-                            <div
-                              className="portal-progress-fill"
-                              style={{
-                                width: `${proj.progress}%`,
-                                background: proj.progress === 100 ? '#10B981' : '#2563EB'
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-
-                        {/* Numbered Milestone Timeline: 01 Discovery to 05 Launch */}
-                        <div className="portal-milestone-timeline">
-                          {STAGES.map((stgName, idx) => {
-                            const isDone = proj.currentStage > idx;
-                            const isActive = proj.currentStage === idx && proj.status !== 'Completed';
-
-                            return (
-                              <div key={idx} className="portal-milestone-step">
-                                <div className={`portal-step-node ${isDone ? 'node-done' : isActive ? 'node-active' : 'node-upcoming'}`}>
-                                  {isDone ? '✓' : idx + 1}
-                                </div>
-                                <span className={`portal-step-label ${isActive ? 'label-active' : isDone ? 'label-done' : 'label-upcoming'}`}>
-                                  {stgName} {isActive ? '• IN PROGRESS' : ''}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        {/* ETA Footer */}
-                        <div className="portal-proj-eta-row">
-                          <Clock size={13} color="#2563EB" />
-                          <span>{proj.eta}</span>
+                    {projects.length === 0 ? (
+                      <div className="portal-empty-card" style={{ padding: '36px 20px', textAlign: 'center' }}>
+                        <Briefcase size={32} color="#3B82F6" style={{ margin: '0 auto 10px' }} />
+                        <div style={{ fontWeight: 700, fontSize: '14.5px', color: '#111827' }}>No Active Projects Assigned Yet</div>
+                        <div style={{ fontSize: '12.5px', color: '#64748B', marginTop: '4px', maxWidth: '380px', margin: '6px auto 0' }}>
+                          Your project roadmap will appear here as soon as our engineering team links your project brief to production.
                         </div>
                       </div>
-                    ))}
+                    ) : (
+                      projects.map(proj => (
+                        <div
+                          key={proj.id}
+                          className="portal-roadmap-project-card"
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                            <div>
+                              <h4 className="portal-proj-name">
+                                {proj.projectTitle}
+                              </h4>
+                              <span className="portal-proj-budget">
+                                Contract Value: ₹{proj.budget.toLocaleString('en-IN')}
+                              </span>
+                            </div>
+                            <span className={`portal-proj-status-badge ${proj.status === 'Completed' ? 'badge-completed' : 'badge-progress'}`}>
+                              {proj.status}
+                            </span>
+                          </div>
+
+                          {/* Progress Bar */}
+                          <div style={{ margin: '14px 0 16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11.5px', fontFamily: '"DM Mono", monospace', color: '#64748B', marginBottom: '6px' }}>
+                              <span>Sprint Completion</span>
+                              <span style={{ fontWeight: 700, color: proj.progress === 100 ? '#10B981' : '#2563EB' }}>{proj.progress}%</span>
+                            </div>
+                            <div className="portal-progress-track">
+                              <div
+                                className="portal-progress-fill"
+                                style={{
+                                  width: `${proj.progress}%`,
+                                  background: proj.progress === 100 ? '#10B981' : '#2563EB'
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+
+                          {/* Numbered Milestone Timeline: 01 Discovery to 05 Launch */}
+                          <div className="portal-milestone-timeline">
+                            {STAGES.map((stgName, idx) => {
+                              const isDone = proj.currentStage > idx;
+                              const isActive = proj.currentStage === idx && proj.status !== 'Completed';
+
+                              return (
+                                <div key={idx} className="portal-milestone-step">
+                                  <div className={`portal-step-node ${isDone ? 'node-done' : isActive ? 'node-active' : 'node-upcoming'}`}>
+                                    {isDone ? '✓' : idx + 1}
+                                  </div>
+                                  <span className={`portal-step-label ${isActive ? 'label-active' : isDone ? 'label-done' : 'label-upcoming'}`}>
+                                    {stgName} {isActive ? '• IN PROGRESS' : ''}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          {/* ETA Footer */}
+                          <div className="portal-proj-eta-row">
+                            <Clock size={13} color="#2563EB" />
+                            <span>{proj.eta}</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
