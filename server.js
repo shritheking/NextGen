@@ -235,12 +235,23 @@ async function dbList(collection) {
           eta: item.eta || ''
         }));
       } else if (collection === 'receipts') {
-        console.log('[dbList receipts query from Supabase] Raw records:', data.map(r => ({ id: r.id, totalAmount: r.totalAmount, projectName: r.projectName })));
         data = data.map(item => ({
           ...item,
-          projectTitle: item.projectName,
-          total: item.totalAmount,
-          lineItems: item.items
+          projectTitle: item.projectName || item.project_name || item.projectTitle || '',
+          projectName: item.projectName || item.project_name || item.projectTitle || '',
+          total: Number(item.totalAmount !== undefined && item.totalAmount !== null ? item.totalAmount : (item.total !== undefined ? item.total : 0)),
+          totalAmount: Number(item.totalAmount !== undefined && item.totalAmount !== null ? item.totalAmount : (item.total !== undefined ? item.total : 0)),
+          subtotal: Number(item.subtotal !== undefined ? item.subtotal : (item.totalAmount || item.total || 0)),
+          advancePaid: Number(item.advancePaid !== undefined ? item.advancePaid : (item.advance_paid !== undefined ? item.advance_paid : 0)),
+          lineItems: item.items || item.line_items || item.lineItems || [],
+          items: item.items || item.line_items || item.lineItems || [],
+          clientEmail: item.clientEmail || item.client_email || '',
+          clientName: item.clientName || item.client_name || '',
+          clientPhone: item.clientPhone || item.client_phone || '',
+          clientAddress: item.clientAddress || item.client_address || '',
+          receiptCode: item.receiptCode || item.receipt_code || item.invoice_number || item.id || '',
+          status: item.status || 'Pending',
+          date: item.date || item.created_at || new Date().toISOString()
         }));
       } else if (collection === 'inquiries') {
         data = data.map(item => ({
@@ -1294,6 +1305,58 @@ function parseBudgetToNumber(budgetString) {
   return 15000; 
 }
 
+async function ensureClientReceipt(clientEmail, clientName, clientPhone, projectType, budget) {
+  if (!clientEmail) return null;
+  const cleanEmail = clientEmail.trim().toLowerCase();
+  const receipts = await dbList('receipts');
+  
+  // Check if client already has ANY receipt
+  const existing = receipts.find(r => (r.clientEmail || r.client_email || '').trim().toLowerCase() === cleanEmail);
+  if (existing) {
+    return existing;
+  }
+
+  // Create auto milestone retainer invoice
+  const parsedTotal = parseBudgetToNumber(budget);
+  const typeStr = projectType || 'Agentic AI Systems';
+  const newReceipt = {
+    id: 'rcpt_' + Date.now(),
+    receiptCode: 'INV-NG-' + Math.floor(1000 + Math.random() * 9000),
+    clientName: clientName || 'Client',
+    clientEmail: cleanEmail,
+    clientPhone: clientPhone || 'N/A',
+    clientAddress: '',
+    projectName: typeStr + ' - Milestone Retainer',
+    projectTitle: typeStr + ' - Milestone Retainer',
+    projectDescription: 'Initial milestone sprint and engineering retainer for ' + typeStr,
+    status: 'Pending',
+    total: parsedTotal,
+    totalAmount: parsedTotal,
+    subtotal: parsedTotal,
+    advancePaid: 0,
+    taxRate: 0,
+    taxAmount: 0,
+    lineItems: [
+      {
+        taskName: typeStr + ' Architecture & Initial Sprint Retainer',
+        taskCost: parsedTotal
+      }
+    ],
+    items: [
+      {
+        taskName: typeStr + ' Architecture & Initial Sprint Retainer',
+        taskCost: parsedTotal
+      }
+    ],
+    date: new Date().toISOString()
+  };
+
+  receipts.push(newReceipt);
+  await dbWrite('receipts', receipts);
+  console.log('[AutoReceipt] Automatically generated milestone invoice ' + newReceipt.receiptCode + ' (' + newReceipt.id + ') for ' + cleanEmail + ' of amount ' + parsedTotal);
+  return newReceipt;
+}
+
   if (pathname === '/api/inquiries/move-to-project' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
@@ -1315,11 +1378,11 @@ function parseBudgetToNumber(budgetString) {
         inquiries[inquiryIndex].status = 'Moved';
         await dbWrite('inquiries', inquiries);
 
-        // 2. Add new project lead entry in projects.json
+        // 2. Add new project lead entry in projects
         const projects = await dbList('projects');
         
         // Avoid duplicate project mappings
-        let existingProj = projects.find(p => p.email.toLowerCase() === inquiry.email.toLowerCase() && p.projectType === (inquiry.projectType || 'Agentic AI Systems'));
+        let existingProj = projects.find(p => (p.email || '').toLowerCase() === (inquiry.email || '').toLowerCase() && (p.projectType || '') === (inquiry.projectType || 'Agentic AI Systems'));
         
         if (!existingProj) {
           const newProject = {
@@ -1329,41 +1392,24 @@ function parseBudgetToNumber(budgetString) {
             phone: inquiry.phone || 'Not Provided',
             budget: inquiry.budget || 'Not Specified',
             projectType: inquiry.projectType || 'Agentic AI Systems',
-            message: inquiry.message,
-            date: inquiry.date,
-            status: 'New Project',
-            startDate: new Date().toISOString() 
+            stack: inquiry.projectType || 'Agentic AI Systems',
+            message: inquiry.message || '',
+            date: inquiry.date || new Date().toISOString(),
+            status: 'Starting Project',
+            currentStage: 'Scoping',
+            current_stage: 'Scoping',
+            progress: 25,
+            nextMilestone: 'Technical Architecture & API Scoping',
+            next_milestone: 'Technical Architecture & API Scoping',
+            eta: '2-3 Weeks',
+            startDate: new Date().toISOString()
           };
           projects.push(newProject);
           await dbWrite('projects', projects);
         }
 
-        // 2b. Auto-create a pending Retainer Invoice in receipts.json
-        const receipts = await dbList('receipts');
-        const existingReceipt = receipts.find(r => r.clientEmail.toLowerCase() === inquiry.email.toLowerCase() && r.projectTitle.toLowerCase().includes('milestone'));
-        
-        if (!existingReceipt) {
-          const parsedTotal = parseBudgetToNumber(inquiry.budget);
-          const newReceipt = {
-            id: 'rcpt_' + Date.now(),
-            clientName: inquiry.name,
-            clientEmail: inquiry.email,
-            clientPhone: inquiry.phone || 'N/A',
-            projectTitle: (inquiry.projectType || 'Web Development') + ' - Milestone Retainer',
-            status: 'Pending',
-            total: parsedTotal,
-            lineItems: [
-              {
-                taskName: 'Initial Project Scoping & Wireframe Specification Retainer',
-                taskCost: parsedTotal
-              }
-            ],
-            date: new Date().toISOString()
-          };
-          receipts.push(newReceipt);
-          await dbWrite('receipts', receipts);
-          console.log(`[Billing] Auto-generated milestone retainer invoice ${newReceipt.id} for ${inquiry.email} with amount ₹${parsedTotal}`);
-        }
+        // 2b. Automatically generate initial milestone retainer receipt
+        await ensureClientReceipt(inquiry.email, inquiry.name, inquiry.phone, inquiry.projectType, inquiry.budget);
 
         // 3. Register user and send access passcode details email to their Gmail
         await registerUserAndSendCredentials(inquiry.email, inquiry.name);
@@ -1438,6 +1484,11 @@ function parseBudgetToNumber(budgetString) {
         if (eta !== undefined) projects[index].eta = eta.trim();
         
         await dbWrite('projects', projects);
+        // Auto-create initial milestone retainer receipt if project moved to active status
+        const updatedP = projects[index];
+        if (updatedP && updatedP.email && (!updatedP.status || !['completed', 'cancelled', 'rejected'].includes(updatedP.status.toLowerCase()))) {
+          await ensureClientReceipt(updatedP.email, updatedP.name, updatedP.phone, updatedP.projectType || updatedP.stack, updatedP.budget);
+        }
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, project: projects[index] }));
       } catch (err) {
@@ -1483,6 +1534,8 @@ function parseBudgetToNumber(budgetString) {
         };
         projects.push(newProject);
         await dbWrite('projects', projects);
+        // Auto-generate initial retainer receipt
+        await ensureClientReceipt(email, name, phone, projectType || stack, budget);
 
         // Auto-approve user email for portal access if they are manual projects!
         await registerUserAndSendCredentials(email, name);
@@ -3575,8 +3628,20 @@ function createSessionToken(clientEmail) {
       return;
     }
     try {
-      const receipts = await dbList('receipts');
-      const filtered = receipts.filter(r => r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
+      let receipts = await dbList('receipts');
+      let filtered = receipts.filter(r => (r.clientEmail || r.client_email || '').trim().toLowerCase() === user.email.trim().toLowerCase());
+
+      // Auto-create initial retainer receipt if client has an active project but no receipts yet
+      if (filtered.length === 0) {
+        const projects = await dbList('projects');
+        const userProj = projects.find(p => (p.email || '').trim().toLowerCase() === user.email.trim().toLowerCase());
+        if (userProj) {
+          const autoRcpt = await ensureClientReceipt(userProj.email, userProj.name, userProj.phone, userProj.projectType || userProj.stack, userProj.budget);
+          if (autoRcpt) {
+            filtered = [autoRcpt];
+          }
+        }
+      }
       res.writeHead(200, { 
         'Content-Type': 'application/json',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
@@ -3770,8 +3835,10 @@ function createSessionToken(clientEmail) {
 
         const config = readConfig();
         const rp = config.razorpay || {};
+        const keyId = (process.env.RAZORPAY_KEY_ID || rp.keyId || '').trim();
+        const keySecret = (process.env.RAZORPAY_KEY_SECRET || rp.keySecret || '').trim();
         
-        if (!rp.keyId || !rp.keySecret) {
+        if (!keyId || !keySecret) {
           const advancePaid = receipt.advancePaid || 0;
           const balanceDue = receipt.total - advancePaid;
           const orderAmount = Math.max(0, balanceDue);
@@ -3863,6 +3930,7 @@ function createSessionToken(clientEmail) {
         const { receiptId, razorpay_payment_id, razorpay_order_id, razorpay_signature } = JSON.parse(body);
         const config = readConfig();
         const rp = config.razorpay || {};
+        const keySecret = (process.env.RAZORPAY_KEY_SECRET || rp.keySecret || '').trim();
         
         let verified = false;
         
@@ -3872,7 +3940,7 @@ function createSessionToken(clientEmail) {
         } else {
           const text = razorpay_order_id + '|' + razorpay_payment_id;
           const generated_signature = crypto
-            .createHmac('sha256', rp.keySecret)
+            .createHmac('sha256', keySecret)
             .update(text)
             .digest('hex');
           

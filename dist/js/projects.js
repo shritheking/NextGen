@@ -84,7 +84,7 @@ function renderInquiries(list) {
 window.renderInquiries = renderInquiries;
 
 async function moveToProject(id) {
-  showConfirmModal('Convert this enquiry to an active project? This will enrol their email and authorize portal access.', async () => {
+  showConfirmModal('Convert this enquiry to an active project? This will enrol their email, generate their initial milestone retainer invoice, and authorize portal access.', async () => {
     try {
       const res = await fetch(window.getApiUrl('/api/inquiries/move-to-project'), {
         method: 'POST',
@@ -92,7 +92,7 @@ async function moveToProject(id) {
         body: JSON.stringify({ id })
       });
       if (res.ok) {
-        showToast('Project Started', 'Lead converted to active project. Credentials sent!', 'success');
+        showToast('Project Started', 'Lead converted to active project & milestone retainer invoice generated!', 'success');
         syncAllDatabases();
       } else {
         showToast('Conversion Error', 'Failed to move inquiry to projects list.', 'error');
