@@ -759,16 +759,7 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                   Sign Out
                 </button>
               </>
-            ) : (
-              <button
-                onClick={handleInstantDemo}
-                className="portal-demo-btn"
-                style={{ height: '36px', padding: '0 14px', width: 'auto', fontSize: '12.5px' }}
-              >
-                <Sparkles size={13} />
-                <span>Explore Interactive Demo</span>
-              </button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
@@ -1020,15 +1011,7 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                     <span>Continue with Google</span>
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={handleInstantDemo}
-                    className="portal-btn-blue-tint"
-                    style={{ marginTop: '10px' }}
-                  >
-                    <Sparkles size={14} />
-                    <span>Explore Interactive Demo</span>
-                  </button>
+
                 </div>
 
                 {/* Footer Support Link */}
