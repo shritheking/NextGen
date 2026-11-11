@@ -3670,7 +3670,7 @@ function parseBudgetToNumber(budgetString) {
       try {
         const { receiptId } = JSON.parse(body);
         const receipts = await dbList('receipts');
-        const receipt = receipts.find(r => r.id === receiptId && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
+        const receipt = receipts.find(r => (r.id === receiptId || (r.receiptCode && r.receiptCode === receiptId)) && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
         
         if (!receipt) {
           res.writeHead(404, { 'Content-Type': 'application/json' });
@@ -3794,7 +3794,7 @@ function parseBudgetToNumber(budgetString) {
         console.log('[Razorpay Verify] Params received:', { receiptId, email: user.email, razorpay_payment_id, razorpay_order_id, razorpay_signature, verified });
         if (verified) {
           const receipts = await dbList('receipts');
-          const index = receipts.findIndex(r => r.id === receiptId && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
+          const index = receipts.findIndex(r => (r.id === receiptId || (r.receiptCode && r.receiptCode === receiptId)) && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
           console.log('[Razorpay Verify] Match index:', index);
           if (index !== -1) {
             receipts[index].status = 'Paid';
