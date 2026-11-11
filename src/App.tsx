@@ -6,7 +6,6 @@ import { ContextualHint } from './components/ContextualHint';
 import { EMCLogo } from './components/EMCLogo';
 import { FAQSection } from './components/FAQSection';
 import { AnimatedCounter } from './components/AnimatedCounter';
-import { Scramble } from './components/Scramble';
 
 const TelegramDoubleTick = ({ color = '#ffffff' }: { color?: string }) => (
   <svg
@@ -425,32 +424,6 @@ export const App: React.FC = () => {
     setCurrentView(view);
     if (view === 'home') {
       window.history.replaceState(null, '', window.location.pathname);
-      setInViewSections({
-        hero: true,
-        statement: true,
-        problem: true,
-        whynextgen: true,
-        journey: true,
-        postkickoff: true,
-        demos: true,
-        work: true,
-        about: true,
-        walkaway: true,
-        contact: true,
-        ecosystem: true,
-      });
-      setIsJourneyInView(true);
-      setIsProblemInView(true);
-      setIsWalkAwayInView(true);
-      setIsDemosInView(true);
-      setIsSection1InView(true);
-      setTimeout(() => {
-        document.querySelectorAll('[data-inview]').forEach(el => {
-          el.setAttribute('data-inview', 'true');
-          el.classList.add('has-entered', 'in-view');
-        });
-        document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('in-view'));
-      }, 50);
     } else if (view === 'portal') {
       window.history.replaceState(null, '', '/?view=client');
     } else {
@@ -1320,17 +1293,9 @@ export const App: React.FC = () => {
           <div className="hero-main">
             {/* Eyebrow Subtitle (Image 1 Match: The Way We Build Software Is Changing.) */}
             <div className="hero-eyebrow">
-              <p className="hero-eyebrow-text">
-                <span className="animate-word" style={{ animationDelay: '0.08s' }}>The</span>
-                <span className="animate-word" style={{ animationDelay: '0.14s' }}>Way</span>
-                <span className="animate-word" style={{ animationDelay: '0.20s' }}>We</span>
-                <span className="animate-word" style={{ animationDelay: '0.26s' }}>Build</span>
-                <span className="animate-word" style={{ animationDelay: '0.32s' }}>Software</span>
-                <span className="animate-word" style={{ animationDelay: '0.38s' }}>Is</span>
-                <span className="animate-word font-medium text-ink" style={{ animationDelay: '0.46s' }}>
-                  <Scramble words={['Changing.', 'Evolving.', 'Accelerating.', 'Transforming.']} delay={0.25} duration={1000} interval={3500} />
-                </span>
-              </p>
+              <span className="hero-eyebrow-text">
+                The Way We Build Software Is <strong>Changing.</strong>
+              </span>
             </div>
 
             {/* Hero Heading: Centered layout with starburst badge and pill capsule (Image 1 Reference Match) */}
@@ -1339,14 +1304,12 @@ export const App: React.FC = () => {
                 <span className="hero-desktop-headline">
                   <span className="hero-desktop-line-1">
                     <span className="hero-star-badge" aria-hidden="true">
-                      <span className="hero-star-orbit animate-orbit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="hero-star-icon">
-                          <line x1="12" y1="2" x2="12" y2="22" />
-                          <line x1="2" y1="12" x2="22" y2="12" />
-                          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-                          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
-                        </svg>
-                      </span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="hero-star-icon">
+                        <line x1="12" y1="2" x2="12" y2="22" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+                        <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
+                      </svg>
                     </span>
                     <span className="animate-word" style={{ animationDelay: '0.10s' }}>Helping</span>{' '}
                     <span className="animate-word" style={{ animationDelay: '0.18s' }}>ambitious</span>{' '}
@@ -1356,14 +1319,13 @@ export const App: React.FC = () => {
                   <span className="hero-desktop-line-2">
                     <span className="animate-word" style={{ animationDelay: '0.44s' }}>by</span>{' '}
                     <span className="animate-word" style={{ animationDelay: '0.52s' }}>engineering</span>{' '}
-                    <span className="emc-hero-marquee-pill" aria-label="Builds, Scales, Ships">
-                      <span className="emc-hero-marquee-track">
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Builds</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Scales</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Ships</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Builds</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Scales</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Ships</span>
+                    <span className="hero-pill-capsule animate-word" style={{ animationDelay: '0.62s' }}>
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="hero-capsule-sparkle" aria-hidden="true">
+                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                      </svg>
+                      <span className="hero-capsule-text">
+                        {WORDS[wordIndex].substring(0, subIndex)}
+                        <span className="hero-changing-cursor" style={{ opacity: blink ? 1 : 0 }}>|</span>
                       </span>
                     </span>
                   </span>
@@ -1372,14 +1334,12 @@ export const App: React.FC = () => {
                 <span className="hero-mobile-headline">
                   <span className="hero-line hero-line-1">
                     <span className="hero-star-badge" aria-hidden="true">
-                      <span className="hero-star-orbit animate-orbit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="hero-star-icon">
-                          <line x1="12" y1="2" x2="12" y2="22" />
-                          <line x1="2" y1="12" x2="22" y2="12" />
-                          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-                          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
-                        </svg>
-                      </span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="hero-star-icon">
+                        <line x1="12" y1="2" x2="12" y2="22" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+                        <line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
+                      </svg>
                     </span>
                     <span className="animate-word" style={{ animationDelay: '0.10s' }}>Helping</span>{' '}
                     <span className="animate-word" style={{ animationDelay: '0.18s' }}>ambitious</span>
@@ -1393,14 +1353,13 @@ export const App: React.FC = () => {
                     <span className="animate-word" style={{ animationDelay: '0.52s' }}>engineering</span>
                   </span>
                   <span className="hero-line hero-line-4">
-                    <span className="emc-hero-marquee-pill" aria-label="Builds, Scales, Ships">
-                      <span className="emc-hero-marquee-track">
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Builds</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Scales</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Ships</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Builds</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Scales</span>
-                        <span className="emc-hero-marquee-item"><span className="emc-star-glyph">✦</span>Ships</span>
+                    <span className="hero-pill-capsule animate-word" style={{ animationDelay: '0.62s' }}>
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="hero-capsule-sparkle" aria-hidden="true">
+                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                      </svg>
+                      <span className="hero-capsule-text">
+                        {WORDS[wordIndex].substring(0, subIndex)}
+                        <span className="hero-changing-cursor" style={{ opacity: blink ? 1 : 0 }}>|</span>
                       </span>
                     </span>
                   </span>
