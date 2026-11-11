@@ -25,3 +25,8 @@ test_*.js
 email_logs.json
 email_templates.json
 
+
+# Python bytecode and caches
+__pycache__/
+*.pyc
+*.pyo
