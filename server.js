@@ -229,6 +229,10 @@ async function dbList(collection) {
         data = data.map(item => ({
           ...item,
           projectType: item.stack,
+          previewUrl: item.previewUrl || item.preview_url || '',
+          preview_url: item.previewUrl || item.preview_url || '',
+          adminNotes: item.adminNotes || item.admin_notes || '',
+          admin_notes: item.adminNotes || item.admin_notes || '',
           currentStage: item.current_stage || item.currentStage || 'Discovery',
           developerId: item.developer_id || item.developerId || '',
           nextMilestone: item.next_milestone || item.nextMilestone || 'Wireframe UX Review',
@@ -359,6 +363,13 @@ async function dbList(collection) {
           createdAt: item.created_at || item.createdAt
         }));
       }
+    }
+    const localData = readLocalFallback(collection);
+    if (Array.isArray(data) && Array.isArray(localData) && localData.length > 0) {
+      const idMap = new Map();
+      localData.forEach(item => { if (item && item.id) idMap.set(String(item.id), item); });
+      data.forEach(item => { if (item && item.id) idMap.set(String(item.id), { ...idMap.get(String(item.id)), ...item }); });
+      data = Array.from(idMap.values());
     }
     return data || [];
   }
@@ -1319,23 +1330,33 @@ async function ensureClientReceipt(clientEmail, clientName, clientPhone, project
   // Create auto milestone retainer invoice
   const parsedTotal = parseBudgetToNumber(budget);
   const typeStr = projectType || 'Agentic AI Systems';
+  const code = 'INV-NG-' + Math.floor(1000 + Math.random() * 9000);
   const newReceipt = {
     id: 'rcpt_' + Date.now(),
-    receiptCode: 'INV-NG-' + Math.floor(1000 + Math.random() * 9000),
+    receiptCode: code,
+    receipt_code: code,
+    invoice_number: code,
     clientName: clientName || 'Client',
+    client_name: clientName || 'Client',
     clientEmail: cleanEmail,
+    client_email: cleanEmail,
     clientPhone: clientPhone || 'N/A',
+    client_phone: clientPhone || 'N/A',
     clientAddress: '',
     projectName: typeStr + ' - Milestone Retainer',
+    project_name: typeStr + ' - Milestone Retainer',
     projectTitle: typeStr + ' - Milestone Retainer',
     projectDescription: 'Initial milestone sprint and engineering retainer for ' + typeStr,
     status: 'Pending',
     total: parsedTotal,
     totalAmount: parsedTotal,
+    total_amount: parsedTotal,
     subtotal: parsedTotal,
     advancePaid: 0,
+    advance_paid: 0,
     taxRate: 0,
     taxAmount: 0,
+    currency: 'INR',
     lineItems: [
       {
         taskName: typeStr + ' Architecture & Initial Sprint Retainer',
