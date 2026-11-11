@@ -433,15 +433,15 @@ async function dbWrite(collection, list) {
     } else if (collection === 'receipts') {
       upsertList = list.map(item => ({
         id: item.id,
-        receiptCode: item.receiptCode || '',
-        clientName: item.clientName || '',
-        clientEmail: item.clientEmail || '',
-        clientPhone: item.clientPhone || '',
+        receiptCode: item.receiptCode || item.receipt_code || item.invoice_number || item.id || '',
+        clientName: item.clientName || item.client_name || '',
+        clientEmail: item.clientEmail || item.client_email || '',
+        clientPhone: item.clientPhone || item.client_phone || '',
         clientAddress: item.clientAddress || '',
-        projectName: item.projectTitle || item.projectName || '',
+        projectName: item.projectTitle || item.projectName || item.project_name || '',
         projectDescription: item.projectDescription || '',
         items: item.lineItems || item.items || [],
-        subtotal: Number(item.subtotal) || Number(item.total) || 0,
+        subtotal: Number(item.subtotal) || Number(item.total) || Number(item.totalAmount) || 0,
         advancePaid: Number(item.advancePaid) || 0,
         taxRate: Number(item.taxRate) || 0,
         taxAmount: Number(item.taxAmount) || 0,
@@ -449,14 +449,7 @@ async function dbWrite(collection, list) {
         status: item.status || 'Pending',
         razorpayPaymentId: item.razorpayPaymentId || '',
         razorpaySignature: item.razorpaySignature || '',
-        date: item.date || new Date().toLocaleDateString(),
-        invoice_number: item.invoice_number || item.invoiceNumber || '',
-        due_date: item.due_date || item.dueDate || null,
-        payment_date: item.payment_date || item.paymentDate || null,
-        currency: item.currency || 'INR',
-        payment_method: item.payment_method || item.paymentMethod || '',
-        receipt_url: item.receipt_url || item.receiptUrl || '',
-        invoice_pdf: item.invoice_pdf || item.invoicePdf || ''
+        date: item.date || new Date().toLocaleDateString()
       }));
     } else if (collection === 'chatbot_messages') {
       upsertList = list.map(item => ({
@@ -3973,13 +3966,30 @@ function createSessionToken(clientEmail) {
         console.log('[Razorpay Verify] Params received:', { receiptId, email: user.email, razorpay_payment_id, razorpay_order_id, razorpay_signature, verified });
         if (verified) {
           const receipts = await dbList('receipts');
-          const index = receipts.findIndex(r => (r.id === receiptId || (r.receiptCode && r.receiptCode === receiptId)) && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
+          let index = receipts.findIndex(r => (r.id === receiptId || (r.receiptCode && r.receiptCode === receiptId)) && r.clientEmail && r.clientEmail.trim().toLowerCase() === user.email.trim().toLowerCase());
+          if (index === -1) {
+            index = receipts.findIndex(r => r.id === receiptId || (r.receiptCode && r.receiptCode === receiptId));
+          }
           console.log('[Razorpay Verify] Match index:', index);
           if (index !== -1) {
             receipts[index].status = 'Paid';
             receipts[index].razorpayPaymentId = razorpay_payment_id || 'N/A';
             receipts[index].razorpayOrderId = razorpay_order_id || 'N/A';
+            receipts[index].razorpaySignature = razorpay_signature || 'N/A';
             await dbWrite('receipts', receipts);
+
+            if (supabase) {
+              try {
+                await supabase.from('receipts').update({
+                  status: 'Paid',
+                  razorpayPaymentId: razorpay_payment_id || 'N/A',
+                  razorpaySignature: razorpay_signature || 'N/A'
+                }).eq('id', receipts[index].id);
+                console.log('[Razorpay Verify] Directly updated Supabase receipt:', receipts[index].id);
+              } catch (dbErr) {
+                console.error('[Direct Supabase Update Error]:', dbErr);
+              }
+            }
 
             const hasSmtp = !!(config.smtp && config.smtp.user && config.smtp.pass);
             const hasResend = !!(config.resend && config.resend.apiKey);
