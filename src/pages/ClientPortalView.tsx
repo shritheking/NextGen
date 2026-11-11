@@ -66,7 +66,8 @@ interface InquiryItem {
 interface ProjectItem {
   id: string;
   projectTitle: string;
-  budget: number;
+  budget: number | string;
+  budgetDisplay?: string;
   status: 'In Progress' | 'Completed';
   currentStage: number; // 0 to 4
   progress: number;
@@ -235,20 +236,32 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
             const stageName = (p.current_stage || p.currentStage || '').toLowerCase();
             const statusStr = (p.status || '').toLowerCase();
 
-            if (stageName.includes('launch') || stageName.includes('complete') || stageName.includes('shipped') || statusStr.includes('complete')) {
+            if (stageName === 'launch' || statusStr === 'completed' || statusStr.includes('launch') || statusStr.includes('complete') || statusStr.includes('shipped')) {
               stageIdx = 4;
-            } else if (stageName.includes('develop') || stageName.includes('build')) {
+            } else if (stageName === 'development' || statusStr.includes('develop') || statusStr.includes('build')) {
               stageIdx = 3;
-            } else if (stageName.includes('design') || stageName.includes('ui')) {
+            } else if (stageName === 'design' || statusStr === 'homepage created' || statusStr.includes('design') || statusStr.includes('ui')) {
               stageIdx = 2;
-            } else if (stageName.includes('scop') || statusStr.includes('progress')) {
+            } else if (stageName === 'scoping' || statusStr === 'starting project' || statusStr.includes('scop')) {
               stageIdx = 1;
-            } else if (stageName.includes('discover') || statusStr.includes('start') || statusStr.includes('new')) {
+            } else if (stageName === 'discovery' || statusStr.includes('start') || statusStr.includes('new') || statusStr.includes('not yet started')) {
               stageIdx = 0;
+            } else if (statusStr.includes('progress')) {
+              stageIdx = 2;
             }
 
             const rawProg = p.progress !== undefined && p.progress !== null ? Number(p.progress) : NaN;
-            const prog = !isNaN(rawProg) ? rawProg : (stageIdx === 4 ? 100 : (stageIdx + 1) * 20);
+            let prog = 0;
+            if (!isNaN(rawProg) && rawProg > 0) {
+              prog = rawProg;
+            } else {
+              if (stageIdx === 4) prog = 100;
+              else if (stageIdx === 3) prog = 75;
+              else if (stageIdx === 2) prog = 50;
+              else if (stageIdx === 1) prog = 25;
+              else prog = 15;
+            }
+
             const isDone = stageIdx === 4 || prog >= 100 || statusStr.includes('complete');
 
             let pTitle = p.name || '';
@@ -257,10 +270,27 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
             }
             if (!pTitle) pTitle = 'Custom Digital Architecture';
 
+            let budgetDisplay = '';
+            const budgetRaw = String(p.budget || '').trim();
+            if (budgetRaw) {
+              if (budgetRaw.includes('-') || budgetRaw.toLowerCase().includes('l') || budgetRaw.toLowerCase().includes('k')) {
+                budgetDisplay = budgetRaw.replace(/\?1/g, '₹').replace(/\ufffd/g, '₹');
+                if (!budgetDisplay.startsWith('₹') && !budgetDisplay.startsWith('Rs')) {
+                  budgetDisplay = `₹${budgetDisplay}`;
+                }
+              } else {
+                const num = Number(budgetRaw.replace(/[^0-9]/g, '')) || 0;
+                budgetDisplay = num > 0 ? `₹${num.toLocaleString('en-IN')}` : budgetRaw;
+              }
+            } else {
+              budgetDisplay = '₹50,000';
+            }
+
             return {
               id: p.id || `PRJ-${Date.now()}`,
               projectTitle: pTitle,
-              budget: Number(String(p.budget || '').replace(/[^0-9]/g, '')) || 50000,
+              budget: p.budget || 50000,
+              budgetDisplay: budgetDisplay,
               status: isDone ? 'Completed' : 'In Progress',
               currentStage: Math.min(4, Math.max(0, stageIdx)),
               progress: Math.min(100, Math.max(0, prog)),
@@ -1327,7 +1357,7 @@ export const ClientPortalView: React.FC<ClientPortalViewProps> = ({ onBackToHome
                                 {proj.projectTitle}
                               </h4>
                               <span className="portal-proj-budget">
-                                Contract Value: ₹{proj.budget.toLocaleString('en-IN')}
+                                Contract Value: {proj.budgetDisplay || (typeof proj.budget === 'number' ? `₹${proj.budget.toLocaleString('en-IN')}` : String(proj.budget))}
                               </span>
                             </div>
                             <span className={`portal-proj-status-badge ${proj.status === 'Completed' ? 'badge-completed' : 'badge-progress'}`}>

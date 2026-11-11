@@ -236,6 +236,10 @@ async function updateProjectDetails(id) {
   const projectType = document.getElementById('modalProjType').value.trim();
   const budget = document.getElementById('modalProjBudget').value.trim();
   const status = document.getElementById('modalProjStatus').value;
+  const currentStage = document.getElementById('modalProjStage') ? document.getElementById('modalProjStage').value : 'Discovery';
+  const progress = document.getElementById('modalProjProgress') ? Number(document.getElementById('modalProjProgress').value) : 0;
+  const nextMilestone = document.getElementById('modalProjNextMilestone') ? document.getElementById('modalProjNextMilestone').value.trim() : '';
+  const eta = document.getElementById('modalProjEta') ? document.getElementById('modalProjEta').value.trim() : '';
   const previewUrl = document.getElementById('modalProjPreviewUrl').value.trim();
   const message = document.getElementById('modalProjMessage').value.trim();
   const adminNotes = document.getElementById('modalProjAdminNotes').value.trim();
@@ -244,7 +248,10 @@ async function updateProjectDetails(id) {
     const res = await fetch(window.getApiUrl('/api/projects/update-details'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, name, email, phone, projectType, budget, status, previewUrl, message, adminNotes })
+      body: JSON.stringify({
+        id, name, email, phone, projectType, stack: projectType, budget, status, previewUrl, message, adminNotes,
+        currentStage, current_stage: currentStage, progress, nextMilestone, next_milestone: nextMilestone, eta
+      })
     });
     if (res.ok) {
       showToast('Project Updated', 'Project details updated successfully!', 'success');
@@ -533,6 +540,22 @@ function renderProjectModalView(id, isEditMode) {
         <span class="r-val" style="font-weight:600; color:var(--accent);">${item.status || 'Not Started'}</span>
       </div>
       <div class="receipt-row">
+        <span class="r-label">Engineering Continuum Stage</span>
+        <span class="r-val" style="font-weight:700; color:#3B82F6;">${item.currentStage || item.current_stage || 'Discovery'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Sprint Completion</span>
+        <span class="r-val" style="font-weight:700; color:#10B981; font-family:var(--font-mono);">${item.progress || 0}%</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Next Milestone Deliverable</span>
+        <span class="r-val" style="font-weight:500;">${item.nextMilestone || item.next_milestone || 'Discovery Call & Architecture Wireframe'}</span>
+      </div>
+      <div class="receipt-row">
+        <span class="r-label">Delivery Timeline / ETA</span>
+        <span class="r-val" style="color:#64748B;">${item.eta || 'Active Sprint'}</span>
+      </div>
+      <div class="receipt-row">
         <span class="r-label">Live Preview URL</span>
         <span class="r-val">${item.previewUrl ? `<a href="${item.previewUrl}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:500;"><i class="fa-solid fa-square-up-right"></i> View Live Preview</a>` : 'Not Available'}</span>
       </div>
@@ -572,15 +595,61 @@ function renderProjectModalView(id, isEditMode) {
         <input type="text" id="modalProjBudget" class="line-name-input" style="width:100%; margin-top:4px; color:var(--accent); font-weight:600;" value="${item.budget || ''}">
       </div>
       <div style="margin-top:10px;">
-        <span class="r-label">Project Status Milestone Selection</span>
-        <select id="modalProjStatus" class="line-name-input" style="width:100%; margin-top:4px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); padding:8px; border-radius:4px; outline:none; height:42px;">
+        <span class="r-label">Milestone Status</span>
+        <select id="modalProjStatus" class="line-name-input" style="width:100%; margin-top:4px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); padding:8px; border-radius:4px; outline:none; height:42px;" onchange="
+          const st = this.value;
+          const stageEl = document.getElementById('modalProjStage');
+          const progEl = document.getElementById('modalProjProgress');
+          const progVal = document.getElementById('modalProjProgressVal');
+          if (st === 'Starting Project') {
+            if (stageEl) stageEl.value = 'Scoping';
+            if (progEl && Number(progEl.value) < 25) { progEl.value = 25; if (progVal) progVal.innerText = '25%'; }
+          } else if (st === 'Homepage Created') {
+            if (stageEl) stageEl.value = 'Design';
+            if (progEl && Number(progEl.value) < 50) { progEl.value = 50; if (progVal) progVal.innerText = '50%'; }
+          } else if (st === 'Completed') {
+            if (stageEl) stageEl.value = 'Launch';
+            if (progEl) { progEl.value = 100; if (progVal) progVal.innerText = '100%'; }
+          }
+        ">
           <option value="New Project" ${item.status === 'New Project' ? 'selected' : ''}>New Project</option>
           <option value="Not Yet Started" ${item.status === 'Not Yet Started' ? 'selected' : ''}>Not Yet Started</option>
           <option value="Starting Project" ${item.status === 'Starting Project' ? 'selected' : ''}>Starting Project</option>
           <option value="Homepage Created" ${item.status === 'Homepage Created' ? 'selected' : ''}>Homepage Created</option>
+          <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
           <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
         </select>
       </div>
+
+      <div style="margin-top:10px;">
+        <span class="r-label">Engineering Continuum Stage</span>
+        <select id="modalProjStage" class="line-name-input" style="width:100%; margin-top:4px; background:var(--bg-alt); color:var(--ink); border:1px solid var(--border); padding:8px; border-radius:4px; outline:none; height:42px;">
+          <option value="Discovery" ${(item.currentStage === 'Discovery' || item.current_stage === 'Discovery') ? 'selected' : ''}>01 Discovery</option>
+          <option value="Scoping" ${(item.currentStage === 'Scoping' || item.current_stage === 'Scoping') ? 'selected' : ''}>02 Scoping</option>
+          <option value="Design" ${(item.currentStage === 'Design' || item.current_stage === 'Design') ? 'selected' : ''}>03 Design</option>
+          <option value="Development" ${(item.currentStage === 'Development' || item.current_stage === 'Development') ? 'selected' : ''}>04 Development</option>
+          <option value="Launch" ${(item.currentStage === 'Launch' || item.current_stage === 'Launch') ? 'selected' : ''}>05 Launch</option>
+        </select>
+      </div>
+
+      <div style="margin-top:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="r-label">Sprint Progress %</span>
+          <span id="modalProjProgressVal" style="font-weight:700; color:var(--accent); font-family:var(--font-mono);">${item.progress || 0}%</span>
+        </div>
+        <input type="range" id="modalProjProgress" min="0" max="100" step="5" value="${item.progress || 0}" style="width:100%; margin-top:6px; accent-color:var(--accent);" oninput="document.getElementById('modalProjProgressVal').innerText = this.value + '%'">
+      </div>
+
+      <div style="margin-top:10px;">
+        <span class="r-label">Next Milestone Deliverable</span>
+        <input type="text" id="modalProjNextMilestone" class="line-name-input" style="width:100%; margin-top:4px;" placeholder="e.g. Wireframe UX Review, POS Hardware Integration" value="${item.nextMilestone || item.next_milestone || ''}">
+      </div>
+
+      <div style="margin-top:10px;">
+        <span class="r-label">Target Delivery Timeline / ETA</span>
+        <input type="text" id="modalProjEta" class="line-name-input" style="width:100%; margin-top:4px;" placeholder="e.g. 8 Days Remaining • Target Nov 16" value="${item.eta || ''}">
+      </div>
+
       <div style="margin-top:10px;">
         <span class="r-label">Project Live Preview URL</span>
         <input type="url" id="modalProjPreviewUrl" class="line-name-input" style="width:100%; margin-top:4px;" placeholder="https://staging.nextgen.com" value="${item.previewUrl || ''}">
